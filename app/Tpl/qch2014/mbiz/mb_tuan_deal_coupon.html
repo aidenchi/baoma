@@ -1,0 +1,56 @@
+{include file="mbiz/mb_header.html"} 
+<?php
+			function get_user_name_d($id)
+			{
+
+				$u = $GLOBALS['db']->getRow("select id,user_name,is_merchant,is_daren from ".DB_PREFIX."user where id = ".intval($id));
+						
+				return $u['user_name'];
+
+			}
+
+?>
+
+			{foreach from=$coupon_list item=coupon key=key}
+	<div class="box-container">
+		
+			<ul >
+
+				<li class="li-title">
+					序列号：{$coupon.sn}
+						</li>
+						
+				<li class="li-title">
+					购买会员：	{function name="get_user_name_d" v=$coupon.user_id}
+				</li>
+
+				<li class="li-title">
+					过期时间：						{if $coupon.end_time eq 0}{$LANG.NOT_LIMIT_TIME}{else}{function name="to_date" v=$coupon.end_time}{/if}
+				</li>
+
+				<li class="li-title">
+					使用时间：{function name="get_coupon_confirm_time" v=$coupon.confirm_time}
+				</li>
+
+
+			</ul>
+
+	</div>
+	
+			{/foreach}
+
+
+
+<nav class="pageinator clearfix">
+    <div id="nav-page" class="pg-next page">
+    {$pages}
+    </div>
+   
+    <div id="nav-top" class="pg-top">
+    <span gaevent="imt/common/goTop" class="btn btn-top"><span class="icon icon-top"><a href="javascript:scroll(0,0)" style="color: #6C6C6C;">返回顶部</a></span></span>
+    </div>
+</nav>
+
+
+
+{include file="mbiz/mb_footer.html"} 

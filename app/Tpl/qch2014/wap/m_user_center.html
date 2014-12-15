@@ -1,0 +1,45 @@
+{include file="wap/m_header.html"}
+
+{if $user_info }
+<div>
+    <a class="my-account" gaevent="imt/account/myinfo" href="{url x="wap" r="uc_account#index"}">
+        <p class="my-account-username">欢迎您：{$user_info.user_name}</p>
+
+        <p class="my-account-remain">账户余额：{function name="format_price" v=$user_info.money}元</p>
+        <img src="{$TMPL}/wap/image/my-photo.png" height="79">
+    </a>
+</div>
+{/if}
+<div class="box-container">
+    <div class="box-style box-cpd">
+        <ul class="mg-4 my-mt cf">
+            <li>
+                <a gaevent="imt/account/ordersUnpaid" href="{url x="wap" r="uc_coupon#index" p="status=1"}">
+                    <i class="icon-font"><img src="{$TMPL}/wap/image/1.png"></i>
+                    <span>我的团购券</span>
+
+                </a>
+            </li>
+            <li>
+                <a gaevent="imt/account/ordersUnused" href="{url x="wap" r="uc_order#index" p="status=2"}">
+                    <i class="icon-font"><img src="{$TMPL}/wap/image/2.png"></i>
+                    <span>我的订单</span>
+
+                </a>
+            </li>
+
+            <li>
+                <a gaevent="imt/account/ordersHaverefund" href="{url x="wap" r="uc_account#menu"}">
+                    <i class="icon-font"><img src="{$TMPL}/wap/image/4.png"></i>
+                    <span>我的账户</span>
+
+                </a>
+            </li>
+        </ul>
+
+
+    </div>
+</div>
+
+
+{include file="wap/m_footer.html"}

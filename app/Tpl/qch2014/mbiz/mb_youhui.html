@@ -1,0 +1,47 @@
+{include file="mbiz/mb_header.html"} 
+
+
+{foreach from=$youhui_list item=youhui_item key=key}
+<div id="deals" >
+
+		<div id="deals_biz">
+		
+			
+				<img src="{function name="get_spec_image" v=$youhui_item.icon w="126" h="80" g=1}" style="width:122px;" />
+				<detail>
+					<ul>
+						<li class="brand">					
+					{if $youhui_item.is_effect eq 1 and $youhui_item.publish_wait eq 0}{/if}
+					{$youhui_item.name}
+					[{if $youhui_item.is_effect eq 0 or $youhui_item.publish_wait eq 1}未上架{else}已上架{/if}]{if $youhui_item.is_effect eq 1 and $youhui_item.publish_wait eq 0}</a>{/if} </li>
+						<li class="title" style="margin-top: 7px;">下载量：{$youhui_item.sms_count} &nbsp;&nbsp;未消费：{$youhui_item.confirm_count}&nbsp;&nbsp;到店消费：{$youhui_item.no_confirm_count}</li>
+						<li class="lili-title" style="margin-top: 9px;">
+		<a href="{url x="mbiz" r="youhui#youhui_list" p="id=$youhui_item.id"}"  class="cc-btn" style="margin:0px auto;width:45%;">优惠券列表</a>
+		
+
+						</li>  
+					</ul>
+				</detail>	
+				
+		
+		</div>	
+
+</div>
+	
+{/foreach}
+
+
+
+<nav class="pageinator clearfix">
+    <div id="nav-page" class="pg-next page">
+    {$pages}
+    </div>
+   
+    <div id="nav-top" class="pg-top">
+    <span gaevent="imt/common/goTop" class="btn btn-top"><span class="icon icon-top"><a href="javascript:scroll(0,0)" style="color: #6C6C6C;">返回顶部</a></span></span>
+    </div>
+</nav>
+
+
+
+{include file="mbiz/mb_footer.html"} 

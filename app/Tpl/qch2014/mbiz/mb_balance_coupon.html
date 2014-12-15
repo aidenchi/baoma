@@ -1,0 +1,53 @@
+{include file="mbiz/mb_header.html"}  
+
+{if $dataList }
+{foreach from=$dataList item=row key=key}
+	<div class="box-container">
+		
+			<ul >
+				<li class="li-title">
+					序列号：{$row.sn}
+						</li>
+						
+				<li class="li-title">
+					验证时间：{function name="to_date" v=$row['confirm_time']}
+				</li>
+
+				<li class="li-title">
+					结算价：{function name="format_price" v=$row['balance_price']}
+				</li>
+
+				<li class="li-title">
+					结算时间：{function name="to_date" v=$row['balance_time']}
+				</li>
+				<li class="li-title">
+					结算备注：					<span title="{$row.balance_memo}">{function name="msubstr" v=$row['balance_memo']}	</span>
+				</li>
+
+			</ul>
+
+	</div>
+	
+{/foreach}
+
+
+
+<nav class="pageinator clearfix">
+    <div id="nav-page" class="pg-next page">
+    {$pages}
+    </div>
+   
+    <div id="nav-top" class="pg-top">
+    <span gaevent="imt/common/goTop" class="btn btn-top"><span class="icon icon-top"><a href="javascript:scroll(0,0)" style="color: #6C6C6C;">返回顶部</a></span></span>
+    </div>
+</nav>
+{else}
+	<div id="deals" style="margin-top:10px;">	
+		<div >
+			无结算订单
+		</div>	
+	</div>
+{/if}
+
+
+{include file="mbiz/mb_footer.html"} 

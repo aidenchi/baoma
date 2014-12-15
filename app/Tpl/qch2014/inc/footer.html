@@ -1,0 +1,104 @@
+</div>
+<div class="footer">
+	<div class="container">
+  	<div class="fnav row">
+    	<dl class="col-sm-3">
+      	<dt>获得更新</dt>
+        <dd><a href="#" target="_blank">邮件订阅</a></dd>
+        <dd><a href="#" target="_blank">sitemap</a></dd>
+        <dd><a href="#" target="_blank">RSS订阅</a></dd>
+        </dd>
+      </dl>
+      <dl class="col-sm-3">
+      	<dt>商务合作</dt>
+        <dd><a href="/biz.php" target="_blank">商户登陆</a></dd>
+        <dd><a href="#" target="_blank">市场合作</a></dd>
+        <dd><a href="#" target="_blank">提供团购</a></dd>
+        </dd>
+      </dl>
+      <dl class="col-sm-3">
+      	<dt>公司信息</dt>
+        <dd><a href="#" target="_blank">关于我们</a></dd>
+        <dd><a href="#" target="_blank">媒体报道</a></dd>
+        <dd><a href="#" target="_blank">法律声明</a></dd>
+        </dd>
+      </dl>
+      <dl class="col-sm-3">
+      	<dt>帮助中心</dt>
+        <dd><a href="#" target="_blank">申请退款</a></dd>
+        <dd><a href="#" target="_blank">常见问题</a></dd>
+        <dd><a href="#" target="_blank">服务保障</a></dd>
+        </dd>
+      </dl>
+    </div>
+    <div class="service">
+      <ul>
+      	<li>服务电话：<strong>{function name="app_conf" value="SHOP_TEL"}</strong></li>
+        <li>服务时间：<strong> {function name="app_conf" value="ONLINE_TIME"}</strong></li>
+      </ul>	
+   </div>
+   <div class="f-cb"></div>
+   <div class="copyright">	
+				{function name="app_conf" value="SHOP_FOOTER"} {function name="app_conf" value="ICP_LICENSE"} <div class="f-dn">{function name="app_conf" value="COUNT_CODE"}</div>
+				<div class="blank"></div>				
+				{if app_conf("ONLINE_QQ") neq '' or app_conf("ONLINE_MSN") neq ''}
+				{foreach from=$online_msn item=msn}
+				{if $msn neq ''}
+				<a id=service-msn-help href="msnim:chat?contact={$msn}" target=_blank>
+					<img src="{$TMPL}/images/button-custom-msn.gif">
+				</a> 
+				{/if}
+				{/foreach}
+				{foreach from=$online_qq item=qq}
+				{if $qq neq ''}
+				<a href="http://wpa.qq.com/msgrd?v=3&uin={$qq}&site=qq&menu=yes" target=_blank>
+					<img alt="" src="{$TMPL}/images/button-custom-qq.gif">
+				</a>
+				{/if}
+				{/foreach}				
+				<div class="blank1"></div>
+				{/if}
+   </div>
+  </div>
+</div>
+<div id="kf_code">
+<!--客服代码开始-->
+<link type="text/css" rel="stylesheet" href="http://www.qchui.cn/adokimg/adok.css">
+<div id="kefu1">
+  <div class="cs_close"><a onclick="$('#kefu1').fadeOut()" href="javascript:;"><span>关闭</span></a></div>
+  <div class="cs_tel"></div>
+  <div class="cs_tel_ct"> <span class="cs_tel_num">0421-489-1387</span> 咨询时间：9:00-18:00<br>
+  </div>
+  <div class="cs_spr"></div>
+  <div class="cs_online"></div>
+  <div class="cs_online_ct">
+  	<div class="cs_online_qq"><a href="tencent://message/?uin=1727029082&amp;site=qq&amp;menu=yes" target="_blank"><img border="0" align="absmiddle" title="点击这里给我发消息" alt="点击这里给我发消息" src="http://wpa.qq.com/pa?p=2:1727029082:52"> 在线客服1号</a></div>
+    <div class="cs_online_qq"><a href="tencent://message/?uin=422142031&amp;site=qq&amp;menu=yes" target="_blank"><img border="0" align="absmiddle" title="点击这里给我发消息" alt="点击这里给我发消息" src="http://wpa.qq.com/pa?p=2:422142031:52"> 在线客服2号</a></div>
+    <div class="cs_online_qq"><a href="tencent://message/?uin=1727029082&amp;site=qq&amp;menu=yes" target="_blank"><img border="0" align="absmiddle" title="点击这里给我发消息" alt="点击这里给我发消息" src="http://wpa.qq.com/pa?p=2:1727029082:52"> 商户入驻咨询</a></div>
+  </div>
+  <div class="cs_qcode">扫描下载大城小镇APP<br><a target="_blank" href="http://app.qchui.cn"><img width="120" height="120" title="扫描下载大城小镇手机版" src="/app/Tpl/qch2014/images/ewm_app.jpg"></a></div>
+  <div class="cs_spr"></div>
+  <div style="text-align:center;" class="cs_qun"><a href="http://shang.qq.com/wpa/qunwpa?idkey=0931e8012d4f80c35a1714b2200eca99c9fe2ed00301b33800db92a0528b6971" target="_blank"><img border="0" title="【大城小镇】更优惠！" alt="【大城小镇】更优惠！" src="http://www.qchui.cn/app/Tpl/qch2014/images/group.png"></a></div>
+  <div class="cs_space"></div>
+  <div class="cs_baidu"><a target="_blank" href="http://e.t.qq.com/qchui_com"><span>腾讯微博</span></a></div>
+  <div class="cs_space"></div>
+  <div class="cs_free"><a target="_blank" href="http://e.weibo.com/qianxinanqchui"><span>新浪微博</span></a></div>
+</div> 
+<!--客服代码结束-->
+</div>
+
+<script>
+jQuery(".nav-l").slide({ type:"menu", titCell:".m", targetCell:".sub", delayTime:0, triggerTime:0, returnDefault:false });
+
+jQuery(".popmenu .cate-nav").slide({type:"menu", titCell:".cate-item", targetCell:".sub", delayTime:0, triggerTime:0, defaultPlay:false, returnDefault:true });
+$(".popmenu").hover(function(){
+	$(".cate-nav").removeClass("cate-off");
+	},
+	function(){
+	$(".cate-nav").addClass("cate-off");
+})
+	
+</script>
+	<div id="gotop"></div>
+</body>
+</html>

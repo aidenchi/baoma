@@ -1,0 +1,84 @@
+{include file="wap/m_header.html"}
+
+{if $cart_list }
+
+{foreach from=$cart_list item=cart_item}
+<div class="box-container">
+	<ul>
+
+		<li class="li-title">
+
+			项目：<a href='{url x="wap" r="deal" p="id=$cart_item.deal_id"}'>{function name="msubstr" v=$cart_item.sub_name b=0 e=50}</a>
+		</li>
+
+		<li class="li-title">
+			价格：<span id="item_total_price_{$cart_item.id}" style="color:red;" >{function name="format_price" value=$cart_item.total_price}</span>
+		</li>
+
+		<li class="li-title">
+			数量：
+			<span class="item-content quantity-box">
+                            <div id="goods_count_sub_{$cart_item.id}" class="btn-mini minus" onclick="sub_goods_count({$cart_item.id})">
+                                <span >Ι</span>
+                            </div>
+
+                            <input id="goods_count_{$cart_item.id}" readonly type="text" min="1" style="ime-mode: disabled;" name="quantity" class="input-amount" value="{$cart_item.number}"  pattern="[0-9]*">
+
+                            <div id="goods_count_add_{$cart_item.id}" class="btn-mini active plus" onclick="add_goods_count({$cart_item.id})">
+                                <span>✚</span>
+                            </div>
+
+            </span>
+
+		</li>
+		<li class="lili-title">
+					<a onclick="del_cart({$cart_item.id})" href="javascript:void(0);" o class="aa-btn" style="margin:0px auto;width:30%;">删除该项目</a>
+
+		</li>
+
+	</ul>
+
+
+</div>
+{/foreach}
+
+
+
+
+<div class="box-container">
+	<ul>
+
+		<li class="li-title">
+			总价:<span id="total_price" style="color:red;" >{function name="format_price" value=$total_price}</span>
+		</li>
+
+		<li class="bibi-title">
+		<a href="javascript:void(0);" onclick="clear_cart();" class="aa-btn" style="margin:0px auto;width:30%;">清除购物车</a>
+		<a href="{url x="wap" r="index"}" class="bb-btn" style="margin:0px auto;width:30%;">继续购物</a>
+		<a href="javascript:void(0);" onclick="submit_cart();" class="cc-btn" style="margin:0px auto;width:30%;">提交订单</a>
+		</li>
+
+	</ul>
+</div>
+
+{else}
+
+<div class="box-container">
+	<ul>
+		<li class="li-title">
+
+						<div class="nogoodsimg"><img src="{$TMPL}/wap/image/nogoods.jpg"></div>
+						<div class="nogoodstxt">
+						<p class="empty" style="">您的购物车还是空的。</p>
+						<p class="color_blue">马上去 [ <a href="{url x="wap" r="index"}">挑选商品</a> ]。</p>
+						</div>
+
+
+
+		</li>
+	</ul>
+</div>
+
+{/if}
+
+{include file="wap/m_footer.html"}

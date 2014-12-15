@@ -1,0 +1,6 @@
+{if $user_info}
+    	<li>{$LANG.WELCOME_BACK_HD}，{$user_info.user_name} ！ {if $msg_count>0}<a href="{url x="shop" r="uc_msg"}" class="msg_count">{$LANG.MSG_COUNT}({$msg_count})</a>{/if} <a href="{url x="shop" r="user#loginout" }">{$LANG.LOGINOUT}</a><em>|</em></li>
+{else}
+      <li><a href="javascript:void(0);" onclick="ajax_login();" class="fc-red">登陆</a><em>|</em><a href="{url x="shop" u="user#register" }">注册</a><em>|</em></li>
+{/if} 
+

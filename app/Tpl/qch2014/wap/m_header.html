@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>{$wap_title}</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<link href="{$TMPL}/wap/css/i.css" rel="stylesheet" media="screen">
+	<link href="{$TMPL}/wap/css/m.css" rel="stylesheet" media="screen">	
+	<link href="{$TMPL}/wap/css/fl.css" rel="stylesheet" media="screen">
+	<link href="{$TMPL}/wap/css/biz.css" rel="stylesheet" media="screen">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no">
+    
+	<!--组件依赖css begin-->
+	<link rel="stylesheet" type="text/css" href="{$TMPL}/wap/css/dialog.css">
+	<link rel="stylesheet" type="text/css" href="{$TMPL}/wap/css/dialog.default.css"> <!--皮肤文件，若不使用该皮肤，可以不加载-->
+	<!--组件依赖css end-->
+
+
+	
+	<script type="text/javascript">
+
+        var APP_LOGIN_URL='{url x="wap" r="user#login"}';
+		var APP_ROOT = '{$APP_ROOT}';
+		var CART_URL = '{url x="wap" r="cart"}';
+		var CART_CHECK_URL = '{url x="wap" r="cart#check"}';
+		var LOADER_IMG = '{$TMPL}/images/lazy_loading.gif';
+		var ERROR_IMG = '{$TMPL}/images/image_err.gif';
+			{if app_conf("APP_MSG_SENDER_OPEN") eq 1}
+			var send_span = {function name="app_conf" v="SEND_SPAN"}000;
+			{/if}
+	</script>
+	
+	
+	<script type="text/javascript" src="{$TMPL}/wap/js/zepto.js"></script>
+	<script type="text/javascript" src="{$TMPL}/wap/js/zepto.extend.js"></script>
+	
+	
+	<script type="text/javascript" src="{$TMPL}/wap/js/zepto.ui.js"></script>
+	<script type="text/javascript" src="{$TMPL}/wap/js/zepto.highlight.js"></script>
+	<script type="text/javascript" src="{$TMPL}/wap/js/dialog.js"></script>
+	<!--组件依赖css begin-->
+	<link rel="stylesheet" type="text/css" href="{$TMPL}/wap/css/toolbar.css">
+	<!--组件依赖css end-->
+	<!--组件依赖css begin-->
+	<link rel="stylesheet" type="text/css" href="{$TMPL}/wap/css/panel.css">
+	<!--组件依赖css end-->
+	<script type="text/javascript" src="{$TMPL}/wap/js/zepto.fix.js"></script>
+	<script type="text/javascript" src="{$TMPL}/wap/js/toolbar.js"></script>
+	<script type="text/javascript" src="{$TMPL}/wap/js/panel.js"></script>
+	<!-- 自定义公共JS -->
+	<script type="text/javascript" src="{$TMPL}/wap/js/puclic.js"></script>
+	<!-- 购买调用js -->
+	<script type="text/javascript" src="{$TMPL}/wap/js/buy_support.js"></script>
+	<script type="text/javascript" src="{$APP_ROOT}/public/runtime/app/lang.js"></script>
+  <script type="text/javascript" src="{function name="parse_script" v="$pagejs" c="$cpagejs"}"></script>
+  <!--分类js-->
+
+</head>
+
+<body class="pure-skin-mine">
+	{if $MODULE_NAME eq 'index'}
+	<div id="toolbar" class="wap-header">
+		<h2>
+			<a href="{url x="wap" r="index"}">{$wap_name}</a>
+			
+				{if count($deal_city_list) gt 1}
+					<span><a class="hd-city" href="{url x="wap" r="city"}">{$deal_city.name}</a></span>
+ 				{/if}
+		</h2>
+		<div class="navtop">
+			{if $user_info}
+			<a  href="{url x="wap" r="uc_center#index"}" class="account-icon">我的中心</a>			
+			{else}
+			<a id="" href="{url x="wap" r="user#login"}" class="account-icon">我的中心</a>			
+			{/if}
+			<a href="{url x="wap" r="category#index"}" class="category-icon">分类查看</a>
+			<a href="{url x="wap" r="search#index"}" class="search-icon">搜索</a>
+	</div>
+	{else}	
+	<div id="toolbar" class="wap-header">
+			<div class="left-box">
+                <a class="hd-lbtn" href="{if $back_jump }{$back_jump} {else}javascript:history.back(){/if}">
+				<span>{if $show_home }首页{else}返回{/if}</span></a>
+            </div>
+			
+			<h1>{$page_title_m}</h1>
+
+	</div>	
+	{/if}	
+	</div>
+	
+	
+	<div id="dialog_msg" title="登陆提示">   
+	</div>
+	
+	<div class="cont">
