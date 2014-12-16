@@ -1,0 +1,55 @@
+{include file="mbiz/mb_header.html"} 
+
+
+	<div class="box-container">
+		
+			<ul >
+				<li class="li-title">
+					可提现金额：{function name="format_price" v=$account_data['money']}
+				</li>
+
+
+			<form name="searchform" action="{url x="mbiz" r="balance#docharge"}" method="post" id="submit_form">
+
+
+
+
+				<li class="li-title">
+					输入提现金额：<input type="text" name="money" class="f-input" id="submit_money" value="{$max_money}" style="width:30%;" /> 元
+				</li>
+
+				<li class="bibi-title">
+		
+			<input type="hidden" id="max_money" value="{$max_money}" />
+			<input type="submit" name="submit" value="提交申请" class="cc-btn" style="margin:0px auto;width:50%; border: none;" />
+
+		
+
+				</li>
+			</form>
+			</ul>
+
+	</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	$("#submit_money").bind("blur",function(){
+		var max = $("#max_money").val();
+		var money = $("#submit_money").val();
+		if(isNaN(money))money = 0;
+		if(money<=0)money =0;
+		if(money>=max)money = max;
+		$("#submit_money").val(money);
+		
+	});
+});
+</script>	
+
+
+
+
+
+
+
+
+{include file="mbiz/mb_footer.html"}

@@ -1,0 +1,113 @@
+{include file="inc/header.html"} 
+  <div class="f-mb10 hidden-xs ads_tl"><adv adv_id="团购列表页横幅1" /></div>
+	<div class="m-deal">
+   <div class="deal-list f-mb10">
+  	<ul class="row">
+    {foreach from=$deal_list item=deal name="deal_item"}
+    <li class="col-sm-4 col-xs-12">
+      	<a href="{if $deal.uname}{url x="tuan" r="deal#index" p="id=$deal.uname"}{else}{url x="tuan" r="deal#index" p="id=$deal.id"}{/if}" title="{$deal.name}" target="_blank">
+        <div class="zk"><b>{$deal.discount}</b>折</div>
+        <div class="pic"><img src="{function name="get_spec_image" v=$deal.icon w="360" h="252" g=1}" class="lazy img-responsive" alt="{$deal.name}" auto_tag="1" auto_order="{$deal.auto_order}" multi_attr="{$deal.multi_attr}" is_today="{$deal.is_today}"/></div>
+        <div class="title f-ff1">{$deal.name}</div>
+        <div class="price f-ff1">
+        {if $deal.time_status eq 0} {*/未开始/*}
+								<button class="c2">即将开始</button>
+								{/if}
+								{if $deal.time_status eq 1}{*/已开始/*}
+								{if $deal.buy_status eq 2} {*/卖光/*}
+										<button class="c1">卖光了</button>
+									{else}
+                  {if $deal.buy_type eq 4}
+									<button>我要出价</button>
+									{else}
+										<button>
+											{if $deal.is_lottery eq 1 and $deal.current_price eq 0}
+												我要抽奖
+											{else}	
+												{if $deal.buy_type eq 0}
+													立即抢购
+												{/if}
+												{if $deal.buy_type eq 2}
+													立即订购
+												{/if}
+												{if $deal.buy_type eq 3}
+													立即抢购
+												{/if}
+											{/if}
+										</button>
+									</span>
+									{/if}
+								{/if}
+                {/if}
+								{if $deal.time_status eq 2} {*/已过期/*}
+									{if $deal.buy_status eq 2} {*/卖光/*}
+									<button class="c1">卖光了</button>
+									{else}
+									<button class="c1">已结束</button>
+									{/if}
+								{/if}
+        <span><i>¥</i>{$deal.current_price_format}</span> <del>¥{$deal.origin_price_format}</del>　
+        {if ($deal.begin_time ne 0 and $deal.time_status eq 0) or ($deal.end_time ne 0 and $deal.time_status eq 1)} {* 时间 *}
+				<span class="counter" endTime="{if $deal.time_status eq 0}<?PHP echo to_date($this->_var['deal']['begin_time'],'r');?>{else}<?PHP echo to_date($this->_var['deal']['end_time'],'r');?>{/if}"></span>
+        {else}
+        <i>{$deal.deal_success_num}</i>
+				{/if}
+        </div>
+        </a>
+     </li>
+			{/foreach}
+    </ul>
+   </div>
+   <div class="pages f-mb10">
+  	{$pages}
+  </div>
+  </div>
+
+
+<script type="text/javascript">
+	
+	function share_url(id)
+	{
+		if ($("#deal-share-im-c-"+id).css("display") == "none") {			
+			$("#share-copy-text-"+id).val($("#share_url_"+id).val());
+			$("#deal-share-im-c-"+id).show();
+		}
+		else 
+			$("#deal-share-im-c-"+id).hide();
+	}
+	function copy_text(id)
+	{
+		$.copyText('#share-copy-text-'+id);
+	}
+	
+var updEndNowTime = <?PHP echo (get_gmtime()+ (intval(app_conf("TIME_ZONE"))*3600))."000";?>;
+function updateEndTime()
+{
+
+	var time = updEndNowTime;
+	$(".counter").each(function(i){
+		var endDate =new Date(this.getAttribute("endTime"));
+		var endTime = endDate.getTime();
+		var lag = (endTime - time) / 1000;
+		if(lag > 0)
+		{
+			var second = Math.floor(lag % 60);     
+			var minite = Math.floor((lag / 60) % 60);
+			var hour = Math.floor((lag / 3600) % 24);
+			var day = Math.floor((lag / 3600) / 24);
+			var timeHtml = "<span>"+hour+"</span>"+LANG['HOUR']+"<span>"+minite+"</span>"+LANG['MIN']+"";
+			if(day > 0)
+				timeHtml ="<span>"+day+"</span>"+LANG['DAY']+"" + timeHtml;
+			timeHtml+="<span>"+second+"</span>"+LANG['SEC']+"";
+			$(this).html(timeHtml);
+		}
+		else
+			$(this).html("");
+	});
+	updEndNowTime+=1000;
+	setTimeout("updateEndTime()",1000);
+}
+updateEndTime();
+
+</script>
+{include file="inc/footer.html"}

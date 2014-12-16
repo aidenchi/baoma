@@ -1,0 +1,22 @@
+{include file="wap/m_header.html"} 
+<div id="login" class="account">
+	<div class="bigbox"> 
+		<form action="{url x="wap" r="user#dologin"}" method="POST"> 
+			<p><input type="text" name="email" class="iptTxt placeholder" placeholder="请输入用户名"/></p>
+			<p><input type="password" name="user_pwd"  class="iptTxt placeholder" placeholder="请输入密码"/></p>
+
+			{if app_conf("VERIFY_IMAGE") eq 1}
+				<p>
+					<div class="verify_row">								
+					<input type="text" value="" class="iptTxt placeholder" placeholder="验证码" name="verify" />
+					<img src="{$APP_ROOT}/verify.php?rand={function name="rand"}" onclick="this.src='{$APP_ROOT}/verify.php?rand='+ Math.random();" title="看不清楚？换一张"  />			
+					</div>
+				</p>
+			{/if}
+			
+			
+			<p style="margin-top:10px;"><button type="submit" class="pure-button a-full-button pure-button-primary" style="margin:0px auto;width:100%;">登录</button></p>
+		</form>
+	</div>
+</div>
+{include file="wap/m_footer.html"} 

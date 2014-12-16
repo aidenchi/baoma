@@ -1,0 +1,213 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+
+<div class="main">
+<div class="main_title">{%ADD} <a href="{:u("MIndex/index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form name="edit" action="__APP__" method="post" enctype="multipart/form-data">
+<table class="form" cellpadding=0 cellspacing=0>
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">{%NAME}:</td>
+		<td class="item_input">
+			<input type="text" class="textbox require" name="name"  />
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">手机类型:</td>
+		<td class="item_input">
+			<select name=mobile_type id = "mobileTypeSelect">
+				<option value="0" <if condition="$vo['mobile_type'] eq 0">selected="selected"</if>>ios/android版本</option>				
+				<option value="1" <if condition="$vo['mobile_type'] eq 1">selected="selected"</if>>WAP版本</option>
+			</select>
+		</td>
+	</tr>
+		
+	<tr>
+		<td class="item_title">所属城市:</td>
+		<td class="item_input">
+		<select name="city_id">
+			<foreach name="city_list" item="city_item">
+				<option value="{$city_item.id}" <if condition="$vo['city_id'] eq $city_item['id']">selected="selected"</if>>{$city_item.title_show}</option>
+			</foreach>
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">副标题(wap图片编号):</td>
+		<td class="item_input">
+			<input type="text" class="textbox" name="vice_name"  />
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">描述(wap图片颜色):</td>
+		<td class="item_input">
+			<input type="text" class="textbox" name="desc"  />
+		</td>
+	</tr>
+		
+	<tr>
+		<td class="item_title">{%NAV_IMAGE}:</td>
+		<td class="item_input">
+			<html:imgUpload name = 'img' id='img' />
+			<span class='tip_span'>[背景图规格为 160px x 160px]</span>
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">{%ADV_TYPE}:</td>
+		<td class="item_input">
+			<select name="type" id='typeSelect'>
+				<option value="2">{%MTYPE_2}</option>
+				<option value="5">{%MTYPE_5}</option>
+				<option value="7">{%MTYPE_7}</option>
+				<option value="8">{%MTYPE_8}</option>
+				<option value="9">{%MTYPE_9}</option>
+				<option value="10">{%MTYPE_10}</option>
+				<option value="11">{%MTYPE_11}</option>
+				<option value="12">{%MTYPE_12}</option>
+				<option value="14">{%MTYPE_14}</option>
+				<option value="15">{%MTYPE_15}</option>
+				<option value="16">{%MTYPE_16}</option>
+				<option value="17">{%MTYPE_17}</option>
+				<option value="19">{%MTYPE_19}</option>
+				<option value="21">{%MTYPE_21}</option>
+				<option value="22">{%MTYPE_22}</option>
+				<option value="23">{%MTYPE_23}</option>
+			</select>
+		</td>
+	</tr>
+	
+	<tr class="type_1 type">
+		<td class="item_title">{%CATE_NAME}:</td>
+		<td class="item_input">
+			<select name="cid">
+				<option value="0">{%NO_SELECT_CATE}</option>
+				<foreach name="cate_list" item="cate_item">
+					<option value="{$cate_item.id}">{$cate_item.name}</option>
+				</foreach>
+			</select>
+		</td>
+	</tr>
+	
+	<tr class="type_1 type">
+		<td class="item_title">{%TAGS}:</td>
+		<td class="item_input">
+			<textarea class="textarea" name="tags" ></textarea>
+			<span class='tip_span'>[{%ADV_TAGS_TIPS}]</span>
+		</td>
+	</tr>
+	
+	<tr class="type_2 type" style="display:none;">
+		<td class="item_title">{%URL}:</td>
+		<td class="item_input">
+			<input type="text" class="textbox " name="url"  />
+		</td>
+	</tr>
+	<tr class="type_8 type" style="display:none;">
+		<td class="item_title">{%SHARE_ID}:</td>
+		<td class="item_input">
+			<input type="text" class="textbox " name="share_id"  />
+		</td>
+	</tr>
+	
+	<tr class="type_9 type_10 type_11 type_12 type_22 type_13  type" style="display:none;">
+		<td class="item_title">分类ID:</td>
+		<td class="item_input">
+			<input type="text" class="textbox " name="cate_id"  />
+		</td>
+	</tr>
+	
+	<tr class="type_14 type_15 type_16 type_17 type_23 type_18 type" style="display:none;">
+		<td class="item_title">数据ID:</td>
+		<td class="item_input">
+			<input type="text" class="textbox " name="data_id"  />
+		</td>
+	</tr>
+	
+	<tr>
+		<td class="item_title">{%SORT}:</td>
+		<td class="item_input">
+			<input type="text" class="textbox " name="sort" value="{$new_sort}"  />
+		</td>
+	</tr>	
+	<tr>
+		<td class="item_title"></td>
+		<td class="item_input">
+			<!--隐藏元素-->
+			<input type="hidden" name="{:conf("VAR_MODULE")}" value="MIndex" />
+			<input type="hidden" name="{:conf("VAR_ACTION")}" value="insert" />
+			<!--隐藏元素-->
+			<input type="submit" class="button" value="{%ADD}" />
+			<input type="reset" class="button" value="{%RESET}" />
+		</td>
+	</tr>
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>	 
+</form>
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#typeSelect").bind("change",function(){
+	
+			$(".type").hide();
+			$(".type_" + $(this).val()).show();
+
+		});
+		
+		$("#mobileTypeSelect").bind("change",function(){	
+			
+			//alert($(this).val());
+			init_typeSelect($(this).val());
+			
+		});		
+	});
+
+	
+	function init_typeSelect(page){
+		$("#typeSelect").empty();
+		
+		if (page == '1'){
+			$("#typeSelect").append("<option value='2'>{%MTYPE_2}</option>");
+			$("#typeSelect").append("<option value='9'>{%MTYPE_9}</option>");
+			$("#typeSelect").append("<option value='10'>{%MTYPE_10}</option>");
+			$("#typeSelect").append("<option value='11'>{%MTYPE_11}</option>");
+			$("#typeSelect").append("<option value='12'>{%MTYPE_12}</option>");
+			$("#typeSelect").append("<option value='14'>{%MTYPE_14}</option>");
+			$("#typeSelect").append("<option value='15'>{%MTYPE_15}</option>");
+			$("#typeSelect").append("<option value='17'>{%MTYPE_17}</option>");		
+			$("#typeSelect").append("<option value='22'>{%MTYPE_22}</option>");	
+			$("#typeSelect").append("<option value='23'>{%MTYPE_23}</option>");	
+		}else{
+			$("#typeSelect").append("<option value='2'>{%MTYPE_2}</option>");
+			$("#typeSelect").append("<option value='5'>{%MTYPE_5}</option>");
+			$("#typeSelect").append("<option value='7'>{%MTYPE_7}</option>");
+			$("#typeSelect").append("<option value='8'>{%MTYPE_8}</option>");
+			$("#typeSelect").append("<option value='9'>{%MTYPE_9}</option>");
+			$("#typeSelect").append("<option value='10'>{%MTYPE_10}</option>");
+			$("#typeSelect").append("<option value='11'>{%MTYPE_11}</option>");
+			$("#typeSelect").append("<option value='12'>{%MTYPE_12}</option>");
+			$("#typeSelect").append("<option value='14'>{%MTYPE_14}</option>");
+			$("#typeSelect").append("<option value='15'>{%MTYPE_15}</option>");
+			$("#typeSelect").append("<option value='16'>{%MTYPE_16}</option>");
+			$("#typeSelect").append("<option value='17'>{%MTYPE_17}</option>");
+			$("#typeSelect").append("<option value='19'>{%MTYPE_19}</option>");
+			$("#typeSelect").append("<option value='21'>{%MTYPE_21}</option>");
+			$("#typeSelect").append("<option value='22'>{%MTYPE_22}</option>");
+			$("#typeSelect").append("<option value='23'>{%MTYPE_23}</option>");
+		}
+		
+		$("#typeSelect").get(0).selectedIndex = 0;
+		
+		$(".type").hide();
+		$(".type_" + $("#typeSelect").val()).show();
+	}
+	init_typeSelect($("#mobileTypeSelect").val());
+</script>
+<include file="Public:footer" />

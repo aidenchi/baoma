@@ -1,0 +1,72 @@
+{include file="wap/m_header.html"} 
+	<div class="cnt-menu">
+		<ul>
+			<li {if $status eq 2}class="current"{/if}><a href="{url x="wap" r="uc_order#index" p="status=2"}" >已付款</a></li>			
+			<li {if $status eq 1}class="current"{/if}><a href="{url x="wap" r="uc_order#index" p="status=1"}" >未付款</a></li>		
+	
+		</ul>
+	</div>
+	
+	{if $list }
+	
+	{foreach from=$list item=order key=key}
+	<div class="box-container">
+
+		
+			<ul >
+				<li class="li-title">
+					订单号：{$order.order_sn}
+				</li>
+        <li class="li-title">
+					项目： {function name="get_order_item_list_w" value=$order.id}
+				</li>
+				
+				<li class="li-title">
+					下单时间：{function name="to_date" value=$order.create_time}
+	      </li>
+				<li class="li-title" style="color:red;">
+					支付总额：{function name="format_price" value=$order.total_price}
+	      </li>
+        <li class="li-title">
+					订单状态：
+					<?PHP echo $this->_var['LANG']['ORDER_PAY_STATUS_'.$this->_var['order']['pay_status']];?>
+					|
+					<?PHP echo $this->_var['LANG']['ORDER_DELIVERY_STATUS_'.$this->_var['order']['delivery_status']];?>
+					|
+					<?PHP echo $this->_var['LANG']['ORDER_ORDER_STATUS_'.$this->_var['order']['order_status']];?>
+
+					{if $order.after_sale gt 0}
+					|
+					<?PHP echo $this->_var['LANG']['AFTER_SALE_'.$this->_var['order']['after_sale']];?>
+					{/if}
+	      </li>
+        {if $order.pay_status neq 2}
+		<li class="li-title">
+					操作：
+					
+					<a href="{url x="wap" r="uc_order#modify" p="id=$order.id"}">继续付款</a>
+					{if $order.pay_status eq 0}
+					|
+					<a href="{url x="wap" r="uc_order#del" p="id=$order.id"}">取消</a>
+					{/if}
+										
+	    </li>
+		{/if}	
+			</ul>
+
+	</div>
+	{/foreach}
+	
+		<nav class="pageinator clearfix">
+    <div id="nav-page" class="pg-next page">
+    {$pages}
+    </div>
+   
+    <div id="nav-top" class="pg-top">
+    <span gaevent="imt/common/goTop" class="btn btn-top"><span class="icon icon-top"><a href="javascript:scroll(0,0)" style="color: #6C6C6C;">返回顶部</a></span></span>
+    </div>
+</nav>
+	{else}
+	<div class="box-empty">暂无订单</div>
+	{/if}
+{include file="wap/m_footer.html"} 

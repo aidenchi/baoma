@@ -1,0 +1,45 @@
+{include file="wap/m_header.html"} 
+
+
+
+
+<div  class="account"  >
+	<div class="bigbox"> 
+	<h2>
+		<div class="icon"><i></i></div>
+		<span class="tip">{$page_title}</span>
+	</h2>
+	<hr />
+		<div style="margin-left:10px;" >
+			<p style="margin:10px 20px;">
+					{$LANG.REGISTER_MAIL_SEND_SUCCESS}
+			</p>
+			<p style="margin:10px 20px;">
+					{$LANG.NEXT_TO_VERIFY}
+			</p>
+			<p style="margin:10px 20px;">
+					<?PHP echo sprintf($GLOBALS['lang']['SENT_VERIFY_MAIL_FOR_VERIFY'],"<span class='red'>".$this->_var['user_email']."</span>");?>
+			</p>
+			<p style="margin:10px 20px;">
+							{if $gocheck_url neq ''}
+							<a target="_blank" href="{$gocheck_url}" class="gomailcheck">{$LANG.GO_ACTIVE_NOW}</a>
+							{/if}
+			</p>
+			<p style="margin:10px 20px;">
+					{$LANG.NOT_RECIEVE_EMAIL}
+			</p>
+			<p style="margin:10px 20px;">
+					{$LANG.MAIL_IS_CONSIDER_AS_TRASH}
+			</p>
+			<p style="margin:10px 20px;">
+					<?PHP echo sprintf($GLOBALS['lang']['NO_RECIEVE_EMAIL_TIP'],$this->_var['user_email'],app_conf("REPLY_ADDRESS"));?>
+			</p>
+		</div>
+
+	
+	</div>
+</div>	
+
+
+
+{include file="wap/m_footer.html"} 

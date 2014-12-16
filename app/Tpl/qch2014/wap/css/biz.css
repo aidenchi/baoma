@@ -1,0 +1,46 @@
+.d-home-content .d-home-menu ul {
+width: 22em;
+margin: 0 auto;
+}
+.d-home-content .d-home-menu li {
+float: left;
+
+margin: 0 5px;
+}	
+#page-footer{
+clear: both;
+}
+#deals_biz{
+display: block;
+min-height: 78px;
+position: relative;
+padding: 10px 8px 10px 140px;
+border-top: 1px #f2f2f2 solid;
+}
+.box-container ul li.li-dd-title{
+	background-color: #64BFD2;
+	font-family: 'Arial';
+	padding: 10px;
+	display: block;
+	color: #fff;
+	text-decoration: none;
+}
+.ui-li-count {
+
+font-size: 12.5px;
+font-weight: 700;
+text-align: center;
+border-width: 1px;
+border-style: solid;
+padding: 0 .48em;
+line-height: 1.6em;
+min-height: 1.6em;
+min-width: .64em;
+float: right;
+background-color: white;
+border-color: #DDD;
+color: #333;
+text-shadow: 0 1px 0 #F3F3F3;
+-webkit-border-radius: .3125em;
+border-radius: .3125em;
+}

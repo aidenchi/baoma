@@ -1,0 +1,57 @@
+{include file="mbiz/mb_header.html"} 
+
+
+
+	<div class="box-container">
+		
+			<ul >
+				<li class="li-title">
+					账户名称：{$account_data.name}
+						</li>
+						
+				<li class="li-title">
+					账户余额：{function name="format_price" v=$account_data['money']}
+				</li>
+
+				<li class="li-title">
+					可提现金额：{function name="format_price" v=$max_money}
+				</li>
+
+				<li class="li-title">
+					开户行：{$account_data.bank_name}
+				</li>
+				<li class="li-title">
+					账号：{$account_data.bank_info}
+				</li>
+				<li class="li-title">
+					户名：{$account_data.bank_user}
+				</li>
+				<li class="bibi-title">
+		<a href="{url x="mbiz" r="balance#charge_tx"}" class="cc-btn" style="margin:0px auto;width:32%;">我要提现</a>
+		
+		<a href="{url x="mbiz" r="balance#charge_rz"}"  class="cc-btn" style="margin:0px auto;width:32%;">提现日志</a>
+		
+		<a href="{url x="mbiz" r="balance#log"}"  class="cc-btn" style="margin:0px auto;width:32%;">财务明细</a>
+				</li>
+
+			</ul>
+
+	</div>
+	
+
+
+
+
+<nav class="pageinator clearfix">
+    <div id="nav-page" class="pg-next page">
+    {$pages}
+    </div>
+   
+    <div id="nav-top" class="pg-top">
+    <span gaevent="imt/common/goTop" class="btn btn-top"><span class="icon icon-top"><a href="javascript:scroll(0,0)" style="color: #6C6C6C;">返回顶部</a></span></span>
+    </div>
+</nav>
+
+
+
+{include file="mbiz/mb_footer.html"} 

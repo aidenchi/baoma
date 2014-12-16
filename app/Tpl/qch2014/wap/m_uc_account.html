@@ -1,0 +1,39 @@
+{include file="wap/m_header.html"} 
+
+{if $user_info}
+<div class="box-container">
+   <div class="box-style box-cpd">
+        <ul class="ml-link">
+            <li>
+                <a class="ml-item ml-first" gaevent="imt/account/myinfo/editUsername" href="javascript:void(0);">
+                    <span class="icon-fonts"><img src="{$TMPL}/wap/image/5.png"></span>
+                    <span class="mcwz">{$user_info.user_name}</span>
+                    
+                </a>
+            </li>
+            <li>
+                <a class="ml-item" gaevent="imt/account/myinfo/setPassword" href="{url x="wap" r="uc_account#modify_pwd" p="id=$user_info.id"}">
+                    <span class="icon-fonts"><img src="{$TMPL}/wap/image/6.png"></span>
+                    <span class="mcwz">修改账户密码</span>
+                </a>
+            </li>
+            <li>
+                <a class="ml-item" gaevent="imt/account/myinfo/editMobile" href=" javascript:void(0);">
+                    <span class="icon-fonts"><img src="{$TMPL}/wap/image/7.png"></span>
+                    <span class="mcwz">已绑定手机号：{$user_info.mobile} </span>
+                </a>
+            </li>
+            <li>
+                <a class="ml-item" gaevent="imt/account/myinfo/address" href="{url x="wap" r="uc_consignee#index" p="id=$user_info.id"}">
+                    <span class="icon-fonts"><img src="{$TMPL}/wap/image/8.png"></span>
+                   <span class="mcwz"> 收货地址管理 </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+{/if}
+
+
+
+{include file="wap/m_footer.html"} 

@@ -1,0 +1,274 @@
+{include file="inc/header.html"} 
+<div class="f-cb f-mb10"></div>
+<div class="w900 f-fl">
+	<div class="deal-container">
+  	<div class="deal-detail">
+    	<div class="picFocus">
+      	<div class="bd">
+        	<ul>
+          {foreach from=$deal.image_list key=key item=image}
+					<li><img src="{function name="get_spec_image" v=$image.img w=440 h=280 g=0}" /></li>
+					{/foreach}
+          </ul>
+        </div>
+        <div class="hd">
+        	<ul>
+          {foreach from=$deal.image_list key=key item=image}
+					<li><img src="{function name="get_spec_image" v=$image.img w=106 h=65 g=0}" /></li>
+					{/foreach}	
+          </ul>
+        </div>
+    </div>
+    <div class="info">
+      	<h3 class="deal-title f-ff1">{$deal.name}</h3>
+      <div class="price">
+      {if $deal.buy_type eq 4}
+      <span class="zk">当前价：</span><span class="xj f-ff1">¥<strong>{if $deal.jp_count <= 0}{$deal.current_price_format}{else}{$deal.jp_price}{/if}</strong></span>
+      {else}
+      	<span class="xj f-ff1">¥<strong>{$deal.current_price_format}</strong></span>
+        <del class="yj">¥{$deal.origin_price_format}</del>
+       {if $deal.is_lottery eq 1 and $deal.current_price eq 0}
+      	<span class="num">已有 <strong>{$deal.lottery_count}</strong> 人进行抽奖</span>
+       {else}
+        <span class="zk">{$deal.discount} {$LANG.DISCOUNT_OFF}</span>
+        <span class="num">已售 <strong>{$deal.buy_count}</strong></span>
+        {/if}
+        
+      {/if}
+      </div>
+      <div class="f-cb"></div>
+      <div class="more">
+      	<ul>
+        {if $deal.buy_type eq 4}
+        <li><em>出价人数</em><span><strong>{$deal.jp_count}</strong> 人</span></li>
+        <li><em>每次加价</em><span><strong>{$deal.extent_price}</strong> 元</span></li>
+        <li><em>当前情况</em><span>{if $deal.jp_count <= 0}还没人出价，点击下面按钮立即出价！{else}<strong>{$deal.uname}</strong> {if $deal.time_status eq 1}暂时领先{else}竞拍成功{/if}{/if}</span></li>
+        {else}
+        {foreach from=$locations item=location key=key}
+        <li><em>商家名称</em><span>{$location.name}</span></li>
+        <li><em>有 效 期</em><span>{if $deal.coupon_end_time <= 0}不限期限{else}截止到 {$deal.validity}{/if}</span></li>
+        <li><em>使用时间</em><span>{$location.open_time}</span></li>
+        {/foreach}
+        {/if}
+        <li><em>服务承诺</em><span>{if $deal.expire_refund eq 1}<i class="gqt_yes"></i>支持过期退{else}<i class="gqt_no"></i>不支持过期退{/if}</span><span>{if $deal.any_refund eq 1}<i class="sst_yes"></i>支持随时退{else}<i class="sst_no"></i>不支持随时退{/if}</span></li>
+        </ul>
+      </div>
+      <div class="f-cb"></div>
+      <div class="btnbox">
+{if $deal.time_status eq 0} {*/未开始/*}
+<a href="javascript:void(0);" class="buy_btn1 f-ff1">即将开始</a>
+{/if}
+{if $deal.time_status eq 1}{*/已开始/*}
+{if $deal.buy_status eq 2 || $deal.is_in_order eq 1} {*/卖光/*}
+<a href="javascript:void(0);" class="buy_btn2 f-ff1">已售完</a>
+{else}
+<script>
+function extent_submit(deal_id, current_price, extent_price)
+{
+	var ajaxurl = APP_ROOT+"/tuan.php?ctl=deal&act=extent_submit";
+	$.ajax({ 
+	url: ajaxurl,
+	data:{deal_id: deal_id,current_price: current_price,extent_price: extent_price},
+	dataType: "json",
+	type: "POST",
+	success: function(data){
+		if(data.status){
+			alert('恭喜您出价成功！');
+			location.reload();
+		}else{
+			alert(data.msg);
+			location.reload();
+		}
+	},
+error:function(ajaxobj){
+
+}
+});	
+}
+</script>
+{if $deal.buy_type eq 4}
+<a href="javascript:void(0);" onclick="extent_submit({$deal.id}, {$deal.current_price},{$deal.extent_price})" class="buy_btn f-ff1">立即出价</a>
+{else}
+<a href="javascript:void(0);" onclick="add_cart({$deal.id})" class="buy_btn f-ff1">
+{if $deal.is_lottery eq 1 and $deal.current_price eq 0}
+立即抽奖
+{else}	
+{if $deal.buy_type eq 0}
+立即抢购
+{/if}
+{if $deal.buy_type eq 2}
+立即订购
+{/if}
+{if $deal.buy_type eq 3}
+立即抢购
+{/if}
+{/if}
+</a>
+{/if}
+{/if}
+{/if}
+{if $deal.time_status eq 2} {*/已过期/*}
+{if $deal.buy_status eq 2} {*/卖光/*}
+<a href="javascript:void(0);" class="buy_btn2 f-ff1">已售完</a>
+{else}
+<a href="javascript:void(0);" class="buy_btn2 f-ff1">已结束</a>
+{/if}
+{/if}
+
+        <div class="bdsharebuttonbox">分享到：<br><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a></div>
+<script>
+window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","weixin","qzone","tsina","tqq","bdysc","renren","bdxc","kaixin001","tqf","tieba","douban","tsohu","bdhome","sqq","thx","qq","ibaidu","taobao","hi","baidu","sohu","t163","qy","meilishuo","mogujie","diandian","huaban","leho","share189","duitang","hx","tfh","fx","youdao","sdo","qingbiji","ifeng","people","xinhua","ff","mail","kanshou","isohu","yaolan","wealink","xg","ty","iguba","fbook","twi","deli","s51","s139","linkedin","copy","print"],"bdPic":"","bdStyle":"0","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+      </div>
+      <div class="time_info">
+      {if ($deal.begin_time ne 0 and $deal.time_status eq 0) or ($deal.end_time ne 0 and $deal.time_status eq 1)} {* 时间 *}
+			<div class="limitdate">
+				<i class="f-fl">距本单结束还有：</i><ul id="counter" class="f-fl"></ul>
+			</div>
+      {else}
+      <a href="/index.php?ctl=mobile" target="_blank">立即安装手机版APP，随时随地享优惠！</a>
+			{/if}
+      </div>
+      </div>
+  </div>
+</div>
+{if $deal.brief <> ''}
+<div class="deal-term"><h2 class="content-title f-ff1">购买须知</h2><dl><dt><p>使用规则</p></dt><dd><p>{$deal.brief}</p></dd></dl></div>
+{/if}
+<div class="deal-info">
+<h2 class="content-title f-ff1">本单详情</h2>
+        <div class="content"> 
+        {$deal.description}
+        </div>
+</div>
+<div class="deal-info">
+<h2 class="content-title f-ff1">买家点评</h2>
+<div class="content">
+{$after_message_html}
+<input type="button" value="查看更多" name="commit" class="formbutton" onclick="location.href='{url x="tuan" r="message#deal" p="id=$deal.id&is_buy=1"}';" />
+<input type="button" value="我也去点评" name="commit" class="formbutton" onclick="location.href='{url x="tuan" r="message#deal" p="id=$deal.id&is_buy=1"}#consult-form-head';" />
+</div>
+</div>
+</div>
+<div class="w240 f-fr">
+{include file="inc/side.html"} 
+</div>
+
+
+{if ($deal.begin_time ne 0 and $deal.time_status eq 0) or ($deal.end_time ne 0 and $deal.time_status eq 1)} {* 时间 *}
+<script type="text/javascript">
+{if $deal.time_status eq 1} {*/结束倒计时/*}
+var endTime = {$deal.end_time}000;
+var nowTime = {function name=get_gmtime}000;
+var sysSecond = (endTime - nowTime) / 1000;
+{/if}
+{if $deal.time_status eq 0} {*/开始倒计时/*}
+var beginTime = {$deal.begin_time}000;
+var nowTime = {function name=get_gmtime}000;
+var sysSecond = (beginTime - nowTime) / 1000;
+{/if}
+var interValObj;
+setRemainTime();
+function setRemainTime()
+{	
+	if (sysSecond > 0)
+	{
+		var second = Math.floor(sysSecond % 60);              // 计算秒     
+		var minite = Math.floor((sysSecond / 60) % 60);       //计算分
+		var hour = Math.floor((sysSecond / 3600) % 24);       //计算小时
+		var day = Math.floor((sysSecond / 3600) / 24);        //计算天
+		var timeHtml = "<span>"+hour+"</span>"+LANG['HOUR']+"<span>"+minite+"</span>"+LANG['MIN']+"";
+		if(day > 0)
+			timeHtml ="<span>"+day+"</span>"+LANG['DAY']+"" + timeHtml;
+		
+		timeHtml+="<span>"+second+"</span>"+LANG['SEC']+"";
+		
+		try
+		{
+			$("#counter").html(timeHtml);
+			sysSecond--;
+		}
+		catch(e){}}
+	else
+	{window.clearTimeout(interValObj);}
+	interValObj = window.setTimeout("setRemainTime()", 1000); 	
+}
+</script>
+{/if}
+
+<script type="text/javascript">
+var errHideTimeOut;
+var userMenuTimeOut;
+var ecvTimeOut;
+var imgListCurr=0;
+var imgListNext=0;
+var imgListCount=0;
+var imgListInterval;
+function imagesInit()
+{
+	imgListCount = $('#img_list a').size();
+	
+	if(imgListCount < 2)
+		return;
+	
+	imgListInterval = setInterval('imagesRun()',3000);
+	 
+	$('#goods_imgs li,#img_list a').hover(function(){
+		clearInterval(imgListInterval);
+	},function(){
+		imgListInterval = setInterval('imagesRun()',3000);
+	});
+	 
+	$('#img_list a').click(function(){
+		var index = $('#img_list a').index(this);
+		if (imgListCurr != index){
+			imagesPlay(index);
+            imgListCurr = index;
+        };
+		return false;
+    });
+}
+function imagesRun()
+{
+	imgListNext = imgListCurr + 1;
+    if (imgListCurr == imgListCount - 1)
+		imgListNext = 0;
+		
+	imagesPlay(imgListNext);
+	
+	imgListCurr++;
+	
+    if (imgListCurr > imgListCount - 1)
+	{
+		imgListCurr = 0;
+		imgListNext = imgListCurr + 1;
+	}
+}
+function imagesPlay(next)
+{
+	$('#goods_imgs li').eq(imgListCurr).css({'opacity':'0.5'}).animate({'left':'-440px','opacity':'1'},'slow',function(){
+		$(this).css({'left':'440px' });
+	}).end().eq(next).animate({'left':'0px','opacity':'1'},'slow',function(){
+		$('#img_list a').siblings('a').removeClass('active').end().eq(next).addClass('active');
+	});
+}
+function switch_location()
+{
+	var location_id = $("#locations_select").val();
+	$.ajax({
+		url: APP_ROOT+"/tuan.php?ctl=ajax&act=get_supplier_location&id="+location_id,
+		success:function(html)
+		{
+			$("#sp_location").html(html);
+		}
+	});
+}
+$(document).ready(function(){
+	imagesInit();
+	$("#locations_select").bind("change",function(){
+		switch_location();
+	});
+});
+jQuery(".picFocus").slide({ mainCell:".bd ul",effect:"left",autoPlay:true });
+</script>
+{include file="inc/footer.html"}

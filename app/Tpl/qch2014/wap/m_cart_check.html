@@ -1,0 +1,123 @@
+{include file="wap/m_header.html"} 
+
+<script type="text/javascript">
+
+	//获取订单ID 传给submit_buy(); 做验证检测
+	var order_id = {function name="intval" value=$order_info.id};
+</script>
+<form name="cart_form" id="cart_form" action="{if $order_info}{url x="wap" r="cart#order_done"}{else}{url x="wap" r="cart#done"}{/if}" method="post" />	
+	<div class="box-container">
+		<h3>订单信息</h3>
+		{foreach from=$cart_list item=cart_item key=key}
+			<ul {if $key neq 0} style="margin-top:5px;" {/if}>
+				<li class="li-title">
+					项目：{function name="msubstr" v=$cart_item.sub_name b=0 e=50}
+				</li>
+				
+				<li class="li-title">
+					总价：
+						
+					<span id="total_price" style="color:red;" >{function name="format_price" value=$cart_item.total_price}</span>
+						
+				 （{$cart_item.number}件）
+				</li>
+				
+			</ul>
+		{/foreach}
+	</div>
+{if $is_delivery}
+<div class="box-container" >
+	<h3>配送信息</h3>
+	<script type="text/javascript" src="{$APP_ROOT}/public/runtime/app/region.js"></script>					
+	<script type="text/javascript">
+		load_consignee({$consignee_info.id});
+	</script>
+	<div class="accountt" id="cart_consignee" ></div>
+</div>
+
+<div class="box-container" id="cart_delivery" ></div>
+
+
+{else}
+<script type="text/javascript">
+	//$(document).ready(function(){count_buy_total();});
+</script>
+{/if}
+			
+
+
+<div class="box-container">	
+	<ul>
+		<li class="li-title">订单总额：
+			
+				<strong id = "order_total">{function name="format_price" value=$total_price}</strong>	
+		</li>
+							
+		<li class="li-title">网站余额：
+			<strong>{function name="format_price" value=$user_money}</strong>
+		</li>
+		
+		{if $user_money < $total_price}
+		<li class="li-title">还需支付：
+			<strong><span class="money" style="color:red;" id = "show_order_total"><?php echo format_price($this->_var['total_price']- $this->_var['user_money']); ?></strong>
+		</li>
+		{/if}
+					
+	</ul>
+</div>
+			{if $is_coupon}
+			  <div class="box-container">	
+				   <ul>
+								<li class="li-title">
+					手机：<input type="text" name="coupon_mobile" class="ipt" value="{$user_info.mobile}" style="width:120px;"/>
+						</li>
+				 </ul>   
+			  </div>     
+			{/if}
+      
+	{if $user_money < $total_price}
+	
+		{if $payment_list}
+			<div class="box-container">
+					
+				<h3>选择支付方式</h3>
+					<ul  style="margin-bottom:10px;">
+						{foreach from=$payment_list item=payment_item key=key}	
+						
+							<li class="li-title">
+								<input type="radio" name="payment" value="{$payment_item.id}" {if $key eq 0 } checked {/if}> &nbsp;{$payment_item.name}</input>
+							</li>
+						
+						{/foreach}
+					</ul>
+				
+			<div>
+		{/if}
+	{/if}		
+		
+		
+				<input type="hidden" value="{function name="intval" value=$order_info.id}" name="id" />
+
+							
+				{if $user_money < $total_price}
+				<input type="hidden" type="text" style="width: 50px;" value="<?php echo $this->_var['total_price']- $this->_var['user_money']; ?>" name="account_money" class="f-input" id="account_money">
+				
+				<button type="submit"  id="order_done" class="pure-button a-full-button pure-button-primary" style="margin:0px auto;width:100%;">确认支付</button>
+				
+				{else}	
+				
+				<input type="hidden" type="text" style="width: 50px;" value="{$total_price}" name="account_money" class="f-input" id="account_money">
+				
+				<button type="submit"  id="order_done" class="pure-button a-full-button pure-button-primary" style="margin:0px auto;width:100%;">用余额支付</button>
+				{/if}
+				
+
+		
+		
+		</div>
+	</div>
+	
+	
+	
+</form>
+{include file="wap/m_footer.html"} 

@@ -1,0 +1,38 @@
+{include file="inc/header.html"} 
+<div class="blank"></div>
+<div class="short f_l" style="margin: 10px 10px 10px 0px;">
+{include file="inc/cate_tree.html"}
+</div>
+	<div style="width: 694px;float: left;">
+		
+		<div style="width: 694px;" >
+			
+			
+		<ul class="event">
+					{foreach from=$event_list item=event}
+					<li class="alt first">
+									<div class="list_left">
+										<h3><a href="{$event.url}" title="{$event.name}">{$event.name}</a></h3>
+										<div class="jianjie">
+																							<p><a href="{$event.url}">{function name="msubstr" v=$event.brief b=0 e=45}</a></p>
+																					</div>
+										<p class="zhuangchang"><a href="{$event.url}"><img src="http://42.121.14.145:108/app/Tpl/zxzx/Public/images/zhuanchang.jpg" width="132" height="39/" original="http://42.121.14.145:108/app/Tpl/zxzx/Public/images/zhuanchang.jpg"></a></p>
+									</div>
+									<div class="list_right">
+										<div class="beijin">
+											<a href="{$event.url}" title="云海肴"><img alt="云海肴" src="{$event.icon}" width="450" height="180" original="http://42.121.14.145:108/Public/upload/attachment/201003/4ba9abc9e668a.jpg"></a>
+										</div>
+									</div>
+									
+								</li>		
+					{/foreach}
+		</ul>
+		</div></div>
+		<div class="blank"></div>		
+		</div><!--end inc_main-->		
+		<div class="inc_foot"></div>
+	</div>
+
+	<div class="blank"></div>
+	<div class="pages">{$pages}</div>
+{include file="inc/footer.html"}

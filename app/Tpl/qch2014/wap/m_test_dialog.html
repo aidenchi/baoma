@@ -1,0 +1,86 @@
+{include file="wap/m_header.html"} 
+	<div class="cnt-menu">
+		<ul>
+			<li {if $status eq 1}class="current"{/if}><a href="{url x="wap" r="uc_coupon#index" p="status=1"}">未消费</a></li>			
+			<li {if $status eq 2}class="current"{/if}><a href="{url x="wap" r="uc_coupon#index" p="status=2"}">已消费</a></li>		
+			<!-- <li {if $status eq 3}class="current"{/if}><a href="{url x="wap" r="uc_coupon#index" p="status=3"}">已过期</a></li>	 -->
+		</ul>
+	</div>
+	{if $list}
+	
+	{foreach from=$list item=coupon key=key}
+	<div class="box-container">
+		
+			<ul >
+				<li class="li-title">
+					项目：{$coupon.deal_item.sub_name}
+				</li>
+				<li class="li-title">
+					团购券序列号：{$coupon.sn}
+			    </li>
+				<li class="li-title">
+						密码：{$coupon.password}
+				</li>
+				{if $status eq 1}
+				<li class="li-title">
+						过期时间：	
+							{if $coupon.end_time eq 0}
+								{$LANG.NEVER_EXPIRED}
+							{elseif $now gt $coupon.end_time }
+								{function name="to_date" value=$coupon.end_time}(已过期)
+								{else}
+								{function name="to_date" value=$coupon.end_time}
+							{/if}
+				</li>
+				{/if}
+				{if $status eq 2}
+					<li class="li-title">
+							使用时间：	
+								{if $coupon.confirm_time eq 0}
+								{$LANG.NOT_USED}
+								{else}
+								{function name="to_date" value=$coupon.confirm_time}
+								{/if}
+					</li>
+				{/if}
+				{if $status eq 1 and $coupon.end_time neq 0 }
+					<li class="li-title">
+						操作：
+						{if $coupon.is_valid eq 2}
+							<span style="color:red">被锁定，不能操作</span>
+						{else}
+							{if $coupon.sms_count lt app_conf("SMS_COUPON_LIMIT") and $coupon.confirm_time eq 0}
+							<!-- <a href="{url x="wap" r="uc_coupon#send_sms" p="id=$coupon.id"}">{$LANG.SEND_COUPON_SMS}</a><br/> -->
+							{/if}
+							{if $coupon.mail_count lt app_conf("MAIL_COUPON_LIMIT") and $coupon.confirm_time eq 0}
+							<!-- <a href="{url x="wap" r="uc_coupon#send_mail" p="id=$coupon.id"}">{$LANG.SEND_COUPON_MAIL}</a><br/> -->
+							{/if}						
+							<!-- <a href="{url x="wap" r="uc_coupon#view" p="id=$coupon.id"}" target="_blank">{$LANG.VIEW}</a><br/> -->
+							{if $coupon.refund_status eq 0}
+								{if $coupon.confirm_time eq 0}
+									{if $coupon.any_refund eq 1}
+									<a href="{url x="wap" r="uc_coupon#refund" p="id=$coupon.id"}">申请退款</a>													
+									{elseif $coupon.expire_refund eq 1 and $now>$coupon.end_time and $coupon.end_time neq 0}
+									<a href="{url x="wap" r="uc_coupon#refund" p="id=$coupon.id"}">申请退款</a>
+									{/if}
+									
+								{/if}
+							{elseif $coupon.refund_status eq 1}
+							退款处理中...
+							{else}
+							已退款
+							{/if}
+						{/if}
+					</li>
+				{/if}
+				
+			</ul>
+
+	</div>
+	{/foreach}
+		<div class="page">{$pages}</div>
+	{else}
+
+		<div class="box-empty">暂无相关消费码</div>
+	{/if}
+{include file="wap/m_footer.html"} 

@@ -1,0 +1,36 @@
+<style>
+.ui-panel{
+    width: 120px;
+    height: 100%;
+    top: 50px;
+    padding: 10px;
+    background:#000000;
+    color: #ffffff;
+}
+.panel {}
+.panel h2 {font-size:18px;}
+.panel ul li {font-size:14px;}
+.panel ul li a {color:#FFFFFF;display:block;padding:7px;border-bottom:#333333 solid 1px;text-decoration:none;}
+.cont {width:100%;height:100%;}
+</style>
+<div class="panel"> 
+        <h2>我的中心</h2>
+        <ul>
+            <li><a href="mycoupon.php">我的消费码</a></li>
+            <li><a href="myorder.php">我的订单</a></li>
+            <li><a href="my.php">账户余额</a></li>
+            <li><a href="logout.php">注销登陆</a></li>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+    $(function ($) {        
+        $('.panel').panel({         
+            contentWrap: $('.cont')
+        });
+        $('#btn-default').on('click', function (e) {   
+
+            $('.panel').panel('toggle', 'push', 'left');
+        });       
+    }(Zepto));
+</script>

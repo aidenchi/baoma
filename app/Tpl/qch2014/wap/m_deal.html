@@ -1,0 +1,303 @@
+{include file="wap/m_header.html"}
+ 
+<div id="deal">
+	<div class="dealInfo">
+		<h1>{$deal.name}</h1>
+		<img width="138" height="84" src="{function name="get_spec_image" v=$deal.image_list.0.img w="138" h="84" g=1}" alt="图片载入中……">
+		<detail>
+            <ul>
+                <li class="price">{$deal.current_price_format}</li>
+                <li class="remain">
+                	
+                	{if ($deal.begin_time ne 0 and $deal.time_status eq 0) or ($deal.end_time ne 0 and $deal.time_status eq 1)} {* 时间 *}
+					
+							
+						
+							<div id="counter"></div>
+						
+						
+					{/if}
+                	
+               	</li>
+                <li class="count"><strong>{$deal.buy_count}</strong>人已购买</li>
+            </ul>
+        </detail>
+	</div>
+	
+	
+	
+	<!--begin button status-->
+		{if $deal.time_status eq 0} {*/未开始/*}
+		<div style="margin:8px 0px;padding:0px 8px;">
+			<a class="pure-button a-full-button pure-button-primary" href="javascript:void(0);" style="margin:0px auto;width:100%;display:block;">即将开始</a>
+		</div>
+		{/if}
+		{if $deal.time_status eq 1}{*/已开始/*}
+			{if $deal.buy_status eq 2} {*/卖光/*}
+			<div style="margin:8px 0px;padding:0px 8px;">
+			<a class="pure-button a-full-button pure-button-primary" href="javascript:void(0);" style="margin:0px auto;width:100%;display:block;">卖光了</a>
+			</div>
+			{else}
+			
+				<div style="margin:8px 0px;padding:0px 8px;">
+					<a class="pure-button a-full-button pure-button-primary" href="javascript:void(0);" onclick="add_cart({$deal.id})" style="margin:0px auto;width:100%;display:block;"> 
+					
+					
+						{if $deal.is_lottery eq 1 and $deal.current_price eq 0}						
+							抽奖
+						{else}	
+							{if $deal.buy_type eq 0}
+								点击购买
+							{/if}
+							{if $deal.buy_type eq 2}
+								点击订购
+							{/if}
+							{if $deal.buy_type eq 3}
+								点击购买
+							{/if}
+						{/if}
+					</a>
+				</div>
+			
+			{/if}
+		{/if}
+		{if $deal.time_status eq 2} {*/已过期/*}
+			{if $deal.buy_status eq 2} {*/卖光/*}
+			<div style="margin:8px 0px;padding:0px 8px;">
+			<a class="pure-button a-full-button pure-button-primary" href="javascript:void(0);" style="margin:0px auto;width:100%;display:block;">卖光了</a>
+			</div>
+			{else}
+			<div style="margin:8px 0px;padding:0px 8px;">
+			<a class="pure-button a-full-button pure-button-primary" href="javascript:void(0);" style="margin:0px auto;width:100%;display:block;">结束了</a>
+			</div>
+			{/if}
+		{/if}
+		<!--end button status-->	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	{if $deal.brief}
+	<div class="deal-box">
+		<h1 class="accordion-toggle" id="buy-must">商品简介</h1>
+		<div class="tab-box" id="cnt-buy-must" >
+			<div style="line-height:1.8;margin-left:10px;">
+				{$deal.brief}
+			</div>
+		</div>
+	</div>
+	{/if}
+	{if $deal.description}
+	<div class="deal-box">
+		<h1 class="accordion-toggle" id="detail-more" >本单详情</h1>
+		<div class="tab-box" id="cnt-detail-more">
+			<div style="line-height:1.8;margin-left:10px;">
+				{$deal.description}
+			</div>	
+		</div>
+	</div>
+	{/if}
+	
+	{if app_conf("SUPPLIER_DETAIL") eq 1 and $locations}
+	<div class="deal-box">
+		<h1 class="accordion-toggle" id="partner">商家简介</h1>
+		<div class="tab-box" id="cnt-partner" style="display:block;" >
+			{foreach from=$locations item=location key=key}
+				{if $key neq 0} <hr />{/if}			
+				<div style="line-height:1.8;margin-left:10px;">
+					 
+					<strong>{$location.name}</strong>
+					<br/>
+						商家地址：{$location.address}
+					<br/>
+						营业时间：{$location.open_time}
+					<br/>
+						预约电话：{$location.tel}
+					<br/>
+					
+				</div>				
+			
+			{/foreach}	
+		</div>
+	</div>
+	{/if}
+	
+	
+	<div class="deal-box">
+		<h1 class="accordion-toggle" id="buy-map" >商家地图</h1>
+		<div class="tab-box" id="cnt-buy-map" style="display:block;">
+		
+			<div style="line-height:1.8;margin-left:10px; clear:both;">
+		
+				<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2"></script>
+				<!-- 团购地图的容器 -->
+				<div id="show_map"></div>
+				<!-- 引用团品插件js文件 -->
+				<script type='text/javascript' src='http://api.map.baidu.com/tuan/v1.0/groupPurchase.js'></script>
+				<script type='text/javascript'>
+				$(document).ready(function(){
+					//json对象，存储point信息
+					var poiData ={$json_location};
+					//初始化团购控件
+					var gp = new BMapGP.GroupPurchase("show_map",{
+					//启用附近公交/地铁路线功能 
+					enableRouteInfo:false,
+					//启用从这里来/到这里去 公交路线搜索功能 
+					enableRouteSearchBox: false,
+					enableViewDetail: false,
+					//是否启用展开第一个结果 
+					selectFirstResult: false,
+					//地图类型 JS_MAP为js类型地图，STATIC_MAP为静态图, IFRAME_MAP为嵌入IFRAME类型
+					type: JS_MAP,
+					//地图缩放级别，如果多点情况，插件会自动缩放级别，将所有点显示在视野内
+					zoom: 16,
+					//地图大小 
+					mapSize:{width:242 ,height:242},
+					pois:poiData
+					});
+					gp.setRouteInfoHeight(1);
+					
+				});
+				
+			
+				</script>
+
+			
+			</div>				
+			
+			
+		</div>
+	</div>
+	
+	
+	<!--begin button status-->
+		{if $deal.time_status eq 0} {*/未开始/*}
+		<div style="margin:8px 0px;padding:0px 8px;">
+			<a class="pure-button a-full-button pure-button-primary" href="javascript:void(0);" style="margin:0px auto;width:100%;display:block;">即将开始</a>
+		</div>
+		{/if}
+		{if $deal.time_status eq 1}{*/已开始/*}
+			{if $deal.buy_status eq 2} {*/卖光/*}
+			<div style="margin:8px 0px;padding:0px 8px;">
+			<a class="pure-button a-full-button pure-button-primary" href="javascript:void(0);" style="margin:0px auto;width:100%;display:block;">卖光了</a>
+			</div>
+			{else}
+			
+				<div style="margin:8px 0px;padding:0px 8px;">
+					<a class="pure-button a-full-button pure-button-primary" href="javascript:void(0);" onclick="add_cart({$deal.id})" style="margin:0px auto;width:100%;display:block;"> 
+						{if $deal.is_lottery eq 1 and $deal.current_price eq 0}						
+							抽奖
+						{else}	
+							{if $deal.buy_type eq 0}
+								点击购买
+							{/if}
+							{if $deal.buy_type eq 2}
+								点击订购
+							{/if}
+							{if $deal.buy_type eq 3}
+								点击购买
+							{/if}
+						{/if}
+					</a>
+				</div>
+			
+			{/if}
+		{/if}
+		{if $deal.time_status eq 2} {*/已过期/*}
+			{if $deal.buy_status eq 2} {*/卖光/*}
+			<div style="margin:8px 0px;padding:0px 8px;">
+			<a class="pure-button a-full-button pure-button-primary" href="javascript:void(0);" style="margin:0px auto;width:100%;display:block;">卖光了</a>
+			</div>
+			{else}
+			<div style="margin:8px 0px;padding:0px 8px;">
+			<a class="pure-button a-full-button pure-button-primary" href="javascript:void(0);" style="margin:0px auto;width:100%;display:block;">结束了</a>
+			</div>
+			{/if}
+		{/if}
+		<!--end button status-->	
+		
+	
+	
+</div>
+
+
+
+<script type="text/javascript">
+$('a').highlight();
+$('.accordion-toggle').bind('click',function(){	
+	if(this.id == 'detail-more' && $('#cnt-'+this.id).css('display') == 'none'){
+		if(!confirm('该页面可能含有较多图片，决定打开么？')){
+			return false;
+		}
+	}
+	if($('#cnt-'+this.id).css('display') == 'none'){
+		$('#cnt-'+this.id).show();
+	}else{
+		$('#cnt-'+this.id).hide();
+	}
+});
+$('#cnt-detail-more img').attr('width','100%');
+
+</script>
+
+
+{if ($deal.begin_time ne 0 and $deal.time_status eq 0) or ($deal.end_time ne 0 and $deal.time_status eq 1)} {* 时间 *}
+<script type="text/javascript">
+
+
+
+{if $deal.time_status eq 1} {*/结束倒计时/*}
+var endTime = {$deal.end_time}000;
+var nowTime = {function name=get_gmtime}000;
+var sysSecond = (endTime - nowTime) / 1000;
+{/if}
+{if $deal.time_status eq 0} {*/开始倒计时/*}
+var beginTime = {$deal.begin_time}000;
+var nowTime = {function name=get_gmtime}000;
+var sysSecond = (beginTime - nowTime) / 1000;
+{/if}
+var interValObj;
+setRemainTime();
+function setRemainTime()
+{	
+
+	if (sysSecond > 0)
+	{
+		var second = Math.floor(sysSecond % 60);              // 计算秒     
+		var minite = Math.floor((sysSecond / 60) % 60);       //计算分
+		var hour = Math.floor((sysSecond / 3600) % 24);       //计算小时
+		var day = Math.floor((sysSecond / 3600) / 24);        //计算天
+		var timeHtml = "<span>"+hour+"</span>小时<span>"+minite+"</span>分";
+		if(day > 0)
+			timeHtml ="<span>"+day+"</span>天" + timeHtml;
+		
+		timeHtml+="<span>"+second+"</span>秒";
+		
+		try
+		{
+			
+			$("#counter").html(timeHtml);
+			sysSecond--;
+		}
+		catch(e){alert(e);}}
+	else
+	{window.clearTimeout(interValObj);}
+	interValObj = window.setTimeout("setRemainTime()", 1000); 	
+}
+</script>
+{/if}
+
+
+
+
+
+
+{include file="wap/m_footer.html"} 
