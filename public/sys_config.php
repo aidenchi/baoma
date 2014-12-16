@@ -27,26 +27,26 @@ return array(
 'USER_VERIFY'=>'1',
 'SHOP_LOGO'=>'./public/attachment/201011/4cdd501dc023b.png',
 'SHOP_LANG'=>'zh-cn',
-'SHOP_TITLE'=>'方维o2o商业系统',
-'SHOP_KEYWORD'=>'方维o2o商业系统关键词',
-'SHOP_DESCRIPTION'=>'方维o2o商业系统描述',
+'SHOP_TITLE'=>'宝妈母婴平台',
+'SHOP_KEYWORD'=>'宝妈母婴关键词',
+'SHOP_DESCRIPTION'=>'宝妈母婴',
 'SHOP_TEL'=>'400-800-8888',
 'SIDE_DEAL_COUNT'=>'3',
 'SIDE_MESSAGE_COUNT'=>'3',
 'INVITE_REFERRALS'=>'20',
 'INVITE_REFERRALS_TYPE'=>'0',
-'ONLINE_MSN'=>'msn@fanwe.com|msn2@fanwe.com',
+'ONLINE_MSN'=>'admin@muying.com|admin@muying.com',
 'ONLINE_QQ'=>'88888888|9999999',
 'ONLINE_TIME'=>'周一至周六 9:00-18:00',
 'DEAL_PAGE_SIZE'=>'24',
 'PAGE_SIZE'=>'24',
 'HELP_CATE_LIMIT'=>'4',
 'HELP_ITEM_LIMIT'=>'4',
-'SHOP_FOOTER'=>'<div style=\"text-align:center;\">[方维o2o商业系统] <a target=\"_blank\" href=\"http://www.fanwe.com\">http://www.fanwe.com</a><br />
+'SHOP_FOOTER'=>'<div style=\"text-align:center;\">[宝妈母婴平台] <a target=\"_blank\" href=\"http://www.fanwe.com\">http://www.fanwe.com</a><br />
 </div>
 ',
 'USER_MESSAGE_AUTO_EFFECT'=>'1',
-'SHOP_REFERRAL_HELP'=>'当好友接受您的邀请，在 [方维网] 上首次成功购买，系统会在 1 小时内返还 ¥20 到您的 [方维网] 电子账户，下次团购时可直接用于支付。没有数量限制，邀请越多，返利越多。<br />
+'SHOP_REFERRAL_HELP'=>'当好友接受您的邀请，在 [宝妈母婴平台] 上首次成功购买，系统会在 1 小时内返还 ¥20 到您的 [宝妈母婴平台] 电子账户，下次团购时可直接用于支付。没有数量限制，邀请越多，返利越多。<br />
 <br />
 <span style=\"color:#f10b00;\">友情接示：购买部份团购将不会产生返利或返利特定金额，请查看相关团购的具体说明							</span>',
 'SHOP_REFERRAL_SIDE_HELP'=>'<div class=\"side-tip referrals-side\">							<h3 class=\"first\">在哪里可以看到我的返利？</h3>
@@ -75,7 +75,7 @@ return array(
 'REFERRAL_LIMIT'=>'1',
 'SMS_COUPON_LIMIT'=>'3',
 'MAIL_COUPON_LIMIT'=>'3',
-'COUPON_NAME'=>'方维券',
+'COUPON_NAME'=>'宝妈母婴平台券',
 'BATCH_PAGE_SIZE'=>'500',
 'COUPON_PRINT_TPL'=>'<div style=\"border:1px solid #000000;padding:10px;margin:0px auto;width:600px;font-size:14px;\"><table class=\"dataEdit\" cellpadding=\"0\" cellspacing=\"0\">	<tbody><tr>    <td width=\"400\">    	<img src=\"./public/attachment/201011/4cdd505195d40.gif\" alt=\"\" border=\"0\" />     </td>
   <td style=\"font-weight:bolder;font-size:22px;font-family:verdana;\" width=\"43%\">    序列号：{$bond.sn}<br />
@@ -124,7 +124,7 @@ return array(
 'GZIP_ON'=>'0',
 'INTEGRATE_CODE'=>'',
 'INTEGRATE_CFG'=>'',
-'SHOP_SEO_TITLE'=>'方维o2o商业系统,国内最优秀的PHP开源o2o系统',
+'SHOP_SEO_TITLE'=>'宝妈母婴平台',
 'CACHE_ON'=>'1',
 'EXPIRED_TIME'=>'0',
 'FILTER_WORD'=>'',
@@ -169,8 +169,8 @@ return array(
 'DOMAIN_ROOT'=>'',
 'MAIN_APP'=>'shop',
 'VERIFY_IMAGE'=>'0',
-'TUAN_SHOP_TITLE'=>'方维团购',
-'MALL_SHOP_TITLE'=>'方维商城',
+'TUAN_SHOP_TITLE'=>'宝妈母婴平台团购',
+'MALL_SHOP_TITLE'=>'宝妈母婴平台商城',
 'APNS_MSG_LOCK'=>'0',
 'PROMOTE_MSG_PAGE'=>'0',
 'APNS_MSG_PAGE'=>'0',
