@@ -1,6 +1,6 @@
 <?php 
 return array(
-	'APP_NAME'	=>	'方维O2O商业系统  fanwe.com ',
+	'APP_NAME'	=>	'宝妈母婴平台',
 	'APP_SUB_VER'	=>	5210,
 );
 ?>
