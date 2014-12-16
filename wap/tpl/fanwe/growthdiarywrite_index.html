@@ -18,9 +18,9 @@
 								<input type="hidden" name="growth_dairy_id" id="growth_dairy_id" value="{$data.id}">
 								<div class="inputtxt">
 									{if $data.id gt 0}
-									<div class="input_sr"><input style="font-size:12px;" type="text" name="record_date" id="record_date" value="{$data.growth_diary_item.record_date}"></div>
+									<div class="input_sr"><input style="font-size:12px;" type="text" name="record_date" id="record_date" value="{$data.growth_diary_item.record_date}" onClick="WdatePicker()"></div>
 									{else}
-									<div class="input_sr"><input style="font-size:12px;" type="text" name="record_date" id="record_date" value="{$data.today}"></div>
+									<div class="input_sr"><input style="font-size:12px;" type="text" name="record_date" id="record_date" value="{$data.today}" onClick="WdatePicker()"></div>
 									{/if}
 								</div>	
 								<div class="inputtxt">
@@ -39,7 +39,7 @@
 					</div><!--content end-->				
 				 
 				</div><!--wrap end-->	
-
+<script type="text/javascript" src="./js/My97DatePicker/WdatePicker.js"></script>
 <script type="text/javascript">
 function  check(){	
 	var form = $("#growth_dairy_add_form");

@@ -209,7 +209,7 @@ class merchantlist
 				$merchant_list[$k]['l_cate_type']='';
 				
 			$merchant_list[$k]['cate_name']=$GLOBALS['db']->getOne("select name from ".DB_PREFIX."deal_cate where id=".$v['deal_cate_id']);
-			$merchant_list[$k]['width'] = $v['avg_point'] > 0 ? ($v['avg_point'] / 5) * 75 : 0;
+			$merchant_list[$k]['width'] = $v['avg_point'] > 0 ? ($v['avg_point'] / 5) * 100 : 0;
 			$merchant_list[$k]['avg_point']=round($v['avg_point'],1);
 			
 			if (empty($merchant_list[$k]['mobile_brief'])){
@@ -228,7 +228,7 @@ class merchantlist
 		if ($is_auto_order == 1){
 			$root['page_title']='门店自主下单列表';
 		}else{
-			$root['page_title']='商家列表';
+			$root['page_title']='店铺列表';
 		}
 		output($root);
 	}

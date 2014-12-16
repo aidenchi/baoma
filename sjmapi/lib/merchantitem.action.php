@@ -24,12 +24,10 @@ class merchantitem
 		$ypoint =  $m_latitude = doubleval($GLOBALS['request']['m_latitude']);  //ypoint 
 		$xpoint = $m_longitude = doubleval($GLOBALS['request']['m_longitude']);  //xpoint
 		$pi = 3.14159265;  //圆周率
-		$r = 6378137;  //地球平均半径(米)
-	
+		$r = 6378137;  //地球平均半径(米)		
 		
 		
-		
-		$sql = "select a.id,a.name,a.avg_point,a.address,a.api_address,a.supplier_id,a.tel,a.dp_count,a.avg_point,a.supplier_id as brand_id,a.brief,a.preview as logo,a.xpoint,a.ypoint,a.route,a.youhui_count,a.event_count,(select count(*) from ".DB_PREFIX."supplier_location_dp as dp where dp.supplier_location_id = a.id and dp.status = 1) as comment_count, c.name as city_name, 
+		$sql = "select a.id,a.name,a.avg_point,a.address,a.api_address,a.supplier_id,a.tel,a.dp_count,a.avg_point,a.open_time,a.xpoint,a.ypoint,a.supplier_id as brand_id,a.brief,a.preview as logo,a.xpoint,a.ypoint,a.route,a.youhui_count,a.event_count,(select count(*) from ".DB_PREFIX."supplier_location_dp as dp where dp.supplier_location_id = a.id and dp.status = 1) as comment_count, c.name as city_name, 
 		(ACOS(SIN(($ypoint * $pi) / 180 ) *SIN((a.ypoint * $pi) / 180 ) +COS(($ypoint * $pi) / 180 ) * COS((a.ypoint * $pi) / 180 ) *COS(($xpoint * $pi) / 180 - (a.xpoint * $pi) / 180 ) ) * $r) as distance 
 		  from ".DB_PREFIX."supplier_location as a ".			 			   
 					   " left outer join ".DB_PREFIX."deal_city as c on c.id = a.city_id ".
@@ -37,7 +35,11 @@ class merchantitem
 
 		//file_put_contents(APP_ROOT_PATH. "sjmapi/log/sql_".strftime("%Y%m%d%H%M%S",time()).".txt",$sql);
 		$list = $GLOBALS['db']->getRow($sql);
+		$list['logo']=str_replace("./public/","/public/",$list['logo']);//图片显示不出来，ymy添加了这一句 2014-12-10
 		$root = m_merchantItem($list);
+		$root['open_time'] = $list['open_time'];
+		$list['brief']=str_replace("./public/","/public/",$list['brief']);//图片显示不出来，ymy添加了这一句 2014-12-10
+		$root['brief'] = $list['brief'];
 		
 		//is_auto_order 1:手机自主下单;消费者(在手机端上)可以直接给该门店支付金额
 		//$sql = "select is_auto_order from  ".DB_PREFIX."supplier_location where id = ".$id;
@@ -64,9 +66,7 @@ class merchantitem
 		}
 		
 		
-		
-		
-		/*门店团购*/		
+		/******************************************************门店商品***************************************************/		
 		$time=get_gmtime();
 		$t_where="where b.location_id=".$list['id']." and a.is_shop=0 and a.is_effect=1 and a.is_delete=0  and ((".$time.">= a.begin_time or a.begin_time = 0) and (".$time."< a.end_time or a.end_time = 0)) and a.buy_status <> 2";
 		$g_where="where b.location_id=".$list['id']." and a.is_shop=1 and a.is_effect=1 and a.is_delete=0  and ((".$time.">= a.begin_time or a.begin_time = 0) and (".$time."< a.end_time or a.end_time = 0)) and a.buy_status <> 2";
@@ -86,44 +86,9 @@ class merchantitem
 				$g_where .= " and a.city_id in (".implode(",",$ids).")";
 				$y_where .= " and a.city_id in (".implode(",",$ids).")";
 			}
-		}
-
-		$tuan_list=$GLOBALS['db']->getAll("select a.brief,a.auto_order,a.id,a.name,a.sub_name,a.origin_price,a.current_price,a.img,a.buy_count,a.discount from ".DB_PREFIX."deal as a left join ".DB_PREFIX."deal_location_link as b on b.deal_id=a.id ".$t_where." order by a.sort desc,a.id desc limit 20");
-		$tuan_count=$GLOBALS['db']->getOne("select count(a.id) from ".DB_PREFIX."deal as a left join ".DB_PREFIX."deal_location_link as b on b.deal_id=a.id ".$t_where."");
-		foreach($tuan_list as $k=>$v)
-		{
-			$tuan_list[$k]['origin_price']=round($v['origin_price'],2);
-			$tuan_list[$k]['current_price']=round($v['current_price'],2);
-			
-			if($v['origin_price']>0&&floatval($v['discount'])==0) //手动折扣
-			$tuan_list[$k]['save_price'] =round($v['origin_price'] - $v['current_price'],2);			
-			else
-			$tuan_list[$k]['save_price'] = round($v['origin_price']*((10-$v['discount'])/10),2);
-			
-			if($v['origin_price']>0&&floatval($v['discount'])==0)
-			{
-				$tuan_list[$k]['discount'] = round(($v['current_price']/$v['origin_price'])*10,2);					
-			}
-			$tuan_list[$k]['discount'] = round($tuan_list[$k]['discount'],2);
-			
-			$tuan_list[$k]['img'] = get_abs_img_root($v['img']);
-			if (empty($v['brief'])){
-				$tuan_list[$k]['brief'] = $v['name'];
-				$tuan_list[$k]['name'] = $v['sub_name'];
-			}
-			
-		}
+		}	
 		
-		if ($tuan_list === false){
-			$root['tuan_list']= array();
-		}else{
-			$root['tuan_list']=$tuan_list;
-		}
-				
-		$root['tuan_count']=$tuan_count;
-		/*门店商品*/
-		
-		$goods_list=$GLOBALS['db']->getAll("select a.brief,a.id,a.is_hot,a.name,a.sub_name,a.origin_price,a.current_price,a.img,a.buy_count,a.discount from ".DB_PREFIX."deal as a left join ".DB_PREFIX."deal_location_link as b on b.deal_id=a.id ".$g_where." order by a.sort desc,a.id desc limit 2");
+		$goods_list=$GLOBALS['db']->getAll("select a.brief,a.id,a.is_hot,a.name,a.sub_name,a.origin_price,a.current_price,a.img,a.buy_count,a.discount from ".DB_PREFIX."deal as a left join ".DB_PREFIX."deal_location_link as b on b.deal_id=a.id ".$g_where." order by a.sort desc,a.id desc limit 3");
 
 		foreach($goods_list as $k=>$v)
 		{
@@ -156,30 +121,15 @@ class merchantitem
 			$root['goods_list']=$goods_list;
 		}
 		
-		/*优惠券*/
-		$sql = "select a.id,a.supplier_id as merchant_id,a.begin_time,a.youhui_type,a.total_num,a.end_time,a.name as title,a.list_brief as content,a.icon as merchant_logo,a.create_time,a.address as api_address,a.view_count,a.print_count,a.sms_count from ".DB_PREFIX."youhui as a left join ".DB_PREFIX."youhui_location_link as b on b.youhui_id=a.id ".$y_where." order by a.sort desc,a.id desc limit 2";
-		$youhui_list=$GLOBALS['db']->getAll($sql);
-
-		foreach($youhui_list as $k=>$v)
-		{
-			$youhui_list[$k]['merchant_logo'] = get_abs_img_root($v['merchant_logo']);
-			$youhui_list[$k]['down_count'] = $youhui_list[$k]['sms_count'] + $youhui_list[$k]['print_count'];
-			$youhui_list[$k]['begin_time']=to_date($v['begin_time'],"Y-m-d").'至'.to_date($v['end_time'],"Y-m-d");
-		}
-		
-		if ($youhui_list === false){
-			$root['youhui_list']= array();
-		}else{
-			$root['youhui_list']=$youhui_list;
-		}
-		/*门店评论*/
-		$comment_list=$GLOBALS['db']->getAll("select a.id,a.content,a.point,a.avg_price,a.create_time,b.id as user_id,b.user_name from ".DB_PREFIX."supplier_location_dp as a left join ".DB_PREFIX."user as b on b.id=a.user_id where a.supplier_location_id = ".$list['id']." and a.status = 1 limit 10");
+		/**************************************************门店评论****************************************/
+		$comment_list=$GLOBALS['db']->getAll("select a.id,a.content,a.point,a.avg_price,a.create_time,b.id as user_id,b.user_name from ".DB_PREFIX."supplier_location_dp as a left join ".DB_PREFIX."user as b on b.id=a.user_id where a.supplier_location_id = ".$list['id']." and a.status = 1 order by a.is_top desc, a.create_time desc limit 3");
 		$comment_count=$GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."supplier_location_dp as a left join ".DB_PREFIX."user as b on b.id=a.user_id where a.supplier_location_id = ".$list['id']." and a.status = 1");
 		foreach($comment_list as $k=>$v)
 		{
 			$comment_list[$k]['avg_price']=round($v['avg_price'],1);
 			$comment_list[$k]['time']=pass_date($v['create_time']);
-			$comment_list[$k]['width']=$v['avg_point'] > 0 ? ($v['avg_point'] / 5) * 90 : 0;
+			$comment_list[$k]['create_time_format']=getBeforeTimelag($v['create_time']);
+			$comment_list[$k]['width']=$v['point'] > 0 ? ($v['point'] / 5) * 100 : 0;
 		}
 		
 		if ($comment_list === false){
@@ -200,8 +150,8 @@ class merchantitem
 				}else{
 					//没设置，则设置
 					$merchant_dy = array(
-						 						'uid' => $user_id,
-						 						'supplier_id' => $list['brand_id']
+						 'uid' => $user_id,
+						 'supplier_id' => $list['brand_id']
 					);
 					$GLOBALS['db']->autoExecute(DB_PREFIX."supplier_dy", $merchant_dy, 'INSERT');
 				}
@@ -211,7 +161,7 @@ class merchantitem
 		
 		$root['return'] = 1;
 		$root['user_login_status'] = 1;
-		$root['page_title'] ="商家详情";
+		$root['page_title'] =$root['name'];//店铺名
 		output($root);
 	}
 }

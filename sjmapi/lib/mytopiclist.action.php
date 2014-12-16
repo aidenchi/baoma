@@ -38,6 +38,7 @@ class mytopiclist
 					$my_topic_list[$k]['short_content'] = preg_replace("/<br[^>]+>/i","",$my_topic_list[$k]['content']);
 				}
 			}
+			$root['total']=$total;
 			$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);
 			$root['my_topic_list']=$my_topic_list;
 		}

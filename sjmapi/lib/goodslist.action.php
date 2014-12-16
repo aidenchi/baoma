@@ -109,11 +109,10 @@ class goodslist{
 
 		
 		$goodses = array();
-		foreach($list as $item)
-		{
+		foreach($list as $item){
 			//$goods = array();
 			$goods = getGoodsArray($item);
-			$goodses[] = $goods;
+			$goodses[] = $goods;			
 		}
 		$root['item'] = $goodses;
 		$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);

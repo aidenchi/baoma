@@ -30,7 +30,7 @@ class add_supplier_dp
 								'title' => $content,
 								'content' => $content,
 								'point' => $point,
-								'status' => 1,
+								'status' => 0,
 								'create_time' => get_gmtime(),
 					);
 				$GLOBALS['db']->autoExecute(DB_PREFIX."supplier_location_dp", $merchant_youhui_comment, 'INSERT');
@@ -39,10 +39,10 @@ class add_supplier_dp
 				if($id > 0)
 				{
 					$root['status'] = 1;
-					$root['info'] = "添加成功";
+					$root['info'] = "提交成功，审核通过后可显示";
 				}else{
 					$root['status'] = 0;
-					$root['info'] = "添加失败";
+					$root['info'] = "提交失败";
 			}
 				}
 			}else{

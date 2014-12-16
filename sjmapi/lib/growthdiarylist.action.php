@@ -38,6 +38,7 @@ class growthdiarylist
 					$growth_diary_list[$k]['short_content'] = preg_replace("/<br[^>]+>/i","",$growth_diary_list[$k]['content']);
 				}
 			}
+			$root['total'] = $total;
 			$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);
 			$root['growth_diary_list'] = $growth_diary_list;
 		}

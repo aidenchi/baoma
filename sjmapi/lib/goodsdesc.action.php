@@ -27,36 +27,45 @@ class goodsdesc{
 			if($GLOBALS['db']->getOne($sql2)>0){
 				$is_collect = 1;
 			}
-		}
-		
+		}		
 		
 		$ypoint =  $m_latitude = doubleval($GLOBALS['request']['m_latitude']);  //ypoint 
 		$xpoint = $m_longitude = doubleval($GLOBALS['request']['m_longitude']);  //xpoint
 		$city_name =strim($GLOBALS['request']['city_name']);//城市名称
-		$item = get_deal($id);
-		$root = getGoodsArray($item);
+		//$item = get_deal($id);
+		//$root = getGoodsArray($item);
+		$item = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."deal where id = ".intval($id)." and is_effect = 1 and is_delete = 0 ");
+		$item['img']=str_replace("./public/","/public/",$item['img']);//图片显示不出来，ymy添加了这一句 2014-12-10
+		//格式化数据
+		$item['begin_time_format'] = to_date($item['begin_time']);
+		$item['end_time_format'] = to_date($item['end_time']);
+		$item['origin_price_format'] = format_price($item['origin_price']);
+		$item['current_price_format'] = format_price($item['current_price']);
+		$item['success_time_format']  = to_date($item['success_time']);
+		$root = $item;	
 		
-	
-	
-		$message_re=m_get_message_list(3," m.rel_table = 'deal' and m.rel_id=".$id." and m.is_buy = 1");/*购买评论*/
+		
+		/*购买评论*/
+		$message_re=m_get_message_list(3," m.rel_table = 'deal' and m.rel_id=".$id." and m.is_buy = 1");
 		foreach($message_re['list'] as $k=>$v)
 		{
 			$message_re['list'][$k]['width'] = ($v['point'] / 5) * 100;
-		}
-		
+		}		
 		$root['message_list']=$message_re['list']; 
 		$root['message_count']=$message_re['count'];
+				
 				
 		$pi = 3.14159265;  //圆周率
 		$r = 6378137;  //地球平均半径(米)
 		$root['distance']=ACOS(SIN(($ypoint * $pi) / 180 ) *SIN(($item['supplier_address_info']['ypoint'] * $pi) / 180 ) +COS(($ypoint * $pi) / 180 ) * COS(($item['supplier_address_info']['ypoint'] * $pi) / 180 ) *COS(($xpoint * $pi) / 180 - ($item['supplier_address_info']['xpoint'] * $pi) / 180 ) ) * $r; 
-	
 		$root['return'] = 1;
+		
+		
+		//图片列表
 		$images = array();
 		//image_attr_1_id_{$attr_1_id} 图片列表，可以根据属性ID值，来切换图片列表
 		$sql = "select img from ".DB_PREFIX."deal_gallery where deal_id = ".intval($id)." order by sort asc";
-		$list = $GLOBALS['db']->getAll($sql);
-	
+		$list = $GLOBALS['db']->getAll($sql);	
 		$gallery = array();
 		$big_gallery = array();
 		foreach($list as $k=>$image){
@@ -64,21 +73,20 @@ class goodsdesc{
 			$big_gallery[] = get_abs_img_root(get_spec_image($image['img'],0,0,0));	
 		}
 		$root['gallery'] = $gallery;
-		$root['big_gallery'] = $big_gallery;
-			
+		$root['big_gallery'] = $big_gallery;			
+		
 		
 		//支持的门店列表;
 		$sql = "select id,name,address,tel,xpoint,ypoint,supplier_id from ".DB_PREFIX."supplier_location where id in (select location_id from ".DB_PREFIX."deal_location_link where deal_id = ".$id.")";	
 		$supplier_location_list = $GLOBALS['db']->getAll($sql);						
 		foreach($supplier_location_list as $k=>$sl){
 			$supplier_location_list[$k]['distance']=ACOS(SIN(($ypoint * $pi) / 180 ) *SIN(($sl['ypoint'] * $pi) / 180 ) +COS(($ypoint * $pi) / 180 ) * COS(($sl['ypoint'] * $pi) / 180 ) *COS(($xpoint * $pi) / 180 - ($sl['xpoint'] * $pi) / 180 ) ) * $r;
-		}
-		
+		}		
 		$root['supplier_location_list'] = $supplier_location_list;
 		
+		
 		//其它团购
-		//if($GLOBALS['request']['from']=="wap"){
-						
+		//if($GLOBALS['request']['from']=="wap"){						
 			$time = get_gmtime();
 			$time_condition = '  and is_shop = 0 ';
 			$time_condition.=' and ('.$time.'>=begin_time or begin_time = 0 ) and ('.$time.'< end_time or end_time = 0) and buy_type<>2 and is_recommend=1';
@@ -152,7 +160,6 @@ class goodsdesc{
 			
 			//购买点评数量
 			$comment_count = $root['message_count'];// intval($GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."message where rel_id = ".$id." and rel_table = 'deal' and pid = 0 and is_buy = 1"));
-				
 			$buy_dp_sum = 0.0;
 			$buy_dp_group = $GLOBALS['db']->getAll("select point,count(*) as num from ".DB_PREFIX."message where rel_id = ".$id." and rel_table = 'deal' and pid = 0 and is_buy = 1 group by point");
 			foreach($buy_dp_group as $dp_k=>$dp_v)
@@ -163,10 +170,10 @@ class goodsdesc{
 				}
 			}
 			
+			
 			//点评平均分
 			$score = round($buy_dp_sum / $comment_count,1);
-			$width = $score > 0 ? ($score / 5) * 110 : 0;
-			
+			$width = $score > 0 ? ($score / 5) * 110 : 0;			
 			$root['point']=$score;
 			$root['width']=$width;
 			/*
@@ -185,6 +192,8 @@ class goodsdesc{
 				$root['page_title']="代金券详情";
 			}						
 		//}
+		
+		$root['page_title']=$root['name'];//商品名
 		$root['is_collect']=$is_collect;
 		$root['city_name']=$city_name;
 		output($root);	
