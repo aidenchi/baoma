@@ -14,6 +14,7 @@
 					<div class="blank8"></div>
 					{if $data.growth_diary_list}					
 					<div class="list-view">
+						<div class="list_title"><i class="fa fa-bullhorn"></i>共{$data.total}篇</div>
 						 <ul class="">
 							{foreach from=$data.growth_diary_list item=growth_diary}
 							<li class="growth_li" id="growth_diary_{$growth_diary.id}">						 	     

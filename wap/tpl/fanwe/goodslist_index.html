@@ -1,5 +1,6 @@
 {include file="./inc/header.html"}
 <div class="wrap">
+				<!--
 				<div class="hide_list">
 					  <div class="abbr">
 					  	   <div class="first_list">
@@ -9,25 +10,20 @@
 									<li class="directory">{$cate.name}</li>
 									{/foreach}
 					  	   	    </ul>
-					  	   </div>
-						
+					  	   </div>						
 						   <div class="second_list">
 						   	{foreach from=$data.bcate_list item=cate}
-						   	    <ul>
-						   	    	
+						   	    <ul>						   	    	
 									{foreach from=$cate.bcate_type item=blist}
-									<li class="two_directory"><a href="{wap_url a="index" r="goodslist#index"  p="catalog_id=$blist.id&catename=$blist.name"}">{$blist.name}</a></li>
-								    {/foreach}
-									
+									<li class="two_directory"><a href='{wap_url a="index" r="goodslist#index"  p="catalog_id=$blist.id&catename=$blist.name"}'>{$blist.name}</a></li>
+								    {/foreach}									
 					  	   	    </ul>
-								{/foreach}
-						   </div>
-						
+							{/foreach}
+						   </div>						
 					  </div>
 					  <div class="abbr">
 					  	   <div class="first_list">
-					  	   	    <ul>
-					  	   	    	
+					  	   	    <ul>					  	   	    	
 									{foreach from=$data.quan_list item=quan key=key}
 									<li class="directory">{$quan.name}</li>
 									{/foreach}
@@ -37,14 +33,14 @@
 						   	{foreach from=$data.quan_list item=quan }
 						   	    <ul>
 						   	    	{if $quan.id gt 0}
-					  	   	    	<li class="two_directory"><a href="{wap_url a="index" r="goodslist#index"  p="city_id=$quan.city_id&quan_id=$quan.id&quanname=$quan.name"}">全部</a></li>
+					  	   	    	<li class="two_directory"><a href='{wap_url a="index" r="goodslist#index"  p="city_id=$quan.city_id&quan_id=$quan.id&quanname=$quan.name"}'>全部</a></li>
 									{/if}
 									{foreach from=$quan.quan_sub item=qlist}
-									<li class="two_directory"><a href="{wap_url a="index" r="goodslist#index"  p="city_id=$qlist.city_id&quan_id=$qlist.id&quanname=$qlist.name"}">{$qlist.name}</a></li>
+									<li class="two_directory"><a href='{wap_url a="index" r="goodslist#index"  p="city_id=$qlist.city_id&quan_id=$qlist.id&quanname=$qlist.name"}'>{$qlist.name}</a></li>
 									{/foreach}
 									
 					  	   	    </ul>
-								{/foreach}
+							{/foreach}
 						   </div>
 					  </div>
 					  <div class="abbr">
@@ -56,11 +52,10 @@
 									<li class="directory"><a href="{wap_url a="index" r="goodslist#index"  p="order_type=price_desc"}">价格最高</a></li>
 									<li class="directory"><a href="{wap_url a="index" r="goodslist#index"  p="order_type=price_asc"}">价格最低</a></li>
 					  	   	    </ul>
-					  	   </div>
-						  
-					  </div>
-					  
-				</div>
+					  	   </div>						  
+					  </div>					  
+				</div>--><!--hide_list end-->
+				<!--
 					 <div class="main_list">
 					 	   <ul class="mall-cate">
 					 	   	   <li>
@@ -80,36 +75,37 @@
 								</li>
 					 	   </ul>
 					 </div>
-				
+				-->
+
 				<div class="content">
 					<div class="list-view bor_none">
 						 <ul class="tuan_ul">
-						 	{foreach from=$data.item item=tuanlist}
+						 	{foreach from=$data.item item=deal_item}
 						 	<li class="tuan_li">
-						 	     <a href="{wap_url a="index" r="goodsdesc#index" p="id=$tuanlist.goods_id"}">
+						 	     <a href="{wap_url a="index" r="goodsdesc#index" p="id=$deal_item.goods_id"}">
 						 	     	<div class="list_item">
 						 	     		 <div class="pic">
-						 	     		 	<img src="{$tuanlist.image}" width="108" height="67">
-											{if $tuanlist.is_hot eq 1}<i class="tuan_ico hot">热</i>{/if}
+						 	     		 	<img src="{$deal_item.image}" width="108" height="67">
+											{if $deal_item.is_hot eq 1}<i class="tuan_ico hot">热</i>{/if}
 						 	     		 </div>
 										 <div class="info">
-										 	<h2>{$tuanlist.sub_name}</h2>
-											<h3> {$tuanlist.goods_brief}</h3>
+										 	<h2>{$deal_item.sub_name}</h2>
+											<h3> {$deal_item.goods_brief}</h3>
 											<div class="tuan_price">
 						                         <p class="price">
-						                         	 <em>{$tuanlist.cur_price}<i>元</i></em>
-													 <del>{$tuanlist.ori_price}元</del>
+						                         	 <em>{$deal_item.cur_price}<i>元</i></em>
+													 <del>{$deal_item.ori_price}元</del>
 												 </p>
-						                         <p class="bought"><i></i>已售{$tuanlist.buy_count}</p>
 						                     </div>
 										 </div>
 						 	     	</div>
 						 	     </a>
 						 	</li>
-							{/foreach}
-							
-						 </ul>
-						 
+							{/foreach}							
+						 </ul>	
+						 <div class="fy">
+							{$pages}
+						 </div>
 					</div>
-					</div>
+				</div>
 {include file="./inc/footer.html"} 

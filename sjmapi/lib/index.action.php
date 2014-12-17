@@ -23,7 +23,6 @@ class index
 				$city_id=intval($GLOBALS['city_id']);
 			
 			
-			
 			$root['city_id'] = $city_id;
 			output($root);
 		}

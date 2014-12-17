@@ -138,12 +138,13 @@
 }
 
 
-/*---------------*/
+/*---------------
 .shop_comment_list{
 	border-top:1px solid #ddd8ce;
 }
+*/
 .shop_comment_list li {
-	border-bottom:1px solid #ddd8ce;
+	border-bottom:1px solid #f5f5f5;
 	padding:15px 22px;
 	background:#fff;
 }
