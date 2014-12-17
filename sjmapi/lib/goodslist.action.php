@@ -82,7 +82,8 @@ class goodslist{
 		
 		$merchant_id = intval($GLOBALS['request']['merchant_id']);
 		if($merchant_id>0)
-		{
+		{	//店铺信息
+			$supplier_locationinfo = $GLOBALS['db']->getRow("select name,id,new_dp_count_time from ".DB_PREFIX."supplier_location where id = ".$merchant_id);
 			$deal_ids = $GLOBALS['db']->getOne("select group_concat(deal_id) from ".DB_PREFIX."deal_location_link where location_id = ".$merchant_id);
 			if($deal_ids)
 			{
@@ -111,6 +112,7 @@ class goodslist{
 		$goodses = array();
 		foreach($list as $item){
 			//$goods = array();
+			$item['img']=str_replace("./public/","/public/",$item['img']);//图片显示不出来，ymy添加了这一句 2014-12-10
 			$goods = getGoodsArray($item);
 			$goodses[] = $goods;			
 		}
@@ -129,7 +131,7 @@ class goodslist{
 		
 		$root['bcate_list'] = $bcate_list;
 		//$root['quan_list'] = $quan_list;
-		$root['page_title'] = "商品列表";
+		$root['page_title'] = "店铺商品列表";
 		$root['city_name']=$city_name;
 		output($root);
 		

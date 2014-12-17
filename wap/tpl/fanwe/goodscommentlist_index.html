@@ -6,11 +6,11 @@
 ?>
 <link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$parse_pagecss"}" />
 
-<div class="wrap">
-				<div class="content">
-					<div class="blank8"></div>
-					
-					<div class="list-view">
+<div class="wrap back-white">
+			<div class="content">
+				<div class="blank8"></div>
+				
+				<div class="list-view">
 					<div class="list_title">总体评分</div>
 					<div class="overall_merit">
 						<div class="left">
@@ -19,7 +19,7 @@
 							 </div>
 							 <div class="total_star">
 							 	<div class="tatal_num">
-							 		{$data.total}
+							 		{$data.message_count}
 							 	</div>
 								<div class="five_star_orange">
 							   	    <i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i>
@@ -69,41 +69,44 @@
 							</ul>
 						</div>
 					</div> 
-					</div>
+				</div>
+				
+				<div class="blank8"></div>
 					
-					<div class="blank8"></div>
-					
-					<div class="list-view">
-						<div class="list_title">共{$data.total}条点评</div>
-						<ul class="shop_comment_list">
-						{foreach from=$data.message_list item=message_list}
+				<div class="list-view">
+					<div class="list_title">共{$data.message_count}条点评</div>
+					<ul class="shop_comment_list">
+						{foreach from=$data.message_list item=message}
 						<li>
-							<div class="name">{$message_list.user_name}</div>
+							<div class="name">
+								<!--<img src='{function name="get_user_avatar" uid=$message.user_id type="small" }'>-->
+								{$message.user_name}
+							</div>
 							<div class="comment_star">
 								<div class="five_star_orange">
 								   	    <i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i>
-								   	    <div class="five_star_grey" style="width:{$message_list.width}%;">
+								   	    <div class="five_star_grey" style="width:{$message.width}%;">
 								   	    	<i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i>
 								   	    </div>
-							    </div>
-							   <span class="comment_time">{$message_list.create_time_format}</span>
+							   </div>
+							   <span class="comment_time">{$message.create_time_format}</span>
 							</div>
 							<div class="comment_p">
-							{$message_list.content}
-							</div>							
-						</li>
+							{$message.content}
+							</div>						
+						</li>						
 						{/foreach}
-						</ul>
-						<div class="fy">
-							{$pages}
-						</div>
-					</div>
+					</ul>
+					<div class="fy">
+						{$pages}
+					</div>				
+				</div>
 				
-					<div class="i_say">
-						<input type="submit" class="plank" value="我要点评" onclick="javascrtpt:window.location.href='{wap_url a="index" r="suppliercommentwrite#index" p="id=$data.merchant_id"}'" style="background:none;"/> 
-					</div>
-					
+				<div style="padding: 10px 8px;text-align:center;">
+					<input type="submit" class="plank" value="我要点评" onclick="javascrtpt:window.location.href='{wap_url a="index" r="goodscommentwrite#index" p="goods_id=$data.goods_id"}'"/> 
+				</div>
 			
-	</div>
-	</div>
+			</div>
+</div>
+
 {include file="./inc/footer.html"}	

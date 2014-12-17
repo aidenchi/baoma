@@ -3,7 +3,7 @@ class add_deal_dp
 {
 	public function index()
 	{
-		
+		$city_id =strim($GLOBALS['request']['city_id']);//城市名称
 		$email = strim($GLOBALS['request']['email']);//用户名或邮箱
 		$pwd = strim($GLOBALS['request']['pwd']);//密码
 		
@@ -22,7 +22,7 @@ class add_deal_dp
 		{
 			$root['user_login_status']	=	1;
 			
-			$result = add_deal_dp($user_id, $content, $point, $deal_id);
+			$result = add_deal_dp($user_id, $content, $point, $deal_id, $city_id);
 			$root['status'] = $result['status'];
 			$root['info'] = $result['msg'];
 		}else

@@ -18,6 +18,7 @@ class goodsdesc{
 		$email = addslashes(trim($GLOBALS['request']['email']));//用户名或邮箱
 		$pwd = trim($GLOBALS['request']['pwd']);//密码
 		$id = intval($GLOBALS['request']['id']);//商品ID
+		$city_id =strim($GLOBALS['request']['city_id']);//城市名称
 		
 		$user = user_check($email,$pwd,false);
 		$user_id = intval($user['id']);
@@ -35,6 +36,8 @@ class goodsdesc{
 		//$item = get_deal($id);
 		//$root = getGoodsArray($item);
 		$item = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."deal where id = ".intval($id)." and is_effect = 1 and is_delete = 0 ");
+		$supplier_location_id =  $GLOBALS['db']->getOne("select id from ".DB_PREFIX."supplier_location where supplier_id = ".$item['supplier_id']);
+		$item['supplier_location_id']  = $supplier_location_id;
 		$item['img']=str_replace("./public/","/public/",$item['img']);//图片显示不出来，ymy添加了这一句 2014-12-10
 		//格式化数据
 		$item['begin_time_format'] = to_date($item['begin_time']);
@@ -42,18 +45,8 @@ class goodsdesc{
 		$item['origin_price_format'] = format_price($item['origin_price']);
 		$item['current_price_format'] = format_price($item['current_price']);
 		$item['success_time_format']  = to_date($item['success_time']);
+		$item['description']=str_replace("./public/","/public/",$item['description']);//图片显示不出来，ymy添加了这一句 2014-12-10
 		$root = $item;	
-		
-		
-		/*购买评论*/
-		$message_re=m_get_message_list(3," m.rel_table = 'deal' and m.rel_id=".$id." and m.is_buy = 1");
-		foreach($message_re['list'] as $k=>$v)
-		{
-			$message_re['list'][$k]['width'] = ($v['point'] / 5) * 100;
-		}		
-		$root['message_list']=$message_re['list']; 
-		$root['message_count']=$message_re['count'];
-				
 				
 		$pi = 3.14159265;  //圆周率
 		$r = 6378137;  //地球平均半径(米)
@@ -116,73 +109,48 @@ class goodsdesc{
 			}
 			*/
 			$dealsql= "select * from ".DB_PREFIX."deal where is_effect = 1 and  is_delete = 0 ".$time_condition." order by sort desc,id desc limit 4";
-			
 			$deal_other = $GLOBALS['db']->getAll($dealsql);
-			$root['deal_other']=$deal_other;
+			$root['deal_other']=$deal_other;			
 			
-			/*门店评论*/
-			/*
-			$comment_list=$GLOBALS['db']->getAll("select a.id,a.content,a.point,a.avg_price,a.create_time,b.id as user_id,b.user_name from ".DB_PREFIX."supplier_location_dp as a left join ".DB_PREFIX."user as b on b.id=a.user_id where a.supplier_location_id = ".$root['supplier_location_id']." and a.status = 1");
-			$comment_count=$GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."supplier_location_dp as a left join ".DB_PREFIX."user as b on b.id=a.user_id where a.supplier_location_id = ".$root['supplier_location_id']." and a.status = 1");
-			$count_point=0;
-			foreach($comment_list as $k=>$v)
-			{
-				$comment_list[$k]['avg_price']=round($v['avg_price'],2);
-				$comment_list[$k]['time']=pass_date($v['create_time']);
-				$count_point+=$v['point'];
-			}
-			$root['comment_list']=$comment_list;
-			$score=round($count_point/$comment_count,2);
-			$width = $score > 0 ? ($score / 5) * 100 : 0;
-			$root['point']=$score;
-			$root['width']=$width;
-			$root['comment_count']=$comment_count;
-			*/
-			/*商品评论*/
-			/*
-			$comment_list=$GLOBALS['db']->getAll("select a.id,a.content,a.point,a.avg_price,a.create_time,b.id as user_id,b.user_name from ".DB_PREFIX."deal as a left join ".DB_PREFIX."user as b on b.id=a.user_id where a.supplier_location_id = ".$root['supplier_location_id']." and a.status = 1");
-			$comment_count=$GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."supplier_location_dp as a left join ".DB_PREFIX."user as b on b.id=a.user_id where a.supplier_location_id = ".$root['supplier_location_id']." and a.status = 1");
-			$count_point=0;
-			foreach($comment_list as $k=>$v)
-			{
-				$comment_list[$k]['avg_price']=round($v['avg_price'],2);
-				$comment_list[$k]['time']=pass_date($v['create_time']);
-				$count_point+=$v['point'];
-			}
-			$root['comment_list']=$comment_list;
-			$score=round($count_point/$comment_count,2);
-			$width = $score > 0 ? ($score / 5) * 100 : 0;
-			$root['point']=$score;
-			$root['width']=$width;
-			$root['comment_count']=$comment_count;
-			*/
-			
-			
-			//购买点评数量
+			//商品评论
+			//商品评论列表前3条
+			$message_re=m_get_message_list(3," m.rel_table = 'deal' and m.rel_id=".$id." and m.is_buy = 1 and m.is_effect = 1",$city_id);
+			foreach($message_re['list'] as $k=>$v){
+				$message_re['list'][$k]['create_time_format']=getBeforeTimelag($v['create_time']);
+				$message_re['list'][$k]['width'] = ($v['point'] / 5) * 100;
+			}		
+			$root['message_list']=$message_re['list']; 
+			$root['message_count']=$message_re['count'];
+			//每一项评分（5、4、3、2、1）多少条，占总数多少比例
+			//星级点评数
+			$root['star_1'] = 0;
+			$root['star_2'] = 0;
+			$root['star_3'] = 0;
+			$root['star_4'] = 0;
+			$root['star_5'] = 0;
+			$root['star_dp_width_1'] = 0;
+			$root['star_dp_width_2'] = 0;
+			$root['star_dp_width_3'] = 0;
+			$root['star_dp_width_4'] = 0;
+			$root['star_dp_width_5'] = 0;
 			$comment_count = $root['message_count'];// intval($GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."message where rel_id = ".$id." and rel_table = 'deal' and pid = 0 and is_buy = 1"));
 			$buy_dp_sum = 0.0;
-			$buy_dp_group = $GLOBALS['db']->getAll("select point,count(*) as num from ".DB_PREFIX."message where rel_id = ".$id." and rel_table = 'deal' and pid = 0 and is_buy = 1 group by point");
+			$buy_dp_group = $GLOBALS['db']->getAll("select point,count(*) as num from ".DB_PREFIX."message where rel_id = ".$id." and rel_table = 'deal' and pid = 0 and is_buy = 1 and is_effect = 1 group by point");
 			foreach($buy_dp_group as $dp_k=>$dp_v)
 			{
 				$star = intval($dp_v['point']);
-				if ($star >= 1 && $star <= 5){					
+				if ($star >= 1 && $star <= 5){		
+					$root['star_'.$star] = $dp_v['num'];				
 					$buy_dp_sum += $star * $dp_v['num'];
+					$root['star_dp_width_'.$star] = (round($dp_v['num']/ $comment_count,1)) * 100;
 				}
-			}
-			
-			
-			//点评平均分
+			}				
+			//整体平均分
 			$score = round($buy_dp_sum / $comment_count,1);
-			$width = $score > 0 ? ($score / 5) * 110 : 0;			
+			$width = $score > 0 ? ($score / 5) * 100 : 0;			
 			$root['point']=$score;
 			$root['width']=$width;
-			/*
-			$root['comment_count']=$comment_count;
-			
-			$sql = "select m.id,m.content,m.create_time,m.update_time, m.point,m.admin_reply,m.admin_id,u.user_name from ".DB_PREFIX."message m left join fanwe_user u on u.id = m.user_id where m.rel_id = ".$id." and m.rel_table = 'deal' and m.pid = 0 and m.is_buy = 1  order by m.create_time desc limit 0,8";
-			$comment_list = $GLOBALS['db']->getAll($sql);			
-			$root['comment_list']=$comment_list;
-			*/
+
 			
 			if($item['is_shop']==0){
 				$root['page_title']="团购详情";

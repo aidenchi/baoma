@@ -1,10 +1,11 @@
 {include file="./inc/header.html"}
 <div class="content">
-	<div class="list-view bor_none">
+	<div class="blank8"></div>
+	<div class="list-view">
 		 <ul class="tuan_ul">
 		 	{foreach from=$data.collect_list item='collect' key='key'}
 		 	<li class="tuan_li">
-		 	     <a href="{wap_url a="index" r="goodsdesc#index" p="id=$collect.id"}">
+		 	     <a href="{wap_url a="index" r="goodsdesc#index" p="id=$collect.deal_id"}">
 		 	     	<div class="list_item">
 		 	     		 <div class="pic">
 		 	     		 	<img src="{$collect.icon}" width="108" height="67">

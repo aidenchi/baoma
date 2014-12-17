@@ -77,7 +77,7 @@ class suppliercommentlist{
 		$root['total']=$total;
 		$root['message_list']=$list;
 		$root['merchant_id']=$merchant_id;
-		$root['page_title']="商铺点评列表";
+		$root['page_title']="店铺点评列表";
 		
 		output($root);
 	}
