@@ -5,35 +5,18 @@
 	
 					<div class="blank8"></div>
 					
+					<!------------------------------------商品简介-------------------------------->
 					<div class="list-view">
-						 <div class="list_title">商品简介</div>
-						 <div class="business_info">
-						 	   <div class="assess_detail">
-						 	   	   <span>{$data.name}</span>
-						 	   </div>							   
-						 </div>
-					</div><!--list-view end-->	
-					
-					<!--
-					<div class="blank8"></div>		
-					
-					<div class="list-view">						 
-						 <div class="see_more">
-						 	<a href='{wap_url a="index" r="tuaninfo#index"  p="goods_id=$data.goods_id"}'>查看图文详情</a>
-						 </div>						
-					</div>--><!--list-view end-->	
-					
-					<!--
-					<div class="goods_abbr">
+						<div class="list_title">商品简介</div>
 						<div class="good_detail">
 							    <div class="good_pic"> 						       
 									<a>
-							       	  	<img src="{$data.img}">											
-							       	</a>
-									<h3>{$data.name}</h3>
+							       	  	<img src="{$data.img}" width="108" height="67">											
+							       	</a>									
 							    </div>       
 								<div class="goods_price">
 								    <div class="price">
+										<h3 class="goods_name">{$data.name}</h3>
 										<b><span class="j_discount_price" rel="{$data.current_price_format}">{$data.current_price_format}</span></b>
 										<del>{$data.origin_price_format}</del>
 								    </div>								
@@ -41,22 +24,10 @@
 						 </div>
 						 
 						 <div class="business_info">
-						 	   <div class="business_address">
-									<h3>{$data.name}</h3>
-									<span>{$data.description}</span>
+						 	   <div style="color:#a3a3a3;font-size:12px;width:96%">
+									{$data.description}
 						 	   </div>							   
 						 </div>		 
-						 
-						 <div class="barter">
-						 	{if $data.less_time neq 'none'}
-						 	   <div class="return color_two">
-						 	   	    <i class="fa fa-clock-o"></i>
-									<span>{$data.less_time_format}</span>
-						 	   </div>
-							   {/if}
-							   <div class="return color_two">
-						 	   </div>							   
-						 </div>
 						 
 						 <div class="barter">
 						 	<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script>
@@ -69,7 +40,7 @@
 						 	   	    </a>
 						 	   </div>
 							   <div class="share j_share">
-						 	   	    <a onclick="add_collect({$data.goods_id},this);">
+						 	   	    <a onclick="add_collect({$data.id},this);">
 						 	   	    	{if $data.is_collect eq 0}
 						 	   	    	<i class="fa fa-star-o"></i>
 										{else}
@@ -108,44 +79,35 @@
 								}
 							   </script>
 						 </div>					
-					</div>
-					-->
+					</div>		
+
 					<!--
-					<div class="blank8"></div>	
+					<div class="blank8"></div>		
 					
-	                <div class="list-view">	               	    	               
-	               	    <div class="evaluate">
-	               	    	<div class="grade">
-									  	   <div class="five_star_orange">
-											   	    <i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i>
-											   	    <div class="five_star_grey" style="width:{$data.width}px;">
-											   	    	<i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i>
-											   	    </div>
-											   </div>
-										   <b>{$data.point}</b>
-							</div>
-							<a href="{wap_url a="index" r="tuan_message_list#index"  p="tuan_id=$data.goods_id"}" class="evaluate_num">
-								<span>{if $data.message_count}{$data.message_count}{else}0{/if}人评价</span>
-								<i class="fa fa-chevron-right"></i>
-							</a>		  	  
-	               	    </div>
-	               </div>-->					
+					<div class="list-view">						 
+						 <div class="see_more">
+						 	<a href='{wap_url a="index" r="tuaninfo#index"  p="goods_id=$data.goods_id"}'>查看图文详情</a>
+						 </div>						
+					</div>--><!--list-view end-->							
 			
 				   <div class="blank8"></div>
 					
-				   <div class="list-view" onclick = "javascript:location.href='{wap_url a="index" r="merchantitem&" p="id=$data.supplier_location_id"}'">
+				   <div class="list-view">
 						 <div class="evaluate_title">支持门店</div>
-						 {foreach from=$data.supplier_location_list item=supplier_location}
-						 <div class="business_info">
+						 {foreach from=$data.supplier_location_list item=supplier_location}						 
+						 <div class="business_info">							  
 						 	   <div class="business_address">
-						 	   	     <h3>{$supplier_location.name}</h3>
-									 <span>{$supplier_location.address}</span>
-									 <span>{$supplier_location.tel}</span>
-						 	   </div>
+									 <a href='{wap_url a="index" r="merchantitem#index" p="id=$supplier_location.id"}'>
+						 	   	     <h3>店铺名称：{$supplier_location.name}</h3>
+									 </a>
+									 <span>店铺地址：{$supplier_location.address}</span><br/>
+									 <span>联系电话：{$supplier_location.tel}</span>
+						 	   </div>						
 							   <a class="business_phone" href="tel:{$supplier_location.tel}" style="display: block;">
 							   	     <i class="fa fa-phone"></i>
 							   </a>
 						 </div>
+						 
 						{/foreach}
 					</div><!--list-view end-->					
 	
@@ -153,57 +115,101 @@
 					
 					<!----------------------------------------商品评价---------------------------------------->
 					<div class="list-view">
-						<div class="evaluate_title">
-	               	    	<div class="grade" style=" position:relative; height:44px;">
-								<h6 style=" position:absolute; font-size:16px; line-height:16px; top:16px;">评价</h6>
-								<div style=" position:absolute;left: 40px;top: 15px; line-height:20px;">
+						<div class="list_title">总体评分</div>
+						<div class="overall_merit">
+							<div class="left">
+								 <div class="total">
+									{$data.point}
+								 </div>
+								 <div class="total_star">
+									<div class="tatal_num">
+										{$data.message_count}
+									</div>
 									<div class="five_star_orange">
 										<i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i>
-										<div class="five_star_grey" style="width:{$data.width}px;">
+										<div class="five_star_grey" style="width:{$data.width}%;left:2px;">
 											<i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i>
 										</div>
+								   </div>
+								 </div>
+							</div>
+							<div class="right">
+								<ul class="critical">
+									<li>
+										<div class="people_num">{$data.star_5}</div>
+										<div class="percentage_block">
+											<div class="percentage" style=" width:{$data.star_dp_width_5}%;"></div>
+										</div>
+										<div class="star_num">5星</div>
+									</li>
+									<li>
+										<div class="people_num">{$data.star_4}</div>
+										<div class="percentage_block">
+											<div class="percentage" style=" width:{$data.star_dp_width_4}%;"></div>
+										</div>
+										<div class="star_num">4星</div>
+									</li>
+									<li>
+										<div class="people_num">{$data.star_3}</div>
+										<div class="percentage_block">
+											<div class="percentage" style=" width:{$data.star_dp_width_3}%;"></div>
+										</div>
+										<div class="star_num">3星</div>
+									</li>
+									<li>
+										<div class="people_num">{$data.star_2}</div>
+										<div class="percentage_block">
+											<div class="percentage" style=" width:{$data.star_dp_width_2}%;"></div>
+										</div>
+										<div class="star_num">2星</div>
+									</li>
+									<li>
+										<div class="people_num">{$data.star_1}</div>
+										<div class="percentage_block">
+											<div class="percentage" style=" width:{$data.star_dp_width_1}%;"></div>
+										</div>
+										<div class="star_num">1星</div>
+									</li>
+								</ul>
+							</div>
+						</div> 
+					 </div>
+						
+					 <div class="blank8"></div>
+						
+					 <div class="list-view">
+						<div class="list_title">最新点评</div>
+							 {if $data.message_list}
+							 <ul class="shop_comment_list">
+								{foreach from=$data.message_list item=message name=abc} 
+								<li>
+									<div class="name">{$message.user_name}</div>
+									<div class="comment_star">
+										<div class="five_star_orange">
+												<i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i>
+												<div class="five_star_grey" style="width:{$message.width}%;">
+													<i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i>
+												</div>
+									   </div>
+									   <span class="comment_time">{$message.create_time_format}</span>
 									</div>
-								</div>  
-								<b style=" position:absolute;left: 150px; top:16px; line-height:20px; ">{$data.point}</b>
-							</div>	
-							<a href="{wap_url a="index" r="tuan_message_list#index"  p="tuan_id=$data.goods_id"}" class="evaluate_num">
-								<span>{if $data.message_count}{$data.message_count}{else}0{/if}人评价</span>
-							</a>							
-						</div><!--evaluate_title end-->	
-						{if $data.message_list}
-						<div class="assess_list">						
-							{foreach from=$data.message_list item=list key=key}
-						 	  <ul>
-						 	  	 <li>
-						 	  	 	  <div class="assess_detail">
-						 	  	 	  	  <div class="a_d_left">
-						 	  	 	  	  	   <span class="s_d_name">{$list.user_name}</span>
-											   <div class="five_star_orange">
-											   	    <i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i>
-											   	    <div class="five_star_grey" style="width:{$list.width}px;">
-											   	    	<i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i>
-											   	    </div>
-											   </div>
-						 	  	 	  	  </div>
-						 	  	 	  	  <span class="a_d_right">{$list.create_time_format}</span>
-						 	  	 	  </div>
-									  <p>
-									  	{$list.content}
-									  </p>
-						 	  	 </li>
-						 	  </ul>
-						 	{/foreach}					
-						 </div><!--assess_list end-->	
-						 <div class="see_more">
-							<a href="{wap_url a="index" r="tuan_message_list#index"  p="tuan_id=$data.goods_id"}" class="evaluate_num">
-								<span>查看全部评价</span>
-							</a>						 	
-						 </div><!--see_more end-->	
-						{else}
-						<div class="assess_list" style="text-align:center;padding:10px 0;"> 暂无评论</div>
-						{/if}
-					</div><!--list-view end-->						
-								
+									<div class="comment_p">
+									{$message.content}
+									</div>							
+								</li>
+								{/foreach}
+							 </ul>						
+							 <div class="see_more">
+								<a href='{wap_url a="index" r="goodscommentlist#index"  p="goods_id=$data.id"}'>查看全部评价</a>
+							 </div>
+							 {else}
+							 <div class="assess_list" style="text-align:center;padding:10px 0;"> 暂无评论</div>
+							 {/if}						 
+						</div>	
+						<div class="i_say">
+							<input type="submit" class="plank" value="我要点评" onclick="javascrtpt:window.location.href='{wap_url a="index" r="goodscommentwrite#index" p="goods_id=$data.id"}'" style="background:none;"/> 
+						</div>
+					</div><!--list-view end-->	
 					
 	</div><!---content end-->
 </div><!---wrap end-->

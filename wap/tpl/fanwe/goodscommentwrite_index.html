@@ -15,30 +15,36 @@
 				
 					
 					<div class="comment_list_txt">
-						<input type="hidden" value="{$request.id}" id="id">
+						<input type="hidden" value="{$request.goods_id}" id="id">
 						<input type="hidden" value="{$request.type}" id="type">
 						<input type="hidden" id = "point" value="5">
 						<textarea name="content" id="content" maxlength = 140 placeholder="点击输入您的评论，最多140字"></textarea>
 					</div>   
 					      
-					<div class="comment_commentary" onclick="add_comment()">发表评论</div>						 	
+					<div class="comment_commentary" onclick = "javascript:add_comment()">发表评论</div>						 	
 				</div>
 </div>				
 <script type="text/javascript">
-$(".tx_star .five_star_grey i").mouseover(function(){
- 	    var t=$(this).index() + 1;
-        $(".tx_star .five_star_grey i").css("color","#e2e2e2");
-	 	$(".tx_star .five_star_grey i:lt("+t+")").css("color","#fc8600");
-        $(".tx_star b span").html(t);
-        
-        $("#point").val(t);
-})
-
+$(document).ready(function () { 
+	/*-----------------------------星星评分-------------start------------------------- */
+	$(".tx_star .five_star_grey i").mouseover(function(){
+	 	    var t=$(this).index() + 1;
+	        $(".tx_star .five_star_grey i").css("color","#e2e2e2");
+		 	$(".tx_star .five_star_grey i:lt("+t+")").css("color","#fc8600");
+	        $(".tx_star b span").html(t);
+	        
+	        $("#point").val(t);
+	})
+	/*------------------------------星星评分---------------end------------------------- */
+	 
+	 
+});	
 
 function  add_comment(){
 	var content=$("#content").val();
 	var point=$("#point").val();
 	var id=$("#id").val();
+	var type=$("#type").val();
 	
 	if(!content){
 		alert("请填写评论内容");
@@ -47,10 +53,11 @@ function  add_comment(){
 	
 	var query = new Object();
 	query.id = id;
+	query.type = type;
 	query.point = point;
 	query.content = content;
 	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="add_supplier_dp"}';
+	var ajaxurl = '{wap_url a="index" r="add_deal_dp"}';
 	$.ajax({
 		url:ajaxurl,
 		data:query,
@@ -59,7 +66,7 @@ function  add_comment(){
 		success:function(data){
 			if(data["status"]==1){ 
 				alert(data.info);
-				window.location.href="{wap_url a="index" r="supplier_message_list" p="type=$request.type&merchant_id=$request.id"}";
+				window.location.href="{wap_url a="index" r="goodscommentlist" p="type=$request.type&goods_id=$request.goods_id"}";
 			}else{
 				alert(data.info);
 			}

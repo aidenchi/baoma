@@ -18,20 +18,20 @@
 					<!------------------------------------店铺信息--------------------------------->
 					<div class="list-view">
 						<div class="list_title">店铺简介</div>
-						 <div class="whole_grade">
-						 	   <a href="">
-						 	   	  <div class="g_pic">
+						 <div class="good_detail">
+						 	   	  <div class="good_pic">
 						 	   	  	<img src="{$data.logo}" width="108" height="67">
 						 	   	  </div>
-						 	   	  <div class="grade_num">
-						 	   	  	  <h3>{$data.name}</h3>	
-									  <span>营业时间：{$data.open_time}</span>
-						 	   	  </div>							   
-						 	   </a>
+						 	   	  <div class="goods_price">
+									<div class="price">
+						 	   	  	  <h3 class="goods_name">{$data.name}</h3>	
+									  <span style="color:#838383;line-height:30px;">营业时间：{$data.open_time}</span>
+									</div>
+						 	   	  </div>
 						 </div>				
 						 <div class="business_info">
-						 	   <div class="business_address">
-									 <span>{$data.brief}</span>
+						 	   <div style="color:#a3a3a3;font-size:12px;width:96%">
+									 {$data.brief}
 						 	   </div>
 						 </div>			 
 					</div><!--list-view end-->				
@@ -139,8 +139,72 @@
 				 <div class="blank8"></div>
 				
 				<!------------------------------------店铺评价--------------------------------->
+				
+				<div class="list-view">
+					<div class="list_title">总体评分</div>
+					<div class="overall_merit">
+						<div class="left">
+							 <div class="total">
+							 	{$data.buy_dp_avg}
+							 </div>
+							 <div class="total_star">
+							 	<div class="tatal_num">
+							 		{$data.comment_count}
+							 	</div>
+								<div class="five_star_orange">
+							   	    <i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i>
+							   	    <div class="five_star_grey" style="width:{$data.buy_dp_width}%;left:2px;">
+							   	    	<i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i><i class="fa fa-star grey"></i>
+							   	    </div>
+							   </div>
+							 </div>
+						</div>
+						<div class="right">
+							<ul class="critical">
+								<li>
+									<div class="people_num">{$data.star_5}</div>
+									<div class="percentage_block">
+										<div class="percentage" style=" width:{$data.star_dp_width_5}%;"></div>
+									</div>
+									<div class="star_num">5星</div>
+								</li>
+								<li>
+									<div class="people_num">{$data.star_4}</div>
+									<div class="percentage_block">
+										<div class="percentage" style=" width:{$data.star_dp_width_4}%;"></div>
+									</div>
+									<div class="star_num">4星</div>
+								</li>
+								<li>
+									<div class="people_num">{$data.star_3}</div>
+									<div class="percentage_block">
+										<div class="percentage" style=" width:{$data.star_dp_width_3}%;"></div>
+									</div>
+									<div class="star_num">3星</div>
+								</li>
+								<li>
+									<div class="people_num">{$data.star_2}</div>
+									<div class="percentage_block">
+										<div class="percentage" style=" width:{$data.star_dp_width_2}%;"></div>
+									</div>
+									<div class="star_num">2星</div>
+								</li>
+								<li>
+									<div class="people_num">{$data.star_1}</div>
+									<div class="percentage_block">
+										<div class="percentage" style=" width:{$data.star_dp_width_1}%;"></div>
+									</div>
+									<div class="star_num">1星</div>
+								</li>
+							</ul>
+						</div>
+					</div> 
+				 </div>
+					
+				 <div class="blank8"></div>
+					
                  <div class="list-view">
-					<div class="list_title">店铺评价</div>
+					<div class="list_title">最新点评</div>
 						 {if $data.comment_list}
 						 <ul class="shop_comment_list">
 							{foreach from=$data.comment_list item=plist name=abc} 

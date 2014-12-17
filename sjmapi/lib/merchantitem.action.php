@@ -122,26 +122,52 @@ class merchantitem
 		}
 		
 		/**************************************************门店评论****************************************/
+		//获取已经审核的评论列表（前3条）
 		$comment_list=$GLOBALS['db']->getAll("select a.id,a.content,a.point,a.avg_price,a.create_time,b.id as user_id,b.user_name from ".DB_PREFIX."supplier_location_dp as a left join ".DB_PREFIX."user as b on b.id=a.user_id where a.supplier_location_id = ".$list['id']." and a.status = 1 order by a.is_top desc, a.create_time desc limit 3");
-		$comment_count=$GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."supplier_location_dp as a left join ".DB_PREFIX."user as b on b.id=a.user_id where a.supplier_location_id = ".$list['id']." and a.status = 1");
-		foreach($comment_list as $k=>$v)
-		{
+		$total=$GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."supplier_location_dp as a left join ".DB_PREFIX."user as b on b.id=a.user_id where a.supplier_location_id = ".$list['id']." and a.status = 1");
+		foreach($comment_list as $k=>$v){
 			$comment_list[$k]['avg_price']=round($v['avg_price'],1);
 			$comment_list[$k]['time']=pass_date($v['create_time']);
 			$comment_list[$k]['create_time_format']=getBeforeTimelag($v['create_time']);
 			$comment_list[$k]['width']=$v['point'] > 0 ? ($v['point'] / 5) * 100 : 0;
-		}
-		
+		}		
 		if ($comment_list === false){
 			$root['comment_list']= array();
 		}else{
 			$root['comment_list']=$comment_list;
+		}		
+		$root['comment_count']=$total;
+		//获取总体评分 start
+		//星级点评数
+		$root['star_1'] = 0;
+		$root['star_2'] = 0;
+		$root['star_3'] = 0;
+		$root['star_4'] = 0;
+		$root['star_5'] = 0;
+		$root['star_dp_width_1'] = 0;
+		$root['star_dp_width_2'] = 0;
+		$root['star_dp_width_3'] = 0;
+		$root['star_dp_width_4'] = 0;
+		$root['star_dp_width_5'] = 0;
+		$buy_dp_sum = 0.0;	
+		//每一项评分（5、4、3、2、1）多少条，占总数多少比例
+		$buy_dp_group = $GLOBALS['db']->getAll("select point,count(*) as num from ".DB_PREFIX."supplier_location_dp where supplier_location_id = ".$list['id']." and status = 1 group by point");
+		foreach($buy_dp_group as $dp_k=>$dp_v)
+		{
+			$star = intval($dp_v['point']);
+			if ($star >= 1 && $star <= 5){
+				$root['star_'.$star] = $dp_v['num'];				
+				$buy_dp_sum += $star * $dp_v['num'];
+				$root['star_dp_width_'.$star] = (round($dp_v['num']/ $total,1)) * 100;
+			}
 		}
+		//整体平均分
+		$root['buy_dp_sum']=$buy_dp_sum;
+		$root['buy_dp_avg'] = round($buy_dp_sum / $total,1);
+		$root['buy_dp_width'] = (round($buy_dp_sum / $total,1) / 5) * 100;		
+		//获取总体评分 end
 		
-		$root['comment_count']=$comment_count;
-		
-		if ($act_2 == "dz"){
-			
+		if ($act_2 == "dz"){			
 				$sql = "select uid from  ".DB_PREFIX."supplier_dy where uid = $user_id and supplier_id = ".$list['brand_id'];
 				if (intval($GLOBALS['db']->getOne($sql) > 0)) {
 					//已经设置打折提醒，则取消

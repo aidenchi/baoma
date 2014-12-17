@@ -19,7 +19,7 @@ class collect_list{
 			$root['user_login_status'] = 1;
 			$page_size = PAGE_SIZE;
 			$limit = (($page-1)*$page_size).",".$page_size;
-			$result = get_collect_list($limit,$user_id);
+			$result = get_collect_list($limit,$user_id);			
 			
 			$root['collect_list'] = $result['list'];
 			

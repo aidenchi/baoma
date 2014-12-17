@@ -1811,7 +1811,7 @@ function m_get_message_list($limit,$where='',$city = 0)
 	$city = intval($city);
 				
 	if($city>0)
-	{
+	{	
 		$sql = "select m.id,m.content,m.create_time,m.point,u.user_name,m.user_id,m.title from ".DB_PREFIX."message as m left join ".DB_PREFIX."user as u on u.id=m.user_id where m.pid = 0 and m.city_id =$city";
 		$sql_count = "select count(*) from ".DB_PREFIX."message as m where m.pid = 0 and m.city_id =$city";
 	}
@@ -2284,7 +2284,7 @@ function get_collect_list($limit,$user_id)
 	 * @param string $message_group
 	 * @return multitype:number NULL
 	 */
-	function add_deal_dp($user_id,$content, $point, $rel_id, $city_id = 0, $is_buy = 1, $rel_table='deal', $title = '', $contact = '', $contact_name = '',  $message_group = null){
+	function add_deal_dp($user_id,$content, $point, $rel_id, $city_id, $is_buy = 1, $rel_table='deal', $title = '', $contact = '', $contact_name = '',  $message_group = null){
 		$result = array();
 		$result['status'] = 0;
 		$user_id = intval($user_id);
@@ -2321,9 +2321,10 @@ function get_collect_list($limit,$user_id)
 		//$message_group = addslashes(trim($_REQUEST['message_group']));
 	
 		//添加留言
-		$message['title'] = $title?htmlspecialchars(addslashes(valid_str($title))):htmlspecialchars(addslashes(valid_str($content)));
+		//$message['title'] = $title?htmlspecialchars(addslashes(valid_str($title))):htmlspecialchars(addslashes(valid_str($content)));
+		$message['title'] = htmlspecialchars(addslashes(valid_str($title)));//修改
 		$message['content'] = htmlspecialchars(addslashes(valid_str($content)));
-		$message['title'] = valid_str($message['title']);
+		//$message['title'] = valid_str($message['title']);
 		if($message_group)
 		{
 			$message['title']="[".$message_group."]:".$message['title'];
@@ -2335,7 +2336,8 @@ function get_collect_list($limit,$user_id)
 		$message['rel_id'] = $rel_id;
 		$message['user_id'] = $user_id;
 		$message['city_id'] = intval($city_id);
-	
+		
+		/*
 		if(app_conf("USER_MESSAGE_AUTO_EFFECT")==0)
 		{
 			$message_effect = 0;
@@ -2345,10 +2347,14 @@ function get_collect_list($limit,$user_id)
 			$message_effect = $message_type['is_effect'];
 		}
 		$message['is_effect'] = $message_effect;
-	
+		*/
+		$message['is_effect'] = 0;
+		
 		$message['is_buy'] = intval($is_buy);
 		$message['contact'] = $contact?htmlspecialchars(addslashes($contact)):'';
 		$message['contact_name'] = $_REQUEST['contact_name']?htmlspecialchars(addslashes($_REQUEST['contact_name'])):'';
+		//注释掉原本购买后才可评论
+		/*
 		if($message['is_buy']==1)
 		{
 			if($GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."deal_order_item as doi left join ".DB_PREFIX."deal_order as do on doi.order_id = do.id where doi.deal_id = ".intval($message['rel_id'])." and do.user_id = ".intval($message['user_id'])." and do.pay_status = 2")==0)
@@ -2357,9 +2363,12 @@ function get_collect_list($limit,$user_id)
 				return $result;
 			}
 		}
+		*/
 		$message['point'] = intval($point);
 		$GLOBALS['db']->autoExecute(DB_PREFIX."message",$message);
 		$message_id = intval($GLOBALS['db']->insert_id());
+		
+		//若果购买了，判断类型（普通商品、团购等等），先放着
 		if($message['is_buy']==1)
 		{
 			$message_id = $GLOBALS['db']->insert_id();
@@ -2382,7 +2391,7 @@ function get_collect_list($limit,$user_id)
 					insert_dp($dp_title,$message['content'],$location['location_id'],$message['point'],$is_buy=1,$from="tuan",$url_route,$message_id);
 				}
 			}
-			if($deal_info['is_shop']==1)
+			if($deal_info['is_shop']==1)//普通商品
 			{
 				$url_route = array(
 						'rel_app_index'	=>	'shop',
@@ -2400,18 +2409,19 @@ function get_collect_list($limit,$user_id)
 				);
 				$type="youhuicomment";
 			}
-			increase_user_active($user_id,"点评了一个团购");
+			increase_user_active($user_id,"点评了一个商品");
+			//注释掉原本的将对商品的点评也插入到topic表里
+			/*
 			$title = "对".$deal_info['sub_name']."发表了点评";
 			$tid = insert_topic($message['content'],$title,$type,"share",$relay_id = 0,$fav_id = 0,$group_data="",$attach_list=array(),$url_route);
-			if($tid)
-			{
+			if($tid){
 				$GLOBALS['db']->query("update ".DB_PREFIX."topic set source_name = '网站' where id = ".intval($tid));
 			}
-	
+			*/
 		}
 			
 		$result['status'] = 1;
-		$result['msg'] = $GLOBALS['lang']['MESSAGE_POST_SUCCESS'];
+		$result['msg'] = "发表成功，审核通过后可显示";
 		return $result;
 	}
 	
