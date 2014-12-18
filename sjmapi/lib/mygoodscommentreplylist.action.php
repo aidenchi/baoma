@@ -1,5 +1,5 @@
 <?php
-class mygoodscommentlist
+class mygoodscommentreplylist
 {
 	public function index()
 	{	
@@ -23,13 +23,14 @@ class mygoodscommentlist
 			$page_size = PAGE_SIZE;//10
 			$limit = (($page-1)*$page_size).",".$page_size;
 			$limit_sql=" limit ".$limit;
-			$sql_count = "select count(*) from ".DB_PREFIX."message as m where m.pid = 0 and m.city_id =".$city_id." and m.user_id = ".intval($user_data['id']);
+			$sql_count = "select count(*) from ".DB_PREFIX."message as m where m.rel_table = 'deal' and m.is_buy = 1 and m.pid = 0 and m.city_id =".$city_id." and m.user_id = ".intval($user_data['id']).
+			" and m.admin_reply != '' and m.update_time != 0";
 			$total = $GLOBALS['db']->getOne($sql_count);
 			$page_total = ceil($total/$page_size);
 			
 			$sql = "select m.id,m.rel_id,m.is_effect,m.content,m.create_time,m.point,m.admin_reply,m.update_time,u.user_name,m.user_id,m.title from ".DB_PREFIX.
-			"message as m left join ".DB_PREFIX."user as u on u.id=m.user_id where m.pid = 0 and m.city_id =".
-			$city_id." and m.user_id = ".intval($user_data['id'])." and m.rel_table = 'deal' and m.is_buy = 1 order by m.create_time desc".$limit_sql;
+			"message as m left join ".DB_PREFIX."user as u on u.id=m.user_id where m.rel_table = 'deal' and m.is_buy = 1 and m.pid = 0 and m.city_id =".
+			$city_id." and m.user_id = ".intval($user_data['id'])." and m.admin_reply != '' and m.update_time != 0 order by m.create_time desc".$limit_sql;
 
 			$list = $GLOBALS['db']->getAll($sql);
 			foreach($list as $k=>$v){
@@ -43,14 +44,10 @@ class mygoodscommentlist
 			$root['my_goods_comment_count']=$total;
 			$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);
 			$root['my_goods_comment_list']=$list;
-			
-			//我的店铺点评总数
-			$sql_count1 = "select count(*) from ".DB_PREFIX."supplier_location_dp where user_id= ".intval($user_data['id']);
-			$total1 = $GLOBALS['db']->getOne($sql_count1);
-			$root['my_supplier_comment_count']=$total1;
+
 		}
 		
-		$root['page_title']="我的点评";
+		$root['page_title']="我的评论回复";
 		output($root);
 	}
 }

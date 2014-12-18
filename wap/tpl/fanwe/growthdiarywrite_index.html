@@ -16,15 +16,15 @@
 						<form id="growth_dairy_add_form" action='{wap_url a="index" r="growthdiaryadd"}' autocomplete="off" method="post" onsubmit="return check(this)">		 
 						 <div class="Contentbox">
 								<input type="hidden" name="growth_dairy_id" id="growth_dairy_id" value="{$data.id}">
-								<div class="inputtxt">
+								<div class="inputtxt1">
 									{if $data.id gt 0}
-									<div class="input_sr"><input style="font-size:12px;" type="text" name="record_date" id="record_date" value="{$data.growth_diary_item.record_date}" onClick="WdatePicker()"></div>
+									<div class="input_sr"><input type="text" name="record_date" id="record_date" value="{$data.growth_diary_item.record_date}" onClick="WdatePicker()"></div>
 									{else}
-									<div class="input_sr"><input style="font-size:12px;" type="text" name="record_date" id="record_date" value="{$data.today}" onClick="WdatePicker()"></div>
+									<div class="input_sr"><input type="text" name="record_date" id="record_date" value="{$data.today}" onClick="WdatePicker()"></div>
 									{/if}
 								</div>	
-								<div class="inputtxt">
-									<div class="input_sr"><input style="font-size:12px;" type="text" placeholder="&nbsp;&nbsp;&nbsp;请输入标题" name="title" id="title" value="{$data.growth_diary_item.title}"></div>
+								<div class="inputtxt1">
+									<div class="input_sr"><input type="text" placeholder="请输入标题" name="title" id="title" value="{$data.growth_diary_item.title}"></div>
 								</div>		   
 								<div class="topic_write_txt">
 									<textarea name="content" id="content" placeholder="请输入内容">{$data.growth_diary_item.content}</textarea>

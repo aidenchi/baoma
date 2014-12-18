@@ -49,7 +49,7 @@ function update_avatar($u_id)
 //获取用户头像的文件名
 function get_user_avatar($id,$type)
 {
-	$uid = sprintf("%09d", $id);
+	$uid = sprintf("%09d", $id);//9位数
 	$dir1 = substr($uid, 0, 3);
 	$dir2 = substr($uid, 3, 2);
 	$dir3 = substr($uid, 5, 2);
@@ -63,6 +63,7 @@ function get_user_avatar($id,$type)
 	return $avatar_file;
 	else
 	return "/public/avatar/noavatar_".$type.".gif";
+
 	//@file_put_contents($avatar_check_file,@file_get_contents(APP_ROOT_PATH."public/avatar/noavatar_".$type.".gif"));
 }
 

@@ -23,6 +23,8 @@ class topicdel
 			$topic_id = intval($GLOBALS['request']['topic_id']);
 			//删除帖子
 			$GLOBALS['db']->query("delete from ".DB_PREFIX."topic where id = ".$topic_id);
+			//user表里topic量减1
+			$GLOBALS['db']->query("update ".DB_PREFIX."user set topic_count = topic_count - 1 where id = ".intval($user_data['id']));
 			//删除该帖子的回复
 			$GLOBALS['db']->query("delete from ".DB_PREFIX."topic_reply where topic_id = ".$topic_id);			
 			//删除帖子版块的关联表
