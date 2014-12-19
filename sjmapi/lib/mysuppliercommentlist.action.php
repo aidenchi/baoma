@@ -21,10 +21,10 @@ class mysuppliercommentlist
 			$page = intval($GLOBALS['request']['page']); //分页
 			$page=$page==0?1:$page;
 			$page_size = PAGE_SIZE;//10
-			$condition = " dp.status = 1 and dp.user_id = ".intval($user_data['id']);
+			$condition = " dp.user_id = ".intval($user_data['id']);
 			$limit = (($page-1)*$page_size).",".$page_size;
 			$limit_sql=" limit ".$limit;
-			$sql_count = "select count(*) from ".DB_PREFIX."supplier_location_dp where user_id= ".intval($user_data['id'])." and status = 1 order by create_time desc";
+			$sql_count = "select count(*) from ".DB_PREFIX."supplier_location_dp where user_id= ".intval($user_data['id']);
 			$total = $GLOBALS['db']->getOne($sql_count);
 			$page_total = ceil($total/$page_size);
 			
@@ -43,7 +43,7 @@ class mysuppliercommentlist
 			$root['my_supplier_comment_list']=$list;
 			
 			//我的商品评价列表
-			$sql_count1 = "select count(*) from ".DB_PREFIX."message as m where m.pid = 0 and m.city_id =".$city_id." and m.user_id = ".intval($user_data['id']);
+			$sql_count1 = "select count(*) from ".DB_PREFIX."message as m where m.rel_table = 'deal' and m.is_buy = 1 and m.pid = 0 and m.city_id =".$city_id." and m.user_id = ".intval($user_data['id']);
 			$total1 = $GLOBALS['db']->getOne($sql_count1);
 			$root['my_goods_comment_count']=$total1;
 		}

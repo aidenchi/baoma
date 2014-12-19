@@ -47,7 +47,8 @@ class topicadd
 				$link_data['cate_id'] = $cate_id;
 				$GLOBALS['db']->autoExecute(DB_PREFIX."topic_cate_link",$link_data,"INSERT","","SILENT");
 				syn_topic_match($topic_id);	
-				$GLOBALS['db']->query("update ".DB_PREFIX."user set topic_count = topic_count + 1 where id = ".intval($user_data['id']));//发贴量加1
+				//user表里topic量加1
+				$GLOBALS['db']->query("update ".DB_PREFIX."user set topic_count = topic_count + 1 where id = ".intval($user_data['id']));
 				increase_user_active(intval($user_data['id']),"发表了一则分享");
 				$root['status']=1;
 				$root['info']='发帖成功';

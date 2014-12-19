@@ -1,18 +1,22 @@
 {include file="./inc/header.html"}
 <div class="wrap">
 	<div class="content">
-	<div class="comment_list_txt1">
+	<!--<div class="comment_list_txt1">-->
+	<div>
 		<div id="Tab1">
+			<!--
 			<div class="Menubox">
 				<ul>
 				   <li id="one1" onclick="javascrtpt:window.location.href='{wap_url a="index" r="mysuppliercommentlist#index"}'" style=" border-right:1px solid #ccc;">店铺点评(共<span id="my_supplier_comment_count">{$data.my_supplier_comment_count}</span>条)</li>
 				   <li id="one2" onclick="javascrtpt:window.location.href='{wap_url a="index" r="mygoodscommentlist#index"}'"  class="hover" style="border-right:1px solid #ccc;">商品点评(共<span id="my_goods_comment_count">{$data.my_goods_comment_count}</span>条)</li>
 				</ul>
 			</div>
+			-->
 			<div class="Contentbox">  
 			   <div id="con_one_1" class="hover">
 					<div class="blank8"></div>
-					<div class="list-view bor_none">
+					<div class="list-view">
+						<div class="list_title"><i class="fa fa-bullhorn"></i>共<span id="my_goods_comment_count">{$data.my_goods_comment_count}</span>条</div>
 						 {if $data.my_goods_comment_list}
 							 <ul class="shop_comment_list">
 								{foreach from=$data.my_goods_comment_list item=comment }
@@ -34,12 +38,10 @@
 									<div class="comment_p">
 									{$comment.content}
 									</div>
-									{if $comment.admin_reply}
 									<div class="comment_star" style="background-color:#E2E2E2;">
 										<span style="color:#6E7D8B;">管理员回复：</span>{$comment.admin_reply}
 										<span class="comment_time">{$comment.update_time_format}</span>										
 									</div>
-									{/if}
 								</li>
 								{/foreach}
 							 </ul>

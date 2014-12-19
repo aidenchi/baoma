@@ -61,6 +61,17 @@ color: #484848;
  border-top:none;
  padding:0px 5px 15px 5px;
 }
+.myintro_txt{
+	padding-top:10px;
+	background-color: white;
+}
+.myintro_txt textarea{
+	width: 100%;
+	height: 100px;
+	font-size:12px;
+	color:#adadad;
+	border:1px solid @border_main;
+}
 .inputtxt{
 	border:1px solid #ccc;
 	border-radius: 4px;
@@ -72,6 +83,28 @@ color: #484848;
 	display:box;
 	width:100%;
 	box-shadow: 2px 3px 5px #ccc inset;	
+}
+.inputtxt1{
+	border:1px solid #ccc;
+	border-radius: 4px;
+	height: 35px;
+	background: #f5f5f5;
+	margin-top: 10px;
+	margin-left: 10px;
+	display:-moz-box;
+	display:-webkit-box;
+	display:box;
+	width:99%;
+}
+.inputtxt3{
+	border:1px solid #ccc;
+	border-radius: 4px;
+	height: 35px;
+	background: #f5f5f5;
+	display:-moz-box;
+	display:-webkit-box;
+	display:box;
+	width:100%;
 }
 .inputtxt2{
 	width: 100%;
@@ -96,11 +129,26 @@ color: #484848;
 	font-size:15px;
 	background: none;
 	border: none;
-
 	width: 100%;
 	height:44px;
 	
 	
+}
+.inputtxt1 input{
+	color:#c0c0c0;
+	font-size:12px;
+	background: none;
+	border: none;
+	width: 100%;
+	height:34px;
+}
+.inputtxt3 input{
+	color:#c0c0c0;
+	font-size:12px;
+	background: none;
+	border: none;
+	width: 100%;
+	height:34px;
 }
 .find_pw{
 	text-align: right;
@@ -153,12 +201,12 @@ color: #484848;
 	text-align: center;
 }
 .chk2{
-	padding: 12px 0 22px 0;
+	padding: 0 0 10px 0;
 	line-height: 25px;
 	color: #878787;
 }
 .chk{
-	padding: 12px 0 22px 0;
+	padding: 12px 0 10px 0;
 	line-height: 25px;
 	text-align: center;
 	color: #878787;
@@ -271,4 +319,37 @@ width: 50%;
 }
 .other-login .new-tbl-type {
 margin-top: 10px;
+}
+
+/******************************************2014-12-18 add********************************************/
+.add_focus, .add_focus:hover {
+	color: #774433;
+	text-decoration: none;
+	background: url(http://localhost:85/app/Tpl/fanwe/images/focus_ico.gif) no-repeat 4px 5px #fff;
+	display: inline-block;
+	height: 20px;
+	line-height: 20px;
+	padding-left: 15px;
+	border: #d8d8d7 solid 1px;
+	width: 50px;
+	margin-top: 5px;
+}
+.remove_focus, .remove_focus:hover {
+	color: #979797;
+	text-decoration: none;
+	display: inline-block;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	border: #d8d8d7 solid 1px;
+	width: 62px;
+	margin-top: 5px;
+	background: #fff;
+}
+.user_info_li {
+	padding: 0 20px;
+	border-bottom: 1px solid #f5f5f5;
+	color: #939393;
+	position: relative;
+	line-height: 45px;
 }

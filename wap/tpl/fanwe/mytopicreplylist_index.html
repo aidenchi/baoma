@@ -3,7 +3,6 @@
 					<div class="blank8"></div>
 					<div class="list-view">
 						<div class="list_title"><i class="fa fa-bullhorn"></i>共<span id="mytopic_count">{$data.total}</span>篇</div>
-						 {if $data.my_topic_list}
 						 <ul class="">
 						 {foreach from=$data.my_topic_list item=topic}
 							<li class="topic_li" id="topic_item_{$topic.id}">
@@ -38,9 +37,6 @@
 						<div class="fy">
 							{$pages}
 						</div>
-						 {else}
-						 <div class="assess_list" style="text-align:center;padding:10px 0;">未发表过帖子</div>
-						 {/if}
 					</div><!--list-view end-->		
 				 
 				</div><!--wrap end-->	
