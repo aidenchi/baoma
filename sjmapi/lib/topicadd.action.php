@@ -49,7 +49,7 @@ class topicadd
 				syn_topic_match($topic_id);	
 				//user表里topic量加1
 				$GLOBALS['db']->query("update ".DB_PREFIX."user set topic_count = topic_count + 1 where id = ".intval($user_data['id']));
-				increase_user_active(intval($user_data['id']),"发表了一则分享");
+				increase_user_active(intval($user_data['id']),"发表了一篇帖子");
 				$root['status']=1;
 				$root['info']='发帖成功';
 			}else{

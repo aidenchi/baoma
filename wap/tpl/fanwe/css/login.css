@@ -322,10 +322,34 @@ margin-top: 10px;
 }
 
 /******************************************2014-12-18 add********************************************/
+/*关注、粉丝*/
+.focus_item_li .list_item{
+   display: -webkit-box;
+   display: -moz-box;
+   width: 100%;
+   display:box;   
+}
+.focus_item_li .list_item .focus_user_headimg{
+   width: 65px;
+   margin: 0px 12px 0 0;
+   display: inline-block;
+   position: relative;
+   text-align:center;
+}	
+.focus_item_li{
+	padding:8px 10px 9px 10px;
+	border-bottom:1px solid #f5f5f5;
+}
+.focus_item_li .info{
+	-webkit-box-flex: 1;
+	-moz-box-flex:1;
+    color: #6E7D8B;
+	padding-top: 8px;
+}	
 .add_focus, .add_focus:hover {
 	color: #774433;
 	text-decoration: none;
-	background: url(http://localhost:85/app/Tpl/fanwe/images/focus_ico.gif) no-repeat 4px 5px #fff;
+	background: url(../images/focus_ico.gif) no-repeat 4px 5px #fff;
 	display: inline-block;
 	height: 20px;
 	line-height: 20px;
@@ -346,10 +370,11 @@ margin-top: 10px;
 	margin-top: 5px;
 	background: #fff;
 }
-.user_info_li {
+/*个人资料页面*/
+.user_info {
 	padding: 0 20px;
 	border-bottom: 1px solid #f5f5f5;
 	color: #939393;
 	position: relative;
-	line-height: 45px;
+	line-height: 35px;
 }

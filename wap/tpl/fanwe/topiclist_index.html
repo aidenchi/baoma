@@ -3,12 +3,13 @@
 					<div class="blank8"></div>
 					<div class="list-view">
 						 <div class="list_title"><i class="fa fa-bullhorn"></i>{$data.cate_name}&nbsp;(共{$data.total}篇帖子)</div>
+						 {if $data.one_cate_topic_list}
 						 <ul class="">
 						 {foreach from=$data.one_cate_topic_list item=topic}
-							<li class="topic_li">
-						 	      <a href='{wap_url a="index" r="topicitem#index"  p="id=$topic.id"}'>
+							<li class="topic_li">						 	      
 						 	     	<div class="list_item">
 						 	     		 <div class="topic_user_headimg">
+											<a href='{wap_url a="index" r="userinfo#index" p="user_id=$topic.user_id"}'>
 						 	     		 	<img src='{function name="get_user_avatar" uid=$topic.user_id type="small" }'>
 											{if $topic.is_best gt 0}
 											<i class="topic_ico ico">精华</i>
@@ -16,10 +17,12 @@
 											{if $topic.is_recommend gt 0}
 											<i class="topic_ico ico">推荐</i>
 											{/if}
-						 	     		 </div>
+											</a>
+						 	     		 </div>										 
 										 <div class="info">
+											<a href='{wap_url a="index" r="topicitem#index"  p="id=$topic.id"}'>
 										 	<i>{$topic.forum_title}</i>
-											<h3>{$topic.short_content}</h3>	
+											<h3>{$topic.short_content}</h3>											
 											<div class="topic_bottom">
 						                         <p class="topic_bottom_text">
 													<em>
@@ -29,15 +32,18 @@
 													</em>												 
 												 </p>
 						                     </div>
-										 </div>
-						 	     	</div>
-						 	     </a>
-						 	</li>
+											 </a>
+										 </div>										 
+						 	     	</div>						 	     
+								</li>
 							{/foreach}							
 						 </ul>		
 						<div class="fy">
 							{$pages}
 						</div>
+						{else}
+						 <div class="assess_list" style="text-align:center;padding:10px 0;">该版块还没有帖子</div>
+						{/if}
 					</div><!--list-view end-->		
 				 
 				</div><!--wrap end-->						

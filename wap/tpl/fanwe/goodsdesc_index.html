@@ -42,11 +42,10 @@
 							   <div class="share j_share">
 						 	   	    <a onclick="add_collect({$data.id},this);">
 						 	   	    	{if $data.is_collect eq 0}
-						 	   	    	<i class="fa fa-star-o"></i>
+						 	   	    	<i class="fa fa-star"></i><span class="collect_text">收藏</span>
 										{else}
-										<i class="fa fa-star"></i>
-										{/if}
-										<span>收藏</span>
+										<i class="fa fa-star-o"></i><span class="collect_text">取消收藏</span>
+										{/if}										
 						 	   	    </a>
 						 	   </div>
 							   {/if}
@@ -64,11 +63,15 @@
 										success:function(data){
 											alert(data.info);
 											if(data.status==1){
-												$(".j_share .fa").addClass("fa-star");
-												$(".j_share .fa").removeClass("fa-star-o");
-											}else{
-												$(".j_share .fa").addClass("fa-star-o");
+												//alert("变为取消收藏");
 												$(".j_share .fa").removeClass("fa-star");
+												$(".j_share .fa").addClass("fa-star-o");
+												$(".collect_text").html("取消收藏");
+											}else{
+												//alert("变为收藏");
+												$(".j_share .fa").removeClass("fa-star-o");
+												$(".j_share .fa").addClass("fa-star");
+												$(".collect_text").html("收藏");
 											}
 										}
 										,error:function(){
@@ -198,10 +201,12 @@
 									</div>							
 								</li>
 								{/foreach}
-							 </ul>						
+							 </ul>	
+							 {if $data.message_count gt 3}
 							 <div class="see_more">
 								<a href='{wap_url a="index" r="goodscommentlist#index"  p="goods_id=$data.id"}'>查看全部评价</a>
 							 </div>
+							 {/if}
 							 {else}
 							 <div class="assess_list" style="text-align:center;padding:10px 0;"> 暂无评论</div>
 							 {/if}						 

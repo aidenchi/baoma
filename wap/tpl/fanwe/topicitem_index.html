@@ -8,7 +8,9 @@
 							<li class="topic_item_li">
 						 	     	<div class="list_item">
 						 	     		 <div class="topic_user_headimg">
+											<a href='{wap_url a="index" r="userinfo#index" p="user_id=$data.topic_item.user_id"}'>
 						 	     		 	<img src='{function name="get_user_avatar" uid=$data.topic_item.user_id type="small" }'>
+											</a>
 						 	     		 </div>
 										 <div class="info">
 										 	<i>{$data.topic_item.forum_title}</i>
@@ -41,7 +43,9 @@
 							<li class="topic_item_reply_li" id="reply_item_{$topic_reply.id}">
 						 	     <div class="list_item">
 						 	    	 <div class="topic_user_headimg">
+										<a href='{wap_url a="index" r="userinfo#index" p="user_id=$topic_reply.user_id"}'>
 						 	    	 	<img src='{function name="get_user_avatar" uid=$topic_reply.user_id type="small" }'>
+										</a>
 						 	     	 </div>
 									 <div class="info">										
 										<div class="reply_topic_bottom">
@@ -80,7 +84,7 @@
 									<input type="hidden" name="reply_id" id="reply_id" value="0" />
 									<input type="hidden" name="reply_user_id" id="reply_user_id" value="0" />
 									<input type="hidden" name="reply_user_name" id="reply_user_name" value="" />
-									<textarea name="content" id="content" placeholder="请输入内容"></textarea>
+									<textarea name="content" id="content" placeholder="请输入回复内容"></textarea>
 									<div class="blank"></div>					
 								</div>
 								<div class="btn_login">

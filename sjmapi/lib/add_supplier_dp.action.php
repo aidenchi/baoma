@@ -36,8 +36,8 @@ class add_supplier_dp
 				$GLOBALS['db']->autoExecute(DB_PREFIX."supplier_location_dp", $merchant_youhui_comment, 'INSERT');
 				$id = $GLOBALS['db']->insert_id();
 				$root['id'] = $id;
-				if($id > 0)
-				{
+				if($id > 0)	{
+					$GLOBALS['db']->query("update ".DB_PREFIX."supplier_location set dp_count = dp_count + 1 where id = ".$id);
 					$root['status'] = 1;
 					$root['info'] = "提交成功，审核通过后可显示";
 				}else{

@@ -1,7 +1,8 @@
+{if $data.item}
 <ul class="business_ul">
  	{foreach from=$data.item item=deal key=key}
 	<li class="tuan_li">
- 	     <a href="{wap_url a="index" r="merchantitem#index" p="id=$deal.id"}">
+ 	     <a href='{wap_url a="index" r="merchantitem#index" p="id=$deal.id"}'>
  	     	<div class="list_item">
  	     		 <div><img src="{$deal.logo}" width="108" height="67"></div>	
 				 <div class="good_deta">
@@ -22,10 +23,12 @@
  	     </a>
  	</li>
 	{/foreach}
-</ul> 
-
+</ul>
 {if $pages}
 	<div class="fy">
 		{$pages}
 	</div>
+{/if}
+{else}
+<div class="assess_list" style="text-align:center;padding:10px 0;">抱歉，没有找到店铺</div>
 {/if}

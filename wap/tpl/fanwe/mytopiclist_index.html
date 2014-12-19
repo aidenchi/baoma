@@ -2,15 +2,15 @@
 			<div class="wrap">
 					<div class="blank8"></div>
 					<div class="list-view">
-						<div class="list_title"><i class="fa fa-bullhorn"></i>共<span id="mytopic_count">{$data.total}</span>篇</div>
+						<div class="list_title">共<span id="mytopic_count">{$data.total}</span>篇</div>
 						 {if $data.my_topic_list}
 						 <ul class="">
 						 {foreach from=$data.my_topic_list item=topic}
 							<li class="topic_li" id="topic_item_{$topic.id}">
 						 	     	<div class="list_item">
-						 	     		 <div class="topic_user_headimg">
-						 	     		 	<img src='{function name="get_user_avatar" uid=$topic.user_id type="small" }'>
-						 	     		 </div>
+						 	     		 <div class="topic_user_headimg">											
+						 	     		 	<img src='{function name="get_user_avatar" uid=$topic.user_id type="small" }'>											
+										 </div>
 										 <div class="info">
 											<a href='{wap_url a="index" r="topicitem#index"  p="id=$topic.id"}'>
 										 	<i>{$topic.forum_title}</i>
@@ -32,7 +32,7 @@
 						                     </div>
 										 </div>
 						 	     	</div>
-						 	</li>
+								</li>
 							{/foreach}							
 						 </ul>		
 						<div class="fy">
