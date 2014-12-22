@@ -43,7 +43,9 @@ function view_reply(id)
 	<form name="search" action="__APP__" method="get">	
 		用户名：<input type="text" class="textbox" name="user_name" value="{:trim($_REQUEST['user_name'])}" />		
 		关键词：<input type="text" class="textbox" name="keyword" value="{:trim($_REQUEST['keyword'])}" />	
+		<!--
 		小组ID：<input type="text" class="textbox" name="group_id" size=4 value="{:trim($_REQUEST['group_id'])}" />	
+		
 		类型：<select name="type">
 			<option value="all" <if condition="$_REQUEST['type'] eq 'all'">selected="selected"</if>>全部</option>
 			<option value="share" <if condition="$_REQUEST['type'] eq 'share'">selected="selected"</if>>普通分享</option>
@@ -61,9 +63,8 @@ function view_reply(id)
 			<option value="shareevent" <if condition="$_REQUEST['type'] eq 'shareevent'">selected="selected"</if>>分享活动</option>
 			<option value="fav" <if condition="$_REQUEST['type'] eq 'fav'">selected="selected"</if>>喜欢</option>
 			<option value="relay" <if condition="$_REQUEST['type'] eq 'relay'">selected="selected"</if>>转发</option>		
-
 		</select>
-	
+		-->
 		<input type="hidden" value="Topic" name="m" />
 		<input type="hidden" value="index" name="a" />
 		<input type="submit" class="button" value="{%SEARCH}" />
@@ -79,19 +80,15 @@ function view_reply(id)
 	datasource="list" 
 	show="id:{%ID}|50px	
 	,user_id|get_user_name:{%USER_NAME}
-	,title|msubstr:{%TITLE}
 	,forum_title|msubstr:主题
-	,group_id|get_group_name:小组
 	,content|get_list_content:{%CONTENT}	
 	,reply_count:{%REPLY_COUNT}
 	,is_best|get_toogle_status=$topic['id']#is_best:精华
 	,is_top|get_toogle_status=$topic['id']#is_top:置顶
 	,is_recommend|get_toogle_status=$topic['id']#is_recommend:{%IS_RECOMMEND}
-	,type|get_topic_type:主题类型
-	,has_image|get_status:{%HAS_IMAGE}
 	,create_time|to_date:{%CREATE_TIME}	
 	" 
-	actionlist="edit:{%EDIT},view_reply:{%VIEW_REPLY},del:{%DELETE}" /> 
+	actionlist="edit:{%EDIT},view_reply:{%VIEW_REPLY},del:{%FOREVERDEL}" /> 
 
 <div class="blank5"></div>
 <div class="page">{$page}</div>

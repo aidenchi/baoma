@@ -109,11 +109,25 @@ class merchantlist
 		}
 		foreach($merchant_list as $k=>$v){		
 			$merchant_list[$k]['cate_name']=$GLOBALS['db']->getOne("select name from ".DB_PREFIX."deal_cate where id=".$v['deal_cate_id']);
-			$merchant_list[$k]['width'] = $v['avg_point'] > 0 ? ($v['avg_point'] / 5) * 100 : 0;
-			$merchant_list[$k]['avg_point']=round($v['avg_point'],1);			
+			//$merchant_list[$k]['width'] = $v['avg_point'] > 0 ? ($v['avg_point'] / 5) * 100 : 0;
+			//$merchant_list[$k]['avg_point']=round($v['avg_point'],1);		
 			if (empty($merchant_list[$k]['mobile_brief'])){
 				$merchant_list[$k]['mobile_brief'] = $merchant_list[$k]['l_cate_type'].' '.$merchant_list[$k]['l_area'];
 			}
+			//从店铺点评表里读取点评情况
+			$this_store_comment_count=$GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."supplier_location_dp as a left join ".
+			DB_PREFIX."user as b on b.id=a.user_id where a.supplier_location_id = ".$v['id']." and a.status = 1");
+			$buy_dp_sum = 0.0;
+			$buy_dp_group = $GLOBALS['db']->getAll("select point,count(*) as num from ".DB_PREFIX."supplier_location_dp where supplier_location_id = ".$v['id']." and status = 1 group by point");
+			foreach($buy_dp_group as $dp_k=>$dp_v){
+				$star = intval($dp_v['point']);
+				if ($star >= 1 && $star <= 5){			
+					$buy_dp_sum += $star * $dp_v['num'];
+				}
+			}			
+			//整体平均分
+			$merchant_list[$k]['dp_avg_point'] = round($buy_dp_sum / $this_store_comment_count,1);
+			$merchant_list[$k]['dp_width'] = (round($buy_dp_sum / $this_store_comment_count,1) / 5) * 100;	
 		}
 		
 		$root['total'] = $total;

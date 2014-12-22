@@ -21,15 +21,13 @@ class suppliercommentlist{
 		
 		$supplier_locationinfo = $GLOBALS['db']->getRow("select name,id,new_dp_count_time from ".DB_PREFIX."supplier_location where id = ".$merchant_id);
 			
-		syn_supplier_locationcount($supplier_locationinfo);
+		//syn_supplier_locationcount($supplier_locationinfo);
 		
 		$condition = " dp.status = 1 and dp.supplier_location_id = ".$merchant_id." ";
 		$sql_count = "select count(*) from ".DB_PREFIX."supplier_location_dp dp where ".$condition;
 		$total = $GLOBALS['db']->getOne($sql_count);
 	
-		$page_total = ceil($total/$page_size);
-		
-		
+		$page_total = ceil($total/$page_size);	
 		
 		
 		//$root['sql_count'] = $sql_count;

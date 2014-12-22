@@ -80,9 +80,9 @@ function get_rel_data($id,$topic)
 	</tr>
 	
 	<tr>
-		<td class="item_title">{%TITLE}:</td>
+		<td class="item_title">主题:</td>
 		<td>
-			<div style="word-break:break-all;">{$vo.title}[<a href='javascript:;' onclick="modify_title(this);">{%MODIFY}</a>]</div>
+			<div style="word-break:break-all;">{$vo.forum_title}[<a href='javascript:;' onclick="modify_title(this);">{%MODIFY}</a>]</div>
 			<input type="text" class="text" name="title" value="{$vo.title}" style="display:none;" />
 		</td>
 	</tr>	
@@ -98,10 +98,12 @@ function get_rel_data($id,$topic)
 		<td class="item_title">{%CLICK_COUNT}:</td>
 		<td>{$vo.click_count}</td>
 	</tr>
+	<!--
 	<tr>
 		<td class="item_title">{%TOPIC_TAGS}:</td>
 		<td> <input type="text" class="textbox" value="{$vo.tags}" name="tags" /></td>
 	</tr>
+	-->
 	<tr>
 		<td class="item_title">{%TOPIC_CATE_NAME}:</td>
 		<td class="item_input">
@@ -114,6 +116,7 @@ function get_rel_data($id,$topic)
 		<td class="item_title">{%REPLY_COUNT}:</td>
 		<td>{$vo.reply_count}</td>
 	</tr>
+	<!--
 	<tr>
 		<td class="item_title">{%GOOD_COUNT}:</td>
 		<td>{$vo.good_count}</td>
@@ -137,6 +140,7 @@ function get_rel_data($id,$topic)
 			</foreach>
 		</td>
 	</tr>
+	-->
 	<tr>
 		<td class="item_title">推荐:</td>
 		<td>

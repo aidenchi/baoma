@@ -21,6 +21,7 @@
 		<td class="item_title">{%BRIEF}:</td>
 		<td class="item_input"><textarea class="textarea" name="brief" >{$vo.brief}</textarea></td>
 	</tr>
+	<!--
 	<tr>
 		<td class="item_title">{%RECOMMEND}:</td>
 		<td class="item_input">
@@ -36,6 +37,7 @@
 			<html:imgUpload name = 'icon_img' id='icon_img'  value="$vo.icon_img"  />
 		</td>
 	</tr>
+	-->
 	<tr>
 		<td class="item_title">{%IS_EFFECT}:</td>
 		<td class="item_input">
@@ -43,7 +45,7 @@
 			<lable>{%IS_EFFECT_0}<input type="radio" name="is_effect" value="0" <if condition="$vo['is_effect'] eq 0">checked="checked"</if> /></lable>
 		</td>
 	</tr>
-	
+	<!--
 	<tr>
 		<td class="item_title">标签分组</td>
 		<td>
@@ -68,7 +70,7 @@
 			</foreach>&nbsp;
 		<td class="item_input">
 	</tr>
-	
+	-->
 	<tr>
 		<td class="item_title">{%SORT}:</td>
 		<td class="item_input"><input type="text" class="textbox" name="sort" value="{$vo.sort}" /></td>

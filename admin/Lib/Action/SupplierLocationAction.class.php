@@ -1,11 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | Fanwe 方维o2o商业系统
-// +----------------------------------------------------------------------
-// | Copyright (c) 2011 http://www.fanwe.com All rights reserved.
-// +----------------------------------------------------------------------
-// | Author: 云淡风轻(88522820@qq.com)
-// +----------------------------------------------------------------------
 
 class SupplierLocationAction extends CommonAction{
 	public function index()
@@ -95,7 +88,17 @@ class SupplierLocationAction extends CommonAction{
 		$sortImg = $sort; //排序图标
 		$sortAlt = $sort == 'desc' ? l("ASC_SORT") : l("DESC_SORT"); //排序提示
 		$sort = $sort == 'desc' ? 1 : 0; //排序方式
-			//模板赋值显示
+
+		foreach($list as $k=>$v){
+			$dp_total_count=$GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."supplier_location_dp as a left join ".
+			DB_PREFIX."user as b on b.id=a.user_id where a.supplier_location_id = ".$v['id']);
+			$list[$k]['dp_total_count'] = $dp_total_count;
+			$dp_iseffect_count=$GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."supplier_location_dp as a left join ".
+			DB_PREFIX."user as b on b.id=a.user_id where a.supplier_location_id = ".$v['id']." and a.status = 1");
+			$list[$k]['dp_iseffect_count'] = $dp_iseffect_count;
+		}
+		
+		//模板赋值显示
 		$this->assign ( 'sort', $sort );
 		$this->assign ( 'order', $order );
 		$this->assign ( 'sortImg', $sortImg );

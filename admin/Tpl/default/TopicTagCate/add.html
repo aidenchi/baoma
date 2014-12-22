@@ -10,13 +10,14 @@
 		<td colspan=2 class="topTd"></td>
 	</tr>
 	<tr>
-		<td class="item_title">{%TAG_CATE_NAME}:</td>
+		<td class="item_title">版块名称:</td>
 		<td class="item_input"><input type="text" class="textbox require" name="name" /></td>
 	</tr>
 	<tr>
 		<td class="item_title">{%SUB_NAME}:</td>
 		<td class="item_input"><input type="text" class="textbox" name="sub_name" /></td>
 	</tr>
+	<!--
 	<tr>
 		<td class="item_title">{%MOBILE_TITLE_BG}</td>
 		<td class="item_input">
@@ -24,13 +25,14 @@
 		<span class='tip_span'>[{%MOBILE_TITLE_BG_TIPS}]</span>
 		</td>
 	</tr>
+	-->
 	<tr>
 		<td class="item_title">{%SORT}:</td>
 		<td class="item_input">
 			<input type="text" class="textbox" name="sort" value="{$new_sort}" />
 		</td>
 	</tr>	
-	<tr>
+	<tr style="display:none;">
 		<td class="item_title">{%SHOWIN_WEB}:</td>
 		<td class="item_input">
 			<select name="showin_web">
@@ -40,7 +42,7 @@
 		</select>
 		</td>
 	</tr>	
-	<tr>
+	<tr style="display:none;">
 		<td class="item_title">{%SHOWIN_MOBILE}:</td>
 		<td class="item_input">
 			<select name="showin_mobile">

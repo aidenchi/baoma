@@ -58,12 +58,14 @@ var red_point = "__ROOT__/system/red_point.png";
 			<span class="tip_span">[{%ADV_TAGS_TIPS}]</span>
 		</td>
 	</tr>
+	<!--
 	<tr>
 		<td class="item_title">首页图片:</td>
 		<td class="item_input">
 			<html:imgUpload name = 'index_img' id='index_img'/>
 		</td>
 	</tr>
+	-->
 	<tr>
 		<td class="item_title">{%SUPPLIER_PREVIEW}:</td>
 		<td class="item_input"><html:imgUpload name = 'preview' id='preview' /></td>
@@ -186,15 +188,16 @@ var red_point = "__ROOT__/system/red_point.png";
     </tr>
 
 	<tr>
-		<td class="item_title">{%LOCATION_BRIEF}:</td>
+		<td class="item_title">店铺页简介:</td>
 		<td class="item_input">
 		 <html:editor id="brief" name="brief" type="KINDEDITOR"  />
 		</td>
 	</tr>
 	<tr>
-		<td class="item_title">手机端列表简介:</td>
+		<td class="item_title">列表页简介:</td>
 		<td class="item_input"><textarea class="textarea" name="mobile_brief"></textarea></td>
 	</tr>
+	<!--
 	<tr>
 		<td class="item_title">短信内容:</td>
 		<td class="item_input">
@@ -202,6 +205,7 @@ var red_point = "__ROOT__/system/red_point.png";
 		 <span class="tip_span">[若不填发送的短信内容为：名称+电话+地址]</span>
 		</td>
 	</tr>
+	-->
 	<tr>
 		<td class="item_title">总评分预设值[0-5]:</td>
 		<td class="item_input">
@@ -214,17 +218,17 @@ var red_point = "__ROOT__/system/red_point.png";
 		 <input type="text" class="textbox" id="good_rate" name="good_rate" value="0" />
 		</td>
 	</tr>
-	<tr>
+	<tr style="display:none">
 		<td class="item_title">SEO标题:</td>
-		<td class="item_input"><textarea class="textarea" name="seo_title" ></textarea></td>
+		<td class="item_input"><textarea class="textarea" name="seo_title" >宝妈母婴</textarea></td>
 	</tr>
-	<tr>
+	<tr style="display:none">
 		<td class="item_title">SEO关键词:</td>
-		<td class="item_input"><textarea class="textarea" name="seo_keyword" ></textarea></td>
+		<td class="item_input"><textarea class="textarea" name="seo_keyword" >宝妈母婴</textarea></td>
 	</tr>
-	<tr>
+	<tr style="display:none">
 		<td class="item_title">SEO描述:</td>
-		<td class="item_input"><textarea class="textarea" name="seo_description" ></textarea></td>
+		<td class="item_input"><textarea class="textarea" name="seo_description" >宝妈母婴</textarea></td>
 	</tr>
 	
 	<tr>
@@ -249,7 +253,8 @@ var red_point = "__ROOT__/system/red_point.png";
 			</select>
 		</td>
 	</tr>
-	<tr>
+
+	<tr style="display:none">
 		<td class="item_title">支持手机自主下单:</td>
 		<td class="item_input">
 			<select name="is_auto_order">
@@ -257,7 +262,8 @@ var red_point = "__ROOT__/system/red_point.png";
 				<option value="1">是</option>
 			</select>
 		</td>
-	</tr>	
+	</tr>
+
 	<tr>
 		<td class="item_title"></td>
 		<td class="item_input">

@@ -46,6 +46,7 @@
 				<PHP>echo sprintf(L("TOTAL_USER_COUNT_FORMAT"),$total_user,$total_verify_user);</PHP>
 			</td>
 		</tr>
+		<!--
 		<tr>
 			<td class="item_title" style="width:200px;">
 				{%CURRENT_DEALING}
@@ -54,7 +55,8 @@
 				<PHP>echo sprintf(L("CURRENT_DEALING_FORMAT"),$goods_count,$deal_count,$score_count);</PHP>
 			</td>
 		</tr>	
-		
+		-->
+		<!--
 		<tr>
 			<td class="item_title" style="width:200px;">
 				上线优惠
@@ -65,16 +67,17 @@
 				活动{$event_count}
 			</td>
 		</tr>
-		
+		-->
 		<tr>
 			<td class="item_title" style="width:200px;">
 				会员发表
 			</td>
 			<td class="item_input">
-				分享{$topic_count}<if condition="$reminder['topic_count'] gt 0">(<a href="{:u("Topic/index")}" style="color:#f60;">{$reminder.topic_count}新</a>)</if>，商家点评{$dp_count}<if condition="$reminder['dp_count'] gt 0">(<a href="{:u("SupplierLocation/index")}" style="color:#f60;">{$reminder.dp_count}新</a>)</if>，会员留言{$msg_count}<if condition="$reminder['msg_count'] gt 0">(<a href="{:u("Message/index",array("is_buy"=>0))}" style="color:#f60;">{$reminder.msg_count}新</a>)</if>，购物点评{$buy_msg_count}<if condition="$reminder['buy_msg_count'] gt 0">(<a href="{:u("Message/index",array("is_buy"=>1))}" style="color:#f60;">{$reminder.buy_msg_count}新</a>)</if>
+				帖子{$topic_count}<if condition="$reminder['topic_count'] gt 0">(<a href="{:u("Topic/index")}" style="color:#f60;">{$reminder.topic_count}新</a>)</if>，商家点评{$dp_count}<if condition="$reminder['dp_count'] gt 0">(<a href="{:u("SupplierLocation/index")}" style="color:#f60;">{$reminder.dp_count}新</a>)</if>，<!--会员留言{$msg_count}<if condition="$reminder['msg_count'] gt 0">(<a href="{:u("Message/index",array("is_buy"=>0))}" style="color:#f60;">{$reminder.msg_count}新</a>)</if>，购物点评-->商品点评{$buy_msg_count}<if condition="$reminder['buy_msg_count'] gt 0">(<a href="{:u("Message/index",array("is_buy"=>1))}" style="color:#f60;">{$reminder.buy_msg_count}新</a>)</if>
 			</td>
 		</tr>
 		
+		<!--
 		<tr>
 			<td class="item_title" style="width:200px;">
 				订单统计
@@ -95,7 +98,8 @@
 				</if>
 			</td>
 		</tr>
-		
+		-->
+		<!--
 		<tr>
 			<td class="item_title" style="width:200px;">
 				资金
@@ -104,13 +108,13 @@
 				总收款{$income_amount|format_price}，退款{$refund_amount|format_price}
 			</td>
 		</tr>
-		
+		-->
 		<tr>
 			<td class="item_title" style="width:200px;">
 				{%GET_MORE_INFO}
 			</td>
 			<td class="item_input">
-				请访问 <a href="http://www.fanwe.com" target="_blank" title="方维O2O商业系统">http://www.fanwe.com</a>
+				请访问 <a href="http://www.ishareyun.com" target="_blank" title="云享新创">http://www.ishareyun.com</a>
 			</td>
 		</tr>
 		<tr>

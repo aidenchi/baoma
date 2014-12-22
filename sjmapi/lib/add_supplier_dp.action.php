@@ -27,7 +27,7 @@ class add_supplier_dp
 					$merchant_youhui_comment = array(
 								'user_id' => $user_id,
 								'supplier_location_id' => $supplier_location_id,
-								'title' => $content,
+								'title' => '店铺点评',
 								'content' => $content,
 								'point' => $point,
 								'status' => 0,
@@ -37,7 +37,7 @@ class add_supplier_dp
 				$id = $GLOBALS['db']->insert_id();
 				$root['id'] = $id;
 				if($id > 0)	{
-					$GLOBALS['db']->query("update ".DB_PREFIX."supplier_location set dp_count = dp_count + 1 where id = ".$id);
+					$GLOBALS['db']->query("update ".DB_PREFIX."supplier_location set new_dp_count = new_dp_count + 1 where id = ".$merchant_id);
 					$root['status'] = 1;
 					$root['info'] = "提交成功，审核通过后可显示";
 				}else{

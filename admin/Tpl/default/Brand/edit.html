@@ -18,7 +18,7 @@
 		<td class="item_input"><input type="text" class="textbox require" name="name" value="{$vo.name}" /></td>
 	</tr>
 	<tr>
-		<td class="item_title">{%SHOP_CATE_TREE}:</td>
+		<td class="item_title">商品分类:</td>
 		<td class="item_input">
 		<select name="shop_cate_id">
 			<option value="0">=={%NO_SELECT_CATE}==</option>
@@ -33,7 +33,7 @@
 		<td class="item_input"><html:imgUpload name = 'logo' id='logo' value='$vo.logo' /></td>
 	</tr>
 	
-	<tr>
+	<tr style="display:none;">
 		<td class="item_title">{%BRAND_PROMOTE}:</td>
 		<td class="item_input">
 			<select name="brand_promote">
