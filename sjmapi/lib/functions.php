@@ -444,7 +444,7 @@ function getGoodsArray($item){
 	$goods['cur_price']=round($item['current_price'],2);
 	
 	if (empty($item['brief'])){
-		$goods['goods_brief'] = $item['name'];
+		$goods['goods_brief'] = "暂无简介";
 	}else{
 		$goods['goods_brief'] = $item['brief'];
 	}
@@ -1844,16 +1844,20 @@ function m_get_message_list($limit,$where='',$city = 0)
 function get_collect_list($limit,$user_id)
 	{
 		$user_id = intval($user_id);
-		$sql = "select c.id,c.create_time as add_time,d.name,d.sub_name,d.buy_count,d.current_price,d.origin_price,d.id as deal_id,d.is_shop,d.icon from ".DB_PREFIX."deal_collect as c left join ".DB_PREFIX."deal as d on d.id = c.deal_id where c.user_id = ".$user_id."  order by c.create_time desc limit ".$limit;
+		$sql = "select c.id,c.create_time as add_time,d.name,d.sub_name,d.brief,d.buy_count,d.current_price,d.origin_price,d.id as deal_id,d.is_shop,d.icon from ".DB_PREFIX."deal_collect as c left join ".DB_PREFIX."deal as d on d.id = c.deal_id where c.user_id = ".$user_id."  order by c.create_time desc limit ".$limit;
 		$sql_count = "select count(*) from ".DB_PREFIX."deal_collect where user_id = ".$user_id;
 		$list = $GLOBALS['db']->getAll($sql);
 		$count = $GLOBALS['db']->getOne($sql_count);
 		foreach($list as $k=>$v)
 		{
 			$list[$k]['format_add_time']=to_date($v['add_time'],'Y-m-d');
-			$list[$k]['icon']=get_abs_img_root(get_spec_image($v['icon'],320,200,0));
+			//$list[$k]['icon']=get_abs_img_root(get_spec_image($v['icon'],320,200,0));
+			$list[$k]['icon']=str_replace("./public/","/public/",$list[$k]['icon']);//图片显示不出来，ymy添加了这一句 2014-12-10
 			$list[$k]['current_price']=round($v['current_price'],2);
 			$list[$k]['origin_price']=round($v['origin_price'],2);
+			if (empty($list[$k]['brief'])){
+				$list[$k]['brief'] = "暂无简介";
+			}
 		}
 		return array("list"=>$list,'count'=>$count);
 	}
@@ -2090,13 +2094,13 @@ function get_collect_list($limit,$user_id)
                 )
 		）
 	 * **/
+	 
 	function getCateList(){
 		$bigcate_list=$GLOBALS['db']->getAll("select id,name,icon_img from ".DB_PREFIX."deal_cate where is_delete=0 and is_effect=1 and pid=0 order by sort desc,id desc");
 		$bcate_list=array();
 		$bcate_ids=array();
 		$bcate_type=array();
-		foreach($bigcate_list as $k=>$v)
-		{
+		foreach($bigcate_list as $k=>$v){
 			$bcate_ids[]=$v['id'];
 			$bcate_type[$v['id']]='';
 			$bigcate_list[$k]['icon_img']=get_abs_img_root($v['icon_img']);
@@ -2104,8 +2108,7 @@ function get_collect_list($limit,$user_id)
 		$sql1="select dctl.cate_id,dctl.deal_cate_type_id as id,dct.name from ".DB_PREFIX."deal_cate_type as dct left join ".DB_PREFIX."deal_cate_type_link as dctl on dctl.deal_cate_type_id=dct.id where dctl.cate_id in(".implode(',',$bcate_ids).") order by dct.sort desc,dct.id desc";
 		$sub_cate=$GLOBALS['db']->getAll($sql1);
 		
-		foreach($sub_cate as $k=>$v)
-		{
+		foreach($sub_cate as $k=>$v){
 			$bcate_type[$v['cate_id']][]=$v;
 		}
 		
@@ -2132,12 +2135,9 @@ function get_collect_list($limit,$user_id)
 					$bigcate_list[$k]['bcate_type']=$bcate_type_array;
 				else
 					$bigcate_list[$k]['bcate_type']=array_merge($bcate_type_array,$bcate_type[$v['id']]);	
-			}
-			
-				
+			}				
 			$bcate_list[]=$bigcate_list[$k];
-		}
-		
+		}		
 		return $bcate_list;
 	}
 	
@@ -2223,7 +2223,7 @@ function get_collect_list($limit,$user_id)
 	
 		return $quan_list;
 	}
-		
+	
 	function getQuanList($city_id =0){
 		$all_quan_list=$GLOBALS['db']->getAll("select * from ".DB_PREFIX."area where city_id=".intval($city_id)." order by sort desc");
 		$quan_list=array();

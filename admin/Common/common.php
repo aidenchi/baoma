@@ -77,7 +77,6 @@ function save_log($msg,$status)
 	}
 }
 
-
 //状态的显示
 function get_toogle_status($tag,$id,$field)
 {

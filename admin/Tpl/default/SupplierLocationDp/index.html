@@ -20,8 +20,8 @@
 	checkbox="true" 
 	action="true" 
 	datasource="list" 
-	show="id:{%ID}|80,title|msubstr:标题,user_id|getUNAME:会员,supplier_location_id|getMerchantName:商户,is_img|getIsImg:有图,create_time|to_date:发表时间,status|get_toogle_status=$dp['id']#status:{%STATUS},is_best|get_toogle_status=$dp['id']#is_best:精华,is_top|get_toogle_status=$dp['id']#is_index:置顶" 
-	actionlist="id|getReply,edit:{%EDIT}:id,foreverdel:{%DEL}:id" action_width="150" />
+	show="id:{%ID}|80,title|msubstr:标题,user_id|getUNAME:会员,supplier_location_id|getMerchantName:商铺,create_time|to_date:发表时间,status|get_toogle_status=$dp['id']#status:是否有效" 
+	actionlist="edit:{%EDIT}:id,foreverdel:{%FOREVERDEL}:id" action_width="150" />
 <div class="blank5"></div>
 <div class="page">{$page}</div>
 </div>

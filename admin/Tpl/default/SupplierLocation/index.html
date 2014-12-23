@@ -16,8 +16,8 @@
 
 	function getViewSub($id,$vo)
 	{
-		$str .= "<a href='".u("SupplierLocationDp/index",array("supplier_location_id"=>$vo['id']))."'>查看点评(".$vo['dp_count'].")</a>&nbsp;";
-		$str .= "<a href='".u("SupplierLocationImages/index",array("supplier_location_id"=>$vo['id']))."'>查看图库(".$vo['image_count'].")</a>";
+		$str .= "<a href='".u("SupplierLocationDp/index",array("supplier_location_id"=>$vo['id']))."'>查看点评(共".$vo['dp_total_count']."条，".$vo['dp_iseffect_count']."条有效)</a>&nbsp;";
+		//$str .= "<a href='".u("SupplierLocationImages/index",array("supplier_location_id"=>$vo['id']))."'>查看图库(".$vo['image_count'].")</a>";
 		return $str;
 	}
 </php>
@@ -45,7 +45,7 @@
 	checkbox="true" 
 	action="true" 
 	datasource="list" 
-	show="id:{%ID}|50px,name:{%LOCATION_NAME}:edit,supplier_id|get_supplier_name:{%SUPPLIER_NAME},is_effect|get_toogle_status=$location['id']#is_effect:有效,sort|get_sort=$location['id']:首页排序,is_recommend|get_toogle_status=$location['id']#is_recommend:{%IS_RECOMMEND},is_verify|get_toogle_status=$location['id']#is_verify:{%IS_VERIFY_SHOP},is_main|get_is_main_location=$location['id']:{%IS_MAIN_LOCATION},is_auto_order|get_is_main_location:手机自主下单,new_dp_count:新点评" 
+	show="id:{%ID}|50px,name:{%LOCATION_NAME}:edit,supplier_id|get_supplier_name:{%SUPPLIER_NAME},sort|get_sort=$location['id']:排序,is_effect|get_toogle_status=$location['id']#is_effect:有效,is_recommend|get_toogle_status=$location['id']#is_recommend:{%IS_RECOMMEND},is_verify|get_toogle_status=$location['id']#is_verify:{%IS_VERIFY_SHOP},is_main|get_is_main_location=$location['id']:{%IS_MAIN_LOCATION},new_dp_count:新点评" 
 	actionlist="id|getViewSub=$location,edit:{%EDIT}, foreverdel:{%FOREVERDEL}" /> 
 
 <div class="blank5"></div>

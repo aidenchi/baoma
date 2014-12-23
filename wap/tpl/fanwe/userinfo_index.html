@@ -1,0 +1,156 @@
+{include file="./inc/header.html"}
+<div class="wrap">
+	<div class="content">
+			<div class="blank8"></div>		
+				{if $data.user_info}
+                 <div class="list-view">					
+				       <ul class="person_details one">
+				       	    <li>
+				       	    	<div class="person_account">						  	 
+								   <div class="account_info">
+										<div class="pic">
+											<img src='{function name="get_user_avatar" uid=$data.user_info.user_id type="middle"}' width="59" height="59">
+										</div>
+										<div class="name">
+											  <b>{$data.user_info.user_name}</b>&nbsp;&nbsp;
+											  {if $data.user_info.focused eq 0}
+											  <a href="javascript:void(0);" onclick="focus_user({$data.user_info.user_id},this);" class="add_focus">关注TA</a>
+											  {else}
+											  <a href="javascript:void(0);" onclick="focus_user({$data.user_info.user_id},this);" class="remove_focus">取消关注</a>
+											  {/if}
+										</div>
+								   </div>
+							  </div>
+							</li>
+							<li>
+				       	    	<div class="user_info">
+										<p>等级：{$data.user_info.user_point_level}</p>
+										<p>经验值：<font class="font-fc8">{$data.user_info.point}</font>	</p>
+										<p>性别：{if $data.user_info.sex eq 0}女{/if}{if $data.user_info.sex eq 1}男{/if}</p>
+										<p>
+											个人简介：
+											  {if $data.user_info.my_intro}
+												{$data.user_info.my_intro}
+											  {else}
+											    无
+											  {/if}
+										</p>
+				       	    	</div>
+							</li>
+				       </ul>		 
+				</div>
+				
+				<div class="blank8"></div>
+					<div class="list-view">
+						<div class="list_title">{if $data.user_info.sex eq 0}她{else}他{/if}最近的帖子</div>
+						 {if $data.user_topic}
+						 <ul class="">
+						 {foreach from=$data.user_topic item=topic}
+							<li class="topic_li" id="topic_item_{$topic.id}">
+						 	     	<div class="list_item">
+						 	     		 <div class="topic_user_headimg">
+						 	     		 	<img src='{function name="get_user_avatar" uid=$topic.user_id type="small" }'>
+						 	     		 </div>
+										 <div class="info">
+											<a href='{wap_url a="index" r="topicitem#index"  p="id=$topic.id"}'>
+										 	<i>{$topic.forum_title}</i>
+											<h3>{$topic.short_content}</h3>	
+											</a>
+											<div class="topic_bottom">												 
+						                         <p class="topic_bottom_text">
+													<a href='{wap_url a="index" r="topicitem#index"  p="id=$topic.id"}'>
+													<em>
+													<i>{$topic.user_name}</i><i>&nbsp;•</i>
+													<i>{function name="pass_date" time=$topic.create_time }</i><i>&nbsp;•</i>						                         	
+													{$topic.reply_count}<i>&nbsp;条回复</i>
+													</em>	
+													</a>
+												 </p>													 
+												 <p class="topic_bottom_text_right">
+													{if $data.user_info.user_id eq $data.current_user_id}
+													<a href="javascript:void(0);" onclick="delete_topic({$topic.id},$('#topic_item_{$topic.id}'));"><i>删除</i></a>
+													{/if}
+												 </p>
+						                     </div>
+										 </div>
+						 	     	</div>
+						 	</li>
+							{/foreach}							
+						 </ul>
+						 {else}
+						 <div class="assess_list" style="text-align:center;padding:10px 0;">最近未发表过帖子</div>
+						 {/if}
+					</div><!--list-view end-->	
+					{else}
+					<div class="list-view">
+						<div class="assess_list" style="text-align:center;padding:10px 0;">无此人</div>
+					</div><!--list-view end-->	
+					{/if}
+					
+				
+	</div>
+</div>
+
+<script type="text/javascript">
+function focus_user(uid,o){
+	var query = new Object();
+	query.post_type = "json";
+	var ajaxurl = APP_ROOT+"/index.php?ctl=userfocus&user_id="+uid;
+	$.ajax({ 
+		url:ajaxurl,
+		data:query,
+		type:"post",
+		dataType:"json",
+		success: function(data){
+			if(data.tag==1)	{
+				$(o).removeClass("add_focus");
+				$(o).removeClass("remove_focus");
+				$(o).addClass("remove_focus");
+				$(o).html(data.html);
+			}
+			if(data.tag==2)	{
+				$(o).removeClass("add_focus");
+				$(o).removeClass("remove_focus");
+				$(o).addClass("add_focus");
+				$(o).html(data.html);
+			}
+			if(data.tag==3)	{
+				alert(data.html);
+			}
+			if(data.tag==4)	{
+				alert(data.html);
+			}	
+		},
+		error:function(ajaxobj)	{
+			alert("出现错误");
+		}
+	});	
+}
+
+function delete_topic(topic_id,one_topic_li_obj){
+	var query = new Object();
+	query.topic_id = topic_id;
+	query.post_type = "json";
+	var ajaxurl = '{wap_url a="index" r="topicdel#index"}';
+	//alert(query.topic_reply_id);	
+	$.ajax({
+		url:ajaxurl,
+		data:query,
+		type:"post",
+		dataType:"json",
+		success:function(data){
+			if(data.status==1){ 	
+				one_topic_li_obj.hide();
+				alert(data.info);
+			}else{
+				alert(data.info);
+			}
+		}
+		,error:function(){
+			alert("服务器提交错误");
+		}
+	});
+}
+</script>
+
+{include file="./inc/footer.html"} 

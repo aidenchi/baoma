@@ -26,7 +26,7 @@
 	<input type="button" class="button conf_btn" rel="1" value="{%SHOP_BASE_INFO}" />&nbsp;
 	<input type="button" class="button conf_btn" rel="2" value="{%PRICE_AND_QTY}" />&nbsp;
 	<input type="button" class="button conf_btn" rel="3" value="{%ATTR_SETTING}" />&nbsp;	
-	<input type="button" class="button conf_btn" rel="4" value="{%SEO_CONFIG}" />&nbsp;	
+	<input style="display:none;" type="button" class="button conf_btn" rel="4" value="{%SEO_CONFIG}" />&nbsp;	
 </div>
 <div class="blank5"></div>
 <table class="form conf_tab" cellpadding=0 cellspacing=0 rel="1">
@@ -37,11 +37,11 @@
 		<td class="item_title">{%GOODS_NAME}:</td>
 		<td class="item_input"><input type="text" class="textbox require" name="name" style="width:500px;" /></td>
 	</tr>
-	<tr>
+	<tr style="display:none;">
 		<td class="item_title">{%DEAL_SUB_NAME}:</td>
 		<td class="item_input"><input type="text" class="textbox require" name="sub_name" /> <span class='tip_span'>{%GOODS_SUB_NAME_TIP}</span></td>
 	</tr>
-	<tr>
+	<tr style="display:none;">
 		<td class="item_title">{%URL_UNAME}:</td>
 		<td class="item_input"><input type="text" class="textbox word-only" name="uname" /> </td>
 	</tr>
@@ -49,7 +49,7 @@
 		<td class="item_title">{%GOODS_BRIEF}:</td>
 		<td class="item_input"><textarea class="textarea" name="brief" ></textarea></td>
 	</tr>
-	<tr>
+	<tr style="display:none;">
 		<td class="item_title">{%DEAL_BUY_TYPE}:</td>
 		<td class="item_input">
 			<select name="buy_type">
@@ -58,8 +58,6 @@
 			</select>
 		</td>
 	</tr>
-
-
 	<tr>
 		<td class="item_title">{%SUPPLIER_NAME}:</td>
 		<td class="item_input">
@@ -82,7 +80,7 @@
 		</td>
 	</tr>
 	
-	
+	<!--
 	<tr>
 		<td class="item_title">{%BRAND_NAME}:</td>
 		<td class="item_input">
@@ -94,6 +92,7 @@
 		</select>
 		</td>
 	</tr>
+	-->
 	<tr>
 		<td class="item_title">{%CATE_TREE}:</td>
 		<td class="item_input">		
@@ -105,7 +104,7 @@
 		</select>
 		</td>
 	</tr>	
-	
+	<!--
 	<tr>
 		<td class="item_title">{%EVENT_INDEX}:</td>
 		<td class="item_input">		
@@ -117,12 +116,11 @@
 		</select>
 		</td>
 	</tr>	
-	
+	-->
 	<tr>
 		<td class="item_title">{%SHOP_CITY}:</td>
 		<td class="item_input">
 		<select name="city_id" class="require">
-			<option value="0">=={%NO_SELECT_CITY}==</option>
 			<foreach name="city_list" item="city_item">
 				<option value="{$city_item.id}">{$city_item.title_show}</option>
 			</foreach>
@@ -178,6 +176,7 @@
 	<tr>
 		<td colspan=2 class="topTd"></td>
 	</tr>
+	<!--
 	<tr>
 		<td class="item_title">{%BRAND_PROMOTE}:</td>
 		<td class="item_input">
@@ -203,12 +202,14 @@
 			<input type="button" class="button" value="{%CLEAR_TIME}" onclick="$('#end_time').val('');" />
 		</td>
 	</tr>
+	-->
 	<tr class="max_bought_row">
 		<td class="item_title">{%STOCK_NUM}:</td>
 		<td class="item_input">
 			<input type="text" class="textbox" name="max_bought" value="" />
 		</td>
 	</tr>
+	<!--
 	<tr>
 		<td class="item_title">{%DEAL_USER_MIN_BOUGHT}:</td>
 		<td class="item_input">
@@ -219,18 +220,22 @@
 		<td class="item_title">{%DEAL_USER_MAX_BOUGHT}:</td>
 		<td class="item_input"><input type="text" class="textbox" name="user_max_bought" value="" /></td>
 	</tr>
+	-->
 	<tr class="buy_type_0">
 		<td class="item_title">{%DEAL_ORIGIN_PRICE}:</td>
 		<td class="item_input"><input type="text" class="textbox" name="origin_price" value="" /></td>
 	</tr>
+	<!--
 	<tr>
 		<td class="item_title">{%DEAL_BALANCE_PRICE}:</td>
 		<td class="item_input"><input type="text" class="textbox" name="balance_price" value="" /></td>
 	</tr>
+	-->
 	<tr class="buy_type_0">
 		<td class="item_title">{%GOODS_CURRENT_PRICE}:</td>
 		<td class="item_input"><input type="text" class="textbox" name="current_price" value="" /></td>
 	</tr>
+	<!--
 	<tr class="buy_type_0">
 		<td class="item_title">{%DEAL_RETURN_MONEY}:</td>
 		<td class="item_input">
@@ -238,6 +243,7 @@
 			<span class='tip_span'>[{%DEAL_RETURN_MONEY_TIP}]</span>
 		</td>
 	</tr>
+	
 	<tr>
 		<td class="item_title">{%DEAL_RETURN_SCORE}:</td>
 		<td class="item_input">
@@ -245,6 +251,7 @@
 			<span class='tip_span'>[{%DEAL_RETURN_SCORE_TIP}]</span>
 		</td>
 	</tr>
+	-->
 	<tr>
 		<td colspan=2 class="bottomTd"></td>
 	</tr>
@@ -258,8 +265,8 @@
 		<td class="item_title">{%DEAL_IS_REFUND}:</td>
 		<td class="item_input">
 			<select name="is_refund">
-				<option value="1">{%IS_REFUND_1}</option>
 				<option value="0">{%IS_REFUND_0}</option>
+				<option value="1">{%IS_REFUND_1}</option>				
 			</select>
 		</td>
 	</tr>
@@ -299,7 +306,7 @@
 			</select>
 		</td>
 	</tr>
-	
+	<!--
 	<tr>
 		<td class="item_title">{%DEAL_IS_COUPON}:</td>
 		<td class="item_input">
@@ -493,27 +500,28 @@
 			<div id="deal_attr"></div>
 		</td>
 	</tr>
+	-->
 	<tr>
 		<td colspan=2 class="bottomTd"></td>
 	</tr>
 </table>
 
 
-<table class="form conf_tab" cellpadding=0 cellspacing=0 rel="4">
+<table class="form conf_tab" cellpadding=0 cellspacing=0 rel="4" style="display:none;">
 	<tr>
 		<td colspan=2 class="topTd"></td>
 	</tr>
 	<tr>
 		<td class="item_title">{%GOODS_SEO_TITLE}:</td>
-		<td class="item_input"><textarea class="textarea" name="seo_title" ></textarea></td>
+		<td class="item_input"><textarea class="textarea" name="seo_title" >宝妈母婴</textarea></td>
 	</tr>
 	<tr>
 		<td class="item_title">{%GOODS_SEO_KEYWORD}:</td>
-		<td class="item_input"><textarea class="textarea" name="seo_keyword" ></textarea></td>
+		<td class="item_input"><textarea class="textarea" name="seo_keyword" >宝妈母婴</textarea></td>
 	</tr>
 	<tr>
 		<td class="item_title">{%GOODS_SEO_DESCRIPTION}:</td>
-		<td class="item_input"><textarea class="textarea" name="seo_description" ></textarea></td>
+		<td class="item_input"><textarea class="textarea" name="seo_description" >宝妈母婴</textarea></td>
 	</tr>
 	<tr>
 		<td colspan=2 class="bottomTd"></td>

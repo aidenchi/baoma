@@ -1,0 +1,76 @@
+{include file="./inc/header_topic.html"}
+			<div class="wrap">
+					<div class="blank8"></div>
+					<div class="list-view">
+						<div class="list_title">共<span id="myfocus_count">{$data.total}</span>人</div>
+						 {if $data.focus_list}						
+						 <ul class="">
+						 {foreach from=$data.focus_list item=focus}
+							<li class="focus_item_li">
+						 	     	<div class="list_item">
+						 	     		 <div class="focus_user_headimg">
+											<a href='{wap_url a="index" r="userinfo#index" p="user_id=$focus.id"}'>
+						 	     		 	<img src='{function name="get_user_avatar" uid=$focus.id type="small" }'>	
+											</a>
+						 	     		 </div>
+										 <div class="info">
+											<a href='{wap_url a="index" r="userinfo#index" p="user_id=$focus.id"}'>
+										 	<i>{$focus.user_name}</i>
+											</a>
+											&nbsp;&nbsp;
+											<a href="javascript:void(0);" onclick="focus_user({$focus.id},this);" class="remove_focus">取消关注</a>
+											
+										 </div>
+						 	     	</div>
+						 	</li>
+						 {/foreach}							
+						 </ul>		
+						<div class="fy">
+							{$pages}
+						</div>
+						 {else}
+						 <div class="assess_list" style="text-align:center;padding:10px 0;">您还未关注任何人</div>
+						 {/if}
+					</div><!--list-view end-->		
+				 
+				</div><!--wrap end-->	
+
+<script type="text/javascript">
+function focus_user(uid,o){
+	var query = new Object();
+	query.post_type = "json";
+	var ajaxurl = APP_ROOT+"/index.php?ctl=userfocus&user_id="+uid;
+	$.ajax({ 
+		url:ajaxurl,
+		data:query,
+		type:"post",
+		dataType:"json",
+		success: function(data){
+			if(data.tag==1)	{
+				$(o).removeClass("add_focus");
+				$(o).removeClass("remove_focus");
+				$(o).addClass("remove_focus");
+				$(o).html(data.html);
+			}
+			if(data.tag==2)	{
+				$(o).removeClass("add_focus");
+				$(o).removeClass("remove_focus");
+				$(o).addClass("add_focus");
+				$(o).html(data.html);
+			}
+			if(data.tag==3)	{
+				alert(data.html);
+			}
+			if(data.tag==4)	{
+				alert(data.html);
+			}	
+		},
+		error:function(ajaxobj)	{
+			alert("出现错误");
+		}
+	});	
+}
+</script>
+				
+{include file="./inc/footer.html"}				
+			

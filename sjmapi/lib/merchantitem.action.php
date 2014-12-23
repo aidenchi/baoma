@@ -107,10 +107,9 @@ class merchantitem
 			}
 			$goods_list[$k]['discount'] = round($goods_list[$k]['discount'],2);
 			$goods_list[$k]['img'] = get_abs_img_root($v['img']);
-			
 			if (empty($v['brief'])){
-				$goods_list[$k]['brief'] = $v['name'];
-				$goods_list[$k]['name'] = $v['sub_name'];
+				$goods_list[$k]['brief'] = "暂无简介";
+				$goods_list[$k]['name'] = $v['name'];
 			}
 		}
 		

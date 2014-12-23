@@ -46,6 +46,13 @@ class goodsdesc{
 		$item['current_price_format'] = format_price($item['current_price']);
 		$item['success_time_format']  = to_date($item['success_time']);
 		$item['description']=str_replace("./public/","/public/",$item['description']);//图片显示不出来，ymy添加了这一句 2014-12-10
+		//检是否收藏该商品
+		$collect_data = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."deal_collect where user_id = ".intval($user['id'])." and deal_id = ".$id);
+		if($collect_data){
+			$item['is_collect'] = 1;//已收藏
+		}else{
+			$item['is_collect'] = 0;//未收藏
+		}
 		$root = $item;	
 				
 		$pi = 3.14159265;  //圆周率

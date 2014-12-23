@@ -49,6 +49,7 @@
 <div class="search_row">
 	<form name="search" action="__APP__" method="get">	
 		{%GOODS_NAME}：<input type="text" class="textbox" name="name" value="{:trim($_REQUEST['name'])}" />
+		<!--
 		{%DEAL_CITY}：
 		<select name="city_id">
 			<option value="0" <if condition="intval($_REQUEST['city_id']) eq 0">selected="selected"</if>>{%NO_SELECT_CITY}</option>
@@ -56,6 +57,7 @@
 				<option value="{$city_item.id}" <if condition="intval($_REQUEST['city_id']) eq $city_item['id']">selected="selected"</if>>{$city_item.title_show}</option>
 			</foreach>
 		</select>
+		-->
 		{%CATE_TREE}：
 		<select name="cate_id">
 			<option value="0" <if condition="intval($_REQUEST['cate_id']) eq 0">selected="selected"</if>>{%NO_SELECT_CATE}</option>
@@ -63,6 +65,7 @@
 				<option value="{$cate_item.id}" <if condition="intval($_REQUEST['cate_id']) eq $cate_item['id']">selected="selected"</if>>{$cate_item.title_show}</option>
 			</foreach>
 		</select>
+		<!--
 		{%BRAND_LIST}：
 		<select name="brand_id">
 			<option value="0" <if condition="intval($_REQUEST['brand_id']) eq 0">selected="selected"</if>>{%NO_SELECT_BRAND}</option>
@@ -70,7 +73,7 @@
 				<option value="{$brand_item.id}" <if condition="intval($_REQUEST['brand_id']) eq $brand_item['id']">selected="selected"</if>>{$brand_item.name}</option>
 			</foreach>
 		</select>
-		
+		-->
 		<input type="hidden" value="Deal" name="m" />
 		<input type="hidden" value="shop" name="a" />
 		<input type="submit" class="button" value="{%SEARCH}" />
@@ -87,14 +90,9 @@
 	show="id:{%ID}|50px
 		,name|msubstr:{%GOODS_NAME}:edit_goods
 		,shop_cate_id|get_shop_cate_name:{%SHOP_CATE_TITLE}
-		,city_id|get_deal_city_name:{%SHOP_CITY}
-		,time_status|a_get_time_status=$deal['id']:{%DEAL_TIME_STATUS}
-		,buy_type|get_buy_type_title:{%DEAL_BUY_TYPE}
-		,brand_promote|get_status:{%BRAND_PROMOTE}
-		,deal_type|a_get_deal_type=$deal['id']:{%DEAL_COUNT_TYPE}
 		,is_effect|get_is_effect=$deal['id']:{%IS_EFFECT}
 		,sort|get_sort=$deal['id']:{%SORT}" 
-	actionlist="edit_goods:{%EDIT}, del:{%DEL}, preview:{%PREVIEW}" /> 
+	actionlist="edit_goods:{%EDIT}, del:{%DEL}" /> 
 
 <div class="blank5"></div>
 <div class="page">{$page}</div>

@@ -126,7 +126,7 @@
 						 	     </a>
 						 	</li>
 							{/foreach}
-						 </ul>	
+						 </ul>						 
 						 <div class="see_more">
 						 	<a href='{wap_url a="index" r="goodslist#index"  p="merchant_id=$data.id"}'>查看全部商品</a>
 						 </div>
@@ -224,10 +224,12 @@
 								</div>							
 							</li>
 							{/foreach}
-						 </ul>						
+						 </ul>
+						 {if $data.comment_count gt 3}
 						 <div class="see_more">
 						 	<a href='{wap_url a="index" r="suppliercommentlist#index"  p="merchant_id=$data.id"}'>查看全部评价</a>
 						 </div>
+						 {/if}
 						 {else}
 						 <div class="assess_list" style="text-align:center;padding:10px 0;"> 暂无评论</div>
 						 {/if}						 
