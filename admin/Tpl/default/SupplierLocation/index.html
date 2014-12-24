@@ -32,6 +32,13 @@
 <div class="search_row">
 	<form name="search" action="__APP__" method="get">	
 		名称：<input type="text" class="textbox" name="name" value="{:trim($_REQUEST['name'])}" />		
+		商户：
+		<select name="supplier_id">
+			<option value="0" <if condition="intval($_REQUEST['supplier_id']) eq 0">selected="selected"</if>>未选择商户</option>
+			<foreach name="supplier_list" item="supplier_item">
+				<option value="{$supplier_item.id}" <if condition="intval($_REQUEST['supplier_id']) eq $supplier_item['id']">selected="selected"</if>>{$supplier_item.name}</option>
+			</foreach>
+		</select>
 		<input type="hidden" value="SupplierLocation" name="m" />
 		<input type="hidden" value="index" name="a" />
 		<input type="submit" class="button" value="{%SEARCH}" />
@@ -45,7 +52,7 @@
 	checkbox="true" 
 	action="true" 
 	datasource="list" 
-	show="id:{%ID}|50px,name:{%LOCATION_NAME}:edit,supplier_id|get_supplier_name:{%SUPPLIER_NAME},sort|get_sort=$location['id']:排序,is_effect|get_toogle_status=$location['id']#is_effect:有效,is_recommend|get_toogle_status=$location['id']#is_recommend:{%IS_RECOMMEND},is_verify|get_toogle_status=$location['id']#is_verify:{%IS_VERIFY_SHOP},is_main|get_is_main_location=$location['id']:{%IS_MAIN_LOCATION},new_dp_count:新点评" 
+	show="id:{%ID}|50px,name:{%LOCATION_NAME}:edit,is_recommend|get_toogle_status=$location['id']#is_recommend:{%IS_RECOMMEND},is_verify|get_toogle_status=$location['id']#is_verify:{%IS_VERIFY_SHOP},is_main|get_is_main_location=$location['id']:{%IS_MAIN_LOCATION},sort|get_sort=$location['id']:排序,is_effect|get_toogle_status=$location['id']#is_effect:有效" 
 	actionlist="id|getViewSub=$location,edit:{%EDIT}, foreverdel:{%FOREVERDEL}" /> 
 
 <div class="blank5"></div>

@@ -53,7 +53,9 @@
 		{%USER_NAME}：<input type="text" class="textbox" name="user_name" value="{:trim($_REQUEST['user_name'])}" style="width:100px;" />
 		{%USER_EMAIL}：<input type="text" class="textbox" name="email" value="{:trim($_REQUEST['email'])}" style="width:100px;" />
 		{%USER_MOBILE}：<input type="text" class="textbox" name="mobile" value="{:trim($_REQUEST['mobile'])}" style="width:100px;" />
+		<!--
 		{%REFERRALS_NAME}：<input type="text" class="textbox" name="pid_name" value="{:trim($_REQUEST['pid_name'])}" style="width:100px;" />
+		
 		{%USER_GROUP}: 
 		<select name="group_id">
 				<option value="0" <if condition="intval($_REQUEST['group_id']) eq 0">selected="selected"</if>>{%ALL}</option>
@@ -61,6 +63,7 @@
 					<option value="{$group_item.id}" <if condition="intval($_REQUEST['group_id']) eq $group_item['id']">selected="selected"</if>>{$group_item.name}</option>
 				</foreach>
 		</select>
+		-->
 		
 		<input type="hidden" value="User" name="m" />
 		<input type="hidden" value="index" name="a" />
@@ -76,7 +79,7 @@
 	checkbox="true" 
 	action="true" 
 	datasource="list" 
-	show="id:{%ID}|50px,user_name:{%USER_NAME}:edit,email:{%USER_EMAIL},mobile:{%USER_MOBILE},money|format_price:{%USER_MONEY},score|format_score:{%USER_SCORE},point:经验,group_id|get_user_group:{%USER_GROUP},level_id|get_user_level:会员等级,pid|get_referrals_name:{%REFERRALS_NAME},login_ip:{%LOGIN_IP},login_time|to_date:{%LOGIN_TIME},is_effect|get_is_effect=$user['id']:{%IS_EFFECT}" 
+	show="id:{%ID}|50px,user_name:{%USER_NAME}:edit,email:{%USER_EMAIL},mobile:{%USER_MOBILE},point:经验,level_id|get_user_level:会员等级,login_ip:{%LOGIN_IP},login_time|to_date:{%LOGIN_TIME},is_effect|get_is_effect=$user['id']:{%IS_EFFECT}" 
 	actionlist="edit:{%EDIT}, del:{%DEL}, account:{%USER_ACCOUNT},account_detail:{%USER_ACCOUNT_DETAIL}" /> 
 
 <div class="blank5"></div>

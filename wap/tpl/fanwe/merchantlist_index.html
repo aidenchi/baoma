@@ -23,7 +23,7 @@
 					</div>
 					<div class="choose_content">
 						{foreach from=$data.bcate_list item='cate'}
-							<i {if $data.cate_id eq $cate.id} class="selected" {/if}><a href='index.php?ctl=merchantlist&cate_id={$cate.id}&quan_id={$data.quan_id}&order_type={$data.order_type}'>{$cate.name}</a></i>
+							<i {if $data.cate_id eq $cate.id} class="selected" {/if}><a href='index.php?ctl=merchantlist&cate_id={$cate.id}&quan_id={$data.quan_id}&order_type={$data.order_type}&age_id={$data.age_id}'>{$cate.name}</a></i>
 						{/foreach}
 					</div>
 				</div>
@@ -35,7 +35,7 @@
 					</div>
 					<div class="choose_content">
 						{foreach from=$data.quan_list item='quan'}
-							<i {if $data.quan_id eq $quan.id} class="selected" {/if}><a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id={$quan.id}&order_type={$data.order_type}'>{$quan.name}</a></i>
+							<i {if $data.quan_id eq $quan.id} class="selected" {/if}><a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id={$quan.id}&order_type={$data.order_type}&age_id={$data.age_id}'>{$quan.name}</a></i>
 						{/foreach}
 					</div>
 				</div>
@@ -46,10 +46,22 @@
 						排序：
 					</div>
 					<div class="choose_content">
-						<i {if $data.order_type eq 0} class="selected" {/if}><a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id={$data.quan_id}&order_type=0'>默认</a></i>
-						<i {if $data.order_type eq 1} class="selected" {/if}><a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id={$data.quan_id}&order_type=1'>人气最高</a></i>
-						<i {if $data.order_type eq 2} class="selected" {/if}><a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id={$data.quan_id}&order_type=2'>评价最好</a></i>
-						<i {if $data.order_type eq 3} class="selected" {/if}><a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id={$data.quan_id}&order_type=3'>最新发布</a></i>
+						<i {if $data.order_type eq 0} class="selected" {/if}><a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id={$data.quan_id}&order_type=0&age_id={$data.age_id}'>默认</a></i>
+						<i {if $data.order_type eq 1} class="selected" {/if}><a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id={$data.quan_id}&order_type=1&age_id={$data.age_id}'>人气最高</a></i>
+						<i {if $data.order_type eq 2} class="selected" {/if}><a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id={$data.quan_id}&order_type=2&age_id={$data.age_id}'>评价最好</a></i>
+						<i {if $data.order_type eq 3} class="selected" {/if}><a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id={$data.quan_id}&order_type=3&age_id={$data.age_id}'>最新发布</a></i>
+					</div>
+				</div>
+			</li>
+			<li class="choose_li">
+				<div class="choose_item">
+					<div class="choose_title">
+						年龄：
+					</div>
+					<div class="choose_content">
+						{foreach from=$data.age_list item='age'}
+							<i {if $data.age_id eq $age.id} class="selected" {/if}><a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id={$data.quan_id}&order_type={$data.order_type}&age_id={$age.id}'>{$age.name}</a></i>
+						{/foreach}
 					</div>
 				</div>
 			</li>

@@ -98,8 +98,10 @@ function add_user($user_data)
 			{
 					$register_money = doubleval(app_conf("USER_REGISTER_MONEY"));
 					$register_score = intval(app_conf("USER_REGISTER_SCORE"));
-					if($register_money>0||$register_score>0)
+					$register_point = intval(app_conf("USER_REGISTER_POINT"));
+					if($register_money>0||$register_score>0||$register_point>0)
 					{
+						$user_get['point'] = $register_point;
 						$user_get['score'] = $register_score;
 						$user_get['money'] = $register_money;
 						modify_account($user_get,intval($user_id),"在".to_date(get_gmtime())."注册成功");

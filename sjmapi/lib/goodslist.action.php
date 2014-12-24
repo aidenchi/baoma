@@ -112,7 +112,7 @@ class goodslist{
 		$goodses = array();
 		foreach($list as $item){
 			//$goods = array();
-			$item['img']=str_replace("./public/","/public/",$item['img']);//图片显示不出来，ymy添加了这一句 2014-12-10
+			$item['icon']=str_replace("./public/","/public/",$item['icon']);//图片显示不出来，ymy添加了这一句 2014-12-10
 			$goods = getGoodsArray($item);
 			$goodses[] = $goods;			
 		}

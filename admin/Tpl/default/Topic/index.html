@@ -2,6 +2,10 @@
 <tagLib name="html" />
 <include file="Public:header" />
 <php>
+	function get_cate_name($a,$id){
+		$cate_id = M("TopicCateLink")->where("topic_id=".$id)->getField("cate_id");
+		return M("TopicTagCate")->where("id=".$cate_id)->getField("name");
+	}
 	function get_message($id)
 	{
 		if($id)
@@ -9,8 +13,7 @@
 		else
 		return l("NO_REL_DATA");
 		
-	}
-	
+	}	
 	function get_list_content($content)
 	{
 		return  msubstr(empty_tag($content),0,10);
@@ -33,15 +36,22 @@ function view_reply(id)
 }
 </script>
 <div class="main">
-<div class="main_title">{$main_title}</div>
+<div class="main_title">帖子列表</div>
 <div class="blank5"></div>
 <div class="button_row">
-	<input type="button" class="button" value="{%DELETE}" onclick="del();" />
+	<input type="button" class="button" value="{%FOREVERDEL}" onclick="del();" />
 </div>
 <div class="blank5"></div>
 <div class="search_row">
 	<form name="search" action="__APP__" method="get">	
-		用户名：<input type="text" class="textbox" name="user_name" value="{:trim($_REQUEST['user_name'])}" />		
+		用户名：<input type="text" class="textbox" name="user_name" value="{:trim($_REQUEST['user_name'])}" />	
+		版块：
+			<select name="cate_id">
+				<option value="0" <if condition="intval($_REQUEST['cate_id']) eq 0">selected="selected"</if>>未选择版块</option>
+				<foreach name="cate_list" item="cate_item">
+					<option value="{$cate_item.id}" <if condition="intval($_REQUEST['cate_id']) eq $cate_item['id']">selected="selected"</if>>{$cate_item.name}</option>
+				</foreach>
+			</select>
 		关键词：<input type="text" class="textbox" name="keyword" value="{:trim($_REQUEST['keyword'])}" />	
 		<!--
 		小组ID：<input type="text" class="textbox" name="group_id" size=4 value="{:trim($_REQUEST['group_id'])}" />	
@@ -80,15 +90,16 @@ function view_reply(id)
 	datasource="list" 
 	show="id:{%ID}|50px	
 	,user_id|get_user_name:{%USER_NAME}
+	,cate_match_row|get_cate_name=$topic['id']:版块
 	,forum_title|msubstr:主题
-	,content|get_list_content:{%CONTENT}	
-	,reply_count:{%REPLY_COUNT}
+	,content|get_list_content:{%CONTENT}		
 	,is_best|get_toogle_status=$topic['id']#is_best:精华
 	,is_top|get_toogle_status=$topic['id']#is_top:置顶
 	,is_recommend|get_toogle_status=$topic['id']#is_recommend:{%IS_RECOMMEND}
 	,create_time|to_date:{%CREATE_TIME}	
+	,reply_count:{%REPLY_COUNT}
 	" 
-	actionlist="edit:{%EDIT},view_reply:{%VIEW_REPLY},del:{%FOREVERDEL}" /> 
+	actionlist="view_reply:{%VIEW_REPLY},edit:{%EDIT},del:{%FOREVERDEL}" /> 
 
 <div class="blank5"></div>
 <div class="page">{$page}</div>

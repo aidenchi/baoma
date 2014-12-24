@@ -988,7 +988,7 @@ class DealAction extends CommonAction{
 	}
 	
 	
-	public function shop()
+	public function old_shop()
 	{
 		//分类
 		$cate_tree = M("ShopCate")->where('is_delete = 0')->findAll();
@@ -1046,11 +1046,127 @@ class DealAction extends CommonAction{
 		return;
 	}
 	
-	
+	public function shop()
+	{
+		//商店
+		$supplier_location_list= $GLOBALS['db']->getAll("select * from ".DB_PREFIX."supplier_location order by id desc");
+		$this->assign("supplier_location_list",$supplier_location_list);
+		
+		//分类
+		$cate_tree = M("ShopCate")->where('is_delete = 0')->findAll();
+		$cate_tree = D("ShopCate")->toFormatTree($cate_tree,'name');
+		$this->assign("cate_tree",$cate_tree);
+		
+		/*
+		//输出团购城市
+		$city_list = M("DealCity")->where('is_delete = 0')->findAll();
+		$city_list = D("DealCity")->toFormatTree($city_list,'name');
+		$this->assign("city_list",$city_list);
+		
+		//输出品牌
+		$brand_list = M("Brand")->findAll();
+		$this->assign("brand_list",$brand_list);
+		*/
+		
+		$condition = " 1=1 ";
+		
+		//开始加载搜索条件
+		if(intval($_REQUEST['id'])>0)
+			$condition = $condition." and id = ".intval($_REQUEST['id']);
+		$condition = $condition." and is_delete = 0";
+		if(trim($_REQUEST['name'])!='')
+		{
+			$condition = $condition." and name like '%".trim($_REQUEST['name'])."%' ";			
+		}
+		
+		if(intval($_REQUEST['cate_id'])>0)
+		{
+			require_once APP_ROOT_PATH."system/utils/child.php";
+			$child = new Child("shop_cate");
+			$cate_ids = $child->getChildIds(intval($_REQUEST['cate_id']));
+			$cate_ids[] = intval($_REQUEST['cate_id']);
+			$cate_ids_str = '';
+			for($i=0;$i<count($cate_ids);$i++){
+				$cate_ids_str = $cate_ids_str.$cate_ids[$i].',';
+			}
+			$cate_ids_str = substr($cate_ids_str,0,-1);
+			$cate_ids_str = '('.$cate_ids_str.')';
+			$condition = $condition." and shop_cate_id in ".$cate_ids_str;
+		}
+		
+		if(intval($_REQUEST['supplier_location_id'])>0)
+		{
+			$deal_list = $GLOBALS['db']->getAll("select * from ".DB_PREFIX."deal_location_link where location_id = ".intval($_REQUEST['supplier_location_id']));
+			$deal_ids = '';
+			foreach($deal_list as $k=>$v){
+				$deal_ids = $deal_ids.$v['deal_id'].',';
+			}
+			$deal_ids = substr($deal_ids,0,-1);
+			$deal_ids = '('.$deal_ids.')';
+			$condition = $condition." and id in ".$deal_ids;
+		}
+		
+		$condition = $condition." and publish_wait = 0";
+		$condition = $condition." and is_shop = 1";
+		
+		$page_idx = intval($_REQUEST['p'])==0?1:intval($_REQUEST['p']);
+		$page_size = C('PAGE_LISTROWS');
+		$limit = (($page_idx-1)*$page_size).",".$page_size;		
+		if (isset ( $_REQUEST ['_order'] )) {
+			$order = $_REQUEST ['_order'];
+		}
+		if (isset ( $_REQUEST ['_sort'] )) {
+			$sort = $_REQUEST ['_sort'] ? 'asc' : 'desc';
+		} else {
+			$sort = $asc ? 'asc' : 'desc';
+		}	
+		if($order=="")
+			$order = "id";
+		$orderby = "order by ".$order." ".$sort;		
+		$total = $GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."deal where $condition");
+		$list= $GLOBALS['db']->getAll("select * from ".DB_PREFIX."deal where $condition $orderby limit ".$limit);
+		foreach($list as $k=>$v){
+			$supplier_location_id = $GLOBALS['db']->getOne("select location_id from ".DB_PREFIX."deal_location_link where deal_id = ".$v['id']);
+			$supplier_location_name = $GLOBALS['db']->getOne("select name from ".DB_PREFIX."supplier_location where id = ".$supplier_location_id);
+			$list[$k]['name'] = $v['name'].'('.$supplier_location_name.')';
+			$dp_total_count=$GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."message as m left join ".
+			DB_PREFIX."user as u on u.id=m.user_id where m.pid = 0 and m.rel_table = 'deal' and m.rel_id=".$v['id'].
+			" and m.is_buy = 1");
+			$list[$k]['dp_total_count'] = $dp_total_count;
+			$dp_iseffect_count=$GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."message as m left join ".
+			DB_PREFIX."user as u on u.id=m.user_id where m.pid = 0 and m.rel_table = 'deal' and m.rel_id=".$v['id'].
+			" and m.is_buy = 1 and m.is_effect = 1");
+			$list[$k]['dp_iseffect_count'] = $dp_iseffect_count;
+		}
+		
+		$p = new Page ( $total, '' );
+		$page = $p->show ();
+		
+		$sortImg = $sort; //排序图标
+		$sortAlt = $sort == 'desc' ? l("ASC_SORT") : l("DESC_SORT"); //排序提示
+		$sort = $sort == 'desc' ? 1 : 0; //排序方式
+		
+		//模板赋值显示
+		$this->assign ( 'sort', $sort );
+		$this->assign ( 'order', $order );
+		$this->assign ( 'sortImg', $sortImg );
+		$this->assign ( 'sortType', $sortAlt );
+		
+		$this->assign ( 'list', $list );
+		$this->assign ( "page", $page );
+		$this->assign ( "nowPage",$p->nowPage);
+		
+		$this->display ();
+		return;
+	}
 	
 	public function shop_add()
 	{
 		$this->assign("new_sort", M("Deal")->where("is_delete=0")->max("sort")+1);
+		
+		//商户
+		$supplier_list = M("Supplier")->findAll();
+		$this->assign("supplier_list",$supplier_list);
 		
 		$shop_cate_tree = M("ShopCate")->where('is_delete = 0')->findAll();
 		$shop_cate_tree = D("ShopCate")->toFormatTree($shop_cate_tree,'name');
@@ -1313,6 +1429,10 @@ class DealAction extends CommonAction{
 	}	
 	
 	public function shop_edit() {		
+		//商户
+		$supplier_list = M("Supplier")->findAll();
+		$this->assign("supplier_list",$supplier_list);
+		
 		$id = intval($_REQUEST ['id']);
 		$condition['is_delete'] = 0;
 		$condition['id'] = $id;		
@@ -1322,9 +1442,7 @@ class DealAction extends CommonAction{
 		$vo['coupon_begin_time'] = $vo['coupon_begin_time']!=0?to_date($vo['coupon_begin_time']):'';
 		$vo['coupon_end_time'] = $vo['coupon_end_time']!=0?to_date($vo['coupon_end_time']):'';
 		$this->assign ( 'vo', $vo );
-		
-
-		
+			
 		$shop_cate_tree = M("ShopCate")->where('is_delete = 0')->findAll();
 		$shop_cate_tree = D("ShopCate")->toFormatTree($shop_cate_tree,'name');
 		$this->assign("shop_cate_tree",$shop_cate_tree);

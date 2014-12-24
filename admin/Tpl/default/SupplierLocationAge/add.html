@@ -1,0 +1,47 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<load href="__TMPL__Common/Js/dp.js" />
+<div class="main">
+<div class="main_title">{%EDIT} <a href="{:u("SupplierLocationAge/index")}" class="back_list">{%BACK_LIST}</a></div>
+<div class="blank5"></div>
+<form method='post' id="form" name="form" action="{:U('SupplierLocationAge/insert')}">
+<table cellpadding="4" cellspacing="0" border="0" class="form">
+	<tr>
+		<td colspan=2 class="topTd"></td>
+	</tr>
+	<tr>
+		<td class="item_title">名称:</td>
+		<td class="item_input">
+			<input type="text" class="textbox" name="name" size="30" />
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">排序:</td>
+		<td class="item_input">
+			<input type="text" class="textbox" name="sort" value="{$new_sort}" />
+		</td>
+	</tr>
+	<tr>
+		<td class="item_title">状态:</td>
+		<td class="item_input">
+			<lable>有效<input type="radio" name="is_effect" value="1" checked="checked"></lable>
+			<lable>无效<input type="radio" name="is_effect" value="0"></lable>
+		</td>
+	</tr>
+	<tr class="act">
+		<td class="item_title">&nbsp;</td>
+		<td class="item_input">
+			<input type="hidden" name="id" value="{$vo.id}" />
+			<input type="submit" class="button" value="{%ADD}" />
+			<input type="reset" class="button" value="{%RESET}" />
+		</td>
+	</tr>
+	
+	<tr>
+		<td colspan=2 class="bottomTd"></td>
+	</tr>
+</table>
+</form>
+</div>
+<include file="Public:footer" />

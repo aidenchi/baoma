@@ -11,7 +11,7 @@
 </style>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2"></script> 
 <load href='__TMPL__Common/js/map.js' />
-<load href='__TMPL__Common/js/location.js' />
+<!--<load href='__TMPL__Common/js/location.js' />-->
 <script type="text/javascript">
 var blue_point = "__ROOT__/system/blue_point.png";
 var red_point = "__ROOT__/system/red_point.png";
@@ -51,6 +51,7 @@ var red_point = "__ROOT__/system/red_point.png";
 		<td class="item_title">{%NAME}:</td>
 		<td class="item_input"><input type="text" class="textbox require" name="name" /></td>
 	</tr>
+	<!--
 	<tr>
 		<td class="item_title">{%TAGS}:</td>
 		<td class="item_input">
@@ -58,7 +59,7 @@ var red_point = "__ROOT__/system/red_point.png";
 			<span class="tip_span">[{%ADV_TAGS_TIPS}]</span>
 		</td>
 	</tr>
-	<!--
+	
 	<tr>
 		<td class="item_title">首页图片:</td>
 		<td class="item_input">
@@ -76,16 +77,24 @@ var red_point = "__ROOT__/system/red_point.png";
 			<span id="supplier_list">
 			<select name="supplier_id">
 				<option value="0">{%EMPTY_SELECT_SUPPLIER}</option>
+				<foreach name="supplier_list" item="supplier_item">
+					<option value="{$supplier_item.id}">{$supplier_item.name}</option>
+				</foreach>
+				<!--
 				<if condition="$supplier_info">
 					<option value="{$supplier_info.id}" selected="selected">{$supplier_info.name}</option>
 				</if>
+				-->
 			</select>
 			</span>
+			<!--
 			<input type="text" class="textbox" name="supplier_key" /> 
 			<input type="button" name="supplier_key_btn" class="button" value="{%SEARCH}" />
+			-->
 			<span class="tip_span">{%AUTO_CREATE}</span>
 		</td>
 	</tr>
+	<!--
 	<tr>
 		<td class="item_title">{%LOCATION_BRAND}:</td>
 		<td class="item_input">
@@ -97,6 +106,7 @@ var red_point = "__ROOT__/system/red_point.png";
 			</foreach>
 		</td>
 	</tr>
+	-->
 	<tr>
 		<td class="item_title">{%DEAL_CITY}:</td>
 		<td class="item_input">
@@ -124,6 +134,7 @@ var red_point = "__ROOT__/system/red_point.png";
 		</select>
 		</td>
 	</tr>
+	<!--
 	<tr id="sub_cate_box">
 		<td class="item_title">{%DEALCATETYPE_INDEX}:</td>
 		<td class="item_input">
@@ -135,6 +146,15 @@ var red_point = "__ROOT__/system/red_point.png";
 		<td class="item_input">
 		</td>
 	</tr>
+	-->
+	<tr>
+		<td class="item_title">年龄:</td>
+		<td class="item_input">
+			<foreach name="age_list" item="age_item">
+				<label><input type="checkbox" value="{$age_item.id}" name="age_id[]"/>{$age_item.name}</label>
+			</foreach>
+		</td>
+	</tr>	
 	<tr>
 		<td class="item_title">{%IS_MAIN}:</td>
 		<td class="item_input">
@@ -261,6 +281,13 @@ var red_point = "__ROOT__/system/red_point.png";
 				<option value="0">否</option>
 				<option value="1">是</option>
 			</select>
+		</td>
+	</tr>
+
+	<tr>
+		<td class="item_title">排序:</td>
+		<td class="item_input">
+			<input type="text" id="sort" name="sort" class="textbox" value="{$new_sort}" />
 		</td>
 	</tr>
 

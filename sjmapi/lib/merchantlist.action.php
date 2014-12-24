@@ -10,7 +10,8 @@ class merchantlist
 		$city_name =strim($GLOBALS['request']['city_name']);//城市名称	
 		$city_id = intval($GLOBALS['request']['city_id']);//城市id
 		$cate_id = intval($GLOBALS['request']['cate_id']);//类别id
-		$quan_id = intval($GLOBALS['request']['quan_id']);//区域id	
+		$quan_id = intval($GLOBALS['request']['quan_id']);//区域id
+		$age_id = intval($GLOBALS['request']['age_id']);//年龄id		
 		$order_type=intval($GLOBALS['request']['order_type']);//排序方式		
 		$keyword = strim($GLOBALS['request']['keyword']);//关键字搜索
 		$page = intval($GLOBALS['request']['page']); //分页		
@@ -30,6 +31,14 @@ class merchantlist
 		$quan_list[0]['name'] = "全部";
 		foreach($base_quan_list as $k=>$v){
 			$quan_list[$k+1] = $base_quan_list[$k];
+		}
+		//输出年龄
+		$base_age_list=$GLOBALS['db']->getAll("select * from ".DB_PREFIX."supplier_location_age order by sort desc");
+		$age_list = array();
+		$age_list[0]['id'] = 0;
+		$age_list[0]['name'] = "全部";
+		foreach($base_age_list as $k=>$v){
+			$age_list[$k+1] = $base_age_list[$k];
 		}
 		
 		$page=$page==0?1:$page;
@@ -77,7 +86,18 @@ class merchantlist
 		}
 				
 		//筛选四  年龄
-	
+		if ($age_id > 0){//如果选择了年龄	
+			$supplier_locations = $GLOBALS['db']->getAll("select * from ".DB_PREFIX."supplier_location_age_link where age_id = ".$age_id);
+			$location_ids = '';
+			foreach($supplier_locations as $k=>$v){
+				$location_ids = $location_ids.$v['location_id'].',';
+			}
+			$location_ids = substr($location_ids,0,-1);
+			$location_ids = '('.$location_ids.')';
+			$where .=" and a.id in ".$location_ids;
+			//$root['location_ids'] = $location_ids;
+		}
+		
 		
 		//关键字搜索
 		if($keyword){
@@ -128,13 +148,17 @@ class merchantlist
 			//整体平均分
 			$merchant_list[$k]['dp_avg_point'] = round($buy_dp_sum / $this_store_comment_count,1);
 			$merchant_list[$k]['dp_width'] = (round($buy_dp_sum / $this_store_comment_count,1) / 5) * 100;	
+			$u_sql = "update ".DB_PREFIX."supplier_location set avg_point = ".$merchant_list[$k]['dp_avg_point']." where id = ".$v['id'];
+			$GLOBALS['db']->query($u_sql);
 		}
 		
-		$root['total'] = $total;
+		$root['total'] = intval($total);
 		$root['item'] = $merchant_list;
 		$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);
 		$root['bcate_list'] = $bcate_list;
 		$root['quan_list'] = $quan_list;
+		$root['age_list'] = $age_list;
+		$root['age_id'] = $age_id;
 		$root['city_id']=$city_id;
 		$root['cate_id']=$cate_id;
 		$root['quan_id']=$quan_id;

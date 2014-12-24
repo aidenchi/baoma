@@ -49,6 +49,11 @@ function get_rel_data($id,$topic)
 		$(o).parent().remove();
 		$("input[name='title']").show();
 	}
+	function modify_forum_title(o)
+	{
+		$(o).parent().remove();
+		$("input[name='forum_title']").show();
+	}
 	function modify_content(o)
 	{
 		$(o).parent().remove();
@@ -82,8 +87,8 @@ function get_rel_data($id,$topic)
 	<tr>
 		<td class="item_title">主题:</td>
 		<td>
-			<div style="word-break:break-all;">{$vo.forum_title}[<a href='javascript:;' onclick="modify_title(this);">{%MODIFY}</a>]</div>
-			<input type="text" class="text" name="title" value="{$vo.title}" style="display:none;" />
+			<div style="word-break:break-all;">{$vo.forum_title}[<a href='javascript:;' onclick="modify_forum_title(this);">{%MODIFY}</a>]</div>
+			<input type="text" class="text" name="forum_title" value="{$vo.forum_title}" style="display:none;" />
 		</td>
 	</tr>	
 
@@ -140,7 +145,7 @@ function get_rel_data($id,$topic)
 			</foreach>
 		</td>
 	</tr>
-	-->
+	
 	<tr>
 		<td class="item_title">推荐:</td>
 		<td>
@@ -156,6 +161,7 @@ function get_rel_data($id,$topic)
 			<html:imgUpload name = 'daren_page' id='daren_page' value='$vo.daren_page' />
 		</td>
 	</tr>
+	-->
 	<tr>
 		<td class="item_title"></td>
 		<td class="item_input">

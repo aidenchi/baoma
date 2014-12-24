@@ -24,10 +24,11 @@ class add_supplier_dp
 	
 				if($merchant_id > 0){
 					$supplier_location_id = $merchant_id;
+					$supplier_location_name = $GLOBALS['db']->getOne("select name from ".DB_PREFIX."supplier_location where id = ".$supplier_location_id);
 					$merchant_youhui_comment = array(
 								'user_id' => $user_id,
 								'supplier_location_id' => $supplier_location_id,
-								'title' => '店铺点评',
+								'title' => '['.$supplier_location_name.']店铺评论',
 								'content' => $content,
 								'point' => $point,
 								'status' => 0,
@@ -37,6 +38,7 @@ class add_supplier_dp
 				$id = $GLOBALS['db']->insert_id();
 				$root['id'] = $id;
 				if($id > 0)	{
+					increase_user_active(intval($user['id']),"点评了一家店铺");
 					$GLOBALS['db']->query("update ".DB_PREFIX."supplier_location set new_dp_count = new_dp_count + 1 where id = ".$merchant_id);
 					$root['status'] = 1;
 					$root['info'] = "提交成功，审核通过后可显示";

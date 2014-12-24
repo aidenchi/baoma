@@ -38,7 +38,7 @@ class goodsdesc{
 		$item = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."deal where id = ".intval($id)." and is_effect = 1 and is_delete = 0 ");
 		$supplier_location_id =  $GLOBALS['db']->getOne("select id from ".DB_PREFIX."supplier_location where supplier_id = ".$item['supplier_id']);
 		$item['supplier_location_id']  = $supplier_location_id;
-		$item['img']=str_replace("./public/","/public/",$item['img']);//图片显示不出来，ymy添加了这一句 2014-12-10
+		$item['icon']=str_replace("./public/","/public/",$item['icon']);//图片显示不出来，ymy添加了这一句 2014-12-10
 		//格式化数据
 		$item['begin_time_format'] = to_date($item['begin_time']);
 		$item['end_time_format'] = to_date($item['end_time']);

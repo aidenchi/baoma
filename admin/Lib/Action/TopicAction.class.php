@@ -13,6 +13,11 @@ class TopicAction extends CommonAction{
 		$reminder = M("RemindCount")->find();
 		$reminder['topic_count_time'] = get_gmtime();
 		M("RemindCount")->save($reminder);
+		
+		//版块
+		$cate_list = $GLOBALS['db']->getAll("select * from ".DB_PREFIX."topic_tag_cate where showin_web = 1 order by sort desc");
+		$this->assign ( 'cate_list', $cate_list );
+		
 		$map = $this->_search ();
 		if(trim($_REQUEST['keyword'])!='')
 		{
@@ -24,7 +29,16 @@ class TopicAction extends CommonAction{
 		if(trim($_REQUEST['user_name'])!='')
 		{
 			$map['user_name'] = array('like','%'.trim($_REQUEST['user_name']).'%');		
-		}		
+		}	
+		if(intval($_REQUEST['cate_id'])>0)
+		{
+			$topic_id_list = M("TopicCateLink")->where("cate_id = ".intval($_REQUEST['cate_id']))->findAll();
+			$topic_ids_arr = array();
+			foreach($topic_id_list as $k0=>$v0){
+				$topic_ids_arr[$k0] = $v0['topic_id'];
+			}			
+			$map['id'] = array("in",$topic_ids_arr);
+		}
 		
 		if(trim($_REQUEST['type'])=='all'||trim($_REQUEST['type'])=='')
 		{

@@ -15,10 +15,12 @@ class MAdvAction extends CommonAction{
 		$this->assign("new_sort",intval(M(MODULE_NAME)->max("sort"))+1);
 		$city_list = M("DealCity")->where('is_delete = 0')->findAll();
 		$city_list = D("DealCity")->toFormatTree($city_list,'name');
-	foreach($city_list as $k=>$v)
+		/*
+		foreach($city_list as $k=>$v)
 		{
 			if($v['pid']==0)$city_list[$k]['id'] = 0;
 		}
+		*/
 		$this->assign("city_list",$city_list);
 		$this->display();
 	}

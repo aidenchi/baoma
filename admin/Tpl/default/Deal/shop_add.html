@@ -39,7 +39,7 @@
 	</tr>
 	<tr style="display:none;">
 		<td class="item_title">{%DEAL_SUB_NAME}:</td>
-		<td class="item_input"><input type="text" class="textbox require" name="sub_name" /> <span class='tip_span'>{%GOODS_SUB_NAME_TIP}</span></td>
+		<td class="item_input"><input type="text" class="textbox require" name="sub_name" value="商品" /> <span class='tip_span'>{%GOODS_SUB_NAME_TIP}</span></td>
 	</tr>
 	<tr style="display:none;">
 		<td class="item_title">{%URL_UNAME}:</td>
@@ -64,13 +64,21 @@
 			<span id="supplier_list">
 			<select name="supplier_id">
 				<option value="0">{%EMPTY_SELECT_SUPPLIER}</option>
+				<option value="0">{%EMPTY_SELECT_SUPPLIER}</option>
+				<foreach name="supplier_list" item="supplier_item">
+					<option value="{$supplier_item.id}">{$supplier_item.name}</option>
+				</foreach>
+				<!--
 				<if condition="$supplier_info">
 					<option value="{$supplier_info.id}" selected="selected">{$supplier_info.name}</option>
 				</if>
+				-->
 			</select>
 			</span>
+			<!--
 			<input type="text" class="textbox" name="supplier_key" /> 
 			<input type="button" name="supplier_key_btn" class="button" value="{%SEARCH}" />
+			-->
 		</td>
 	</tr>
 	<tr id="supplier_location">

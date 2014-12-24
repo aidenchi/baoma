@@ -1,0 +1,35 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+
+<div class="main">
+<div class="main_title">商品点评<a href="{:u("Deal/shop")}" class="back_list">返回列表</a></div>
+<div class="blank5"></div>
+
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		<input type="button" class="button" value="{%FOREVERDEL}" onclick="foreverdel();" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="message" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px
+	,rel_table|get_message_type=$message['rel_id']:标题
+	,user_id|get_user_name:{%USER_NAME}
+	,create_time|to_date:点评时间
+	,update_time|to_date:回复时间	
+	,point|get_point:{%MESSAGE_POINT}
+	,is_effect|get_toogle_status=$message['id']#is_effect:是否生效" 
+	actionlist="edit:{%VIEW}:id,foreverdel:{%FOREVERDEL}" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

@@ -15,7 +15,7 @@
 			<input type="text" class="textbox require" name="name" value="{$vo.name}"  />
 		</td>
 	</tr>
-	<tr>
+	<tr style="display:none;">
 		<td class="item_title">所属城市:</td>
 		<td class="item_input">
 		<select name="city_id">
@@ -25,7 +25,7 @@
 		</select>
 		</td>
 	</tr>
-	<tr>
+	<tr style="display:none;">
 		<td class="item_title">{%ADV_PAGE}:</td>
 		<td class="item_input">
 			<select name="page" id = "pageSelect">
@@ -44,7 +44,7 @@
 		</td>
 	</tr>
 	
-	<tr>
+	<tr style="display:none;">
 		<td class="item_title">{%ADV_TYPE}:</td>
 		<td class="item_input">
 			<select name="type" id='typeSelect'>
@@ -67,7 +67,7 @@
 			</select>
 		</td>
 	</tr>
-	
+	<!--
 	<tr class="type_1 type" <if condition="$vo['type'] neq 1">style="display:none;"</if>>
 		<td class="item_title">{%CATE_NAME}:</td>
 		<td class="item_input">
@@ -114,7 +114,8 @@
 			<input type="text" class="textbox " name="data_id" value="{$vo.data.data_id}" />
 		</td>
 	</tr>	
-	<tr>
+	-->
+	<tr style="display:none;">
 		<td class="item_title">是否显示在中间:</td>
 		<td class="item_input">
 			<select name="is_middle">

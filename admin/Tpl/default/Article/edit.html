@@ -1,7 +1,7 @@
 {// 引入标签库 }
 <tagLib name="html" />
 <include file="Public:header" />
-<load href='__TMPL__Common/js/article.js' />
+<!--<load href='__TMPL__Common/js/article.js' />-->
 <div class="main">
 <div class="main_title">{$vo.title}{%EDIT} <a href="{:u("Article/index")}" class="back_list">{%BACK_LIST}</a></div>
 <div class="blank5"></div>
@@ -14,16 +14,19 @@
 		<td class="item_title">{%ARTICLE_TITLE}:</td>
 		<td class="item_input"><input type="text" class="textbox require" name="title" value="{$vo.title}" /></td>
 	</tr>
+	<!--
 	<tr>
 		<td class="item_title">附标题:</td>
 		<td class="item_input"><input type="text" class="textbox" name="sub_title" value="{$vo.sub_title}" /> 
 			<span class="tip_span">[仅用于公告的推荐显示]</span>
 		</td>
 	</tr>
+	-->
 	<tr>
 		<td class="item_title">简介:</td>
 		<td class="item_input"><textarea class="textarea" name="brief" >{$vo.brief}</textarea></td>
 	</tr>
+	<!--
 	<tr>
 		<td class="item_title">{%URL_UNAME}:</td>
 		<td class="item_input"><input type="text" class="textbox word-only" name="uname" value="{$vo.uname}" /> </td>
@@ -32,6 +35,7 @@
 		<td class="item_title">{%REL_URL}:</td>
 		<td class="item_input"><input type="text" class="textbox" name="rel_url" value="{$vo.rel_url}" /></td>
 	</tr>
+	-->
 	<tr>
 		<td class="item_title">{%SORT}:</td>
 		<td class="item_input"><input type="text" class="textbox" name="sort" value="{$vo.sort}" /></td>
@@ -47,6 +51,7 @@
 		</select>
 		</td>
 	</tr>
+	<!--
 	<tr id="notice_page">
 		<td class="item_title">公告显示位置:</td>
 		<td class="item_input">
@@ -59,6 +64,7 @@
 		<span class="tip_span">[仅用于公告的显示]</span>
 		</td>
 	</tr>
+	-->
 	<tr>
 		<td class="item_title">{%IS_EFFECT}:</td>
 		<td class="item_input">
@@ -72,6 +78,7 @@
 			 <html:editor id="editor" name="content" type="KINDEDITOR" content="{$vo.content}" />
 		</td>
 	</tr>
+	<!--
 	<tr>
 		<td class="item_title">{%ARTICLE_SEO_TITLE}:</td>
 		<td class="item_input"><textarea class="textarea" name="seo_title" >{$vo.seo_title}</textarea></td>
@@ -84,6 +91,7 @@
 		<td class="item_title">{%ARTICLE_SEO_DESCRIPTION}:</td>
 		<td class="item_input"><textarea class="textarea" name="seo_description" >{$vo.seo_description}</textarea></td>
 	</tr>
+	-->
 	<tr>
 		<td class="item_title"></td>
 		<td class="item_input">

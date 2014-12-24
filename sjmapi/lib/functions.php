@@ -435,7 +435,7 @@ function getGoodsArray($item){
 	}
 	
 	//$goods['image']=get_abs_img_root(make_img($item['img'],0));
-	$goods['image']=get_abs_img_root(get_spec_image($item['img'],320,200,0));
+	$goods['image']=get_abs_img_root(get_spec_image($item['icon'],320,200,0));
 	//get_abs_img_root( get_spec_image($v['o_path'],160,0,0));
 	$goods['buy_count']=$item['buy_count'];
 	$goods['start_date']=$item['begin_time'];
@@ -1813,12 +1813,12 @@ function m_get_message_list($limit,$where='',$city = 0)
 	if($city>0)
 	{	
 		$sql = "select m.id,m.content,m.create_time,m.point,u.user_name,m.user_id,m.title from ".DB_PREFIX."message as m left join ".DB_PREFIX."user as u on u.id=m.user_id where m.pid = 0 and m.city_id =$city";
-		$sql_count = "select count(*) from ".DB_PREFIX."message as m where m.pid = 0 and m.city_id =$city";
+		$sql_count = "select count(*) from ".DB_PREFIX."message as m left join ".DB_PREFIX."user as u on u.id=m.user_id where m.pid = 0 and m.city_id =$city";
 	}
 	else
 	{
 		$sql = "select m.id,m.content,m.create_time,m.point,u.user_name,m.user_id,m.title from ".DB_PREFIX."message as m left join ".DB_PREFIX."user as u on u.id=m.user_id where m.pid = 0";
-		$sql_count = "select count(*) from ".DB_PREFIX."message as m where m.pid = 0";
+		$sql_count = "select count(*) from ".DB_PREFIX."message as m left join ".DB_PREFIX."user as u on u.id=m.user_id where m.pid = 0";
 	
 	}
 

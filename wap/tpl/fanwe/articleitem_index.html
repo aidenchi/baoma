@@ -1,0 +1,148 @@
+{include file="./inc/header.html"}
+				<div class="wrap" id="wrap">
+				{if $data.exit eq 1}
+					<div class="blank8"></div>					
+					<div class="list-view">
+						 <ul class="">
+							<li class="topic_item_li">
+						 	     	<div class="list_item">
+										 <div class="info">
+										 	<i>{$data.article_item.title}</i>
+											<p class="content">
+											{$data.article_item.content}
+											</p>	
+											<div class="topic_bottom">
+						                         <p class="topic_bottom_text">
+													<em><i>发表于{function name="pass_date" time=$data.article_item.create_time }</i></em>			 
+												 </p>
+												 <p class="topic_bottom_text_right">
+													<i>点击量({$data.article_item.click_count})</i>												
+												 </p>
+						                     </div>
+										 </div>
+						 	     	</div>
+						 	</li>							
+						 </ul>						 
+					</div><!--list-view end-->
+			    {/if}
+				{if $data.exit eq 0}
+					<div style="margin-top:10px;margin-bottom:10px;text-align:center;">
+					{$data.msg}
+					</div>
+				{/if}
+				</div><!--wrap end-->	
+				
+				<!--帖子删除成功后的提示语-->
+				<div id="topicdel" style="display:none;margin-top:10px;margin-bottom:10px;text-align:center;">
+					<span id="topicdelmsg"></span>
+				</div>
+
+<script type="text/javascript">
+function set_topic_reply(){
+	$("#reply_id").val(0);
+	$("#reply_user_id").val(0);
+	$("#reply_user_name").val("");
+	$("textarea[name='content']").val("");	
+}
+
+function set_reply(id,user_id,user_name){
+		$("form[name='topic_reply_form']").find("input[name='reply_id']").val(id);
+		if(user_name!='')
+		$("textarea[name='content']").val("回复@"+user_name+"：");	
+		$("#reply_user_id").val(user_id);
+		$("#reply_user_name").val(user_name);
+}
+	
+function delete_topic(topic_id,one_topic_obj){
+	var query = new Object();
+	query.topic_id = topic_id;
+	query.post_type = "json";
+	var ajaxurl = '{wap_url a="index" r="topicdel#index"}';
+	//alert(query.topic_id);
+	$.ajax({
+		url:ajaxurl,
+		data:query,
+		type:"post",
+		dataType:"json",
+		success:function(data){
+			if(data.status==1){ 
+				one_topic_obj.hide();
+				$("#topicdel").show();
+				$("#topicdelmsg").html(data.info);
+				//alert(data.info);
+			}else{
+				alert(data.info);
+			}
+		}
+		,error:function(){
+			alert("服务器提交错误");
+		}
+	});
+}
+
+function delete_topic_reply(topic_reply_id,one_reply_li_obj){
+	var query = new Object();
+	query.topic_reply_id = topic_reply_id;
+	query.post_type = "json";
+	var ajaxurl = '{wap_url a="index" r="topicreplydel#index"}';
+	//alert(query.topic_reply_id);	
+	$.ajax({
+		url:ajaxurl,
+		data:query,
+		type:"post",
+		dataType:"json",
+		success:function(data){
+			if(data.status==1){ 	
+				one_reply_li_obj.hide();
+				var topic_reply_count = $("#topic_reply_count").html();
+				topic_reply_count = parseInt(topic_reply_count)-1;
+				$("#topic_reply_count").html(topic_reply_count);
+				alert(data.info);
+			}else{
+				alert(data.info);
+			}
+		}
+		,error:function(){
+			alert("服务器提交错误");
+		}
+	});
+}
+
+function  check(){	
+	var form = $("form[name='topic_reply_form']")			
+	var textarea = $(form).find("textarea");
+	if($.trim(textarea.val())==''){
+		alert("请输入内容");
+		return false;
+	}
+	var query = new Object();
+	query.content = textarea.val();
+	query.topic_id = $("#topic_id").val();
+	query.reply_id = $("#reply_id").val();
+	query.reply_user_id = $("#reply_user_id").val();
+	query.reply_user_name = $("#reply_user_name").val();
+	query.post_type = "json";
+	//alert(query.content+"--"+query.topic_id+"--"+query.post_type+"--"+query.reply_id+"--"+query.reply_user_id+"--"+query.reply_user_name);
+	var ajaxurl = form.attr("action");
+	$.ajax({
+		url:ajaxurl,
+		data:query,
+		type:"post",
+		dataType:"json",
+		success:function(data){
+			if(data.status==1){ 	
+				alert(data.info);
+				location.href='{wap_url a="index" r="topicitem#index"  p="id=$data.topic_item.id"}';
+			}else{
+				alert(data.info);
+			}
+		}
+		,error:function(){
+			alert("服务器提交错误");
+		}
+	});	
+		return false;
+	}
+</script>					
+{include file="./inc/footer.html"}				
+			

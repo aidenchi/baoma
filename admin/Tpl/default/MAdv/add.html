@@ -15,7 +15,7 @@
 			<input type="text" class="textbox require" name="name"  />
 		</td>
 	</tr>
-	<tr>
+	<tr style="display:none;">
 		<td class="item_title">所属城市:</td>
 		<td class="item_input">
 		<select name="city_id">
@@ -25,13 +25,13 @@
 		</select>
 		</td>
 	</tr>
-	<tr>
+	<tr style="display:none;">
 		<td class="item_title">{%ADV_PAGE}:</td>
 		<td class="item_input">
 			<select name="page" id = "pageSelect">
-				<option value="index" selected="selected">{%MPAGE_INDEX}</option>
+				<option value="index">{%MPAGE_INDEX}</option>
 				<option value="sharelist">{%MPAGE_SHARELIST}</option>
-				<option value="wap">{%MPAGE_WAP}</option>
+				<option value="wap" selected="selected">{%MPAGE_WAP}</option>
 			</select>
 		</td>
 	</tr>
@@ -44,11 +44,11 @@
 		</td>
 	</tr>
 	
-	<tr>
+	<tr style="display:none;">
 		<td class="item_title">{%ADV_TYPE}:</td>
 		<td class="item_input">
 			<select name="type" id='typeSelect'>
-				<option value="2">{%MTYPE_2}</option>
+				<option value="2" selected="selected">{%MTYPE_2}</option>
 				<option value="5">{%MTYPE_5}</option>
 				<option value="7">{%MTYPE_7}</option>
 				<option value="8">{%MTYPE_8}</option>
@@ -67,7 +67,7 @@
 			</select>
 		</td>
 	</tr>
-	
+	<!--
 	<tr class="type_1 type">
 		<td class="item_title">{%CATE_NAME}:</td>
 		<td class="item_input">
@@ -113,12 +113,13 @@
 			<input type="text" class="textbox " name="data_id"  />
 		</td>
 	</tr>
-	<tr>
+	-->
+	<tr style="display:none;">
 		<td class="item_title">是否显示在中间:</td>
 		<td class="item_input">
 			<select name="is_middle">
 				<option value="0">否</option>
-				<option value="1">是</option>
+				<option value="1" selected="selected">是</option>
 			</select>
 		</td>
 	</tr>

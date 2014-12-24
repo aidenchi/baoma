@@ -37,6 +37,11 @@
 		return l("NO_DEAL_COUPON_GEN");
 		
 	}
+	function getViewDp($id,$vo)
+	{
+		$str .= "<a href='".u("DealDp/index",array("rel_id"=>$vo['id']))."'>查看点评(共".$vo['dp_total_count']."条，".$vo['dp_iseffect_count']."条有效)</a>&nbsp;";
+		return $str;
+	}
 </php>
 <div class="main">
 <div class="main_title">{%DEAL_SHOP}</div>
@@ -58,6 +63,13 @@
 			</foreach>
 		</select>
 		-->
+		门店：
+		<select name="supplier_location_id">
+			<option value="0" <if condition="intval($_REQUEST['supplier_location_id']) eq 0">selected="selected"</if>>未选择门店</option>
+			<foreach name="supplier_location_list" item="supplier_location_item">
+				<option value="{$supplier_location_item.id}" <if condition="intval($_REQUEST['supplier_location_id']) eq $supplier_location_item['id']">selected="selected"</if>>{$supplier_location_item.name}</option>
+			</foreach>
+		</select>
 		{%CATE_TREE}：
 		<select name="cate_id">
 			<option value="0" <if condition="intval($_REQUEST['cate_id']) eq 0">selected="selected"</if>>{%NO_SELECT_CATE}</option>
@@ -88,11 +100,11 @@
 	action="true" 
 	datasource="list" 
 	show="id:{%ID}|50px
-		,name|msubstr:{%GOODS_NAME}:edit_goods
+		,name:商品名称（所属门店）:edit_goods
 		,shop_cate_id|get_shop_cate_name:{%SHOP_CATE_TITLE}
 		,is_effect|get_is_effect=$deal['id']:{%IS_EFFECT}
 		,sort|get_sort=$deal['id']:{%SORT}" 
-	actionlist="edit_goods:{%EDIT}, del:{%DEL}" /> 
+	actionlist="id|getViewDp=$deal,edit_goods:{%EDIT}, del:{%DEL}" /> 
 
 <div class="blank5"></div>
 <div class="page">{$page}</div>

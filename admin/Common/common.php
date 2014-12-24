@@ -203,9 +203,7 @@ function get_user_name($user_id)
 	if(!$user_name)
 	return l("NO_USER");
 	else
-	return "<a href='".u("User/index",array("user_name"=>$user_name))."'>".$user_name."</a>";
-	
-	
+	return "<a href='".u("User/index",array("user_name"=>$user_name))."'>".$user_name."</a>";	
 }
 function get_user_name_js($user_id)
 {

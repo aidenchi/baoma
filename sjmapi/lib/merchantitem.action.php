@@ -88,11 +88,11 @@ class merchantitem
 			}
 		}	
 		
-		$goods_list=$GLOBALS['db']->getAll("select a.brief,a.id,a.is_hot,a.name,a.sub_name,a.origin_price,a.current_price,a.img,a.buy_count,a.discount from ".DB_PREFIX."deal as a left join ".DB_PREFIX."deal_location_link as b on b.deal_id=a.id ".$g_where." order by a.sort desc,a.id desc limit 3");
+		$goods_list=$GLOBALS['db']->getAll("select a.brief,a.id,a.is_hot,a.name,a.sub_name,a.origin_price,a.current_price,a.icon,a.buy_count,a.discount from ".DB_PREFIX."deal as a left join ".DB_PREFIX."deal_location_link as b on b.deal_id=a.id ".$g_where." order by a.sort desc,a.id desc limit 3");
 
 		foreach($goods_list as $k=>$v)
 		{
-			$v['img']=str_replace("./public/","/public/",$v['img']);//图片显示不出来，ymy添加了这一句 2014-12-10
+			$v['icon']=str_replace("./public/","/public/",$v['icon']);//图片显示不出来，ymy添加了这一句 2014-12-10
 			$goods_list[$k]['origin_price']=round($v['origin_price'],2);
 			$goods_list[$k]['current_price']=round($v['current_price'],2);
 			
@@ -106,7 +106,7 @@ class merchantitem
 				$goods_list[$k]['discount'] = round(($v['current_price']/$v['origin_price'])*10,2);					
 			}
 			$goods_list[$k]['discount'] = round($goods_list[$k]['discount'],2);
-			$goods_list[$k]['img'] = get_abs_img_root($v['img']);
+			$goods_list[$k]['icon'] = get_abs_img_root($v['icon']);
 			if (empty($v['brief'])){
 				$goods_list[$k]['brief'] = "暂无简介";
 				$goods_list[$k]['name'] = $v['name'];

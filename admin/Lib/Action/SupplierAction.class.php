@@ -1,11 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | Fanwe 方维o2o商业系统
-// +----------------------------------------------------------------------
-// | Copyright (c) 2011 http://www.fanwe.com All rights reserved.
-// +----------------------------------------------------------------------
-// | Author: 云淡风轻(88522820@qq.com)
-// +----------------------------------------------------------------------
 
 class SupplierAction extends CommonAction{
 	public function index()
@@ -153,7 +146,7 @@ class SupplierAction extends CommonAction{
 		{
 			$this->error(L("SUPPLIER_NAME_EMPTY_TIP"));
 		}					
-		
+		$data['is_effect'] = 1;
 		// 更新数据
 		$log_info = $data['name'];
 		if(M(MODULE_NAME)->where("name='".$data['name']."'")->find()){

@@ -50,148 +50,188 @@ var has_location = {$has_location};
 	*/
 </script>
 			<div class="wrap">
+					<!-----------------------------------广告图片------------------------------>
+					<div class="top">
+						<div class="flash" id=containerFlashAnimation>
+							<section>
+								<div id="banner_box" class="box_swipe" style="visibility: visible;height:200px;overflow:hidden;">
+									<ul style="list-style: none; width: 2560px; transition: 500ms; -webkit-transition: 500ms;">
+										{foreach from="$data.adv_list" item="adv"}
+										<li style="vertical-align: top; width: 640px; display: table-cell;">
+											<a href=""><img src="{$adv.img}" alt="" border="0" style="width:100%;height:200px;"></a>
+										</li>
+										{/foreach}
+									</ul>
+									<ol>
+										{foreach from="$data.adv_list" item="adv" key="key"}
+										<li {if $key==0}class="on"{/if}>
+										</li>
+										{/foreach}
+									</ol>
+								</div>
+							</section>
+						</div>
+					</div>
+					
 					<div class="blank8"></div>
 					
+					<!-----------------------------------活动信息------------------------------>
 					<div class="list-view">
-						 <div class="list_title"><i class="fa fa-bullhorn"></i>活动信息</div>
+						 <div class="list_title"><i class="fa fa-bullhorn"></i>活动信息
+						  {if $data.article_list}<a href='{wap_url a="index" r="articlelist#index"}'><i style="float:right;">全部>></i></a>{/if}
+						 </div>
+						 {if $data.article_list}
 						 <ul class="">
+							{foreach from="$data.article_list" item="article"}
 							<li class="topic_li">
-						 	      <a href='{wap_url a="index" r="topicitem#index"  p="id=1"}'>
+						 	      <a href='{wap_url a="index" r="articleitem#index"  p="id=$article.id"}'>
 						 	     	<div class="list_item">
-						 	     		 <div class="topic_user_headimg">
-						 	     		 	<img src="/public/avatar/000/00/00/48virtual_avatar_middle.jpg" width="58">
-											<i class="topic_ico ico">推荐</i>
-						 	     		 </div>
 										 <div class="info">
-										 	<h2>标题</h2>
-											<h3>部分内容内容内容内容内容内容内容内容</h3>	
+										 	<h2>{$article.title}</h2>
+											<h3>{$article.brief}</h3>	
 											<div class="topic_bottom">
 						                         <p class="topic_bottom_text">
-													<i>admin</i><i>&nbsp;•</i><i>2014-12-10</i><i>&nbsp;•</i>
-						                         	<em>2<i>条回复</i></em>													 
+													<em><i>{function name="pass_date" time=$article.create_time }</i></em>											 
+												 </p>
+												 <p class="topic_bottom_text_right">
+													<i>点击量({$article.click_count})</i>												
 												 </p>
 						                     </div>
 										 </div>
 						 	     	</div>
 						 	     </a>
-						 	</li>
-							<li class="topic_li">
-						 	      <a href='{wap_url a="index" r="topicitem#index"  p="id=1"}'>
-						 	     	<div class="list_item">
-						 	     		 <div class="topic_user_headimg">
-						 	     		 	<img src="/public/avatar/000/00/00/48virtual_avatar_middle.jpg" width="58">
-											<i class="topic_ico ico">推荐</i>
-						 	     		 </div>
-										 <div class="info">
-										 	<h2>标题</h2>
-											<h3>部分内容内容内容内容内容内容内容内容</h3>	
-											<div class="topic_bottom">
-						                         <p class="topic_bottom_text">
-													<i>admin</i><i>&nbsp;•</i><i>2014-12-10</i><i>&nbsp;•</i>
-						                         	<em>2<i>条回复</i></em>													 
-												 </p>
-						                     </div>
-										 </div>
-						 	     	</div>
-						 	     </a>
-						 	</li>
-						 </ul>						 
+						 	</li>	
+							{/foreach}	
+						 </ul>	
+						{else}
+						<div class="assess_list" style="text-align:center;padding:10px 0;">暂无活动信息</div>
+						{/if}
 					</div><!--list-view end-->
 					
 					<div class="blank8"></div>
 					
+					<!-----------------------------------论坛精选------------------------------>
+					<script>
+						$(function(){ 
+							var $this = $("#esjy_topic_list"); 
+							var scrollTimer; 
+							$this.hover(function(){ 
+								clearInterval(scrollTimer); 
+							},function(){ 
+								scrollTimer = setInterval(function(){ 
+									scrollNews($this); 
+								}, 2000 ); 
+							}).trigger("mouseout"); 
+						}); 
+
+						function scrollNews(obj){ 
+							var $self = obj.find("ul:first"); 
+							var lineHeight = $self.find("li:first").height(); 
+							$self.animate({ "margin-top" : -lineHeight +"px" },600,function(){ 
+								$self.css({"margin-top":"0px"}).find("li:first").appendTo($self); 
+							});
+						}
+					</script>
 					<div class="list-view">
-						 <div class="list_title"><i class="fa fa-suitcase"></i>论坛精选</div>
-						 <ul class="">
-							<li class="topic_li">
-						 	      <a href='{wap_url a="index" r="topicitem#index"  p="id=1"}'>
-						 	     	<div class="list_item">
+						 <div class="list_title"><i class="fa fa-bullhorn"></i>论坛精选
+						 {if $data.esjy_topic_list}<a href='{wap_url a="index" r="topiclist#index"  p="cid=4"}'><i style="float:right;">全部>></i></a>{/if}
+						 </div>
+						 {if $data.esjy_topic_list}
+						 <!---滚动在ul外加上此div和上面js代码即可（为了滚动效果流畅逼真li不要有padding或margin属性）--->
+						 <div id="esjy_topic_list" style="height:444px; background:#FFFFFF; overflow:hidden;">
+						 <ul>						 
+						 {foreach from=$data.esjy_topic_list item=topic}
+							<li class="topic_li" style="height:111px;">						 	      
+									<div class="list_item">
 						 	     		 <div class="topic_user_headimg">
-						 	     		 	<img src="/public/avatar/000/00/00/48virtual_avatar_middle.jpg" width="58">
+											{if $data.login_user_id eq $topic.user_id}
+											<a href='{wap_url a="index" r="user_center#index"}'>
+											{else}
+											<a href='{wap_url a="index" r="userinfo#index" p="user_id=$topic.user_id"}'>
+											{/if}
+						 	     		 	<img src='{function name="get_user_avatar" uid=$topic.user_id type="small" }'>
+											{if $topic.is_best gt 0}
 											<i class="topic_ico ico">精华</i>
-						 	     		 </div>
+											{/if}
+											{if $topic.is_recommend gt 0}
+											<i class="topic_ico ico">推荐</i>
+											{/if}
+											</a>
+						 	     		 </div>										 
 										 <div class="info">
-										 	<h2>标题</h2>
-											<h3>部分内容内容内容内容内容内容内容内容</h3>	
+											<a href='{wap_url a="index" r="topicitem#index"  p="id=$topic.id"}'>
+										 	<i>{$topic.forum_title}</i>
+											<h3>{$topic.short_content}</h3>											
 											<div class="topic_bottom">
 						                         <p class="topic_bottom_text">
-													<i>admin</i><i>&nbsp;•</i><i>2014-12-10</i><i>&nbsp;•</i>
-						                         	<em>2<i>条回复</i></em>													 
+													<em>
+													<i>{$topic.user_name}</i><i>&nbsp;•</i>
+													<i>{function name="pass_date" time=$topic.create_time }</i><i>&nbsp;•</i>
+						                         	{$topic.reply_count}<i>&nbsp;条回复</i>
+													</em>												 
 												 </p>
 						                     </div>
-										 </div>
-						 	     	</div>
-						 	     </a>
-						 	</li>
-							<li class="topic_li">
-						 	      <a href='{wap_url a="index" r="topicitem#index"  p="id=1"}'>
-						 	     	<div class="list_item">
-						 	     		 <div class="topic_user_headimg">
-						 	     		 	<img src="/public/avatar/000/00/00/48virtual_avatar_middle.jpg" width="58">
-											<i class="topic_ico ico">精华</i>
-						 	     		 </div>
-										 <div class="info">
-										 	<h2>标题</h2>
-											<h3>部分内容内容内容内容内容内容内容内容</h3>	
-											<div class="topic_bottom">
-						                         <p class="topic_bottom_text">
-													<i>admin</i><i>&nbsp;•</i><i>2014-12-10</i><i>&nbsp;•</i>
-						                         	<em>2<i>条回复</i></em>													 
-												 </p>
-						                     </div>
-										 </div>
-						 	     	</div>
-						 	     </a>
-						 	</li>
-						 </ul>						 
-					</div><!--list-view end-->
+											 </a>
+										 </div>										 
+						 	     	</div>	
+							</li>
+						 {/foreach}							
+						 </ul>	
+						 </div>
+						{else}
+						 <div class="assess_list" style="text-align:center;padding:10px 0;">暂无帖子</div>
+						{/if}
+					</div><!--list-view end-->	
 					
 					<div class="blank8"></div>	                   
 					   
+					<!-----------------------------------优惠活动------------------------------>
 					<div class="list-view">
-						 <div class="list_title"><i class="fa fa-money"></i>优惠活动</div>
+						 <div class="list_title"><i class="fa fa-bullhorn"></i>优惠活动
+						 {if $data.yhhd_topic_list}<a href='{wap_url a="index" r="topiclist#index"  p="cid=3"}'><i style="float:right;">全部>></i></a>{/if}
+						 </div>
+						 {if $data.yhhd_topic_list}
 						 <ul class="">
-							<li class="topic_li">
-						 	      <a href='{wap_url a="index" r="topicitem#index"  p="id=1"}'>
+						 {foreach from=$data.yhhd_topic_list item=topic}
+							<li class="topic_li">						 	      
 						 	     	<div class="list_item">
 						 	     		 <div class="topic_user_headimg">
-						 	     		 	<img src="/public/avatar/000/00/00/48virtual_avatar_middle.jpg" width="58">
+											{if $data.login_user_id eq $topic.user_id}
+											<a href='{wap_url a="index" r="user_center#index"}'>
+											{else}
+											<a href='{wap_url a="index" r="userinfo#index" p="user_id=$topic.user_id"}'>
+											{/if}
+						 	     		 	<img src='{function name="get_user_avatar" uid=$topic.user_id type="small" }'>
+											{if $topic.is_best gt 0}
+											<i class="topic_ico ico">精华</i>
+											{/if}
+											{if $topic.is_recommend gt 0}
 											<i class="topic_ico ico">推荐</i>
-						 	     		 </div>
+											{/if}
+											</a>
+						 	     		 </div>										 
 										 <div class="info">
-										 	<h2>标题</h2>
-											<h3>部分内容内容内容内容内容内容内容内容</h3>	
+											<a href='{wap_url a="index" r="topicitem#index"  p="id=$topic.id"}'>
+										 	<i>{$topic.forum_title}</i>
+											<h3>{$topic.short_content}</h3>											
 											<div class="topic_bottom">
 						                         <p class="topic_bottom_text">
-													<i>admin</i><i>&nbsp;•</i><i>2014-12-10</i><i>&nbsp;•</i>
-						                         	<em>2<i>条回复</i></em>													 
+													<em>
+													<i>{$topic.user_name}</i><i>&nbsp;•</i>
+													<i>{function name="pass_date" time=$topic.create_time }</i><i>&nbsp;•</i>
+						                         	{$topic.reply_count}<i>&nbsp;条回复</i>
+													</em>												 
 												 </p>
 						                     </div>
-										 </div>
-						 	     	</div>
-						 	     </a>
-						 	</li>
-							<li class="topic_li">
-						 	      <a href='{wap_url a="index" r="topicitem#index"  p="id=1"}'>
-						 	     	<div class="list_item">
-						 	     		 <div class="topic_user_headimg">
-						 	     		 	<img src="/public/avatar/000/00/00/48virtual_avatar_middle.jpg" width="58">
-											<i class="topic_ico ico">推荐</i>
-						 	     		 </div>
-										 <div class="info">
-										 	<h2>标题</h2>
-											<h3>部分内容内容内容内容内容内容内容内容</h3>	
-											<div class="topic_bottom">
-						                         <p class="topic_bottom_text">
-													<i>admin</i><i>&nbsp;•</i><i>2014-12-10</i><i>&nbsp;•</i>
-						                         	<em>2<i>条回复</i></em>													 
-												 </p>
-						                     </div>
-										 </div>
-						 	     	</div>
-						 	     </a>
-						 	</li>
-						</ul>						
+											 </a>
+										 </div>										 
+						 	     	</div>						 	     
+								</li>
+							{/foreach}							
+						 </ul>		
+						{else}
+						 <div class="assess_list" style="text-align:center;padding:10px 0;">暂无帖子</div>
+						{/if}					
 					</div><!--list-view end-->
 					
   					<div class="blank8"></div>  					

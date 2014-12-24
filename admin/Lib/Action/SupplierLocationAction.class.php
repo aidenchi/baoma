@@ -11,11 +11,12 @@ class SupplierLocationAction extends CommonAction{
 		{
 			es_session::set("admin_supplier_id",intval($_REQUEST['supplier_id']));							
 			$this->assign("supplier_info",$supplier_info);
-			$condition = " supplier_id = ".intval($_REQUEST['supplier_id']);;
+			$condition = " supplier_id = ".intval($_REQUEST['supplier_id']);
 		}
 		
-		
-		
+		//商户列表
+		$supplier_list = $GLOBALS['db']->getAll("select * from ".DB_PREFIX."supplier order by sort desc");
+		$this->assign ( 'supplier_list', $supplier_list );
 		
 		$page_idx = intval($_REQUEST['p'])==0?1:intval($_REQUEST['p']);
 		$page_size = C('PAGE_LISTROWS');
@@ -103,7 +104,7 @@ class SupplierLocationAction extends CommonAction{
 		$this->assign ( 'order', $order );
 		$this->assign ( 'sortImg', $sortImg );
 		$this->assign ( 'sortType', $sortAlt );
-			
+		
 		$this->assign ( 'list', $list );
 		$this->assign ( "page", $page );
 		$this->assign ( "nowPage",$p->nowPage);
@@ -125,12 +126,22 @@ class SupplierLocationAction extends CommonAction{
 		$city_list = D("DealCity")->toFormatTree($city_list,'name');
 		$this->assign("city_list",$city_list);	
 		
-		$deal_cate_tree = M("DealCate")->where('is_delete = 0')->findAll();
+		$deal_cate_tree = M("DealCate")->where('is_delete = 0 and is_effect = 1')->findAll();
 		$deal_cate_tree = D("DealCate")->toFormatTree($deal_cate_tree,'name');
 		$this->assign("deal_cate_tree",$deal_cate_tree);
 		
 		$brand_list = M("Brand")->findAll();
-		$this->assign("brand_list",$brand_list);	
+		$this->assign("brand_list",$brand_list);
+		
+		//商户
+		$supplier_list = M("Supplier")->findAll();
+		$this->assign("supplier_list",$supplier_list);
+
+		//年龄
+		$age_list = M("supplierLocationAge")->where('is_effect = 1')->findAll();
+		$this->assign("age_list",$age_list);
+
+		$this->assign("new_sort", M(MODULE_NAME)->max("sort")+1);
 
 		$this->display();
 	}
@@ -209,6 +220,15 @@ class SupplierLocationAction extends CommonAction{
 			if(M(MODULE_NAME)->where("supplier_id=".$data['supplier_id']." and is_main = 1")->count()==0)
 			{
 				M(MODULE_NAME)->where("id=".$list)->setField("is_main",1);
+			}
+
+			//年龄
+			$age_ids = $_REQUEST['age_id'];
+			foreach($age_ids as $age_id)
+			{
+				$age_data['age_id'] = $age_id;
+				$age_data['location_id'] = $list;
+				M("SupplierLocationAgeLink")->add($age_data);
 			}
 
 			$area_ids = $_REQUEST['area_id'];
@@ -316,6 +336,21 @@ class SupplierLocationAction extends CommonAction{
 		$deal_cate_tree = M("DealCate")->where('is_delete = 0')->findAll();
 		$deal_cate_tree = D("DealCate")->toFormatTree($deal_cate_tree,'name');
 		$this->assign("deal_cate_tree",$deal_cate_tree);		
+
+		//商户
+		$supplier_list = M("Supplier")->findAll();
+		$this->assign("supplier_list",$supplier_list);
+
+		//年龄
+		$age_list = M("supplierLocationAge")->where('is_effect = 1')->findAll();
+		foreach($age_list as $k=>$v)
+		{
+			if(M("SupplierLocationAgeLink")->where("location_id=".$vo['id']." and age_id=".$v['id'])->count()>0)
+			{
+				$age_list[$k]['checked'] = true;
+			}
+		}
+		$this->assign("age_list",$age_list);
 		
 		$this->assign ( 'vo', $vo );
 		$this->display ();
@@ -341,6 +376,14 @@ class SupplierLocationAction extends CommonAction{
 		$list=M(MODULE_NAME)->save ($data);
 		if (false !== $list) {
 			
+			M("SupplierLocationAgeLink")->where("location_id=".$data['id'])->delete();
+			$age_ids = $_REQUEST['age_id'];
+			foreach($age_ids as $age_id)
+			{
+				$age_data['age_id'] = $age_id;
+				$age_data['location_id'] = $data['id'];
+				M("SupplierLocationAgeLink")->add($age_data);
+			}
 			M("SupplierLocationAreaLink")->where("location_id=".$data['id'])->delete();
 			$area_ids = $_REQUEST['area_id'];
 			foreach($area_ids as $area_id)
