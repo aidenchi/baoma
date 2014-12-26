@@ -1,5 +1,5 @@
 <?php
-class merchantlist
+class aatest
 {
 	public function index()
 	{
@@ -182,7 +182,7 @@ class merchantlist
 		$root['bcate_list'] = $bcate_list;
 		$root['quan_list'] = $quan_list;
 		$root['age_list'] = $age_list;
-		$root['age_id'] = $age_id;
+		//$root['age_id'] = $age_id;
 		$root['city_id']=$city_id;
 		$root['cate_id']=$cate_id;
 		$root['quan_id']=$quan_id;
@@ -195,20 +195,4 @@ class merchantlist
 		output($root);
 	}
 }
-
- function returnSquarePoint($lng, $lat,$distance = 2){
- 	$EARTH_RADIUS = 6371;
-    $dlng =  2 * asin(sin($distance / (2 * $EARTH_RADIUS)) / cos(deg2rad($lat)));
-    $dlng = rad2deg($dlng);
-     
-    $dlat = $distance/$EARTH_RADIUS;
-    $dlat = rad2deg($dlat);
-     
-    return array(
-                'left-top'=>array('lat'=>$lat + $dlat,'lng'=>$lng-$dlng),
-                'right-top'=>array('lat'=>$lat + $dlat, 'lng'=>$lng + $dlng),
-                'left-bottom'=>array('lat'=>$lat - $dlat, 'lng'=>$lng - $dlng),
-                'right-bottom'=>array('lat'=>$lat - $dlat, 'lng'=>$lng + $dlng)
-                );
- }
 ?>

@@ -1,5 +1,5 @@
 <?php
-class growthdiaryitem
+class ajaxtest
 {
 	public function index()
 	{
@@ -17,12 +17,8 @@ class growthdiaryitem
 			$root['page_title'] = "登录";			
 		}else{
 			$root['user_login_status'] = 1;
-			$root['page_title'] = "成长日记详情";
-			
-			$id = intval($GLOBALS['request']['id']);
-			$condition = " where user_id = ".intval($user_data['id'])." and id = ".$id;
-			$growth_diary_item = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."growth_diary".$condition);
-			$root['growth_diary_item']=$growth_diary_item;
+			$root['status']=1;
+			$root['info']='提交成功';
 		}
 		
 		$root['city_name']=$city_name;

@@ -88,7 +88,7 @@ function getGrowthdairy(current_year_val, current_month_year){
 				//alert(day_id);
 				document.getElementById(day_id).style.backgroundColor ="#f49f35";
 				var td_old_content = document.getElementById(day_id).innerHTML;
-				var td_new_content = "<a href='index.php?ctl=growthdiaryitem&id="+item['id']+"'>"+td_old_content+"</a>"
+				var td_new_content = "<a href='index.php?ctl=growthdiarydatelist&year="+current_year_val+"&month="+current_month_year+"&day="+item['record_day']+"'>"+td_old_content+"</a>"
 				document.getElementById(day_id).innerHTML = td_new_content;
 				//alert(td_content);
 			});

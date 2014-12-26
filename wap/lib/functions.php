@@ -109,6 +109,28 @@ function pass_date($time)
 		return $time_span_lang;
 }
 
+//通过user_id获取user_name
+function get_user_name_by_user_id($id)
+{
+	$key = md5("USER_NAME_LINK_".$id);
+	if(isset($GLOBALS[$key]))
+	{
+		return $GLOBALS[$key];
+	}
+	else
+	{
+		$uname = load_dynamic_cache($key);
+		if($uname===false)
+		{
+			$u = $GLOBALS['db']->getRow("select id,user_name,is_merchant,is_daren from ".DB_PREFIX."user where id = ".intval($id));
+			$uname = "<a href='".wap_url("index","userinfo",array("user_id"=>$id))."' >".$u['user_name']."</a>";
+			set_dynamic_cache($key,$uname);
+		}
+		$GLOBALS[$key] = $uname; 
+		return $GLOBALS[$key];
+	}
+}
+
 /***************************ymy add 2014-12-12*end**********************************/
 
 

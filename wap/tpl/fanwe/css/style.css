@@ -476,6 +476,7 @@ margin-right: 5px;
 	-webkit-box-flex: 1;
 	-moz-box-flex:1;
 	color: #6E7D8B;
+	padding-right:10px;
 }
 .topic_li .info h3{
    font-size: 12px;
@@ -517,6 +518,7 @@ margin-right: 5px;
 	-webkit-box-flex: 1;
 	-moz-box-flex:1;
     color: #6E7D8B;
+	padding-right:10px;
 }	
 .topic_item_li .info h2{
    font-size: 15px;
@@ -653,6 +655,7 @@ margin-right: 5px;
 .growth_li .info{
 	-webkit-box-flex: 1;
 	-moz-box-flex:1;
+	padding-right:10px;
 }
 .growth_li .info i{
 	color: #6E7D8B;
@@ -695,7 +698,7 @@ margin-right: 5px;
 	height: 14px;
 	font-size: 12px;
 	color: #b2b2b2;
-	padding-right:20px;
+	padding-right:10px;
 }
 
 /*商铺、商品列表*/
