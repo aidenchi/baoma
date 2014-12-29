@@ -1,0 +1,168 @@
+{include file="./inc/header_common.html"}
+<style>
+.user_search {
+	padding: 15px 11px;
+	display: inline-block;
+	line-height: 100%;
+	position: relative;
+}
+.user_search a i {
+	color: #fff;
+	font-size: 18px;
+}
+.user_search_pull_down{
+	z-index:100;
+	display:none;
+}
+.user_search_pull_down{
+	position:absolute;
+	width:98%;
+	background:#fff;
+	right:3px;
+	top:53px;
+	border:1px solid #fc8600;
+}
+.user_search_pull_down ul li{
+	padding-left:0px;
+}
+.user_search_pull_down .menu{
+	width:100%;
+	height:30px;
+	line-height:30px;
+	color:#6E7D8B;;
+	text-align:left;
+}
+.user_search_pull_down .menu span{
+	padding-left:5px;
+	font-size:14px;
+}
+.user_search_pull_down .menu i{
+	padding-right:10px;
+	font-size:14px;
+}
+.nearbyuser_li {
+	border-bottom: 1px solid #f5f5f5;
+}
+.nearbyuser_li .list_item{
+   display: -webkit-box;
+   width: 100%;
+   padding:10px;
+}
+.nearbyuser_li .list_item .topic_user_headimg{
+   width: 50px;
+   margin: 0px 12px 0 0;
+   display: inline-block;
+   overflow: hidden;
+   position: relative;
+}
+.nearbyuser_li .info{
+	-webkit-box-flex: 1;
+	-moz-box-flex:1;
+	color: #6E7D8B;
+	padding-right:10px;
+}
+.nearbyuser_li .info h3{
+   font-size: 12px;
+   color: #b2b2b2;
+   height: 28px;
+   line-height: 14px;
+   overflow: hidden;
+   display: -webkit-box;
+   width:100%;
+   -webkit-line-clamp: 2;
+   -webkit-box-orient: vertical;
+   word-break: break-all;
+   margin: 10px 0;
+}
+</style>
+<script>
+$(document).ready(function () { 
+  var x=$(document).height();
+   $(".hide_list").height(x-93);
+  
+   $(".user_search").click(function(){
+       $(".user_search_pull_down").toggle();
+   });
+});
+</script>
+<!-----------------------------------------------header------------------------------------------>
+<div class="header">
+	<div class="c-hd">
+		<!--
+        <section class="cut_city">
+              <a onclick="window.history.go(-1);"><i class="fa fa-chevron-left"></i></a>
+	    </section>
+		-->
+        <section class="logo_img">{$data.page_title}</section>
+        <section class="user_search">
+			 <a href="javascript:void(0);"><i class="fa fa-list-ul"></i></a>
+	    </section>
+     </div>
+	 <div class="user_search_pull_down">
+	       <ul>
+	       	    <li>
+	       	    	<div class="menu">
+						<span>位置：</span>
+	       	    	</div>
+	       	    </li>
+				<li>
+	       	    	<div class="menu">
+						<span>年龄：</span>
+	       	    	</div>
+	       	    </li>
+				<li>
+	       	    	<div class="menu">
+						<span>距离：</span>
+						<i>全部</i>
+						<i>500m</i>
+						<i>1km</i>
+						<i>3km</i>
+						<i>5km</i>
+						<i>8km</i>
+						<i>10km</i>
+						<i>10km以上</i>
+	       	    	</div>
+	       	    </li>
+				<li>
+	       	    	<div class="menu">
+						<span>性别：</span>
+						<i>公主</i>
+						<i>王子</i>
+	       	    	</div>
+	       	    </li>
+	       </ul>
+	 </div>
+</div>
+
+<!------------------------------------------center-------------------------------------------->
+			<div class="wrap">
+					<div class="list-view bor_none">
+						 {if $data.user_list}
+						 <ul class="">
+						 {foreach from=$data.user_list item=user}
+							<li class="nearbyuser_li">						 	      
+						 	     	<div class="list_item">
+						 	     		 <div class="topic_user_headimg">
+						 	     		 	<img src='{function name="get_user_avatar" uid=$user.id type="small" }'>											
+						 	     		 </div>										 
+										 <div class="info">
+										 	<i>{$user.user_name}</i>
+											<h3>aaa</h3>										
+										 </div>										 
+						 	     	</div>						 	     
+								</li>
+							{/foreach}							
+						 </ul>		
+						<div class="fy">
+							{$pages}
+						</div>
+						{else}
+						 <div class="assess_list" style="text-align:center;padding:10px 0;height:200px;">暂没有玩伴</div>
+						{/if}
+					</div><!--list-view end-->		
+				 
+				</div><!--wrap end-->	
+
+<!------------------------------------------footer-------------------------------------------->				
+{include file="./inc/footer.html"}				
+			

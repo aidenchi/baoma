@@ -1,0 +1,34 @@
+{// 引入标签库 }
+<tagLib name="html" />
+<include file="Public:header" />
+<div class="main">
+<div class="main_title">成长日记列表</div>
+<div class="blank5"></div>
+<div class="button_row">
+	<input type="button" class="button" value="{%FOREVERDEL}" onclick="foreverdel();" />
+</div>
+<div class="blank5"></div>
+<div class="search_row">
+	<form name="search" action="__APP__" method="get">	
+		标题：<input type="text" class="textbox" name="title" value="{:trim($_REQUEST['title'])}" />		
+		用户名：<input type="text" class="textbox" name="user_name" value="{:trim($_REQUEST['user_name'])}" />		
+		<input type="hidden" value="GrowthDiary" name="m" />
+		<input type="hidden" value="index" name="a" />
+		<input type="submit" class="button" value="{%SEARCH}" />
+	</form>
+</div>
+<div class="blank5"></div>
+<html:list 
+	id="dataTable" 
+	style="dataTable" 
+	name="growthdiary" 
+	checkbox="true" 
+	action="true" 
+	datasource="list" 
+	show="id:{%ID}|50px,title:标题:edit,user_name:用户,create_time|to_date:记录时间" 
+	actionlist="edit:{%EDIT}, foreverdel:{%FOREVERDEL}" /> 
+
+<div class="blank5"></div>
+<div class="page">{$page}</div>
+</div>
+<include file="Public:footer" />

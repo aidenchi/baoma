@@ -115,8 +115,6 @@ class SupplierLocationAgeAction extends CommonAction{
 		}
 	}
 	
-	
-	
 	public function foreverdelete() {
 		//彻底删除指定记录
 		$ajax = intval($_REQUEST['ajax']);
@@ -135,6 +133,17 @@ class SupplierLocationAgeAction extends CommonAction{
 			} else {
 				$this->error (l("INVALID_OPERATION"),$ajax);
 		}
+	}
+	
+	public function set_effect()
+	{
+		$id = intval($_REQUEST['id']);
+		$ajax = intval($_REQUEST['ajax']);
+		$info = M(MODULE_NAME)->where("id=".$id)->getField("name");
+		$c_is_effect = M(MODULE_NAME)->where("id=".$id)->getField("is_effect");  //当前状态
+		$n_is_effect = $c_is_effect == 0 ? 1 : 0; //需设置的状态
+		M(MODULE_NAME)->where("id=".$id)->setField("is_effect",$n_is_effect);	
+		$this->ajaxReturn($n_is_effect,l("SET_EFFECT_".$n_is_effect),1)	;	
 	}
 	
 }

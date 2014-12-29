@@ -27,52 +27,40 @@ class index_wap
 		}
 		$root['adv_list'] = $adv_list;
 				
-		//文章列表（活动信息）
-		$article_list = $GLOBALS['db']->getAll(" select * from ".DB_PREFIX."article where is_effect = 1 order by sort desc limit 5");
+		//推荐活动
+		$article_list = $GLOBALS['db']->getAll(" select * from ".DB_PREFIX."event where is_effect = 1 and is_recommend = 1 order by sort desc limit 4");
+		foreach($article_list as $k1=>$v1){
+			$article_list[$k1]['icon']=str_replace("./public/","/public/",$article_list[$k1]['icon']);
+		}
 		$root['article_list'] = $article_list;
-		
-		//论坛精选（二手交易）
-		$esjy_topic_ids = get_topicId_by_cateId(4);
-		$esjy_sql = "select * from ".DB_PREFIX."topic where id in ".$esjy_topic_ids." and is_effect = 1 and is_delete = 0  and fav_id = 0 and relay_id = 0 ".
-		"and type='share' order by create_time desc limit 20";
-		$esjy_topic_list = $GLOBALS['db']->getAll($esjy_sql);
-		foreach($esjy_topic_list as $k=>$v){
-			if(msubstr(preg_replace("/<[^>]+>/i","",$esjy_topic_list[$k]['content']),0,40)!=preg_replace("/<[^>]+>/i","",$esjy_topic_list[$k]['content'])){
-				$esjy_topic_list[$k]['short_content'] = msubstr(preg_replace("/<[^>]+>/i","",$esjy_topic_list[$k]['content']),0,40);
-			}else{
-				$esjy_topic_list[$k]['short_content'] = preg_replace("/<br[^>]+>/i","",$esjy_topic_list[$k]['content']);
-			}
+
+		//精选商铺
+		$supplier_location_sql = "select a.id,a.deal_cate_id,a.name,a.avg_point,a.city_id, a.mobile_brief,a.mobile_brief as brief,a.tel,".
+		"a.preview as logo,a.dp_count as comment_count,a.xpoint,a.ypoint,a.address as api_address from ".DB_PREFIX."supplier_location as a 
+		where a.is_effect = 1 and a.is_recommend = 1 order by id desc limit 2";
+		$recommend_supplier_location_list = $GLOBALS['db']->getAll($supplier_location_sql);
+		foreach($recommend_supplier_location_list as $k2=>$v2){
+			$recommend_supplier_location_list[$k2]['logo']=str_replace("./public/","/public/",$recommend_supplier_location_list[$k2]['logo']);
+			//从店铺点评表里读取点评情况
+			$this_store_comment_count=$GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."supplier_location_dp as a left join ".
+			DB_PREFIX."user as b on b.id=a.user_id where a.supplier_location_id = ".$v['id']." and a.status = 1");
+			$buy_dp_sum = 0.0;
+			$buy_dp_group = $GLOBALS['db']->getAll("select point,count(*) as num from ".DB_PREFIX."supplier_location_dp where supplier_location_id = ".$v['id']." and status = 1 group by point");
+			foreach($buy_dp_group as $dp_k=>$dp_v){
+				$star = intval($dp_v['point']);
+				if ($star >= 1 && $star <= 5){			
+					$buy_dp_sum += $star * $dp_v['num'];
+				}
+			}			
+			//整体平均分
+			$recommend_supplier_location_list[$k2]['dp_avg_point'] = round($buy_dp_sum / $this_store_comment_count,1);
+			$recommend_supplier_location_list[$k2]['dp_width'] = (round($buy_dp_sum / $this_store_comment_count,1) / 5) * 100;	
 		}
-		$root['esjy_topic_list'] = $esjy_topic_list;
-		
-		//优惠活动
-		$yhhd_topic_ids = get_topicId_by_cateId(3);
-		$yhhd_sql = "select * from ".DB_PREFIX."topic where id in ".$yhhd_topic_ids." and is_effect = 1 and is_delete = 0  and fav_id = 0 and relay_id = 0 ".
-		"and type='share' order by create_time desc limit 5";
-		$yhhd_topic_list = $GLOBALS['db']->getAll($yhhd_sql);
-		foreach($yhhd_topic_list as $k=>$v){
-			if(msubstr(preg_replace("/<[^>]+>/i","",$yhhd_topic_list[$k]['content']),0,40)!=preg_replace("/<[^>]+>/i","",$yhhd_topic_list[$k]['content'])){
-				$yhhd_topic_list[$k]['short_content'] = msubstr(preg_replace("/<[^>]+>/i","",$yhhd_topic_list[$k]['content']),0,40);
-			}else{
-				$yhhd_topic_list[$k]['short_content'] = preg_replace("/<br[^>]+>/i","",$yhhd_topic_list[$k]['content']);
-			}
-		}
-		$root['yhhd_topic_list'] = $yhhd_topic_list;
-		
+		$root['recommend_supplier_location_list'] = $recommend_supplier_location_list;
 		
 		$root['page_title'] = $GLOBALS['m_config']['program_title'];
 		output($root);
 	}
 }
 
-function get_topicId_by_cateId($cate_id){
-		$topic_id_list = $GLOBALS['db']->getAll("select * from ".DB_PREFIX."topic_cate_link where cate_id = ".intval($cate_id));
-		$topic_ids = '';
-		foreach($topic_id_list as $k=>$v){
-			$topic_ids = $topic_ids.$v['topic_id'].',';
-		}
-		$topic_ids = substr($topic_ids,0,-1);
-		$topic_ids = '('.$topic_ids.')';
-		return $topic_ids;
-}
 ?>

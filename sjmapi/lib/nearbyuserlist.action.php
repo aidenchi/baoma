@@ -1,5 +1,5 @@
 <?php
-class nearbyuser
+class nearbyuserlist
 {
 	public function index()
 	{
@@ -18,9 +18,10 @@ class nearbyuser
 		$xleft = $longitude_left = floatval($GLOBALS['request']['longitude_left']);//最左边经度值  xpoint
 		$xright = $longitude_right = floatval($GLOBALS['request']['longitude_right']);//最右边经度值 xpoint
 		$m_distance = doubleval($GLOBALS['request']['m_distance']);   //范围(米)
-		$ypoint =  $m_latitude = doubleval($GLOBALS['request']['m_latitude']);  //ypoint 
-		$xpoint = $m_longitude = doubleval($GLOBALS['request']['m_longitude']);  //xpoint
-
+		//$ypoint =  $m_latitude = doubleval($GLOBALS['request']['m_latitude']);  //ypoint 
+		//$xpoint = $m_longitude = doubleval($GLOBALS['request']['m_longitude']);  //xpoint
+		$xpoint = doubleval(114.41776);
+		$ypoint = doubleval(30.483698);
 		
 		
 		$page = intval($GLOBALS['request']['page']); //分页
@@ -39,12 +40,13 @@ class nearbyuser
 		$sql = "select id,xpoint,ypoint,locate_time,user_name,daren_title, sex,
 				(ACOS(SIN(($ypoint * $pi) / 180 ) *SIN((ypoint * $pi) / 180 ) +COS(($ypoint * $pi) / 180 ) * COS((ypoint * $pi) / 180 ) *COS(($xpoint * $pi) / 180 - (xpoint * $pi) / 180 ) ) * $r) as distance  
 				from ".DB_PREFIX."user ";
+		//$sql = "select id,xpoint,ypoint,locate_time,user_name,daren_title, sex from ".DB_PREFIX."user ";
 		if($ybottom!=0&&$ytop!=0&&$xleft!=0&&$xright!=0)
 		$where = " ypoint > $ybottom and ypoint < $ytop and xpoint > $xleft and xpoint < $xright  and is_effect = 1 and is_delete = 0 ";
-		else
-		$where = " is_effect = 1 and is_delete = 0 ";
+		else		
+		$where = " xpoint>0 and ypoint>0 and is_effect = 1 and is_delete = 0 ";
 		$sql.= " where ".$where;
-		$sql.=" order by distance asc ";				
+		//$sql.=" order by distance asc ";				
 		$sql_count.=" where ".$where;		
 		$sql.=" limit ".$limit;
 
@@ -53,8 +55,8 @@ class nearbyuser
 		$page_total = ceil($total/$page_size);
 
 		
-		$list = $GLOBALS['db']->getAll($sql);
-		foreach($list as $k => $item){
+		$user_list = $GLOBALS['db']->getAll($sql);
+		foreach($user_list as $k => $item){
 			
 		
 			$item['uid'] = $item['id'];
@@ -78,11 +80,12 @@ class nearbyuser
 			
 			$item['locate_time_format'] = pass_date($item['locate_time']);
 			$item['distance'] = round($item['distance']);
-			$list[$k] = $item;
+			$user_list[$k] = $item;
 		}
-		$root['email']=$email;//fwb add 2014-08-27
-		$root['item'] = $list;
+		$root['email']=$email;
+		$root['user_list'] = $user_list;
 		$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);
+		$root['page_title']='附近玩伴';
 		
 		output($root);
 	}

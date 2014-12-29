@@ -40,7 +40,7 @@ class merchantlist
 			$quan_list[$k+1] = $base_quan_list[$k];
 		}
 		//输出年龄
-		$base_age_list=$GLOBALS['db']->getAll("select * from ".DB_PREFIX."supplier_location_age where is_effect = 1 order by sort desc");
+		$base_age_list=$GLOBALS['db']->getAll("select * from ".DB_PREFIX."supplier_location_age order by sort desc");
 		$age_list = array();
 		$age_list[0]['id'] = 0;
 		$age_list[0]['name'] = "全部";
@@ -74,23 +74,11 @@ class merchantlist
 				$q_name = $GLOBALS['db']->getOne("select name from ".DB_PREFIX."area where id = ".intval($quan_id));
 				$q_name_unicode = str_to_unicode_string($q_name);
 				$where .=" and (match(a.locate_match) against('".$q_name_unicode."' IN BOOLEAN MODE))";
-				//$xpoint = 0;
-				//$ypoint = 0;
+				$xpoint = 0;
+				$ypoint = 0;
 			}
-		}else{
-			if($xpoint>0 && $ypoint>0){//定位成功，按离我的位置由近到远排序	
-				$pi = 3.14159265;  //圆周率
-				$r = 6378137;  //地球平均半径(米)
-				$field_append = ", (ACOS(SIN(($ypoint * $pi) / 180 ) *SIN((a.ypoint * $pi) / 180 ) +COS(($ypoint * $pi) / 180 ) * COS((a.ypoint * $pi) / 180 ) *COS(($xpoint * $pi) / 180 - (a.xpoint * $pi) / 180 ) ) * $r) as distance ";
-				//0.5km范围内
-				$squares = returnSquarePoint($xpoint, $ypoint, 2);
-				$where .= "and a.ypoint<>0 and a.ypoint>{$squares['right-bottom']['lat']} and a.ypoint<{$squares['left-top']['lat']} and a.xpoint>{$squares['left-top']['lng']} and a.xpoint<{$squares['right-bottom']['lng']} ";
-				$orderby = " order by distance asc ";
-			}else{//定位失败，按人气排序	
-				$orderby = " order by a.dp_count desc ";
-			}	
 		}
-		/*
+		
 		if($xpoint>0 && $ypoint>0){//定位成功，按离我的位置由近到远排序	
 			$pi = 3.14159265;  //圆周率
 			$r = 6378137;  //地球平均半径(米)
@@ -103,7 +91,7 @@ class merchantlist
 		}else{//定位失败，按人气排序	
 			$orderby = " order by a.dp_count desc ";
 		}	
-		*/
+		
 		//筛选三（排序） 人气、评价、最新	
 		//如果选中了位置即quan_id大于0，并且排序选中的是离我最近，即order_type等于0，则将order_type置为1；		
 		//如果未选中位置，位置为全部即quan_id等于0，order_type为本来的选中值
@@ -132,7 +120,7 @@ class merchantlist
 		
 		//关键字搜索
 		if($keyword){
-	   		//$GLOBALS['tmpl']->assign("keyword",$keyword);
+	   		$GLOBALS['tmpl']->assign("keyword",$keyword);
 	   		$kws_div = div_str($keyword);
 			foreach($kws_div as $k=>$item)	{
 				$kw[$k] = str_to_unicode_string($item);

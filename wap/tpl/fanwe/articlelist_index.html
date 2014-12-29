@@ -2,37 +2,25 @@
 			<div class="wrap">
 					<div class="blank8"></div>
 					<div class="list-view">
-						 <div class="list_title"><i class="fa fa-bullhorn"></i>活动信息&nbsp;(共{$data.count}篇)</div>
+						 <div class="list_title">活动列表</div>
 						 {if $data.article_list}
-						 <ul class="">
-						 {foreach from=$data.article_list item=article}
-							<li class="topic_li">
-						 	      <a href='{wap_url a="index" r="articleitem#index"  p="id=$article.id"}'>
-						 	     	<div class="list_item">
-										 <div class="info">
-										 	<h2>{$article.title}</h2>
-											<h3>{$article.brief}</h3>	
-											<div class="topic_bottom">
-						                         <p class="topic_bottom_text">
-													<em><i>{function name="pass_date" time=$article.create_time }</i></em>											 
-												 </p>
-												 <p class="topic_bottom_text_right">
-													<i>点击量({$article.click_count})</i>												
-												 </p>
-						                    </div>
-										 </div>
-						 	     	</div>
-						 	     </a>
-						 	</li>	
-						{/foreach}							
-						 </ul>		
+						 <ul class="sp_ul">
+							{foreach from="$data.article_list" item="article"}
+						 	<li class="sp_li">
+						 	    <a href='{wap_url a="index" r="articleitem#index" p="id=$article.id"}'>
+						 	    	<img src="{$article.icon}" width="100%">
+									<div class="h">{$article.name}</div>
+						 	    </a>
+						 	</li>
+							{/foreach}
+						</ul>
 						<div class="fy">
 							{$pages}
 						</div>
 						{else}
 						 <div class="assess_list" style="text-align:center;padding:10px 0;">暂无活动信息</div>
 						{/if}
-					</div><!--list-view end-->		
+					</div>
 				 
 				</div><!--wrap end-->						
 {include file="./inc/footer.html"}				

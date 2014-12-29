@@ -19,18 +19,21 @@ class articlelist
 		$page_size = PAGE_SIZE;
 		//分页
 		$limit = (($page-1)*$page_size).",".$page_size;		
-		$sql = "select id,title,brief,create_time,click_count from ".DB_PREFIX."article where is_effect = 1 order by sort desc";
+		$sql = "select * from ".DB_PREFIX."event where is_effect = 1 order by sort,id desc";
 		$sql.=" limit ".$limit;		
-		$sql_count = "select count(*) from ".DB_PREFIX."article where is_effect = 1 ";
+		$sql_count = "select count(*) from ".DB_PREFIX."event where is_effect = 1 ";
 		$count = $GLOBALS['db']->getOne($sql_count);
 		$article_list = $GLOBALS['db']->getAll($sql);
-	
+		foreach($article_list as $k1=>$v1){
+			$article_list[$k1]['icon']=str_replace("./public/","/public/",$article_list[$k1]['icon']);
+		}
+		
 		$root['page'] = array("page"=>$page,"page_total"=>ceil($count/$page_size),"page_size"=>$page_size);		
 		$root['return'] = 1;
 		$root['count'] = intval($count);
 		$root['article_list'] = $article_list;
 		
-		$root['page_title']='文章列表';
+		$root['page_title']='活动列表';
 		
 		output($root);		
 	}
