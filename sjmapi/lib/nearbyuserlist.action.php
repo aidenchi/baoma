@@ -37,7 +37,7 @@ class nearbyuserlist
 		
 
 		$sql_count = "select count(*) from ".DB_PREFIX."user ";
-		$sql = "select id,xpoint,ypoint,locate_time,user_name,daren_title, sex,
+		$sql = "select id,xpoint,ypoint,locate_time,user_name,sex,
 				(ACOS(SIN(($ypoint * $pi) / 180 ) *SIN((ypoint * $pi) / 180 ) +COS(($ypoint * $pi) / 180 ) * COS((ypoint * $pi) / 180 ) *COS(($xpoint * $pi) / 180 - (xpoint * $pi) / 180 ) ) * $r) as distance  
 				from ".DB_PREFIX."user ";
 		//$sql = "select id,xpoint,ypoint,locate_time,user_name,daren_title, sex from ".DB_PREFIX."user ";

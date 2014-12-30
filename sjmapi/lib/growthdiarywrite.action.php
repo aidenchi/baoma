@@ -17,8 +17,7 @@ class growthdiarywrite
 			$root['page_title'] = "登录";			
 		}else{
 			$root['user_login_status'] = 1;			
-			$root['page_title'] = "成长日记";
-			$root['today'] = date('Y-m-d');
+			$root['page_title'] = "成长日记";			
 			$id = intval($GLOBALS['request']['id']);
 			if($id > 0){
 				$condition = " where user_id = ".intval($user_data['id'])." and id = ".$id;

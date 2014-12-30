@@ -9,8 +9,7 @@
 </div>
 <div class="blank5"></div>
 <div class="search_row">
-	<form name="search" action="__APP__" method="get">	
-		标题：<input type="text" class="textbox" name="title" value="{:trim($_REQUEST['title'])}" />		
+	<form name="search" action="__APP__" method="get">
 		用户名：<input type="text" class="textbox" name="user_name" value="{:trim($_REQUEST['user_name'])}" />		
 		<input type="hidden" value="GrowthDiary" name="m" />
 		<input type="hidden" value="index" name="a" />
@@ -25,7 +24,7 @@
 	checkbox="true" 
 	action="true" 
 	datasource="list" 
-	show="id:{%ID}|50px,title:标题:edit,user_name:用户,create_time|to_date:记录时间" 
+	show="id:{%ID}|50px,content|msubstr:内容,user_name:用户,location:位置,create_time|to_date:记录时间" 
 	actionlist="edit:{%EDIT}, foreverdel:{%FOREVERDEL}" /> 
 
 <div class="blank5"></div>

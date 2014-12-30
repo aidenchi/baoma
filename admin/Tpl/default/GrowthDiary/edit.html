@@ -10,10 +10,6 @@
 		<td colspan=2 class="topTd"></td>
 	</tr>
 	<tr>
-		<td class="item_title">日记标题:</td>
-		<td class="item_input"><input type="text" class="textbox require" name="title" value="{$vo.title}" /></td>
-	</tr>
-	<tr>
 		<td class="item_title">日记日期:</td>
 		<td class="item_input"><input type="text" disabled="disabled" class="textbox" name="record_date" value="{$vo.record_date}" /></td>
 	</tr>
@@ -22,6 +18,10 @@
 		<td class="item_input">
 			 <html:editor id="editor" name="content" type="KINDEDITOR" content="{$vo.content}" />
 		</td>
+	</tr>
+	<tr>
+		<td class="item_title">位置:</td>
+		<td class="item_input"><input type="text" disabled="disabled" class="textbox" name="location" value="{$vo.location}" /></td>
 	</tr>
 	<tr>
 		<td class="item_title"></td>

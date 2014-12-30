@@ -19,10 +19,11 @@ class growthdiaryadd
 			$root['user_login_status'] = 1;
 			$root['page_title'] = "成长日历";
 			
-			$id = intval($GLOBALS['request']['id']);
-			$record_date = $GLOBALS['request']['record_date'];//2014-12-12
-			$title = $GLOBALS['request']['title'];
+			$id = intval($GLOBALS['request']['id']);			
 			$content = $GLOBALS['request']['content'];
+			$location = $GLOBALS['request']['location'];
+			$is_public = intval($GLOBALS['request']['is_public']);
+			$record_date = date('Y-m-d');//记录日期
 			$record_date_arr = explode('-',$record_date); 
 			$record_year = intval($record_date_arr[0]);
 			$record_month = intval($record_date_arr[1]);
@@ -35,7 +36,6 @@ class growthdiaryadd
 			$growthdiary['record_year'] = $record_year;
 			$growthdiary['record_month'] = $record_month;
 			$growthdiary['record_day'] = $record_day;
-			$growthdiary['title'] = $title;
 			$growthdiary['content'] = $content;
 			$growthdiary['create_time'] = get_gmtime();			
 			if($id==0){//新增insert记录操作
@@ -53,7 +53,7 @@ class growthdiaryadd
 				$root['status']=0;
 				$root['info']='修改失败';
 				//$sql = "update ".DB_PREFIX."growth_diary set record_date = '".$record_date."', title = '".$title."', content = '".$content."' where id = ".$id;
-				$sql = "update ".DB_PREFIX."growth_diary set record_date = '".$record_date."', title = '".$title."', content = '".$content."' where id = ".$id;
+				$sql = "update ".DB_PREFIX."growth_diary set content = '".$content."', location = '".$location."', is_public = '".$is_public."' where id = ".$id;
 				$GLOBALS['db']->query($sql);
 				$root['status']=1;
 				$root['info']='修改成功';

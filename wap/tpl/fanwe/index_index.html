@@ -1,4 +1,4 @@
-{include file="./inc/header_index.html"}
+{include file="./inc/header_common.html"}
 
 			<div class="wrap">
 					<!-----------------------------------广告图片------------------------------>
@@ -36,7 +36,7 @@
 									</a>
 					  	    	</li>
 								<li class="sort_li">
-					  	    		<a href='{wap_url a="index" r="growthdiarylist#index"}'>
+					  	    		<a href='{wap_url a="index" r="growthdiarylist#index"}'>									
 					  	    			<span class="yuan" style="background-color:#FF0000"></span>
 										<span class="txt">成长日记</span>
 									</a>
@@ -60,7 +60,7 @@
 					<div class="blank8"></div>
 					<!-----------------------------------推荐活动------------------------------>
 					<div class="list-view bor_none">
-						 <div class="list_title" style="border: none;">推荐</div>
+						 <div class="list_title" style="border: none;">推荐活动</div>
 						 <ul class="sp_ul">
 							{foreach from="$data.article_list" item="article"}
 						 	<li class="sp_li">
@@ -74,9 +74,9 @@
 					</div>
 					
 					<div class="blank8"></div>
-					<!-----------------------------------精选商铺------------------------------>
+					<!-----------------------------------推荐商铺------------------------------>
 					<div class="list-view bor_none">
-						 <div class="list_title" style="border: none;">精选</div>
+						 <div class="list_title" style="border: none;">推荐店铺</div>
 						 <ul class="tuan_ul">
 							{foreach from=$data.recommend_supplier_location_list item=location}
 							<li class="tuan_li">

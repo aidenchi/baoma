@@ -2,12 +2,16 @@
 {include file="./inc/merchantlist_key_item.html"}
 <?php die();?>
 {/if}
-{include file="./inc/header.html"} 
+{include file="./inc/header_common.html"} 
 <?php
 		$this->_var['parse_pagecss'][] = $this->_var['TMPL_REAL']."/css/merchantlist_index.css";	
 			
 ?>
 <link rel="stylesheet" type="text/css" href='{function name="parse_css" v="$parse_pagecss"}' />
+
+<div id="J_key_item">
+{include file="./inc/merchantlist_key_item.html"} 
+</div>
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
 <script type="text/javascript">
@@ -22,29 +26,32 @@ $(document).ready(function(){
 
 function get_nearby_store(){	
 	//alert("get_nearby_store");	
+	$(".more_search_pull_down").hide();
 	$("#loading").show();
 	if($("#hide_xpoint").val()>0 && $("#hide_ypoint").val()>0){
 		ajaxgetbyxypoint($("#hide_xpoint").val(),$("#hide_ypoint").val());	
 	}else{
 		var geolocation = new BMap.Geolocation(); 
 		geolocation.getCurrentPosition(function (r) { 			
+			/*
 			if (this.getStatus() == BMAP_STATUS_SUCCESS ) { 
 				//origin = r.point.lng + "," + r.point.lat; 			
 				//alert("我所在位置的坐标："+origin); 
 				var longitude=r.point.lng;
-				var latitude=r.point.lat;			
-			/*模拟
-			if(1!=1){
+				var latitude=r.point.lat;	
+			*/
+			//模拟
+			if(1==1){
 				var longitude=114.41776;
 				var latitude=30.483698;
-			*/
+			
 				$("#hide_xpoint").val(longitude);
 				$("#hide_ypoint").val(latitude);
 				//window.location.href=$("#nearby_part_href").val()+"&xpoint="+longitude+"&ypoint="+latitude;//定位成功，读取我所在位置附近
 				//$("#loading").hide();
-				ajaxgetbyxypoint(longitude,latitude);	
+				ajaxgetbyxypoint(longitude,latitude,'all','default');	
 			}else{
-				alert("定位加载失败，请稍后重试");
+				alert("定位失败，请稍后刷新重试");
 				//window.location.href=$("#nearby_part_href").val()+"&quan_id=1";//定位失败，读取全部位置				
 				var query = new Object();
 				query.quan_id = 1;
@@ -67,13 +74,16 @@ function get_nearby_store(){
 	}
 }
 
-function ajaxgetbyxypoint(longitude,latitude){
+function ajaxgetbyxypoint(longitude,latitude,distance,order_type){
 	var ajaxurl = '{wap_url a="index" r="merchantlist"}';
 	var query = new Object();
 	query.cate_id = $("#hide_cate_id").val();
 	query.age_id = $("#hide_age_id").val();
 	query.xpoint = longitude;
 	query.ypoint = latitude;
+	query.distance = distance;
+	query.order_type = order_type;
+	query.quan_id = 1;
 	query.is_ajax=1;
 	$.ajax({
 		url:ajaxurl,
@@ -110,27 +120,7 @@ function userxypoint(latitude,longitude){
 	});		 		
 }
 */
-</script>	
-
-
-<div class="wrap">
-	<div class="search_box_tx">
-    	<div class="search_text_tx"> 
-			<a class="search_ico_tx"><i class="fa fa-search"></i></a>
-			<input type="text" placeholder="请输入店铺名称" id="keyword">
-		</div>
-		<div class="search_button_tx">
-			<input type="Button" value="搜索" onclick="search_submit()">
-		</div>
-    </div>
-	<div class="blank8"></div>
-	
-	<div id="J_key_item">
-		{include file="./inc/merchantlist_key_item.html"}	
-	</div>
-
-</div>
-	
+</script>
 
 <script type="text/javascript">		
 			function  search_submit(){			
@@ -156,4 +146,5 @@ function userxypoint(latitude,longitude){
 		
 </script>
 
+<!------------------------------------------footer-------------------------------------------->	
 {include file="./inc/footer.html"} 

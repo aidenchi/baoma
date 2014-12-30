@@ -18,11 +18,14 @@ class merchantlist
 
 		$ypoint =  doubleval($GLOBALS['request']['ypoint']);  //ypoint 
 		$xpoint = doubleval($GLOBALS['request']['xpoint']);  //xpoint
+		$distance = strim($GLOBALS['request']['distance']); 		
+		
 		//$xpoint = doubleval(114.41776);
 		//$ypoint = doubleval(30.483698);
 		$root['xypoint'] = $xpoint.','.$ypoint;
-
 		
+
+		/*******************************输出筛选条件******************************************/
 		//输出分类
 		$base_cate_list=$GLOBALS['db']->getAll("select id,name,icon_img from ".DB_PREFIX."deal_cate where is_delete=0 and is_effect=1 and pid=0 order by sort desc,id desc");	
 		$bcate_list = array();
@@ -61,6 +64,27 @@ class merchantlist
 			}
 		}	
 		
+		/*******************************筛选******************************************/		
+		if($xpoint>0 && $ypoint>0){//定位成功，得出距离
+			$pi = 3.14159265;  //圆周率
+			$r = 6370693;  //地球平均半径(米)
+			$field_append = ", (ACOS(SIN(($ypoint * $pi) / 180 ) *SIN((a.ypoint * $pi) / 180 ) +COS(($ypoint * $pi) / 180 ) * COS((a.ypoint * $pi) / 180 ) *COS(($xpoint * $pi) / 180 - (a.xpoint * $pi) / 180 ) ) * $r) as distance ";
+		}else{
+			$field_append = " ";
+		}
+		
+		//关键字（店铺名称）搜索
+		if($keyword){
+	   		//$GLOBALS['tmpl']->assign("keyword",$keyword);
+	   		$kws_div = div_str($keyword);
+			foreach($kws_div as $k=>$item)	{
+				$kw[$k] = str_to_unicode_string($item);
+			}
+			$kw_unicode = implode(" ",$kw);
+			//有筛选
+			$where .=" and (match(a.name_match,a.locate_match,a.deal_cate_match,a.tags_match) against('".$kw_unicode."' IN BOOLEAN MODE) or name like '%".$keyword."%')";	  	
+		}
+		
 		//筛选一  分类		
 		if($cate_id>0){//如果选择了分类			
 			$deal_cate_name = $GLOBALS['db']->getOne("select name from ".DB_PREFIX."deal_cate where id = ".$cate_id);			
@@ -68,45 +92,62 @@ class merchantlist
 			$where .= " and (match(a.deal_cate_match) against('".$deal_cate_name_unicode."' IN BOOLEAN MODE)) ";		
 		}		
 		
-		//筛选二  区域
+		//筛选二  区域和距离  只能选一样
 		if ($quan_id > 0){//如果选择了区域	
 			if ($quan_id != 1){//不为全部
 				$q_name = $GLOBALS['db']->getOne("select name from ".DB_PREFIX."area where id = ".intval($quan_id));
 				$q_name_unicode = str_to_unicode_string($q_name);
 				$where .=" and (match(a.locate_match) against('".$q_name_unicode."' IN BOOLEAN MODE))";
-				//$xpoint = 0;
-				//$ypoint = 0;
 			}
-		}else{
-			if($xpoint>0 && $ypoint>0){//定位成功，按离我的位置由近到远排序	
-				$pi = 3.14159265;  //圆周率
-				$r = 6378137;  //地球平均半径(米)
-				$field_append = ", (ACOS(SIN(($ypoint * $pi) / 180 ) *SIN((a.ypoint * $pi) / 180 ) +COS(($ypoint * $pi) / 180 ) * COS((a.ypoint * $pi) / 180 ) *COS(($xpoint * $pi) / 180 - (a.xpoint * $pi) / 180 ) ) * $r) as distance ";
-				//0.5km范围内
+		}else{//如果没有选择区域，判断距离			
+			//number km范围内
+			if($distance == 'all' || $distance == ''){
+			}
+			if($distance == 'gt10'){
+				$squares = returnSquarePoint($xpoint, $ypoint, 10);
+				$where .= "and a.ypoint<>0 and (a.ypoint<{$squares['right-bottom']['lat']} or a.ypoint>{$squares['left-top']['lat']}) and (a.xpoint<{$squares['left-top']['lng']} or a.xpoint>{$squares['right-bottom']['lng']}) ";
+			}
+			if($distance == '0.5'){
+				$squares = returnSquarePoint($xpoint, $ypoint, 0.5);
+				$where .= "and a.ypoint<>0 and a.ypoint>{$squares['right-bottom']['lat']} and a.ypoint<{$squares['left-top']['lat']} and a.xpoint>{$squares['left-top']['lng']} and a.xpoint<{$squares['right-bottom']['lng']} ";
+			}
+			if($distance == '1'){
+				$squares = returnSquarePoint($xpoint, $ypoint, 1);
+				$where .= "and a.ypoint<>0 and a.ypoint>{$squares['right-bottom']['lat']} and a.ypoint<{$squares['left-top']['lat']} and a.xpoint>{$squares['left-top']['lng']} and a.xpoint<{$squares['right-bottom']['lng']} ";
+			}
+			if($distance == '2'){
 				$squares = returnSquarePoint($xpoint, $ypoint, 2);
 				$where .= "and a.ypoint<>0 and a.ypoint>{$squares['right-bottom']['lat']} and a.ypoint<{$squares['left-top']['lat']} and a.xpoint>{$squares['left-top']['lng']} and a.xpoint<{$squares['right-bottom']['lng']} ";
-				$orderby = " order by distance asc ";
-			}else{//定位失败，按人气排序	
-				$orderby = " order by a.dp_count desc ";
+			}			
+			if($distance == '3'){
+				$squares = returnSquarePoint($xpoint, $ypoint, 3);
+				$where .= "and a.ypoint<>0 and a.ypoint>{$squares['right-bottom']['lat']} and a.ypoint<{$squares['left-top']['lat']} and a.xpoint>{$squares['left-top']['lng']} and a.xpoint<{$squares['right-bottom']['lng']} ";
 			}	
+			if($distance == '5'){
+				$squares = returnSquarePoint($xpoint, $ypoint, 5);
+				$where .= "and a.ypoint<>0 and a.ypoint>{$squares['right-bottom']['lat']} and a.ypoint<{$squares['left-top']['lat']} and a.xpoint>{$squares['left-top']['lng']} and a.xpoint<{$squares['right-bottom']['lng']} ";
+			}	
+			if($distance == '8'){
+				$squares = returnSquarePoint($xpoint, $ypoint, 8);
+				$where .= "and a.ypoint<>0 and a.ypoint>{$squares['right-bottom']['lat']} and a.ypoint<{$squares['left-top']['lat']} and a.xpoint>{$squares['left-top']['lng']} and a.xpoint<{$squares['right-bottom']['lng']} ";
+			}	
+			if($distance == '10'){
+				$squares = returnSquarePoint($xpoint, $ypoint, 10);
+				$where .= "and a.ypoint<>0 and a.ypoint>{$squares['right-bottom']['lat']} and a.ypoint<{$squares['left-top']['lat']} and a.xpoint>{$squares['left-top']['lng']} and a.xpoint<{$squares['right-bottom']['lng']} ";
+			}	
+				
 		}
-		/*
-		if($xpoint>0 && $ypoint>0){//定位成功，按离我的位置由近到远排序	
-			$pi = 3.14159265;  //圆周率
-			$r = 6378137;  //地球平均半径(米)
-			$field_append = ", (ACOS(SIN(($ypoint * $pi) / 180 ) *SIN((a.ypoint * $pi) / 180 ) +COS(($ypoint * $pi) / 180 ) * COS((a.ypoint * $pi) / 180 ) *COS(($xpoint * $pi) / 180 - (a.xpoint * $pi) / 180 ) ) * $r) as distance ";
-			//0.5km范围内
-			$squares = returnSquarePoint($xpoint, $ypoint, 2);
-			$where .= "and a.ypoint<>0 and a.ypoint>{$squares['right-bottom']['lat']} and a.ypoint<{$squares['left-top']['lat']} and a.xpoint>{$squares['left-top']['lng']} and a.xpoint<{$squares['right-bottom']['lng']} ";
-
-			$orderby = " order by distance asc ";
-		}else{//定位失败，按人气排序	
-			$orderby = " order by a.dp_count desc ";
-		}	
-		*/
+		
 		//筛选三（排序） 人气、评价、最新	
 		//如果选中了位置即quan_id大于0，并且排序选中的是离我最近，即order_type等于0，则将order_type置为1；		
 		//如果未选中位置，位置为全部即quan_id等于0，order_type为本来的选中值
+		if($order_type=='default' || $order_type == ''){//人气（点评数量倒序）	
+			if($xpoint>0 && $ypoint>0){//定位成功，按离我的位置由近到远排序	
+				$orderby = " order by distance asc ";	
+			}else{
+				$orderby = " order by a.avg_point desc ";
+			}
+		}
 		if($order_type=='dp_count'){//人气（点评数量倒序）	
 			$orderby = " order by a.dp_count desc ";	
 		}
@@ -129,18 +170,6 @@ class merchantlist
 			$where .=" and a.id in ".$location_ids;
 			//$root['location_ids'] = $location_ids;
 		}		
-		
-		//关键字搜索
-		if($keyword){
-	   		//$GLOBALS['tmpl']->assign("keyword",$keyword);
-	   		$kws_div = div_str($keyword);
-			foreach($kws_div as $k=>$item)	{
-				$kw[$k] = str_to_unicode_string($item);
-			}
-			$kw_unicode = implode(" ",$kw);
-			//有筛选
-			$where .=" and (match(a.name_match,a.locate_match,a.deal_cate_match,a.tags_match) against('".$kw_unicode."' IN BOOLEAN MODE) or name like '%".$keyword."%')";	  	
-	   }
 		
 		$sql_count = "select count(*) from ".DB_PREFIX."supplier_location". " as a";
 		$sql = "select a.id,a.deal_cate_id,a.name,a.avg_point,a.city_id, a.mobile_brief,a.mobile_brief as brief,a.tel,".
@@ -194,12 +223,14 @@ class merchantlist
 		$root['bcate_list'] = $bcate_list;
 		$root['quan_list'] = $quan_list;
 		$root['age_list'] = $age_list;
+		$root['keyword'] = $keyword;
 		$root['age_id'] = $age_id;
 		$root['city_id']=$city_id;
 		$root['cate_id']=$cate_id;
 		$root['quan_id']=$quan_id;
 		$root['xpoint']=$xpoint;
 		$root['ypoint']=$ypoint;
+		$root['distance']=$distance;
 		$root['order_type'] = $order_type;
 		$root['city_name']=$city_name;
 		
@@ -208,8 +239,8 @@ class merchantlist
 	}
 }
 
- function returnSquarePoint($lng, $lat,$distance = 2){
- 	$EARTH_RADIUS = 6371;
+ function returnSquarePoint($lng, $lat,$distance){
+ 	$EARTH_RADIUS = 6370.693;
     $dlng =  2 * asin(sin($distance / (2 * $EARTH_RADIUS)) / cos(deg2rad($lat)));
     $dlng = rad2deg($dlng);
      

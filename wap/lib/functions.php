@@ -1,5 +1,19 @@
 <?php
 /***************************ymy add 2014-12-12***********************************/
+//现实距离 单位km
+function display_km($distance){
+	if($distance==0){
+		$result = '';
+	}
+	if($distance>0 && $distance<1000){
+		$result = $distance.'m';
+	}
+	if($distance>1000){
+		$result = round($distance/1000, 1).'km';
+	}
+	return $result;
+}
+
 //帖子回复计算几楼
 function floor_num($k,$base_size){
 	return intval(intval($k) + 1 + intval($base_size));

@@ -129,7 +129,7 @@ min-width: 50px;
    background:@box_color;
    overflow:hidden;
    padding: 4px 0 10px 0;
-   border-bottom: 1px solid @border_main;
+   /*border-bottom: 1px solid @border_main;*/
    }
 
 
@@ -194,10 +194,11 @@ min-width: 50px;
 
 .list_title{
 	color:#5f5f5f;
-	font-size:18px;
-	margin-top:8px;
+	font-size:16px;
+	padding-top:8px;
 	padding-left: 10px;
 	padding-bottom:5px;
+	border-bottom:1px solid #f5f5f5;
 	}		 
 	
 .list_title i{
@@ -206,8 +207,10 @@ min-width: 50px;
 }	
 .list-view{
 	background:@box_color;
-	border-top:1px solid @border_main;
-	border-bottom:1px solid @border_main;
+	border:1px solid @border_main;
+	/*border-top:1px solid @border_main;
+	border-bottom:1px solid @border_main;*/
+	/*margin:0 6px;*/
 }		 
 
 .blank8{
@@ -222,8 +225,8 @@ min-width: 50px;
 .sp_li{
 	overflow:hidden;
 	display: inline-block;
-	width:32%;
-	border-right:1px solid #cfcbc0;
+	width:48%;
+	/*border-right:1px solid #cfcbc0;*/
 	text-align:center;
 }
 
@@ -385,23 +388,72 @@ min-width: 50px;
    margin-bottom:10px;
 }
 
+/**********************************************发帖子*ymy*add*2014-12-11***************************************************/	
+.topic_write_txt textarea{
+	width: 100%;
+	height: 200px;
+	font-size:12px;
+	color:#adadad;
+	border:1px solid @border_main;
+}
+
+.topic_write_txt{
+	padding: 10px;
+	background-color: white;
+
+}
+.write_btn{
+	
+	margin:15px 10px;
+	padding: 10px 0;
+	color: #fff;
+	background:#fb8602;
+	border-radius: 30px;
+	text-align: center;
+	font-size: 14px;
+	font-weight:bolder;
+}
+.form_album {
+background: url(../images/album.gif) no-repeat;
+}
+.form_face {
+background: url(../images/face.gif) no-repeat;
+}
+.form_topic {
+background: url(../images/topic.gif) no-repeat;
+}
+.form_ico {
+cursor: pointer;
+display: inline-block;
+height: 16px;
+line-height: 16px;
+padding-left: 20px;
+margin-right: 5px;
+}
+.fileupload{ width:66px; height:24px; position:relative; overflow:hidden; display:inline-block; background:url(../images/upbtn.gif); text-align:center; line-height:24px; color:#fff; }
+.fileuploading{ width:66px; height:24px; position:relative; overflow:hidden; display:inline-block; background:url(../images/upbtn.gif) 0px -24px; text-align:center; line-height:24px; color:#fff; }
+.hide{ display:none;}
+.show{ display:inline-block;}
+.fileupload .filebox{ position:absolute; right:0px; top:0px; filter: alpha(opacity = 0);
+	-moz-opacity: 0;
+	opacity: 0;}
+
 /**********************************************论坛帖子列表*ymy*add*2014-12-10***************************************************/	
 .topic_li .list_item{
    display: -webkit-box;
    display: -moz-box;
    width: 100%;
    display:box;
-   
+   padding:8px 10px 9px 10px;
 }	
 .topic_li .list_item .topic_user_headimg{
-   width: 60px;
+   width: 50px;
    margin: 0px 12px 0 0;
    display: inline-block;
    overflow: hidden;
    position: relative;
 }
-.topic_li{
-	padding:8px 10px 9px 10px;
+.topic_li{	
 	border-bottom:1px solid #f5f5f5;
 }
 .topic_ico{
@@ -418,26 +470,13 @@ min-width: 50px;
 	font-size:12px;
 }
 .topic_user_headimg .ico{
-	background:#0079ff;
+	background:#fb4226;
 }	
 .topic_li .info{
 	-webkit-box-flex: 1;
 	-moz-box-flex:1;
-}
-.topic_li .info h2{
-   font-size: 15px;
-   color: #323232;
-   height: 15px;
-    overflow: hidden;
-   display: -webkit-box;
-   display: -moz-box;
-   font-weight: bold;
-   -webkit-line-clamp: 2;
-   -moz-line-clamp: 2;
-   -webkit-box-orient: vertical;
-   -moz-box-orient: vertical;
-   word-break: break-all;
-   line-height: 15px;
+	color: #6E7D8B;
+	padding-right:10px;
 }
 .topic_li .info h3{
    font-size: 12px;
@@ -463,21 +502,23 @@ min-width: 50px;
    display: -moz-box;
    width: 100%;
    display:box;   
+   padding:8px 10px 9px 10px;
 }
 .topic_item_li .list_item .topic_user_headimg{
-   width: 60px;
+   width: 50px;
    margin: 0px 12px 0 0;
    display: inline-block;
    overflow: hidden;
    position: relative;
 }	
 .topic_item_li{
-	padding:8px 10px 9px 10px;
 	border-bottom:1px solid #f5f5f5;
 }
 .topic_item_li .info{
 	-webkit-box-flex: 1;
 	-moz-box-flex:1;
+    color: #6E7D8B;
+	padding-right:10px;
 }	
 .topic_item_li .info h2{
    font-size: 15px;
@@ -496,6 +537,7 @@ min-width: 50px;
    font-size: 12px;
    color: #b2b2b2;
    line-height: 14px;
+   margin: 11px 0;
 }
 .topic_item_li .info .content img{
     max-width: 200px;
@@ -508,28 +550,62 @@ min-width: 50px;
    display: -webkit-box;
    display: -moz-box;
    width: 100%;
-   display:box;   
+   display:box; 	
 }
 .topic_item_reply_li .list_item .topic_user_headimg{
-   width: 60px;
+   width: 50px;
    margin: 0px 12px 0 0;
    display: inline-block;
    overflow: hidden;
    position: relative;
 }	
-.topic_item_reply_li{
-	padding:8px 10px 9px 10px;
-	border-bottom:1px solid #f5f5f5;
+.topic_item_reply_li{	
+	padding:8px 10px 9px 10px;   
+	border-bottom:1px solid #f5f5f5;	
 }
 .topic_item_reply_li .info{
 	-webkit-box-flex: 1;
 	-moz-box-flex:1;
+	color: #6E7D8B;
 }	
 .topic_item_reply_li .info .content{
    font-size: 12px;
    color: #b2b2b2;
    line-height: 14px;  
-   margin: 11px 0;
+   margin: 1px 0;
+}
+.reply_topic_bottom{
+   display: -webkit-box;
+   display: -moz-box;
+   width: 100%;
+   display:box;
+   color: #6E7D8B;
+}
+.reply_topic_bottom .reply_topic_bottom_text{
+   -webkit-box-flex: 1;
+   -moz-box-flex: 1;
+}
+.reply_topic_bottom .reply_topic_bottom_text em {
+   font-size: 15px;
+   color: #fe4229;
+   font-weight: normal;
+   font-style: normal; 
+   padding-right:12px;
+}
+.reply_topic_bottom .reply_topic_bottom_text em i{
+	font-size:12px;
+	color: #b2b2b2;
+	font-weight: normal;
+}
+.reply_topic_bottom .reply_topic_bottom_text_right{
+	text-align: right;
+	display: inline-block;
+	height: 14px;
+	font-size: 12px;
+	color: #b2b2b2;
+}
+.reply_topic_bottom_p{
+	padding-top:8px;	
 }
 
 /*************************************************************论坛帖子内容下面的小文字公用*ymy*add*2014-12-10****************************************************/
@@ -547,7 +623,7 @@ min-width: 50px;
 .topic_bottom .topic_bottom_text em {
    font-size: 15px;
    color: #fe4229;
-   font-weight: bold;
+   font-weight: normal;
    font-style: normal; 
    padding-right:12px;
 }
@@ -562,6 +638,7 @@ min-width: 50px;
 	height: 14px;
 	font-size: 12px;
 	color: #b2b2b2;
+	padding-right:20px;
 }
 
 /*************************************************************成长日志*ymy*add*2014-12-10****************************************************/
@@ -570,15 +647,18 @@ min-width: 50px;
    display: -moz-box;
    width: 100%;
    display:box;
-   
+   padding:8px 10px 9px 10px;
 }	 
-.growth_li{
-	padding:8px 10px 9px 10px;
+.growth_li{	
 	border-bottom:1px solid #f5f5f5;
 }
 .growth_li .info{
 	-webkit-box-flex: 1;
 	-moz-box-flex:1;
+	padding-right:10px;
+}
+.growth_li .info i{
+	color: #6E7D8B;
 }
 .growth_li .info h2{
    font-size: 15px;
@@ -618,6 +698,7 @@ min-width: 50px;
 	height: 14px;
 	font-size: 12px;
 	color: #b2b2b2;
+	padding-right:10px;
 }
 
 /*商铺、商品列表*/
@@ -631,7 +712,6 @@ min-width: 50px;
 
 .tuan_li .list_item .pic{
    width: 100px;
-   height: 100px;
    margin: 0px 12px 0 0;
    display: inline-block;
    overflow: hidden;
@@ -1014,8 +1094,8 @@ padding:0px;
 .list-view .specifier{
 	padding: 6px 0 6px 13px;
 	color: #c4c4c4;
-font-size: 12px;
-line-height: 24px;
+	font-size: 12px;
+	line-height: 24px;
 }
 
 .total_star .five_star_orange{
@@ -1227,4 +1307,54 @@ margin:20px 0;
 	line-height:28px;
 	text-align:center;
 	font-size:20px;
+}
+
+/******************************商铺列表筛选条件**********2014-12-19***************************************************/
+.more_search {
+	padding: 15px 11px;
+	display: inline-block;
+	line-height: 100%;
+	position: relative;
+}
+.more_search a i {
+	color: #fff;
+	font-size: 18px;
+}
+.more_search_pull_down{
+	z-index:100;
+	display:none;
+	position:absolute;
+	width:99%;
+	background:#fff;
+	right:1px;
+	top:53px;
+	border:1px solid #fc8600;
+}
+.choose_li{
+	padding:8px 10px 9px 10px;
+	/*border-bottom:1px solid #f5f5f5;*/
+}
+.choose_li .choose_item{
+   display: -webkit-box;
+   display: -moz-box;
+   width: 100%;
+   display:box;   
+}
+.choose_li .choose_title{
+   width: 50px;
+   display: inline-block;
+   position: relative;
+   color: #5f5f5f;
+   padding-left: 5px;
+}	
+.choose_li .choose_content{
+	-webkit-box-flex: 1;
+	-moz-box-flex:1;
+    color: #6E7D8B;
+}	
+.choose_li .choose_content i{
+	padding-right: 20px;
+}
+.choose_li .choose_content .selected{
+	font-weight: bolder;
 }

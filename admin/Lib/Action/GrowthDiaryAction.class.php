@@ -3,10 +3,6 @@
 class GrowthDiaryAction extends CommonAction{
 	public function index()
 	{
-		if(trim($_REQUEST['title'])!='')
-		{
-			$map['title'] = array('like','%'.trim($_REQUEST['title']).'%');			
-		}
 		if(trim($_REQUEST['user_name'])!='')
 		{
 			$map['user_name'] = $_REQUEST['user_name'];			

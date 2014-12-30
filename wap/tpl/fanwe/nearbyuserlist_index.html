@@ -1,78 +1,14 @@
 {include file="./inc/header_common.html"}
 <style>
-.user_search {
-	padding: 15px 11px;
-	display: inline-block;
-	line-height: 100%;
-	position: relative;
-}
-.user_search a i {
-	color: #fff;
-	font-size: 18px;
-}
-.user_search_pull_down{
-	z-index:100;
-	display:none;
-}
-.user_search_pull_down{
-	position:absolute;
-	width:98%;
-	background:#fff;
-	right:3px;
-	top:53px;
-	border:1px solid #fc8600;
-}
-.user_search_pull_down ul li{
-	padding-left:0px;
-}
-.user_search_pull_down .menu{
+.nearby_user_list_table {
 	width:100%;
-	height:30px;
-	line-height:30px;
-	color:#6E7D8B;;
-	text-align:left;
+	color: #adadad;
 }
-.user_search_pull_down .menu span{
-	padding-left:5px;
-	font-size:14px;
-}
-.user_search_pull_down .menu i{
-	padding-right:10px;
-	font-size:14px;
-}
-.nearbyuser_li {
+.nearby_user_list_table td {
+	line-height: 22px;
+	padding: 10px;
+	height: 100px;
 	border-bottom: 1px solid #f5f5f5;
-}
-.nearbyuser_li .list_item{
-   display: -webkit-box;
-   width: 100%;
-   padding:10px;
-}
-.nearbyuser_li .list_item .topic_user_headimg{
-   width: 50px;
-   margin: 0px 12px 0 0;
-   display: inline-block;
-   overflow: hidden;
-   position: relative;
-}
-.nearbyuser_li .info{
-	-webkit-box-flex: 1;
-	-moz-box-flex:1;
-	color: #6E7D8B;
-	padding-right:10px;
-}
-.nearbyuser_li .info h3{
-   font-size: 12px;
-   color: #b2b2b2;
-   height: 28px;
-   line-height: 14px;
-   overflow: hidden;
-   display: -webkit-box;
-   width:100%;
-   -webkit-line-clamp: 2;
-   -webkit-box-orient: vertical;
-   word-break: break-all;
-   margin: 10px 0;
 }
 </style>
 <script>
@@ -80,8 +16,8 @@ $(document).ready(function () {
   var x=$(document).height();
    $(".hide_list").height(x-93);
   
-   $(".user_search").click(function(){
-       $(".user_search_pull_down").toggle();
+   $(".more_search").click(function(){
+       $("#more_search_pull_down").toggle();
    });
 });
 </script>
@@ -94,70 +30,120 @@ $(document).ready(function () {
 	    </section>
 		-->
         <section class="logo_img">{$data.page_title}</section>
-        <section class="user_search">
+        <section class="more_search">
 			 <a href="javascript:void(0);"><i class="fa fa-list-ul"></i></a>
 	    </section>
      </div>
-	 <div class="user_search_pull_down">
+	 <div class="list-view" id="more_search_pull_down" style="margin-bottom:10px;display:none;">
 	       <ul>
-	       	    <li>
-	       	    	<div class="menu">
-						<span>位置：</span>
-	       	    	</div>
-	       	    </li>
-				<li>
-	       	    	<div class="menu">
-						<span>年龄：</span>
-	       	    	</div>
-	       	    </li>
-				<li>
-	       	    	<div class="menu">
-						<span>距离：</span>
-						<i>全部</i>
-						<i>500m</i>
-						<i>1km</i>
-						<i>3km</i>
-						<i>5km</i>
-						<i>8km</i>
-						<i>10km</i>
-						<i>10km以上</i>
-	       	    	</div>
-	       	    </li>
-				<li>
-	       	    	<div class="menu">
-						<span>性别：</span>
-						<i>公主</i>
-						<i>王子</i>
-	       	    	</div>
-	       	    </li>
-	       </ul>
+			<li class="choose_li">
+				<div class="choose_item">
+					<div class="choose_title">
+						位置：
+					</div>
+					<div class="choose_content">							
+						{foreach from=$data.quan_list item='quan'}
+							{if $quan.id eq 0}
+							<i {if $data.quan_id eq 1 and $data.xpoint <= 0} class="selected" {/if}>								
+								<a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id=all&order_type={$data.order_type}&age_id={$data.age_id}&xpoint={$data.xpoint}&ypoint={$data.ypoint}'>{$quan.name}</a>
+							</i>
+							{else}
+							<i {if $data.quan_id eq $quan.id} class="selected" {/if}>								
+								<a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id={$quan.id}&order_type={$data.order_type}&age_id={$data.age_id}&xpoint={$data.xpoint}&ypoint={$data.ypoint}'>{$quan.name}</a>
+							</i>
+							{/if}
+						{/foreach}						
+					</div>
+				</div>
+			</li>
+			<li class="choose_li">
+				<div class="choose_item">
+					<div class="choose_title">
+						年龄：
+					</div>
+					<div class="choose_content">
+						<a href=''><i>全部</i></a>
+						<a href=''><i>0-6月</i></a>
+						<a href=''><i>7-12月</i></a>
+						<a href=''><i>1-2岁</i></a>
+						<a href=''><i>3-4岁</i></a>
+						<a href=''><i>4-5岁</i></a>
+						<a href=''><i>6-7岁</i></a>
+						<a href=''><i>7-8岁</i></a>
+					</div>
+				</div>
+			</li>
+			<li class="choose_li">
+				<div class="choose_item">
+					<div class="choose_title">
+						距离：
+					</div>
+					<div class="choose_content">
+						<a href=''><i>全部</i></a>
+						<a href=''><i>0.5km</i></a>
+						<a href=''><i>1km</i></a>
+						<a href=''><i>2km</i></a>
+						<a href=''><i>3km</i></a>
+						<a href=''><i>5km</i></a>
+						<a href=''><i>8km</i></a>
+						<a href=''><i>10km</i></a>
+						<a href=''><i>10km以上</i></a>
+					</div>
+				</div>
+			</li>
+			<li class="choose_li">
+				<div class="choose_item">
+					<div class="choose_title">
+						性别：
+					</div>
+					<div class="choose_content">
+						<a href=''><i>公主</i></a>
+						<a href=''><i>王子</i></a>
+					</div>
+				</div>
+			</li>
+		</ul>
 	 </div>
 </div>
 
 <!------------------------------------------center-------------------------------------------->
 			<div class="wrap">
-					<div class="list-view bor_none">
-						 {if $data.user_list}
-						 <ul class="">
-						 {foreach from=$data.user_list item=user}
-							<li class="nearbyuser_li">						 	      
-						 	     	<div class="list_item">
-						 	     		 <div class="topic_user_headimg">
-						 	     		 	<img src='{function name="get_user_avatar" uid=$user.id type="small" }'>											
-						 	     		 </div>										 
-										 <div class="info">
-										 	<i>{$user.user_name}</i>
-											<h3>aaa</h3>										
-										 </div>										 
-						 	     	</div>						 	     
-								</li>
-							{/foreach}							
-						 </ul>		
+					<div class="list-view">
+						{if $data.user_list}
+						<table cellspacing="0" cellpadding="0" border="0" class="nearby_user_list_table">
+							<tbody>
+								{foreach from=$data.user_list item=user}
+								<tr>
+									<td width="90" style="text-align:center;">
+										<img style="width:90px;border-radius:60px;" src='{function name="get_user_avatar" uid=$user.id type="middle"}'>
+									</td>									
+									<td valign="top">
+										<div style="padding:10px 0px;font-size:18px;color:#f59436;">{$user.user_name}</div>
+										<div >
+											{if $user.sex eq 0}
+											公主
+											{/if}
+											{if $user.sex eq 1}
+											王子
+											{/if}
+											&nbsp;&nbsp;
+											显示年龄
+										</div>
+										<div style="padding-top:10px;">显示位置</div>
+									</td>
+									<td width="50" align="right" valign="top">	
+										<div style="padding:10px 0px;">显示km</div>
+									</td>	
+								</tr>				
+							{/foreach}								
+							</tbody>
+						</table>
+						<!--分页-->
 						<div class="fy">
 							{$pages}
 						</div>
 						{else}
-						 <div class="assess_list" style="text-align:center;padding:10px 0;height:200px;">暂没有玩伴</div>
+						 <div class="assess_list" style="text-align:center;padding:10px 0;">暂没有玩伴</div>
 						{/if}
 					</div><!--list-view end-->		
 				 
