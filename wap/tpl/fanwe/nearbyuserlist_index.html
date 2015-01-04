@@ -1,8 +1,13 @@
+{if $is_ajax eq 1}
+{include file="./inc/nearbyuserlist_key_item.html"}
+<?php die();?>
+{/if}
 {include file="./inc/header_common.html"}
 <style>
 .nearby_user_list_table {
 	width:100%;
 	color: #adadad;
+	font-size:12px;
 }
 .nearby_user_list_table td {
 	line-height: 22px;
@@ -11,144 +16,102 @@
 	border-bottom: 1px solid #f5f5f5;
 }
 </style>
+
+<!--ajax 刷新数据部分 start-->
+<div id="ajax_user_list">
+	{include file="./inc/nearbyuserlist_key_item.html"}
+</div><!--ajax_user_list end-->
+<!--ajax 刷新数据部分 end-->
+
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
 <script>
-$(document).ready(function () { 
-  var x=$(document).height();
-   $(".hide_list").height(x-93);
-  
-   $(".more_search").click(function(){
-       $("#more_search_pull_down").toggle();
-   });
+$(document).ready(function () {	
+	if($("#hide_xpoint").val()>0){//如果定位坐标有值或位置有值
+	
+	}else{//如果定位坐标没有值，也没有选择位置，则执行定位获取坐标读取我附近
+		get_nearby_user();
+	}
 });
+
+function get_nearby_user(){
+	$(".more_search_pull_down").hide();	
+	if($("#hide_xpoint").val()>0 && $("#hide_ypoint").val()>0){
+		ajaxgetbyxypoint($("#hide_xpoint").val(),$("#hide_ypoint").val(),'all');	
+	}else{
+		$("#loading").show();
+		var geolocation = new BMap.Geolocation(); 
+		geolocation.getCurrentPosition(function (r) { 			
+			/*
+			if (this.getStatus() == BMAP_STATUS_SUCCESS ) { 
+				//origin = r.point.lng + "," + r.point.lat; 			
+				//alert("我所在位置的坐标："+origin); 
+				var longitude=r.point.lng;
+				var latitude=r.point.lat;	
+			*/
+			//模拟
+			if(1==1){
+				var longitude=114.41776;
+				var latitude=30.483698;			
+				$("#hide_xpoint").val(longitude);
+				$("#hide_ypoint").val(latitude);
+				ajaxgetbyxypoint(longitude,latitude,'all');
+				userxypoint(longitude,latitude);
+			}else{
+				alert("定位失败，请稍后刷新重试");	
+				ajaxgetbyxypoint(0,0,'all');
+			}
+		});	
+	}
+}
+
+function ajaxgetbyxypoint(longitude,latitude,distance){
+	//alert("ajaxgetbyxypoint");
+	var ajaxurl = '{wap_url a="index" r="nearbyuserlist"}';
+	var query = new Object();
+	query.sex = $("#hide_sex").val();
+	query.xpoint = longitude;
+	query.ypoint = latitude;
+	query.distance = distance;
+	query.is_ajax=1;
+	$.ajax({
+		url:ajaxurl,
+		data:query,
+		type:"Post",
+		dataType:"text",
+		success:function(data){
+			//alert("yes");
+			$("#ajax_user_list").html(data);
+		}
+		,error:function(){
+			alert("服务器提交错误");
+		}
+	});	
+}
+
+//如果当前用户是登录状态，记录它的坐标
+function userxypoint(longitude,latitude){	
+	//alert("userxypoint");
+	var query = new Object();
+	query.latitude = latitude;
+	query.longitude = longitude;
+	query.post_type = "json";
+	var ajaxurl = '{url a="index" r="userxypoint"}';
+	$.ajax({
+		url:ajaxurl,
+		data:query,
+		type:"post",
+		dataType:"json",
+		success:function(data){		
+			//alert("userxypoint--yes");
+		}
+		,error:function(){	
+			//alert("userxypoint--no");
+		}
+	});		 		
+}
 </script>
-<!-----------------------------------------------header------------------------------------------>
-<div class="header">
-	<div class="c-hd">
-		<!--
-        <section class="cut_city">
-              <a onclick="window.history.go(-1);"><i class="fa fa-chevron-left"></i></a>
-	    </section>
-		-->
-        <section class="logo_img">{$data.page_title}</section>
-        <section class="more_search">
-			 <a href="javascript:void(0);"><i class="fa fa-list-ul"></i></a>
-	    </section>
-     </div>
-	 <div class="list-view" id="more_search_pull_down" style="margin-bottom:10px;display:none;">
-	       <ul>
-			<li class="choose_li">
-				<div class="choose_item">
-					<div class="choose_title">
-						位置：
-					</div>
-					<div class="choose_content">							
-						{foreach from=$data.quan_list item='quan'}
-							{if $quan.id eq 0}
-							<i {if $data.quan_id eq 1 and $data.xpoint <= 0} class="selected" {/if}>								
-								<a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id=all&order_type={$data.order_type}&age_id={$data.age_id}&xpoint={$data.xpoint}&ypoint={$data.ypoint}'>{$quan.name}</a>
-							</i>
-							{else}
-							<i {if $data.quan_id eq $quan.id} class="selected" {/if}>								
-								<a href='index.php?ctl=merchantlist&cate_id={$data.cate_id}&quan_id={$quan.id}&order_type={$data.order_type}&age_id={$data.age_id}&xpoint={$data.xpoint}&ypoint={$data.ypoint}'>{$quan.name}</a>
-							</i>
-							{/if}
-						{/foreach}						
-					</div>
-				</div>
-			</li>
-			<li class="choose_li">
-				<div class="choose_item">
-					<div class="choose_title">
-						年龄：
-					</div>
-					<div class="choose_content">
-						<a href=''><i>全部</i></a>
-						<a href=''><i>0-6月</i></a>
-						<a href=''><i>7-12月</i></a>
-						<a href=''><i>1-2岁</i></a>
-						<a href=''><i>3-4岁</i></a>
-						<a href=''><i>4-5岁</i></a>
-						<a href=''><i>6-7岁</i></a>
-						<a href=''><i>7-8岁</i></a>
-					</div>
-				</div>
-			</li>
-			<li class="choose_li">
-				<div class="choose_item">
-					<div class="choose_title">
-						距离：
-					</div>
-					<div class="choose_content">
-						<a href=''><i>全部</i></a>
-						<a href=''><i>0.5km</i></a>
-						<a href=''><i>1km</i></a>
-						<a href=''><i>2km</i></a>
-						<a href=''><i>3km</i></a>
-						<a href=''><i>5km</i></a>
-						<a href=''><i>8km</i></a>
-						<a href=''><i>10km</i></a>
-						<a href=''><i>10km以上</i></a>
-					</div>
-				</div>
-			</li>
-			<li class="choose_li">
-				<div class="choose_item">
-					<div class="choose_title">
-						性别：
-					</div>
-					<div class="choose_content">
-						<a href=''><i>公主</i></a>
-						<a href=''><i>王子</i></a>
-					</div>
-				</div>
-			</li>
-		</ul>
-	 </div>
-</div>
 
-<!------------------------------------------center-------------------------------------------->
-			<div class="wrap">
-					<div class="list-view">
-						{if $data.user_list}
-						<table cellspacing="0" cellpadding="0" border="0" class="nearby_user_list_table">
-							<tbody>
-								{foreach from=$data.user_list item=user}
-								<tr>
-									<td width="90" style="text-align:center;">
-										<img style="width:90px;border-radius:60px;" src='{function name="get_user_avatar" uid=$user.id type="middle"}'>
-									</td>									
-									<td valign="top">
-										<div style="padding:10px 0px;font-size:18px;color:#f59436;">{$user.user_name}</div>
-										<div >
-											{if $user.sex eq 0}
-											公主
-											{/if}
-											{if $user.sex eq 1}
-											王子
-											{/if}
-											&nbsp;&nbsp;
-											显示年龄
-										</div>
-										<div style="padding-top:10px;">显示位置</div>
-									</td>
-									<td width="50" align="right" valign="top">	
-										<div style="padding:10px 0px;">显示km</div>
-									</td>	
-								</tr>				
-							{/foreach}								
-							</tbody>
-						</table>
-						<!--分页-->
-						<div class="fy">
-							{$pages}
-						</div>
-						{else}
-						 <div class="assess_list" style="text-align:center;padding:10px 0;">暂没有玩伴</div>
-						{/if}
-					</div><!--list-view end-->		
-				 
-				</div><!--wrap end-->	
-
+			
 <!------------------------------------------footer-------------------------------------------->				
 {include file="./inc/footer.html"}				
 			

@@ -36,7 +36,11 @@
 									</a>
 					  	    	</li>
 								<li class="sort_li">
-					  	    		<a href='{wap_url a="index" r="growthdiarylist#index"}'>									
+									{if $data.login_user_id gt 0}
+					  	    		<a href='{wap_url a="index" r="growthdiarylist#index"}'>	
+									{else}
+									<a href='{wap_url a="index" r="growthdiarylist_public#index"}'>	
+									{/if}
 					  	    			<span class="yuan" style="background-color:#FF0000"></span>
 										<span class="txt">成长日记</span>
 									</a>

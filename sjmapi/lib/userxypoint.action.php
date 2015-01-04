@@ -7,12 +7,12 @@ class userxypoint
 		$root = array();
 		$root['return'] = 0;
 
-		$email = addslashes($GLOBALS['request']['email']);//用户名或邮箱
-		$pwd = md5(addslashes($GLOBALS['request']['pwd']));//密码
-
+		$email = strim($GLOBALS['request']['email']);//用户名或邮箱
+		$pwd = strim($GLOBALS['request']['pwd']);//密码
+		
 		//检查用户,用户密码
-		$user = user_check($email,$pwd);
-		$user_id  = intval($user['id']);
+		$user_data = user_check($email,$pwd);
+		$user_id = intval($user_data['id']);
 
 		$latitude = floatval($GLOBALS['request']['latitude']);//ypoint
 		$longitude = floatval($GLOBALS['request']['longitude']);//xpoint
@@ -29,7 +29,13 @@ class userxypoint
 								'ypoint' => $latitude,
 								'locate_time' => get_gmtime(),
 			);
-			$GLOBALS['db']->autoExecute(DB_PREFIX."user_x_y_point", $user_x_y_point, 'INSERT');
+			$user_xypoint_data = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."user_x_y_point where uid = ".$user_id);
+			if($user_xypoint_data){
+				$sql0 = "update ".DB_PREFIX."user_x_y_point set xpoint = $longitude, ypoint = $latitude, locate_time = ".get_gmtime()." where uid = $user_id";
+				$GLOBALS['db']->query($sql0);
+			}else{
+				$GLOBALS['db']->autoExecute(DB_PREFIX."user_x_y_point", $user_x_y_point, 'INSERT');
+			}			
 			$sql = "update ".DB_PREFIX."user set xpoint = $longitude, ypoint = $latitude, locate_time = ".get_gmtime()." where id = $user_id";
 			$GLOBALS['db']->query($sql);
 

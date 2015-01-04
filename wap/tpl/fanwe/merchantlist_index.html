@@ -15,6 +15,7 @@
 
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
 <script type="text/javascript">
+//首次进入页面判断是否需要定位
 $(document).ready(function(){
 	if($("#hide_xpoint").val()>0 || $("#hide_quan_id").val()>0){//如果定位坐标有值或位置有值
 		//alert($("#hide_xpoint").val()+"yes--"+$("#hide_quan_id").val());
@@ -24,13 +25,14 @@ $(document).ready(function(){
 	}
 });
 
+//定位获取
 function get_nearby_store(){	
 	//alert("get_nearby_store");	
-	$(".more_search_pull_down").hide();
-	$("#loading").show();
+	$(".more_search_pull_down").hide();	
 	if($("#hide_xpoint").val()>0 && $("#hide_ypoint").val()>0){
-		ajaxgetbyxypoint($("#hide_xpoint").val(),$("#hide_ypoint").val());	
+		ajaxgetbyxypoint($("#hide_xpoint").val(),$("#hide_ypoint").val(),'all','default');	
 	}else{
+		$("#loading").show();
 		var geolocation = new BMap.Geolocation(); 
 		geolocation.getCurrentPosition(function (r) { 			
 			/*
@@ -43,8 +45,7 @@ function get_nearby_store(){
 			//模拟
 			if(1==1){
 				var longitude=114.41776;
-				var latitude=30.483698;
-			
+				var latitude=30.483698;			
 				$("#hide_xpoint").val(longitude);
 				$("#hide_ypoint").val(latitude);
 				//window.location.href=$("#nearby_part_href").val()+"&xpoint="+longitude+"&ypoint="+latitude;//定位成功，读取我所在位置附近
@@ -52,28 +53,14 @@ function get_nearby_store(){
 				ajaxgetbyxypoint(longitude,latitude,'all','default');	
 			}else{
 				alert("定位失败，请稍后刷新重试");
-				//window.location.href=$("#nearby_part_href").val()+"&quan_id=1";//定位失败，读取全部位置				
-				var query = new Object();
-				query.quan_id = 1;
-				query.is_ajax=1;
-				$.ajax({
-					url:'{wap_url a="index" r="merchantlist"}',
-					data:query,
-					type:"Post",
-					dataType:"text",
-					success:function(data){
-						//alert("no");
-						$("#J_key_item").html(data);
-					}
-					,error:function(){
-						//alert("服务器提交错误");
-					}
-				});	
+				//window.location.href=$("#nearby_part_href").val()+"&quan_id=1";//定位失败，读取全部位置	
+				ajaxgetbyxypoint(0,0,'all','default');
 			}
 		});	
 	}
 }
 
+//ajaxu获取内容
 function ajaxgetbyxypoint(longitude,latitude,distance,order_type){
 	var ajaxurl = '{wap_url a="index" r="merchantlist"}';
 	var query = new Object();
@@ -100,8 +87,35 @@ function ajaxgetbyxypoint(longitude,latitude,distance,order_type){
 	});	
 }
 
-/*
-//将坐标返回到服务端;
+//根据店铺名查询
+function search_submit(){			
+	var keyword=$("#keyword").val();
+	var ajaxurl = '{wap_url a="index" r="merchantlist"}';
+	var query = new Object();
+	query.keyword = keyword;
+	query.xpoint = $("#hide_xpoint").val();
+	query.ypoint = $("#hide_ypoint").val();
+	query.distance = "all";
+	query.order_type = "default";
+	query.quan_id = 1;
+	query.is_ajax=1;
+	$.ajax({
+		url:ajaxurl,
+		data:query,
+		type:"Post",
+		dataType:"text",
+		success:function(data){
+		//alert(data);
+		$("#J_key_item").html(data);
+		}
+		,error:function(){
+			//alert("服务器提交错误");
+		}
+	});	
+}
+
+
+//如果当前用户是登录状态，记录它的坐标
 function userxypoint(latitude,longitude){	 	
 	var query = new Object();
 	query.latitude = latitude;
@@ -119,31 +133,7 @@ function userxypoint(latitude,longitude){
 		}
 	});		 		
 }
-*/
-</script>
 
-<script type="text/javascript">		
-			function  search_submit(){			
-				var keyword=$("#keyword").val();
-				var ajaxurl = '{wap_url a="index" r="merchantlist"}';
-				var query = new Object();
-				query.keyword = keyword;
-				query.is_ajax=1;
-				$.ajax({
-					url:ajaxurl,
-					data:query,
-					type:"Post",
-					dataType:"text",
-					success:function(data){
-						//alert(data);
-						$("#J_key_item").html(data);
-					}
-					,error:function(){
-						//alert("服务器提交错误");
-					}
-				});	
-			}
-		
 </script>
 
 <!------------------------------------------footer-------------------------------------------->	

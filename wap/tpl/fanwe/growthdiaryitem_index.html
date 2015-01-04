@@ -5,9 +5,11 @@
               <a onclick="window.history.go(-1);"><i class="fa fa-chevron-left"></i></a>
 	    </section>
         <section class="logo_img">{$data.page_title}</section>
-        <section class="h_search"><!--这里是头部的隐藏列表，点击可操作-->
+		{if $data.login_user_id gt 0}
+        <section class="h_search">
 			<a href='{wap_url a="index" r="growthdiarywrite#index"}'><i>记录一下</i></a>
 	    </section>
+		{/if}
      </div>	 
 </div>	
 				{if $data.growth_diary_item}			
@@ -25,8 +27,10 @@
 						                    <p class="growth_writetime">	 
 											</p>
 											<p class="growth_writedetail">
+												{if $data.login_user_id eq $data.growth_diary_item.user_id}
 												<a href='{wap_url a="index" r="growthdiarywrite#index"  p="id=$data.growth_diary_item.id"}'><i>编辑</i></a>&nbsp;&nbsp;
 												<a href="javascript:void(0);" onclick="delete_growth_diary({$data.growth_diary_item.id},$('#wrap'));"><i>删除</i></a>
+												{/if}
 											</p>
 						                </div>
 									 </div>

@@ -3,12 +3,15 @@
 //现实距离 单位km
 function display_km($distance){
 	if($distance==0){
-		$result = '';
+		$result = $distance.'m';
+	}
+	if($distance==12327566){
+		$result = '未知';
 	}
 	if($distance>0 && $distance<1000){
 		$result = $distance.'m';
 	}
-	if($distance>1000){
+	if($distance>1000 && $distance!=12327566){
 		$result = round($distance/1000, 1).'km';
 	}
 	return $result;
@@ -84,43 +87,72 @@ function get_user_avatar($id,$type)
 //论坛帖子获取已过时间
 function pass_date($time)
 {
-		$time_span = get_gmtime() - $time;
-		if($time_span>3600*24*365)
-		{
-			//一年以前
-//			$time_span_lang = round($time_span/(3600*24*365)).$GLOBALS['lang']['SUPPLIER_YEAR'];
-			//$time_span_lang = to_date($time,"Y".$GLOBALS['lang']['SUPPLIER_YEAR']."m".$GLOBALS['lang']['SUPPLIER_MON']."d".$GLOBALS['lang']['SUPPLIER_DAY']);
-			$time_span_lang = to_date($time,"Y-m-d");
-		}
-		elseif($time_span>3600*24*30)
-		{
-			//一月
-//			$time_span_lang = round($time_span/(3600*24*30)).$GLOBALS['lang']['SUPPLIER_MON'];
-			//$time_span_lang = to_date($time,"Y".$GLOBALS['lang']['SUPPLIER_YEAR']."m".$GLOBALS['lang']['SUPPLIER_MON']."d".$GLOBALS['lang']['SUPPLIER_DAY']);
-			$time_span_lang = to_date($time,"Y-m-d");
-		}
-		elseif($time_span>3600*24)
-		{
-			//一天
-			//$time_span_lang = round($time_span/(3600*24)).$GLOBALS['lang']['SUPPLIER_DAY'];
-			$time_span_lang = to_date($time,"Y-m-d");
-		}
-		elseif($time_span>3600)
-		{
-			//一小时
-			$time_span_lang = round($time_span/(3600)).$GLOBALS['lang']['SUPPLIER_HOUR'];
-		}
-	    elseif($time_span>60)
-		{
-			//一分
-			$time_span_lang = round($time_span/(60)).$GLOBALS['lang']['SUPPLIER_MIN'];
-		}
-		else
-		{
-			//一秒
-			$time_span_lang = $time_span.$GLOBALS['lang']['SUPPLIER_SEC'];
-		}
-		return $time_span_lang;
+	if($time == 0)
+	return "";
+
+	static $today_time = NULL,
+	$before_lang = NULL,
+	$beforeday_lang = NULL,
+	$today_lang = NULL,
+	$yesterday_lang = NULL,
+	$hours_lang = NULL,
+	$minutes_lang = NULL,
+	$months_lang = NULL,
+	$date_lang = NULL,
+	$sdate = 86400;
+
+	if($today_time === NULL)
+	{
+		$today_time = get_gmtime();
+		$before_lang = '前';//lang('time','before');
+		$beforeday_lang = '前天';//lang('time','beforeday');
+		$today_lang = '今天';//lang('time','today');
+		$yesterday_lang = '昨天';//lang('time','yesterday');
+		$hours_lang = '小时';//lang('time','hours');
+		$minutes_lang = '分钟';//lang('time','minutes');
+		$months_lang = '月';//lang('time','months');
+		$date_lang = '日';//lang('time','date');
+	}
+
+	$now_day = to_timespan(to_date($today_time,"Y-m-d")); //今天零点时间
+	$pub_day = to_timespan(to_date($time,"Y-m-d")); //发布期零点时间
+
+	$timelag = $now_day - $pub_day;
+
+	$year_time = to_date($time,'Y');
+	$today_year = to_date($today_time,'Y');
+
+	if($year_time < $today_year)
+		return to_date($time,'Y.m.d H:i');
+
+	$timelag_str = to_date($time,' H:i');
+
+	$day_time = 0;
+	if($timelag / $sdate >= 1)
+	{
+		$day_time = floor($timelag / $sdate);
+		$timelag = $timelag % $sdate;
+	}
+
+	switch($day_time)
+	{
+		case '0':
+			$timelag_str = $today_lang.$timelag_str;
+			break;
+
+		case '1':
+			$timelag_str = $yesterday_lang.$timelag_str;
+			break;
+
+		case '2':
+			$timelag_str = $beforeday_lang.$timelag_str;
+			break;
+
+		default:
+			$timelag_str = to_date($time,'m'.$months_lang.'d'.$date_lang.' H:i');
+		break;
+	}
+	return $timelag_str;
 }
 
 //通过user_id获取user_name

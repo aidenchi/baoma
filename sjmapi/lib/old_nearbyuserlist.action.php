@@ -12,14 +12,14 @@ class nearbyuserlist
 		$pwd = strim($GLOBALS['request']['pwd']);		
 		$result = do_login_user($email,$pwd);
 		$GLOBALS['user_info'] = $user_data = es_session::get('user_info');
-		$age_id = intval($GLOBALS['request']['age_id']);//年龄id
+		$age_id = intval($GLOBALS['request']['age_id']);//年龄id	
+		$distance = strim($GLOBALS['request']['distance']);//距离
 		$sex = intval($GLOBALS['request']['sex']);//性别
 		
-		$ypoint =  doubleval($GLOBALS['request']['ypoint']);  //ypoint 
-		$xpoint = doubleval($GLOBALS['request']['xpoint']);  //xpoint
-		$distance = strim($GLOBALS['request']['distance']); 		
-		//$xpoint = doubleval(114.41776);
-		//$ypoint = doubleval(30.483698);
+		//$ypoint =  $m_latitude = doubleval($GLOBALS['request']['m_latitude']);  //ypoint 
+		//$xpoint = $m_longitude = doubleval($GLOBALS['request']['m_longitude']);  //xpoint
+		$xpoint = doubleval(114.41776);
+		$ypoint = doubleval(30.483698);
 		
 		//输出区域
 		$base_quan_list=$GLOBALS['db']->getAll("select * from ".DB_PREFIX."area where city_id=".intval($city_id)." and pid = 0 order by sort desc");
@@ -171,8 +171,6 @@ class nearbyuserlist
 		$root['email']=$email;
 		$root['quan_list'] = $quan_list;
 		$root['age_id'] = $age_id;
-		$root['xpoint']=$xpoint;
-		$root['ypoint']=$ypoint;
 		$root['distance'] = $distance;
 		$root['sex'] = $sex;
 		$root['user_list'] = $user_list;

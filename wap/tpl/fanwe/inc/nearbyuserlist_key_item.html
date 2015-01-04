@@ -1,0 +1,166 @@
+<style>
+.nearby_user_list_table {
+	width:100%;
+	color: #adadad;
+	font-size:12px;
+}
+.nearby_user_list_table td {
+	line-height: 22px;
+	padding: 10px;
+	height: 100px;
+	border-bottom: 1px solid #f5f5f5;
+}
+</style>
+
+<!-----------------------------------------------header------------------------------------------>
+<div class="header">
+	<div class="c-hd">
+		<!--
+        <section class="cut_city">
+              <a onclick="window.history.go(-1);"><i class="fa fa-chevron-left"></i></a>
+	    </section>
+		-->
+        <section class="logo_img">{$data.page_title}</section>
+        <section class="more_search">
+			 <a href="javascript:void(0);"><i class="fa fa-list-ul"></i></a>
+	    </section>
+     </div> 
+	 
+	 <div class="list-view" id="more_search_pull_down" style="margin-bottom:10px;display:none;">
+		<input type="hidden" id="hide_xpoint" name="hide_xpoint" value={$data.xpoint} />
+		<input type="hidden" id="hide_ypoint" name="hide_ypoint" value={$data.ypoint} />
+		<input type="hidden" id="hide_sex" name="hide_sex" value={$data.sex} />
+	       <ul>
+			<li class="choose_li">
+				<div class="choose_item">
+					<div class="choose_title">
+						位置：
+					</div>
+					<div class="choose_content">							
+						{foreach from=$data.quan_list item='quan'}
+							{if $quan.id eq 0}
+							<i {if $data.quan_id eq 1 and $data.xpoint <= 0} class="selected" {/if}>								
+								<a href='index.php?ctl=nearbyuserlist&quan_id=all&age_id={$data.age_id}&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'>{$quan.name}</a>
+							</i>
+							{else}
+							<i {if $data.quan_id eq $quan.id} class="selected" {/if}>								
+								<a href='index.php?ctl=nearbyuserlist&quan_id={$quan.id}&age_id={$data.age_id}&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'>{$quan.name}</a>
+							</i>
+							{/if}
+						{/foreach}						
+					</div>
+				</div>
+			</li>
+			<li class="choose_li">
+				<div class="choose_item">
+					<div class="choose_title">
+						年龄：
+					</div>
+					<div class="choose_content">
+						<a href='index.php?ctl=nearbyuserlist&age_id=0&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>全部</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id=1&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>0-6月</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id=2&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>7-12月</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id=3&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>1-2岁</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id=4&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>3-4岁</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id=5&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>4-5岁</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id=6&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>6-7岁</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id=7&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>7-8岁</i></a>
+					</div>
+				</div>
+			</li>
+			<li class="choose_li">
+				<div class="choose_item">
+					<div class="choose_title">
+						距离：
+					</div>
+					<div class="choose_content">
+						<a href='index.php?ctl=nearbyuserlist&age_id={$data.age_id}&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance=all'><i {if $data.distance eq 'all'} class="selected" {/if}>全部</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id={$data.age_id}&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance=0.5'><i {if $data.distance eq '0.5'} class="selected" {/if}>0.5km</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id={$data.age_id}&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance=1'><i {if $data.distance eq '1'} class="selected" {/if}>1km</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id={$data.age_id}&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance=2'><i {if $data.distance eq '2'} class="selected" {/if}>2km</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id={$data.age_id}&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance=3'><i {if $data.distance eq '3'} class="selected" {/if}>3km</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id={$data.age_id}&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance=5'><i {if $data.distance eq '5'} class="selected" {/if}>5km</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id={$data.age_id}&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance=8'><i {if $data.distance eq '8'} class="selected" {/if}>8km</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id={$data.age_id}&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance=10'><i {if $data.distance eq '10'} class="selected" {/if}>10km</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id={$data.age_id}&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance=gt10'><i {if $data.distance eq 'gt10'} class="selected" {/if}>10km以上</i></a>
+					</div>
+				</div>
+			</li>
+			<li class="choose_li">
+				<div class="choose_item">
+					<div class="choose_title">
+						性别：
+					</div>
+					<div class="choose_content">
+						<a href='index.php?ctl=nearbyuserlist&age_id={$data.age_id}&sex=0&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i {if $data.sex eq '0'} class="selected" {/if}>全部</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id={$data.age_id}&sex=2&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i {if $data.sex eq '2'} class="selected" {/if}>公主</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id={$data.age_id}&sex=1&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i  {if $data.sex eq '1'} class="selected" {/if}>王子</i></a>
+					</div>
+				</div>
+			</li>
+		</ul>
+	 </div>
+</div>
+
+<!------------------------------------------center-------------------------------------------->
+			<div class="wrap">{$data.sql}
+					<div class="list-view">
+						<!--定位加载-->
+						<div id="loading" style="display:none;text-align:center;padding:10px 0;">
+							<img id="loading_img" src="./images/loading.gif" /><br/><span id="loading_text">正在定位…</span>
+						</div>
+						{if $data.user_list}
+						<table cellspacing="0" cellpadding="0" border="0" class="nearby_user_list_table">
+							<tbody>
+								{foreach from=$data.user_list item=user}
+								<tr>
+									<td width="90" style="text-align:center;">
+										<img style="width:90px;border-radius:60px;" src='{function name="get_user_avatar" uid=$user.id type="middle"}'>
+									</td>									
+									<td valign="top">
+										<div style="padding:10px 0px;font-size:16px;color:#f59436;">{$user.user_name}</div>
+										<div>
+											{if $user.sex eq 0}
+											公主
+											{/if}
+											{if $user.sex eq 1}
+											王子
+											{/if}
+											&nbsp;&nbsp;
+											显示年龄
+										</div>
+										<div style="padding-top:10px;">显示位置</div>
+									</td>
+									<td width="50" align="right" valign="top">	
+										<div style="padding:10px 0px;">
+											{if $data.xpoint gt 0}
+											{function name="display_km" distance=$user.distance}
+											{/if}
+										</div>
+									</td>	
+								</tr>				
+							{/foreach}								
+							</tbody>
+						</table>
+						<!--分页-->
+						<div class="fy">
+							{$pages}
+						</div>
+						{else}
+						 <div class="assess_list" style="text-align:center;padding:10px 0;">暂没有玩伴</div>
+						{/if}
+					</div><!--list-view end-->		
+				 
+				</div><!--wrap end-->	
+
+
+<script>
+$(document).ready(function () {
+	var x=$(document).height();
+    $(".hide_list").height(x-93);  
+    $(".more_search").click(function(){
+       $("#more_search_pull_down").toggle();
+    });
+});
+</script>				
+			

@@ -38,14 +38,19 @@
 										{$growth_diary.short_content}	
 										</a>
 									</td>
-									<td width="80px;" align="right">	
-										<a style="color: #adadad;" href='{wap_url a="index" r="growthdiarywrite#index"  p="id=$growth_diary.id"}'><i>编辑</i></a>&nbsp;&nbsp;
-										<a style="color: #adadad;" href="javascript:void(0);" onclick="delete_growth_diary({$growth_diary.id},$('#growth_diary_{$growth_diary.id}'));"><i>删除</i></a>				
+									<td width="80px;" align="right" valign="top" >	
+										<a style="color: #adadad;" href='{wap_url a="index" r="growthdiarywrite#index"  p="id=$growth_diary.id"}'><i style="color:red;">编辑</i></a>&nbsp;
+										<a style="color: #adadad;" href="javascript:void(0);" onclick="delete_growth_diary({$growth_diary.id},$('#growth_diary_{$growth_diary.id}'));"><i style="color:red;">删除</i></a>				
 									</td>
 								</tr>	
 								<tr class="td_line">								
-									<td>	
-										{function name="pass_date" time=$growth_diary.create_time }				
+									<td>
+										{if $growth_diary.is_public eq 1}
+										<span style="padding-right:3px;">浏览量(0)</span>
+										<span style="padding-right:3px;">喜欢(0)</span>
+										<span style="padding-right:10px;">评论(0)</span>
+										{/if}
+										<span>{function name="pass_date" time=$growth_diary.create_time }</span>			
 									</td>
 									<td width="40px;" align="right">	
 										{if $growth_diary.is_public eq 1}

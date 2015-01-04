@@ -82,7 +82,7 @@ class merchantlist
 			}
 			$kw_unicode = implode(" ",$kw);
 			//有筛选
-			$where .=" and (match(a.name_match,a.locate_match,a.deal_cate_match,a.tags_match) against('".$kw_unicode."' IN BOOLEAN MODE) or name like '%".$keyword."%')";	  	
+			$where .=" and (match(a.name_match,a.tags_match) against('".$kw_unicode."' IN BOOLEAN MODE) or name like '%".$keyword."%')"; 			
 		}
 		
 		//筛选一  分类		
@@ -148,8 +148,8 @@ class merchantlist
 				$orderby = " order by a.avg_point desc ";
 			}
 		}
-		if($order_type=='dp_count'){//人气（点评数量倒序）	
-			$orderby = " order by a.dp_count desc ";	
+		if($order_type=='hit_count'){//人气（点评数量倒序）	
+			$orderby = " order by a.hit_count desc ";	
 		}
 		if($order_type=='avg_point'){//评价（平均评分倒序）
 			$orderby = " order by a.avg_point desc ";
@@ -173,7 +173,7 @@ class merchantlist
 		
 		$sql_count = "select count(*) from ".DB_PREFIX."supplier_location". " as a";
 		$sql = "select a.id,a.deal_cate_id,a.name,a.avg_point,a.city_id, a.mobile_brief,a.mobile_brief as brief,a.tel,".
-		"a.preview as logo,a.dp_count as comment_count,a.xpoint,a.ypoint,a.address as api_address $field_append from ".DB_PREFIX."supplier_location as a ";
+		"a.preview as logo,a.dp_count as comment_count,a.xpoint,a.ypoint,a.address as api_address,a.tags,a.hit_count $field_append from ".DB_PREFIX."supplier_location as a ";
 	   
 		$sql_count.=" where ".$where;
 		$sql.=" where ".$where;
@@ -213,7 +213,7 @@ class merchantlist
 			//整体平均分
 			$merchant_list[$k]['dp_avg_point'] = round($buy_dp_sum / $this_store_comment_count,1);
 			$merchant_list[$k]['dp_width'] = (round($buy_dp_sum / $this_store_comment_count,1) / 5) * 100;	
-			$u_sql = "update ".DB_PREFIX."supplier_location set avg_point = ".$merchant_list[$k]['dp_avg_point']." where id = ".$v['id'];
+			$u_sql = "update ".DB_PREFIX."supplier_location set dp_count = ".$this_store_comment_count." , avg_point = ".$merchant_list[$k]['dp_avg_point']." where id = ".$v['id'];
 			$GLOBALS['db']->query($u_sql);
 		}
 		

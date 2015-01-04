@@ -432,12 +432,65 @@ margin-right: 5px;
 }
 .fileupload{ width:66px; height:24px; position:relative; overflow:hidden; display:inline-block; background:url(../images/upbtn.gif); text-align:center; line-height:24px; color:#fff; }
 .fileuploading{ width:66px; height:24px; position:relative; overflow:hidden; display:inline-block; background:url(../images/upbtn.gif) 0px -24px; text-align:center; line-height:24px; color:#fff; }
-.hide{ display:none;}
-.show{ display:inline-block;}
 .fileupload .filebox{ position:absolute; right:0px; top:0px; filter: alpha(opacity = 0);
 	-moz-opacity: 0;
 	opacity: 0;}
-
+/*成长日记发表--上传图片*/
+.growth_pic_fileupload{ 
+	width:20px; 
+	height:24px; 
+	position:relative; 
+	overflow:hidden; 
+	display:inline-block; 
+	background:url(../images/album.gif) no-repeat;
+	text-align:center;
+	line-height:24px;
+	color:#fff; 
+}
+.growth_pic_fileuploading{ 
+	width: 70px;
+	height: 25px;
+	position: relative;
+	overflow: hidden;
+	display:inline-block; 
+	font-size:12px;
+}
+.growth_pic_fileupload .filebox{ 
+	position:absolute; 
+	right:0px; 
+	top:0px;
+	filter: alpha(opacity = 0);
+	-moz-opacity: 0;
+	opacity: 0;
+}
+.image_item {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	float: left;
+	display: inline-block;
+	margin-right: 5px;
+	padding-bottom:10px;
+}
+.image_item .del_image {
+	text-decoration: none;
+	font-size: 14px;
+	position: absolute;
+	left: 2px;
+	top: 2px;
+	cursor: pointer;
+	display: block;
+	width: 15px;
+	height: 15px;
+	background: #f30;
+	border: #fff 1px solid;
+	color: #fff;
+	font-weight: bolder;
+	text-align: center;
+	line-height: 15px;
+}
+.hide{ display:none;}
+.show{ display:inline-block;}
 /**********************************************论坛帖子列表*ymy*add*2014-12-10***************************************************/	
 .topic_li .list_item{
    display: -webkit-box;

@@ -21,12 +21,13 @@
 									<textarea name="content" id="content" placeholder="请输入内容">{$data.growth_diary_item.content}</textarea>
 								</div>	
 								<!--
-								<div style="margin-left:10px;">
-									<a href="javascript:void(0);" onclick="upload_media()" />上传</a>
+								<div style="margin-left:10px;">									
+									<label class="growth_pic_fileupload" onclick="up_file(this,'topic_image');" >
+										<input type="file" class="filebox" name="topic_image" id="topic_image">
+									</label>
+									<label class="growth_pic_fileuploading hide">正在上传…</label>
+									<div id="image_box"></div>
 								</div>
-								<div class="inputtxt1">
-									<div class="input_sr"><input type="text" placeholder="请输入标题" name="title" id="title" value="{$data.growth_diary_item.title}"></div>
-								</div>	
 								-->
 								<div class="inputtxt1" style="margin-top:0px;">
 									<div class="input_sr"><input type="text" placeholder="所在位置" name="location" id="location" value="{$data.growth_diary_item.location}" onclick="get_location()"></div>
@@ -35,7 +36,7 @@
 									<span class="chk_sp1">权限:</span>
 									<input class="mt_sex" type="radio" name="is_public" value="1" /><span class="chk_sp2">公开</span>
 									<input class="mt_sex" type="radio" name="is_public" value="0" checked="checked"/><span class="chk_sp2">私密</span>
-								</div>
+								</div>								
 						 </div>	            
 						</form>
 					 </div><!--comment_list_txt end-->
@@ -43,10 +44,64 @@
 				 
 				</div><!--wrap end-->
 
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>			
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>	
+<script type="text/javascript" src="./js/ajaxupload.js"></script>			
 <script type="text/javascript">
-function upload_media(){
-	alert();
+function up_file(obj,file_id)
+{	
+	$("input[name='"+file_id+"']").bind("change",function(){		
+		//$(obj).hide();
+		$(obj).parent().parent().find(".growth_pic_fileuploading").removeClass("hide");
+		$(obj).parent().parent().find(".growth_pic_fileuploading").removeClass("show");
+		$(obj).parent().parent().find(".growth_pic_fileuploading").addClass("show");
+		  $.ajaxFileUpload
+		   (
+			   {
+				    url:'/upload.php',
+				    secureuri:false,
+				    fileElementId:file_id,
+				    dataType: 'json',
+				    success: function (data, status)
+				    {
+				   		//$(obj).show();
+				   		$(obj).parent().parent().find(".growth_pic_fileuploading").removeClass("hide");
+						$(obj).parent().parent().find(".growth_pic_fileuploading").removeClass("show");
+						$(obj).parent().parent().find(".growth_pic_fileuploading").addClass("hide");
+				   		if(data.error==0)
+				   		{	
+							//var str = data.message;
+							//data.message = str.substring(1);
+							var pos = parseInt($("#image_box").find(".image_item").length) + 1;
+							//var html = "<div class='image_item'><input type='hidden' name='topic_image_idx["+pos+"]' value='"+pos+"' /><input type='hidden' name='topic_image_id["+pos+"]' value='"+data.id+"' /><input type='hidden' name='topic_image_url["+pos+"]' value='"+data.message+"' /><span class='del_image' onclick='del_img(this);'>x</span><a href='javascript:;' onclick='set_img_pos("+data.id+")' title='点击图片可在指定位置插入该图片' ><img src='"+APP_ROOT+"/"+data.message+"' /></a></div>";
+							var html = "<div class='image_item'><input type='hidden' name='topic_image_idx["+pos+"]' value='"+pos+"' /><input type='hidden' name='topic_image_id["+pos+"]' value='"+data.id+"' /><input type='hidden' name='topic_image_url["+pos+"]' value='"+data.message+"' /><span class='del_image' onclick='del_img(this);'>x</span><img src='"+data.message+"' /></div>";
+							$("#image_box").html($("#image_box").html()+html);
+				   			$("#form_pop_box").hide();
+							//$("textarea[name='{$text_name}']").val($("textarea[name='{$text_name}']").val()+"[img]"+data.id+"[/img]");
+				   		}
+				   		else
+				   		{
+				   			//$.showErr(data.message);
+							alert(data.message);
+				   		}
+				   		
+				    },
+				    error: function (data, status, e)
+				    {
+						//$.showErr(data.responseText);
+						alert(data.responseText);
+				    	$(obj).show();
+				    	$(obj).parent().parent().find(".growth_pic_fileuploading").removeClass("hide");
+						$(obj).parent().parent().find(".growth_pic_fileuploading").removeClass("show");
+						$(obj).parent().parent().find(".growth_pic_fileuploading").addClass("hide");
+				    }
+			   }
+		   );
+		  $("input[name='"+file_id+"']").unbind("change");
+	});	
+}
+
+function del_img(o){
+	$(o).parent().remove();
 }
 
 function get_location(){
@@ -87,7 +142,7 @@ function  check_submit(){
 	}
 	if(!is_public_flag){
 		alert("请选择权限");
-		return false;
+		flag = false;
 	}
 	
 	var query = new Object();
@@ -96,6 +151,7 @@ function  check_submit(){
 	query.location = $("#location").val();
 	query.is_public = is_public_val;
 	query.post_type = "json";
+	//alert(query.is_public);
 	var ajaxurl = '{wap_url a="index" r="growthdiaryadd"}';
 	if(flag){
 		$.ajax({

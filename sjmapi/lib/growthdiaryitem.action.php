@@ -10,7 +10,15 @@ class growthdiaryitem
 		$root = array();	
 		$user_data = user_check($email,$pwd);		
 		$user_id = intval($user_data['id']);
+		$root["login_user_id"] = intval($user_data['id']);
+				
+		$id = intval($GLOBALS['request']['id']);
+		$condition = " where id = ".$id;
+		$growth_diary_item = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."growth_diary".$condition);
+		$root['growth_diary_item']=$growth_diary_item;
+		$root['page_title'] = "成长日记详情";			
 		
+		/*
 		if($user_id == 0){
 			$root['user_login_status'] = 0;
 			$root['info'] = "请先登录";	
@@ -24,7 +32,7 @@ class growthdiaryitem
 			$growth_diary_item = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."growth_diary".$condition);
 			$root['growth_diary_item']=$growth_diary_item;
 		}
-		
+		*/
 		$root['city_name']=$city_name;
 		output($root);
 	}

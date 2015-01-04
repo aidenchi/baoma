@@ -37,6 +37,8 @@ class growthdiaryadd
 			$growthdiary['record_month'] = $record_month;
 			$growthdiary['record_day'] = $record_day;
 			$growthdiary['content'] = $content;
+			$growthdiary['location'] = $location;
+			$growthdiary['is_public'] = $is_public;
 			$growthdiary['create_time'] = get_gmtime();			
 			if($id==0){//新增insert记录操作
 				$GLOBALS['db']->autoExecute(DB_PREFIX."growth_diary",$growthdiary,"INSERT","");

@@ -1025,7 +1025,7 @@ function getBeforeTimelag($time)
 	$today_year = to_date($today_time,'Y');
 
 	if($year_time < $today_year)
-		return to_date($time,'Y:m:d H:i');
+		return to_date($time,'Y.m.d H:i');
 
 	$timelag_str = to_date($time,' H:i');
 
@@ -1200,6 +1200,8 @@ function m_merchantItem($item){
 									"width"=>round($item['width'],1),
 									"supplier_name"=>$supplier_name,
 									"supplier_id"=>$item['supplier_id'],
+									"tags"=>$item['tags'],
+									"hit_count"=>$item['hit_count'],
 	);
 }
 

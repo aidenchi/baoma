@@ -1,4 +1,4 @@
-{include file="./inc/header_common.html"}
+{include file="./inc/header_growth.html"}
 <style>
 .growth_diary_list_table {
 	width:100%;
@@ -10,28 +10,23 @@
 	border-bottom: 1px solid #f5f5f5;
 }
 </style>
-			<div class="header">
-				<div class="c-hd">
-					<section class="header_left_text">
-						  <a href='{wap_url a="index" r="growthdiarydate_public#index"}'>日历</a>
-					</section>
-					<section class="logo_img">{$data.page_title}</section>
-					<section class="h_search">
-						
-					</section>
-				 </div>	 
-			</div>	
-			
+<div class="header">
+	<div class="c-hd">
+        <section class="cut_city">
+              <a onclick="window.history.go(-1);"><i class="fa fa-chevron-left"></i></a>
+	    </section>
+        <section class="logo_img">{$data.page_title}</section>
+     </div>	 
+</div>	
 			<div class="wrap">
 					<div class="blank8"></div>
-					{if $data.growth_diary_list}					
 					<div class="list-view">
 						<div class="list_title">公开动态</div>
 						 <table cellspacing="0" cellpadding="0" border="0" class="growth_diary_list_table">
 							<tbody>
 								{foreach from=$data.growth_diary_list item=growth_diary}
 								<tr>
-									<td width="50" style="text-align:center;">
+									<td width="60" style="text-align:center;">
 										<img style="border-radius:35px;" src='{function name="get_user_avatar" uid=$growth_diary.user_id type="small" }'>
 										<br/>
 										{$growth_diary.user_name}
@@ -40,12 +35,7 @@
 										<a href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
 										{$growth_diary.short_content}
 										</a>
-										<p style="padding-top:8px;">
-											<span style="padding-right:3px;">浏览(0)</span>
-											<span style="padding-right:3px;">喜欢(0)</span>
-											<span style="padding-right:10px;">评论(0)</span>
-											<span>{function name="pass_date" time=$growth_diary.create_time }</span>
-										</p>
+										<p>{function name="pass_date" time=$growth_diary.create_time }</p>
 									</td>
 								</tr>				
 							{/foreach}								
@@ -55,12 +45,7 @@
 						<div class="fy">
 							{$pages}
 						</div>
-					</div><!--list-view end-->	
-					{else}
-					<div style="margin-top:10px;margin-bottom:10px;text-align:center;">
-					暂无成长日历
-					</div>
-					{/if}					
+					</div><!--list-view end-->
 					
 				</div><!--wrap end-->		
 
