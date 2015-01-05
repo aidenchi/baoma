@@ -3,11 +3,24 @@
 .growth_diary_list_table {
 	width:100%;
 	color: #adadad;
+	font-size:12px;
 }
-.growth_diary_list_table td {
+.growth_diary_list_table a{
+	color: #adadad;
+}
+.td_line{
 	line-height: 22px;
 	padding: 10px;
 	border-bottom: 1px solid #f5f5f5;
+}
+.pic_item {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	float: left;
+	display: inline-block;
+	margin-top: 5px;
+	margin-right: 5px;
 }
 </style>
 			<div class="header">
@@ -26,26 +39,51 @@
 					<div class="blank8"></div>
 					{if $data.growth_diary_list}					
 					<div class="list-view">
-						<div class="list_title">公开动态</div>
+						<div class="list_title">成长圈</div>
 						 <table cellspacing="0" cellpadding="0" border="0" class="growth_diary_list_table">
 							<tbody>
 								{foreach from=$data.growth_diary_list item=growth_diary}
 								<tr>
-									<td width="50" style="text-align:center;">
+									<td class="td_line" width="50" style="text-align:center;" valign="top">
 										<img style="border-radius:35px;" src='{function name="get_user_avatar" uid=$growth_diary.user_id type="small" }'>
 										<br/>
 										{$growth_diary.user_name}
 									</td>								
-									<td>	
-										<a href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
-										{$growth_diary.short_content}
-										</a>
-										<p style="padding-top:8px;">
-											<span style="padding-right:3px;">浏览(0)</span>
-											<span style="padding-right:3px;">喜欢(0)</span>
-											<span style="padding-right:10px;">评论(0)</span>
-											<span>{function name="pass_date" time=$growth_diary.create_time }</span>
-										</p>
+									<td class="td_line">	
+										<table cellspacing="0" cellpadding="0" border="0">		
+											<tr>								
+												<td>
+													<!--文字内容-->
+													<a style="font-size:14px;" href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
+													{$growth_diary.short_content}	
+													</a>
+													<!--图片内容-->
+													{if $growth_diary.has_pic}
+													<br/>										
+													{foreach from=$growth_diary.pic_list item=pic_item}
+														<div class='pic_item'>
+															<img src='{$pic_item.small_preview_path}' />
+														</div>
+													{/foreach}
+													{/if}
+												</td>
+											</tr>	
+											<tr>								
+												<td style="padding-top:10px;">
+													<span style="padding-right:3px; cursor:pointer;" onclick="favorite_growth_diary({$growth_diary.id},{$growth_diary.user_id})">
+														{if $growth_diary.is_fav eq 1}
+														<font id="fav_text_{$growth_diary.id}">已喜欢</font>(<font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>)
+														{else}
+														<font id="fav_text_{$growth_diary.id}">喜欢</font>(<font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>)
+														{/if}
+													</span>
+													<a href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
+														<span style="padding-right:10px;">评论({$growth_diary.reply_count})</span>
+													</a>
+													<span>{function name="pass_date" time=$growth_diary.create_time }</span>			
+												</td>
+											</tr>				
+										</table>									
 									</td>
 								</tr>				
 							{/foreach}								
@@ -58,30 +96,52 @@
 					</div><!--list-view end-->	
 					{else}
 					<div style="margin-top:10px;margin-bottom:10px;text-align:center;">
-					暂无成长日历
+					暂无成长日记
 					</div>
 					{/if}					
 					
 				</div><!--wrap end-->		
 
 <script type="text/javascript">
-function delete_growth_diary(growth_diary_id,one_growth_diary_obj){
+function favorite_growth_diary(growth_diary_id,author_user_id){
+	//alert(growth_diary_id+"--"+author_user_id);
+	var text_id = "fav_text_"+growth_diary_id;
+	var count_id = "fav_count_"+growth_diary_id;
 	var query = new Object();
-	query.id = growth_diary_id;
+	query.growth_diary_id = growth_diary_id;
+	query.author_user_id = author_user_id;
 	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="growthdiarydel#index"}';
-	//alert(query.topic_id);
+	var ajaxurl = '{wap_url a="index" r="growthdiaryfavorite#index"}';
+
 	$.ajax({
 		url:ajaxurl,
 		data:query,
 		type:"post",
 		dataType:"json",
 		success:function(data){
-			if(data.status==1){ 
-				one_growth_diary_obj.hide();
-				//alert(data.info);
+			if(data.user_login_status==0){
+				alert(data.login_info);
 			}else{
-				alert(data.info);
+				if(data.fav_status == 1){
+					alert("取消喜欢成功！");					
+					document.getElementById(text_id).innerText = "喜欢";					
+					var fav_count = document.getElementById(count_id).innerText;
+					fav_count = parseInt(fav_count) - 1;
+					document.getElementById(count_id).innerText = fav_count;
+				}
+				if(data.fav_status == 2){
+					alert("喜欢成功！");
+					document.getElementById(text_id).innerText = "已喜欢";				
+					var fav_count = document.getElementById(count_id).innerText;
+					fav_count = parseInt(fav_count) + 1;
+					document.getElementById(count_id).innerText = fav_count;
+				}
+				if(data.fav_status == 3){
+					alert("操作失败");
+				}
+				if(data.fav_status == 4){
+					alert("自己不能喜欢自己的日记");
+				}
 			}
 		}
 		,error:function(){

@@ -1,19 +1,38 @@
 {include file="./inc/header_common.html"}
 <style>
+.growth_diary_top {
+	background: #999999;
+	height: 49px;
+	display: -moz-box;
+	display: -webkit-box;
+	display: box;
+	width: 100%;
+}
 .growth_diary_list_table {
 	width:100%;
 	color: #adadad;
+	font-size:12px;
 }
-.growth_diary_list_table td {
-	line-height: 22px;
-	padding: 10px;	
+.growth_diary_list_table a{
+	color: #adadad;
 }
 .td_line{
+	line-height: 22px;
+	padding: 10px;
 	border-bottom: 1px solid #f5f5f5;
+}
+.pic_item {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	float: left;
+	display: inline-block;
+	margin-top: 5px;
+	margin-right: 5px;
 }
 </style>
 			<div class="header">
-				<div class="c-hd">
+				<div class="growth_diary_top">
 					<section class="header_left_text">
 						  <a href='{wap_url a="index" r="growthdiarydate#index"}'>日历</a>
 					</section>
@@ -29,40 +48,62 @@
 					{if $data.growth_diary_list}					
 					<div class="list-view">
 						<div class="list_title">共{$data.total}篇日记</div>
-						<table cellspacing="0" cellpadding="0" border="0" class="growth_diary_list_table">
-							<tbody>
-								{foreach from=$data.growth_diary_list item=growth_diary}
-								<tr>								
-									<td>	
-										<a href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
-										{$growth_diary.short_content}	
-										</a>
+						<table cellspacing="0" cellpadding="0" border="0" class="growth_diary_list_table">							
+							{foreach from=$data.growth_diary_list item=growth_diary}								
+							<tbody id="growth_diary_{$growth_diary.id}">
+								<tr>
+									<td class="td_line" width="50" style="text-align:center;" valign="top">
+										<span style="font-size:20px;">{$growth_diary.record_month}.{$growth_diary.record_day}</span>
+									</td>								
+									<td class="td_line">	
+										<table cellspacing="0" cellpadding="0" border="0" width="100%">		
+											<tr>								
+												<td>
+													<!--文字内容-->
+													<a style="font-size:14px;" href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
+													{$growth_diary.short_content}	
+													</a>
+													<!--图片内容-->
+													{if $growth_diary.has_pic}
+													<br/>										
+													{foreach from=$growth_diary.pic_list item=pic_item}
+														<div class='pic_item'>
+															<img src='{$pic_item.small_preview_path}' />
+														</div>
+													{/foreach}
+													{/if}
+												</td>
+												<td width="35px;" align="right" valign="top" >	
+													<!--
+													<a style="color: #adadad;" href='{wap_url a="index" r="growthdiarywrite#index"  p="id=$growth_diary.id"}'><i style="color:red;">编辑</i></a>&nbsp;
+													-->
+													<a style="color: #adadad;" href="javascript:void(0);" onclick="delete_growth_diary({$growth_diary.id},$('#growth_diary_{$growth_diary.id}'));"><i style="color:red;">删除</i></a>				
+												</td>
+											</tr>	
+											<tr>								
+												<td style="padding-top:10px;">
+													{if $growth_diary.is_public eq 1}
+													<span style="padding-right:3px;">喜欢({$growth_diary.fav_count})</span>										
+													<a href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
+														<span style="padding-right:10px;color:#adadad;">评论({$growth_diary.reply_count})</span>
+													</a>
+													{/if}										
+													<span>{function name="pass_date" time=$growth_diary.create_time }</span>		
+												</td>
+												<td width="35px;" align="right">	
+													{if $growth_diary.is_public eq 1}
+														公开
+													{/if}
+													{if $growth_diary.is_public eq 0}
+														私有
+													{/if}
+												</td>
+											</tr>				
+										</table>									
 									</td>
-									<td width="80px;" align="right" valign="top" >	
-										<a style="color: #adadad;" href='{wap_url a="index" r="growthdiarywrite#index"  p="id=$growth_diary.id"}'><i style="color:red;">编辑</i></a>&nbsp;
-										<a style="color: #adadad;" href="javascript:void(0);" onclick="delete_growth_diary({$growth_diary.id},$('#growth_diary_{$growth_diary.id}'));"><i style="color:red;">删除</i></a>				
-									</td>
-								</tr>	
-								<tr class="td_line">								
-									<td>
-										{if $growth_diary.is_public eq 1}
-										<span style="padding-right:3px;">浏览量(0)</span>
-										<span style="padding-right:3px;">喜欢(0)</span>
-										<span style="padding-right:10px;">评论(0)</span>
-										{/if}
-										<span>{function name="pass_date" time=$growth_diary.create_time }</span>			
-									</td>
-									<td width="40px;" align="right">	
-										{if $growth_diary.is_public eq 1}
-											公开
-										{/if}
-										{if $growth_diary.is_public eq 0}
-											私有
-										{/if}
-									</td>
-								</tr>
-							{/foreach}								
+								</tr>						
 							</tbody>
+							{/foreach}							
 						</table>
 						<!--分页-->
 						<div class="fy">
@@ -71,7 +112,7 @@
 					</div><!--list-view end-->	
 					{else}
 					<div style="margin-top:10px;margin-bottom:10px;text-align:center;">
-					暂无成长日历
+					暂无成长日记
 					</div>
 					{/if}					
 					
@@ -91,7 +132,7 @@ function delete_growth_diary(growth_diary_id,one_growth_diary_obj){
 		dataType:"json",
 		success:function(data){
 			if(data.status==1){ 
-				one_growth_diary_obj.hide();
+				one_growth_diary_obj.remove();
 				//alert(data.info);
 			}else{
 				alert(data.info);

@@ -19,10 +19,13 @@ class growthdiaryadd
 			$root['user_login_status'] = 1;
 			$root['page_title'] = "成长日历";
 			
-			$id = intval($GLOBALS['request']['id']);			
+			$id = intval($GLOBALS['request']['id']);				
 			$content = $GLOBALS['request']['content'];
 			$location = $GLOBALS['request']['location'];
 			$is_public = intval($GLOBALS['request']['is_public']);
+			$has_pic = intval($GLOBALS['request']['has_pic']);
+			$pic_ids = $GLOBALS['request']['pic_ids'];
+			$pic_ids = substr($pic_ids,1);
 			$record_date = date('Y-m-d');//记录日期
 			$record_date_arr = explode('-',$record_date); 
 			$record_year = intval($record_date_arr[0]);
@@ -39,6 +42,8 @@ class growthdiaryadd
 			$growthdiary['content'] = $content;
 			$growthdiary['location'] = $location;
 			$growthdiary['is_public'] = $is_public;
+			$growthdiary['has_pic'] = $has_pic;
+			$growthdiary['pic_ids'] = $pic_ids;
 			$growthdiary['create_time'] = get_gmtime();			
 			if($id==0){//新增insert记录操作
 				$GLOBALS['db']->autoExecute(DB_PREFIX."growth_diary",$growthdiary,"INSERT","");

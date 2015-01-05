@@ -14,9 +14,9 @@
 			<div class="wrap">
 					<div class="content">
 					 <div class="comment_list_txt">
-						<form id="growth_dairy_add_form" action='' autocomplete="off" method="post" onsubmit="return check(this)">		 
+						<form action='' autocomplete="off" method="post" onsubmit="return check(this)">	
 						 <div class="Contentbox">
-								<input type="hidden" name="growth_dairy_id" id="growth_dairy_id" value="{$data.id}">	   
+								<input type="hidden" name="growth_diary_id" id="growth_diary_id" value="{$data.id}">	   
 								<div class="topic_write_txt">
 									<textarea name="content" id="content" placeholder="请输入内容">{$data.growth_diary_item.content}</textarea>
 								</div>	
@@ -29,6 +29,12 @@
 									<div id="image_box"></div>
 								</div>
 								-->
+								<div style="margin-left:10px;">									
+									<label class="growth_pic_fileupload" >
+										<input type="file" class="filebox" name="growth_diary_image" id="growth_diary_image" onchange="uploadImage();">
+									</label>
+									<div id="image_box"></div>
+								</div>
 								<div class="inputtxt1" style="margin-top:0px;">
 									<div class="input_sr"><input type="text" placeholder="所在位置" name="location" id="location" value="{$data.growth_diary_item.location}" onclick="get_location()"></div>
 								</div>
@@ -47,57 +53,26 @@
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>	
 <script type="text/javascript" src="./js/ajaxupload.js"></script>			
 <script type="text/javascript">
-function up_file(obj,file_id)
-{	
-	$("input[name='"+file_id+"']").bind("change",function(){		
-		//$(obj).hide();
-		$(obj).parent().parent().find(".growth_pic_fileuploading").removeClass("hide");
-		$(obj).parent().parent().find(".growth_pic_fileuploading").removeClass("show");
-		$(obj).parent().parent().find(".growth_pic_fileuploading").addClass("show");
-		  $.ajaxFileUpload
-		   (
-			   {
-				    url:'/upload.php',
-				    secureuri:false,
-				    fileElementId:file_id,
-				    dataType: 'json',
-				    success: function (data, status)
-				    {
-				   		//$(obj).show();
-				   		$(obj).parent().parent().find(".growth_pic_fileuploading").removeClass("hide");
-						$(obj).parent().parent().find(".growth_pic_fileuploading").removeClass("show");
-						$(obj).parent().parent().find(".growth_pic_fileuploading").addClass("hide");
-				   		if(data.error==0)
-				   		{	
-							//var str = data.message;
-							//data.message = str.substring(1);
-							var pos = parseInt($("#image_box").find(".image_item").length) + 1;
-							//var html = "<div class='image_item'><input type='hidden' name='topic_image_idx["+pos+"]' value='"+pos+"' /><input type='hidden' name='topic_image_id["+pos+"]' value='"+data.id+"' /><input type='hidden' name='topic_image_url["+pos+"]' value='"+data.message+"' /><span class='del_image' onclick='del_img(this);'>x</span><a href='javascript:;' onclick='set_img_pos("+data.id+")' title='点击图片可在指定位置插入该图片' ><img src='"+APP_ROOT+"/"+data.message+"' /></a></div>";
-							var html = "<div class='image_item'><input type='hidden' name='topic_image_idx["+pos+"]' value='"+pos+"' /><input type='hidden' name='topic_image_id["+pos+"]' value='"+data.id+"' /><input type='hidden' name='topic_image_url["+pos+"]' value='"+data.message+"' /><span class='del_image' onclick='del_img(this);'>x</span><img src='"+data.message+"' /></div>";
-							$("#image_box").html($("#image_box").html()+html);
-				   			$("#form_pop_box").hide();
-							//$("textarea[name='{$text_name}']").val($("textarea[name='{$text_name}']").val()+"[img]"+data.id+"[/img]");
-				   		}
-				   		else
-				   		{
-				   			//$.showErr(data.message);
-							alert(data.message);
-				   		}
-				   		
-				    },
-				    error: function (data, status, e)
-				    {
-						//$.showErr(data.responseText);
-						alert(data.responseText);
-				    	$(obj).show();
-				    	$(obj).parent().parent().find(".growth_pic_fileuploading").removeClass("hide");
-						$(obj).parent().parent().find(".growth_pic_fileuploading").removeClass("show");
-						$(obj).parent().parent().find(".growth_pic_fileuploading").addClass("hide");
-				    }
-			   }
-		   );
-		  $("input[name='"+file_id+"']").unbind("change");
-	});	
+function uploadImage(){
+	$.ajaxFileUpload({
+		url : '/growthdiaryupload.php',
+		secureuri : false,
+		fileElementId : 'growth_diary_image',
+		dataType : 'json',		
+		success : function(data, status) {
+			//alert(data.error+"--"+data.message+"--"+data.name);
+			if(data.error==0){
+				var html = "<div class='image_item'><input type='hidden' name='growth_diary_image_id' value='"+data.id+
+				"' /><span class='del_image' onclick='del_img(this);'>x</span><img src='"+data.message+"' /></div>";
+				$("#image_box").html($("#image_box").html()+html);
+			}else{
+				 alert(data.message);
+			}
+		},
+		error : function(data, status, e) {
+			alert('上传出错');
+		}
+	});
 }
 
 function del_img(o){
@@ -130,6 +105,7 @@ function  check_submit(){
 		alert("请输入内容");
 		flag = false;
 	}
+	//权限
 	var is_public = document.getElementsByName("is_public");
 	var is_public_val = "";
 	var is_public_flag = false;
@@ -144,14 +120,27 @@ function  check_submit(){
 		alert("请选择权限");
 		flag = false;
 	}
+	//图片
+	var has_pic_val = 0;
+	var pic_ids_val = "";
+	var growth_diary_image_id = document.getElementsByName("growth_diary_image_id");
+	if(growth_diary_image_id.length > 0){
+		has_pic_val = 1;
+		for (var i=0; i < growth_diary_image_id.length; i++) {
+			growth_diary_image_id_val = growth_diary_image_id.item(i).value;
+			pic_ids_val = pic_ids_val+","+growth_diary_image_id_val;
+		}
+		//alert(has_pic_val+"---"+pic_ids_val);
+	}	
 	
 	var query = new Object();
-	query.id = $("#growth_dairy_id").val();
+	query.id = $("#growth_diary_id").val();
 	query.content = $("#content").val();
 	query.location = $("#location").val();
 	query.is_public = is_public_val;
+	query.has_pic = has_pic_val;
+	query.pic_ids = pic_ids_val;
 	query.post_type = "json";
-	//alert(query.is_public);
 	var ajaxurl = '{wap_url a="index" r="growthdiaryadd"}';
 	if(flag){
 		$.ajax({

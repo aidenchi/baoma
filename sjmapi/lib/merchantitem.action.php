@@ -14,6 +14,7 @@ class merchantitem
 		$id = intval($GLOBALS['request']['id']);
 		$city_id = intval($GLOBALS['request']['city_id']);
 		
+		//点击量加1
 		$u_sql = "update ".DB_PREFIX."supplier_location set hit_count = hit_count + 1 where id = ".$id;
 		$GLOBALS['db']->query($u_sql);
 		

@@ -37,7 +37,7 @@ class index_wap
 		//精选商铺
 		$supplier_location_sql = "select a.id,a.deal_cate_id,a.name,a.avg_point,a.city_id, a.mobile_brief,a.mobile_brief as brief,a.tel,".
 		"a.preview as logo,a.dp_count as comment_count,a.xpoint,a.ypoint,a.address as api_address from ".DB_PREFIX."supplier_location as a 
-		where a.is_effect = 1 and a.is_recommend = 1 order by id desc limit 2";
+		where a.is_effect = 1 and a.is_recommend = 1 order by id desc limit 4";
 		$recommend_supplier_location_list = $GLOBALS['db']->getAll($supplier_location_sql);
 		foreach($recommend_supplier_location_list as $k2=>$v2){
 			$recommend_supplier_location_list[$k2]['logo']=str_replace("./public/","/public/",$recommend_supplier_location_list[$k2]['logo']);
