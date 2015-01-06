@@ -1,4 +1,4 @@
-{include file="./inc/header_common.html"}
+{include file="./inc/header_topic.html"}
 			<div class="wrap">
 				{if $data.cate_list}
 					{foreach from=$data.cate_list item=cate}
@@ -6,7 +6,7 @@
 					<div class="list-view">
 						 <div class="list_title"><i class="fa fa-bullhorn"></i>{$cate.name}
 						 {if $cate.one_cate_topic_list}
-						 
+						 <a href='{wap_url a="index" r="topiclist#index"  p="cid=$cate.id"}'><i style="float:right;">全部>></i></a>
 						 {/if}
 						 </div>
 						 {if $cate.one_cate_topic_list}
@@ -32,7 +32,7 @@
 													<em>
 													<i>{$topic.user_name}</i><i>&nbsp;•</i>
 													<i>{function name="pass_date" time=$topic.create_time }</i><i>&nbsp;•</i>
-						                         	{$topic.reply_count}<i>&nbsp;条回复</i>													
+						                         	{$topic.reply_count}<i>&nbsp;条回复</i>
 													</em>													 
 												 </p>
 						                    </div>

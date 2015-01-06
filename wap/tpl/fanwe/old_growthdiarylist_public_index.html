@@ -1,0 +1,193 @@
+{include file="./inc/header_common.html"}
+<style>
+.growth_diary_list_table {
+	width:100%;
+	color: #adadad;
+	font-size:12px;
+}
+.growth_diary_list_table a{
+	color: #adadad;
+}
+.td_line{
+	line-height: 22px;
+	padding: 10px;
+	border-bottom: 1px solid #f5f5f5;
+}
+.pic_item {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	float: left;
+	display: inline-block;
+	margin-top: 5px;
+	margin-right: 5px;
+}
+</style>
+			<div class="header">
+				<div class="c-hd">
+					<section class="header_left_text">
+						  <a href='{wap_url a="index" r="growthdiarydate_public#index"}'>日历</a>
+					</section>
+					<section class="logo_img">{$data.page_title}</section>
+					<section class="h_search">
+						
+					</section>
+				 </div>	 
+			</div>	
+			
+			<div class="wrap">
+					<div class="blank8"></div>
+					{if $data.growth_diary_list}					
+					<div class="list-view">
+						<div class="list_title">成长圈</div>
+						 <table id="pagecontent" cellspacing="0" cellpadding="0" border="0" class="growth_diary_list_table">
+							<tbody>
+								{foreach from=$data.growth_diary_list item=growth_diary}
+								<tr>
+									<td class="td_line" width="50" style="text-align:center;" valign="top">
+										<img style="border-radius:35px;" src='{function name="get_user_avatar" uid=$growth_diary.user_id type="small" }'>
+										<br/>
+										{$growth_diary.user_name}
+									</td>								
+									<td class="td_line">	
+										<table cellspacing="0" cellpadding="0" border="0">		
+											<tr>								
+												<td>
+													<!--文字内容-->
+													<a style="font-size:14px;" href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
+													{$growth_diary.short_content}	
+													</a>
+													<!--图片内容-->
+													{if $growth_diary.has_pic}
+													<br/>										
+													{foreach from=$growth_diary.pic_list item=pic_item}
+														<div class='pic_item'>
+															<img src='{$pic_item.small_preview_path}' />
+														</div>
+													{/foreach}
+													{/if}
+												</td>
+											</tr>	
+											<tr>								
+												<td style="padding-top:10px;">
+													<span style="padding-right:3px; cursor:pointer;" onclick="favorite_growth_diary({$growth_diary.id},{$growth_diary.user_id})">
+														{if $growth_diary.is_fav eq 1}
+														<font id="fav_text_{$growth_diary.id}">已喜欢</font>(<font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>)
+														{else}
+														<font id="fav_text_{$growth_diary.id}">喜欢</font>(<font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>)
+														{/if}
+													</span>
+													<a href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
+														<span style="padding-right:10px;">评论({$growth_diary.reply_count})</span>
+													</a>
+													<span>{function name="pass_date" time=$growth_diary.create_time }</span>			
+												</td>
+											</tr>				
+										</table>									
+									</td>
+								</tr>				
+							{/foreach}								
+							</tbody>
+						</table>
+						<!--分页-->
+						<div class="fy">
+							{$pages}
+						</div>
+					</div><!--list-view end-->	
+					{else}
+					<div style="margin-top:10px;margin-bottom:10px;text-align:center;">
+					暂无成长日记
+					</div>
+					{/if}					
+					
+				</div><!--wrap end-->		
+
+<script type="text/javascript">
+function favorite_growth_diary(growth_diary_id,author_user_id){
+	//alert(growth_diary_id+"--"+author_user_id);
+	var text_id = "fav_text_"+growth_diary_id;
+	var count_id = "fav_count_"+growth_diary_id;
+	var query = new Object();
+	query.growth_diary_id = growth_diary_id;
+	query.author_user_id = author_user_id;
+	query.post_type = "json";
+	var ajaxurl = '{wap_url a="index" r="growthdiaryfavorite#index"}';
+
+	$.ajax({
+		url:ajaxurl,
+		data:query,
+		type:"post",
+		dataType:"json",
+		success:function(data){
+			if(data.user_login_status==0){
+				alert(data.login_info);
+			}else{
+				if(data.fav_status == 1){
+					alert("取消喜欢成功！");					
+					document.getElementById(text_id).innerText = "喜欢";					
+					var fav_count = document.getElementById(count_id).innerText;
+					fav_count = parseInt(fav_count) - 1;
+					document.getElementById(count_id).innerText = fav_count;
+				}
+				if(data.fav_status == 2){
+					alert("喜欢成功！");
+					document.getElementById(text_id).innerText = "已喜欢";				
+					var fav_count = document.getElementById(count_id).innerText;
+					fav_count = parseInt(fav_count) + 1;
+					document.getElementById(count_id).innerText = fav_count;
+				}
+				if(data.fav_status == 3){
+					alert("操作失败");
+				}
+				if(data.fav_status == 4){
+					alert("自己不能喜欢自己的日记");
+				}
+			}
+		}
+		,error:function(){
+			alert("服务器提交错误");
+		}
+	});
+}
+
+/*
+$(window).scroll(function () {
+	var scrollTop = $(document).scrollTop();   
+    var windowHeight = $(window).height();
+	var scrollHeight = $(document).height();
+	console.log("滚动条到顶部的垂直高度: "+scrollTop);     
+    console.log('浏览器的高度：'+windowHeight);  
+	console.log("页面的文档高度 ："+scrollHeight); 
+    if (scrollTop + windowHeight == scrollHeight) {   
+		//此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作
+		alert("a");
+		alert($(".current").html());
+		//var page = Number($("#redgiftNextPage").attr('currentpage')) + 1;
+		//getNextPageContent(page);
+		//$("#redgiftNextPage").attr('currentpage', page + 1);
+   
+    }
+});
+*/
+var page = 1;
+function getNextPageContent(page){
+	var ajaxurl = '{wap_url a="index" r="growthdiarylist_public" p="page='+page+'"}';
+	var query = new Object();
+	query.is_ajax=1;
+	$.ajax({
+		url:ajaxurl,
+		data:query,
+		type:"Post",
+		dataType:"text",
+		success:function(data){
+			//alert("yes");
+			$("#pagecontent").html(data);
+		}
+		,error:function(){
+			//alert("服务器提交错误");
+		}
+	});	
+}
+</script>				
+{include file="./inc/footer.html"}				
+			

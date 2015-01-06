@@ -1,0 +1,55 @@
+						<table cellspacing="0" cellpadding="0" border="0" class="growth_diary_list_table">
+							<tbody>
+								{foreach from=$data.growth_diary_list item=growth_diary}
+								<tr>
+									<td class="td_line" width="50" style="text-align:center;" valign="top">
+										<img style="border-radius:35px;" src='{function name="get_user_avatar" uid=$growth_diary.user_id type="small" }'>
+										<br/>
+										{$growth_diary.user_name}
+									</td>								
+									<td class="td_line">	
+										<table cellspacing="0" cellpadding="0" border="0">		
+											<tr>								
+												<td>
+													<!--文字内容-->
+													<a style="font-size:14px;" href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
+													{$growth_diary.short_content}	
+													</a>
+													<!--图片内容-->
+													{if $growth_diary.has_pic}
+													<br/>										
+													{foreach from=$growth_diary.pic_list item=pic_item}
+														<div class='pic_item'>
+															<img src='{$pic_item.small_preview_path}' />
+														</div>
+													{/foreach}
+													{/if}
+												</td>
+											</tr>	
+											<tr>								
+												<td style="padding-top:10px;">
+													<span style="padding-right:3px; cursor:pointer;" onclick="favorite_growth_diary({$growth_diary.id},{$growth_diary.user_id})">
+														{if $growth_diary.is_fav eq 1}
+														<font id="fav_text_{$growth_diary.id}">已喜欢</font>(<font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>)
+														{else}
+														<font id="fav_text_{$growth_diary.id}">喜欢</font>(<font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>)
+														{/if}
+													</span>
+													<a href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
+														<span style="padding-right:10px;">评论({$growth_diary.reply_count})</span>
+													</a>
+													<span>{function name="pass_date" time=$growth_diary.create_time }</span>			
+												</td>
+											</tr>				
+										</table>									
+									</td>
+								</tr>				
+							{/foreach}								
+							</tbody>
+						</table>
+						<!--正在加载-->
+						<div id="loading" style="display:none;text-align:center;padding:10px 0;">
+							<img id="loading_img" src="./images/loading.gif" /><br/><span id="loading_text">正在加载…</span>
+						</div>
+						
+						

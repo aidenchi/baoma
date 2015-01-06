@@ -1,47 +1,52 @@
-{include file="./inc/header_topic.html"}
+{include file="./inc/header_common.html"}
+
+				<div style="padding:10px 0; background:#fff; border-bottom: 1px solid #e6e6e6; ">
+					<a href="javascript:void(0);" onclick="window.history.go(-1);"><i class="fa fa-chevron-left"></i>&nbsp;返回</a>
+				</div>
+
 				<div class="wrap" id="wrap">
 				{if $data.exit eq 1}
 					<div class="blank8"></div>					
 					<div class="list-view">
-						 <div class="list_title"><i class="fa fa-bullhorn"></i>论坛/{$data.topic_item.cate_match_row}</div>
-						 <ul class="">
-							<li class="topic_item_li">
-						 	     	<div class="list_item">
-						 	     		 <div class="topic_user_headimg">
-											{if $data.topic_item.user_id eq $data.user_id}
-											<a href='{wap_url a="index" r="user_center#index"}'>
-											{else}
-											<a href='{wap_url a="index" r="userinfo#index" p="user_id=$data.topic_item.user_id"}'>
-											{/if}
-						 	     		 	<img src='{function name="get_user_avatar" uid=$data.topic_item.user_id type="small" }'>
-											</a>
-						 	     		 </div>
-										 <div class="info">
-										 	<i>{$data.topic_item.forum_title}</i>
-											<p class="content">
-											{$data.topic_item.content}
-											</p>	
-											<div class="topic_bottom">
-						                         <p class="topic_bottom_text">
-													<em><i>{$data.topic_item.user_name}<i>&nbsp;•&nbsp;</i>发表于{function name="pass_date" time=$data.topic_item.create_time }</i></em>			 
-												 </p>
-												 <p class="topic_bottom_text_right">
-													<a href='#topic_reply' onclick="set_topic_reply()"><i>回复</i></a>
-													{if $data.topic_item.user_id eq $data.user_id}
-													<a href="javascript:void(0);" onclick="delete_topic({$data.topic_item.id},$('#wrap'));"><i>删除</i></a>
-													{/if}
-												</p>
-						                     </div>
-										 </div>
-						 	     	</div>
-						 	</li>							
-						 </ul>						 
+						<div style="padding:10px; line-height:20px; font-size:16px; border-bottom: 1px solid #f5f5f5; width:100%;">
+							<span>[讨论]&nbsp;{$data.topic_item.forum_title}</span>
+						</div>
+						<div style="padding:10px;border-bottom: 1px solid #f5f5f5; display: -webkit-box; color:#adadad;">							
+							<div style="padding:10px;width:80px;text-align:center; ">
+								{if $data.topic_item.user_id eq $data.user_id}
+								<a href='{wap_url a="index" r="user_center#index"}'>
+								{else}
+								<a href='{wap_url a="index" r="userinfo#index" p="user_id=$data.topic_item.user_id"}'>
+								{/if}
+						 	    <img style="border-radius:35px;" src='{function name="get_user_avatar" uid=$data.topic_item.user_id type="small" }'>
+								</a>
+							</div>
+							<div>
+								<span>{$data.topic_item.user_name}</span><br/>
+								<span style="padding-left:15px;">{function name="get_user_intro_byid" uid=$data.topic_item.user_id}</span><br/>
+								<span>等级：{function name="get_user_level_byid" uid=$data.topic_item.user_id}</span>
+							</div>
+						</div>
+						<div style="padding:10px;color:#adadad;">
+							{$data.topic_item.content}
+						</div>
+						<div style="padding:10px;color:#adadad;text-align:right;">
+							<span style="padding-right:5px;">浏览&nbsp;{$data.topic_item.hit_count}</span>
+							<span style="cursor:pointer; padding-right:5px;" onclick="favorite_topic({$data.topic_item.id},{$data.topic_item.user_id})">
+								{if $data.topic_item.is_fav eq 1}
+								<font id="fav_text_{$data.topic_item.id}">已点赞</font>&nbsp;<font id="fav_count_{$data.topic_item.id}">{$data.topic_item.fav_count}</font>
+								{else}
+								<font id="fav_text_{$data.topic_item.id}">点赞</font>&nbsp;<font id="fav_count_{$data.topic_item.id}">{$data.topic_item.fav_count}</font>
+								{/if}
+							</span>
+							<span style="padding-right:5px;">回复&nbsp;<font id="topic_reply_count">{$data.topic_item.reply_count}</font></span>
+							<span style="padding-left:20px;">{function name="pass_date" time=$data.topic_item.create_time }</span>
+						</div>
 					</div><!--list-view end-->
 			
 					<div class="blank8"></div>  	
 					
 					<div class="list-view">
-						 <div class="list_title"><i class="fa fa-bullhorn"></i><span id="topic_reply_count">{$data.topic_item.reply_count}</span>条回复</div>
 						 <ul class="">
 						 {foreach from=$data.topic_reply_list item=topic_reply key=key}
 							<li class="topic_item_reply_li" id="reply_item_{$topic_reply.id}">
@@ -59,14 +64,16 @@
 										<div class="reply_topic_bottom">
 						                    <p class="reply_topic_bottom_text">
 												<em><i>{$topic_reply.user_name}<i>&nbsp;•&nbsp;</i>{function name="pass_date" time=$topic_reply.create_time }说</i></em>					 
-											</p>		
+											</p>											
 											<p class="reply_topic_bottom_text_right">
+												<!--
 												#{function name="floor_num" k=$key base_size=$data.base_size }
+												-->
 												<a href="#topic_reply" onclick="set_reply({$topic_reply.id},'{$topic_reply.user_id}','{$topic_reply.user_name}');"><i>回复</i></a>
 												{if $topic_reply.user_id eq $data.user_id}
 												<a href="javascript:void(0);" onclick="delete_topic_reply({$topic_reply.id},$('#reply_item_{$topic_reply.id}'));"><i>删除</i></a>
 												{/if}
-											</p>
+											</p>											
 						                </div>
 										<div class="reply_topic_bottom_p">
 											<p class="content">{function name="nl2br" v=$topic_reply.content}</p>	
@@ -75,32 +82,28 @@
 						 	     </div>
 						 	</li>
 						 {/foreach}
-						 </ul>		
+						 </ul>	
+						{if $data.page.page_total gt 1}
 						<div class="fy">
 							{$pages}
 						</div>
+						{/if}
 					</div><!--list-view end-->
 					
 					<div class="blank8"></div>
-					<div id="topic_reply">
+					<div id="topic_reply" style="border-top: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;">
 					<form id="" name="topic_reply_form" method="post" action='{wap_url a="index" r="topicreply"}' onsubmit="return check(this);">
-					<div class="list-view">
-						<ul class="">	
-							<li class="topic_item_reply_li">
-								<div class="topic_write_txt">
-									<input type="hidden" name="topic_id" id="topic_id" value="{$data.topic_item.id}" />
-									<input type="hidden" name="reply_id" id="reply_id" value="0" />
-									<input type="hidden" name="reply_user_id" id="reply_user_id" value="0" />
-									<input type="hidden" name="reply_user_name" id="reply_user_name" value="" />
-									<textarea name="content" id="content" placeholder="请输入回复内容"></textarea>
-									<div class="blank"></div>					
-								</div>
-								<div class="btn_login">
-									<input type="submit" name="Submit" class="mj-submit" value="回复" style="background: none;">
-								</div>
-							</li>
-						</ul>							 
-					</div><!--list-view end-->
+						<div class="topic_write_txt">
+							<input type="hidden" name="topic_id" id="topic_id" value="{$data.topic_item.id}" />
+							<input type="hidden" name="reply_id" id="reply_id" value="0" />
+							<input type="hidden" name="reply_user_id" id="reply_user_id" value="0" />
+							<input type="hidden" name="reply_user_name" id="reply_user_name" value="" />
+							<textarea name="content" id="content" placeholder="请输入回复内容"></textarea>
+							<div class="blank"></div>					
+						</div>
+						<div class="btn_login">
+							<input type="submit" name="Submit" class="mj-submit" value="回复" style="background: none;">
+						</div>
 					</form>
 					</div>					
 			    {/if}
@@ -117,6 +120,53 @@
 				</div>
 
 <script type="text/javascript">
+function favorite_topic(topic_id,author_user_id){
+	//alert(topic_id+"--"+author_user_id);
+	var text_id = "fav_text_"+topic_id;
+	var count_id = "fav_count_"+topic_id;
+	var query = new Object();
+	query.topic_id = topic_id;
+	query.author_user_id = author_user_id;
+	query.post_type = "json";
+	var ajaxurl = '{wap_url a="index" r="topicfavorite#index"}';
+
+	$.ajax({
+		url:ajaxurl,
+		data:query,
+		type:"post",
+		dataType:"json",
+		success:function(data){
+			if(data.user_login_status==0){
+				alert(data.login_info);
+			}else{
+				if(data.fav_status == 1){
+					alert("取消点赞成功！");					
+					document.getElementById(text_id).innerText = "点赞";					
+					var fav_count = document.getElementById(count_id).innerText;
+					fav_count = parseInt(fav_count) - 1;
+					document.getElementById(count_id).innerText = fav_count;
+				}
+				if(data.fav_status == 2){
+					alert("点赞成功！");
+					document.getElementById(text_id).innerText = "已点赞";				
+					var fav_count = document.getElementById(count_id).innerText;
+					fav_count = parseInt(fav_count) + 1;
+					document.getElementById(count_id).innerText = fav_count;
+				}
+				if(data.fav_status == 3){
+					alert("操作失败");
+				}
+				if(data.fav_status == 4){
+					alert("自己不能点赞自己的帖子");
+				}
+			}
+		}
+		,error:function(){
+			alert("服务器提交错误");
+		}
+	});
+}
+
 function set_topic_reply(){
 	$("#reply_id").val(0);
 	$("#reply_user_id").val(0);

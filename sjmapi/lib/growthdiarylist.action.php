@@ -18,6 +18,8 @@ class growthdiarylist
 		}else{
 			$root['user_login_status'] = 1;//原本
 			$root['page_title'] = "成长日记";
+			$root["login_user_id"] = intval($user_data['id']);
+			$root["login_user_name"] = $user_data['user_name'];
 			
 			$condition = " where user_id = ".intval($user_data['id']);
 			$page = intval($GLOBALS['request']['page']); //分页

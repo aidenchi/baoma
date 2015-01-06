@@ -12,6 +12,7 @@ class growthdiarylist_public
 		$user_id = intval($user_data['id']);
 		
 		$root["login_user_id"] = intval($user_data['id']);
+		$root["login_user_name"] = $user_data['user_name'];
 		
 			//公开成长日记			
 			$condition = " where user_id = ".intval($user_data['id']);

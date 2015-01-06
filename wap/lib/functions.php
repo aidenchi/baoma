@@ -84,6 +84,64 @@ function get_user_avatar($id,$type)
 	//@file_put_contents($avatar_check_file,@file_get_contents(APP_ROOT_PATH."public/avatar/noavatar_".$type.".gif"));
 }
 
+//获取用户名
+function get_user_level_byid($id){
+	$level_id = $GLOBALS['db']->getOne("select level_id from ".DB_PREFIX."user where id = ".intval($id));
+	$level_name = $GLOBALS['db']->getOne("select name from ".DB_PREFIX."user_level where id = ".intval($level_id));
+	return $level_name;
+}
+
+//获取用户一句话
+function get_user_intro_byid($id){
+	$intro = $GLOBALS['db']->getOne("select my_intro from ".DB_PREFIX."user where id = ".intval($id));
+	return $intro;
+}
+
+//获取年龄
+function get_user_age_byid($id){
+	$both_arr = $GLOBALS['db']->getRow("select byear,bmonth,bday from ".DB_PREFIX."user where id = ".intval($id));
+	$both_date = $both_arr['byear'].'-'.$both_arr['bmonth'].'-'.$both_arr['bday'];
+	$now_date = date('Y-m-d');
+	$both = diffDate($both_date,$now_date);
+	return $both;
+}
+
+//格式化出生年月
+function diffDate($date1,$date2){ 
+$datestart= date('Y-m-d',strtotime($date1));
+    if(strtotime($datestart)>strtotime($date2)){ 
+        /*
+		$tmp=$date2; 
+        $date2=$datestart; 
+        $datestart=$tmp; 
+		*/
+		return 'test';
+    } 
+    list($Y1,$m1,$d1)=explode('-',$datestart); //2014-1-1
+    list($Y2,$m2,$d2)=explode('-',$date2); //2015-1-6
+    $y=$Y2-$Y1; 
+    $m=$m2-$m1; 
+    $d=$d2-$d1; 
+    if($d<0){ 
+        $d+=(int)date('t',strtotime("-1 month $date2")); 
+        $m--;		
+    } 
+    if($m<0){ 
+        $m+=12; 
+        $y--; 
+    } 	   
+	if($y != 0){
+     return $y.'岁'.$m.'月'.$d.'天';
+    }else{
+		if($y == 0 && $m != 0){
+		 return $m.'月'.$d.'天';
+		}
+		if($y == 0 && $m == 0){
+		 return $d.'天';
+		}
+	}	
+} 
+
 //论坛帖子获取已过时间
 function pass_date($time)
 {

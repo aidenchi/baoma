@@ -1,74 +1,8 @@
-{include file="./inc/header_common.html"}
-<style>
-.topic_list_top{
-	background: #fff;
-	width: 100%;
-	position: relative;
-	height: 40px;	
-	display: -webkit-box;
-	line-height:40px;
-}
-.topic_list_top_left{
-	background: #eee;
-	width: 10%;	
-	text-align: center;
-	font-size:24px;
-	color:#ccc;
-}
-.topic_list_top_center {
-	width: 80%;	
-	overflow: hidden;
-}
-.topic_list_top_center a{
-	color:#5B5B5B;
-	font-size:16px;
-	padding-left:8px;
-	padding-right:8px;
-}
-.topic_list_top_center .selected{
-	font-weight: bolder;
-	color: #f59436;
-}
-.topic_list_top_right{
-	background: #eee;
-	width: 10%;
-	text-align: center;
-}
-.topic_list_top_right a{
-	color:#ccc;
-	font-size:24px;
-}
-.topic_list_bg{
-	width: 100%;
-	height:100px;
-	background: #ccc;
-}
-</style>			
-			
-			<div class="topic_list_top">
-				<div class="topic_list_top_left">
-				<i class="fa fa-search"></i>
-				</div>
-				<div class="topic_list_top_center">
-					<a href='{wap_url a="index" r="topiclist#index"}'><span {if $data.cate_id eq 0}class='selected'{/if}>精选</span></a>
-					{foreach from=$data.cate_list item=cate}
-					<a href='{wap_url a="index" r="topiclist#index"  p="cid=$cate.id"}'><span {if $data.cate_id eq $cate.id}class='selected'{/if}>{$cate.name}</span></a>
-					{/foreach}		
-				</div>
-				<div class="topic_list_top_right">
-				    <a href='{wap_url a="index" r="topicwrite#index"}'>
-					<i class="fa fa-edit"></i>
-					</a>
-				</div>
-			</div>
-			
-			<div class="topic_list_bg">
-				<div style="padding:30px;">贝欧论坛……</div>
-			</div>
-
+{include file="./inc/header_topic.html"}
 			<div class="wrap">
+					<div class="blank8"></div>
 					<div class="list-view">
-						 <!--<div class="list_title">共{$data.total}篇帖子</div>-->
+						 <div class="list_title"><i class="fa fa-bullhorn"></i>{$data.cate_name}&nbsp;(共{$data.total}篇帖子)</div>
 						 {if $data.one_cate_topic_list}
 						 <ul class="">
 						 {foreach from=$data.one_cate_topic_list item=topic}
@@ -87,9 +21,6 @@
 											{if $topic.is_recommend gt 0}
 											<i class="topic_ico ico">推荐</i>
 											{/if}
-											{if $topic.is_top gt 0}
-											<i class="topic_ico ico">置顶</i>
-											{/if}
 											</a>
 						 	     		 </div>										 
 										 <div class="info">
@@ -99,16 +30,16 @@
 											</a>
 											<div class="topic_bottom">
 												<div style="width:50%">
-													<span style="padding-right:5px;">浏览&nbsp;{$topic.hit_count}</span>
+													<span style="padding-right:5px;">浏览({$topic.hit_count})</span>
 													<span style="cursor:pointer; padding-right:5px;" onclick="favorite_topic({$topic.id},{$topic.user_id})">
 														{if $topic.is_fav eq 1}
-														<font id="fav_text_{$topic.id}">已点赞</font>&nbsp;<font id="fav_count_{$topic.id}">{$topic.fav_count}</font>
+														<font id="fav_text_{$topic.id}">已点赞</font>(<font id="fav_count_{$topic.id}">{$topic.fav_count}</font>)
 														{else}
-														<font id="fav_text_{$topic.id}">点赞</font>&nbsp;<font id="fav_count_{$topic.id}">{$topic.fav_count}</font>
+														<font id="fav_text_{$topic.id}">点赞</font>(<font id="fav_count_{$topic.id}">{$topic.fav_count}</font>)
 														{/if}
 													</span>
 													<a style="color:#b2b2b2;" href='{wap_url a="index" r="topicitem#index"  p="id=$topic.id"}'>
-													<span style="padding-right:5px;">回复&nbsp;{$topic.reply_count}</span>
+													<span style="padding-right:5px;">回复({$topic.reply_count})</span>
 													</a>
 												</div>
 												<div style="width:50%; text-align:right;">
@@ -120,12 +51,10 @@
 						 	     	</div>						 	     
 								</li>
 							{/foreach}							
-						 </ul>	
-						{if $data.page.page_total gt 1}
+						 </ul>		
 						<div class="fy">
 							{$pages}
 						</div>
-						{/if}
 						{else}
 						 <div class="assess_list" style="text-align:center;padding:10px 0;">该版块还没有帖子</div>
 						{/if}

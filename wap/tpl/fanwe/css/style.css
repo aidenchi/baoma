@@ -667,7 +667,8 @@ margin-right: 5px;
    display: -moz-box;
    width: 100%;
    display:box;
-   color: #6E7D8B;
+   font-size:12px; 
+   color:#b2b2b2;
 }
 .topic_bottom .topic_bottom_text{
    -webkit-box-flex: 1;

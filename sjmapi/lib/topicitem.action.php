@@ -17,6 +17,11 @@ class topicitem
 		$topic_item = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."topic where id = ".$topic_id." and is_effect= 1 ".
 		"and is_delete=0 and relay_id = 0 and origin_id=".$topic_id);
 		
+		//点击量加1
+		$u_sql = "update ".DB_PREFIX."topic set hit_count = hit_count + 1 where id = ".$topic_id." and is_effect= 1 ".
+		"and is_delete=0 and relay_id = 0 and origin_id=".$topic_id;
+		$GLOBALS['db']->query($u_sql);
+		
 		if($topic_item){
 			$root['exit']=1;
 			//读取回复
@@ -29,8 +34,22 @@ class topicitem
 			$total = $GLOBALS['db']->getOne($sql_count);
 			$page_total = ceil($total/$page_size);
 			
+			//回复列表
 			$topic_reply_list = $GLOBALS['db']->getAll("select * from ".DB_PREFIX."topic_reply where topic_id = ".$topic_id." and ".
-			"is_effect = 1 and is_delete = 0 order by create_time asc ".$limit_sql);	
+			"is_effect = 1 and is_delete = 0 order by create_time desc ".$limit_sql);	
+			//点赞数量
+			$fav_sql_count = "select count(*) from ".DB_PREFIX."topic_favorite where topic_id = ".$topic_id;
+			$fav_total = $GLOBALS['db']->getOne($fav_sql_count);
+			$topic_item['fav_count'] = intval($fav_total);
+			//当前登录者是否点赞过这篇日记
+			$topic_item['is_fav'] = 0;
+			if(intval($user['id']) > 0){
+				$fav_data = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."topic_favorite where topic_id = ".$topic_id.
+				" and author_user_id != 0 and fav_user_id = ".intval($user['id']));
+				if($fav_data){
+					$topic_item['is_fav'] = 1;
+				}
+			}
 			
 			$base_size = ($page-1)*$page_size;
 			$root['base_size'] = $base_size;
