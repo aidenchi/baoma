@@ -30,10 +30,10 @@ class myinfosave
 			$bmonth = intval($birth_arr[1]);
 			$bday = intval($birth_arr[2]);
 			$my_intro = $GLOBALS['request']['my_intro'];
-			
+			$both_time = strtotime($birth);
 			$result = check_email_and_username($uid,$user_email,$user_name);
 			if($result['flag']){
-				$sql = "update ".DB_PREFIX."user set email = '".$user_email."', user_name = '".$user_name."', sex = '".$sex."', byear = '".$byear."', bmonth = '".$bmonth."', bday = '".$bday."', my_intro = '".$my_intro."' where id = ".$uid;
+				$sql = "update ".DB_PREFIX."user set email = '".$user_email."', user_name = '".$user_name."', sex = '".$sex."', byear = '".$byear."', bmonth = '".$bmonth."', bday = '".$bday."', both_time = '".$both_time."', my_intro = '".$my_intro."' where id = ".$uid;
 				$GLOBALS['db']->query($sql);
 				$root['status']=1;
 				$root['info']='修改成功';

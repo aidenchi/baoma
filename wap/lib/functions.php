@@ -5,13 +5,13 @@ function display_km($distance){
 	if($distance==0){
 		$result = $distance.'m';
 	}
-	if($distance==12327566){
+	if($distance>=12327566){
 		$result = '未知';
 	}
 	if($distance>0 && $distance<1000){
 		$result = $distance.'m';
 	}
-	if($distance>1000 && $distance!=12327566){
+	if($distance>1000 && $distance<12327566){
 		$result = round($distance/1000, 1).'km';
 	}
 	return $result;
@@ -100,10 +100,14 @@ function get_user_intro_byid($id){
 //获取年龄
 function get_user_age_byid($id){
 	$both_arr = $GLOBALS['db']->getRow("select byear,bmonth,bday from ".DB_PREFIX."user where id = ".intval($id));
-	$both_date = $both_arr['byear'].'-'.$both_arr['bmonth'].'-'.$both_arr['bday'];
-	$now_date = date('Y-m-d');
-	$both = diffDate($both_date,$now_date);
-	return $both;
+	if($both_arr['byear'] == 0 && $both_arr['bmonth'] == 0 && $both_arr['bday'] == 0){
+		return '未知';
+	}else{
+		$both_date = $both_arr['byear'].'-'.$both_arr['bmonth'].'-'.$both_arr['bday'];
+		$now_date = date('Y-m-d');
+		$both = diffDate($both_date,$now_date);
+		return $both;
+	}	
 }
 
 //格式化出生年月
@@ -115,7 +119,7 @@ $datestart= date('Y-m-d',strtotime($date1));
         $date2=$datestart; 
         $datestart=$tmp; 
 		*/
-		return 'test';
+		return '';
     } 
     list($Y1,$m1,$d1)=explode('-',$datestart); //2014-1-1
     list($Y2,$m2,$d2)=explode('-',$date2); //2015-1-6

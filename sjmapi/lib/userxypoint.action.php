@@ -16,6 +16,7 @@ class userxypoint
 
 		$latitude = floatval($GLOBALS['request']['latitude']);//ypoint
 		$longitude = floatval($GLOBALS['request']['longitude']);//xpoint
+		$location = strim($GLOBALS['request']['location']);//位置
 
 
 		$root['m_latitude'] = $latitude;
@@ -27,6 +28,7 @@ class userxypoint
 								'uid' => $user_id,
 								'xpoint' => $longitude,
 								'ypoint' => $latitude,
+								'location' => $location,
 								'locate_time' => get_gmtime(),
 			);
 			$user_xypoint_data = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."user_x_y_point where uid = ".$user_id);
@@ -36,7 +38,7 @@ class userxypoint
 			}else{
 				$GLOBALS['db']->autoExecute(DB_PREFIX."user_x_y_point", $user_x_y_point, 'INSERT');
 			}			
-			$sql = "update ".DB_PREFIX."user set xpoint = $longitude, ypoint = $latitude, locate_time = ".get_gmtime()." where id = $user_id";
+			$sql = "update ".DB_PREFIX."user set xpoint = $longitude, ypoint = $latitude, location = $location ,  locate_time = ".get_gmtime()." where id = $user_id";
 			$GLOBALS['db']->query($sql);
 
 			$root['return'] = 1;

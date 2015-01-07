@@ -2,7 +2,7 @@
 class nearbyuserlist
 {
 	public function index()
-	{
+	{	
 		require_once APP_ROOT_PATH."system/libs/user.php";
 		$root = array();
 		$root['return'] = 1;
@@ -37,37 +37,42 @@ class nearbyuserlist
 		
 		//位置
 
-		/*
+		
 		//年龄
-		if($age_id > 0){			
-			$now_year = date('Y');//当前年(2015)			
-			$now_month = date('m');//当前月(1)		
-			$now_day = date('d');//当前日(4)
-			if($age_id == 1){//0-6月
-				//如果当前月大于6
-				//年:等于当前年,月:在(当前月-6)和(当前月)之间,日:4
-				$where = $where." and  ";
+		$now_date = date('Y-m-d');
+		$now_time = strtotime($now_date);
+		$sex_month_befor_time = strtotime("-6 month");		
+		//$sex_month_befor_date = date('Y-m-d H:i:s', $sex_month_befor_time); 
+		$one_year_befor_time = strtotime("-1 year");
+		$two_year_befor_time = strtotime("-2 year");
+		$three_year_befor_time = strtotime("-3 year");
+		$four_year_befor_time = strtotime("-4 year");
+		$five_year_befor_time = strtotime("-5 year");
+		$six_year_befor_time = strtotime("-6 year");
+		$seven_year_befor_time = strtotime("-7 year");
+		$eight_year_befor_time = strtotime("-8 year");
+		$nine_year_befor_time = strtotime("-9 year");
+		if($age_id > 0){	
+			$where = $where." and both_time != 0";
+			if($age_id == 1){
+				$where = $where." and both_time >= $sex_month_befor_time ";
 			}
 			if($age_id == 2){//7-12月
-				$where = $where." and  ";
+				$where = $where." and both_time >= $one_year_befor_time and both_time <= $sex_month_befor_time ";
 			}
 			if($age_id == 3){//1-2岁
-				$where = $where." and  ";
-			}
+				$where = $where." and both_time >= $three_year_befor_time and both_time <= $one_year_befor_time ";
+			}			
 			if($age_id == 4){//3-4岁
-				$where = $where." and  ";
+				$where = $where." and both_time >= $five_year_befor_time and both_time <= $three_year_befor_time ";
 			}
-			if($age_id == 5){//4-5岁
-				$where = $where." and  ";
+			if($age_id == 5){//5-6岁
+				$where = $where." and both_time >= $seven_year_befor_time and both_time <= $five_year_befor_time ";
 			}
-			if($age_id == 6){//6-7岁
-				$where = $where." and  ";
-			}
-			if($age_id == 7){//7-8岁
-				$where = $where." and  ";
+			if($age_id == 6){//7-8岁
+				$where = $where." and both_time >= $nine_year_befor_time and both_time <= $seven_year_befor_time ";
 			}
 		}
-		*/
 		
 		//距离
 		if($xpoint>0 && $ypoint>0){//定位成功，得出距离
@@ -177,7 +182,7 @@ class nearbyuserlist
 		$root['sex'] = $sex;
 		$root['user_list'] = $user_list;
 		$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);
-		$root['page_title']='附近玩伴';
+		$root['page_title']='附近玩伴';		
 		
 		output($root);
 	}	

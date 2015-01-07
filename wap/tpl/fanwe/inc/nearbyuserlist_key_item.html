@@ -30,6 +30,7 @@
 		<input type="hidden" id="hide_xpoint" name="hide_xpoint" value={$data.xpoint} />
 		<input type="hidden" id="hide_ypoint" name="hide_ypoint" value={$data.ypoint} />
 		<input type="hidden" id="hide_sex" name="hide_sex" value={$data.sex} />
+		<input type="hidden" id="user_location" name="user_location" value="" />
 	       <ul>
 			<li class="choose_li">
 				<div class="choose_item">
@@ -57,14 +58,13 @@
 						年龄：
 					</div>
 					<div class="choose_content">
-						<a href='index.php?ctl=nearbyuserlist&age_id=0&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>全部</i></a>
-						<a href='index.php?ctl=nearbyuserlist&age_id=1&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>0-6月</i></a>
-						<a href='index.php?ctl=nearbyuserlist&age_id=2&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>7-12月</i></a>
-						<a href='index.php?ctl=nearbyuserlist&age_id=3&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>1-2岁</i></a>
-						<a href='index.php?ctl=nearbyuserlist&age_id=4&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>3-4岁</i></a>
-						<a href='index.php?ctl=nearbyuserlist&age_id=5&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>4-5岁</i></a>
-						<a href='index.php?ctl=nearbyuserlist&age_id=6&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>6-7岁</i></a>
-						<a href='index.php?ctl=nearbyuserlist&age_id=7&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i>7-8岁</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id=0&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i {if $data.age_id eq '0'} class="selected" {/if}>全部</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id=1&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i {if $data.age_id eq '1'} class="selected" {/if}>0-6月</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id=2&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i {if $data.age_id eq '2'} class="selected" {/if}>6-12月</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id=3&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i {if $data.age_id eq '3'} class="selected" {/if}>1-2岁</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id=4&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i {if $data.age_id eq '4'} class="selected" {/if}>3-4岁</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id=5&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i {if $data.age_id eq '5'} class="selected" {/if}>5-6岁</i></a>
+						<a href='index.php?ctl=nearbyuserlist&age_id=6&sex={$data.sex}&xpoint={$data.xpoint}&ypoint={$data.ypoint}&distance={$data.distance}'><i {if $data.age_id eq '6'} class="selected" {/if}>7-8岁</i></a>
 					</div>
 				</div>
 			</li>
@@ -127,7 +127,7 @@
 											王子
 											{/if}
 											&nbsp;&nbsp;
-											显示年龄
+											{function name="get_user_age_byid" uid=$user.id}
 										</div>
 										<div style="padding-top:10px;">显示位置</div>
 									</td>
