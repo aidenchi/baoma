@@ -138,7 +138,7 @@ class nearbyuserlist
 		$page_size = PAGE_SIZE;
 		$limit = (($page-1)*$page_size).",".$page_size;		
 		$sql_count = "select count(*) from ".DB_PREFIX."user ";
-		$sql = "select id,xpoint,ypoint,locate_time,user_name,sex ".$field_append." from ".DB_PREFIX."user ";
+		$sql = "select id,xpoint,ypoint,locate_time,location,user_name,sex ".$field_append." from ".DB_PREFIX."user ";
 		$sql_count.=" where ".$where;		
 		$sql.= " where ".$where;
 		$sql.=$orderby;		

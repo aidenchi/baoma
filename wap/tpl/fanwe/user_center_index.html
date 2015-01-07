@@ -48,6 +48,23 @@
 				       	    	    </div>
 				       	        </a>
 							</li>
+							<li>
+								{if $data.growth_diary_total_noread_count gt 0}
+				       	    	<a href='{wap_url a="index" r="growthdiaryitemreplymsg#index"}'>
+								{else}
+								<a href='{wap_url a="index" r="growthdiarylist_public#index"}'>
+								{/if}
+				       	    	    <div class="per_li">
+				       	    	    	<i class="fa fa-tag"></i>
+										<span>成长日记
+										{if $data.growth_diary_total_noread_count gt 0}
+										<font style="font-style:italic;">(未读回复{$data.growth_diary_total_noread_count}条)</font>
+										{/if}
+										</span>
+										<i class="fa fa-chevron-right"></i>
+				       	    	    </div>
+				       	        </a>
+							</li>
 				       </ul>		 
 				</div>       
 							

@@ -103,7 +103,7 @@
 </div>
 
 <!------------------------------------------center-------------------------------------------->
-			<div class="wrap">{$data.sql}
+			<div class="wrap">
 					<div class="list-view">
 						<!--定位加载-->
 						<div id="loading" style="display:none;text-align:center;padding:10px 0;">
@@ -129,7 +129,7 @@
 											&nbsp;&nbsp;
 											{function name="get_user_age_byid" uid=$user.id}
 										</div>
-										<div style="padding-top:10px;">显示位置</div>
+										<div style="padding-top:10px;">{$user.location}</div>
 									</td>
 									<td width="50" align="right" valign="top">	
 										<div style="padding:10px 0px;">
@@ -142,10 +142,12 @@
 							{/foreach}								
 							</tbody>
 						</table>
+						{if $data.page.page_total gt 1}
 						<!--分页-->
 						<div class="fy">
 							{$pages}
 						</div>
+						{/if}
 						{else}
 						 <div class="assess_list" style="text-align:center;padding:10px 0;">暂没有玩伴</div>
 						{/if}

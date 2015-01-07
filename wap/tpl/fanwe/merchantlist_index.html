@@ -34,18 +34,18 @@ function get_nearby_store(){
 	}else{
 		$("#loading").show();
 		var geolocation = new BMap.Geolocation(); 
-		geolocation.getCurrentPosition(function (r) { 			
-			/*
+		geolocation.getCurrentPosition(function (r) { 		
 			if (this.getStatus() == BMAP_STATUS_SUCCESS ) { 
 				//origin = r.point.lng + "," + r.point.lat; 			
 				//alert("我所在位置的坐标："+origin); 
 				var longitude=r.point.lng;
 				var latitude=r.point.lat;	
-			*/
+			/*
 			//模拟
 			if(1==1){
 				var longitude=114.41776;
-				var latitude=30.483698;			
+				var latitude=30.483698;	
+			*/
 				$("#hide_xpoint").val(longitude);
 				$("#hide_ypoint").val(latitude);
 				//window.location.href=$("#nearby_part_href").val()+"&xpoint="+longitude+"&ypoint="+latitude;//定位成功，读取我所在位置附近

@@ -435,6 +435,19 @@ margin-right: 5px;
 .fileupload .filebox{ position:absolute; right:0px; top:0px; filter: alpha(opacity = 0);
 	-moz-opacity: 0;
 	opacity: 0;}
+	
+/*成长日记发表--插入表情*/	
+.growth_insertface{ 
+	width:20px; 
+	height:24px; 
+	position:relative; 
+	overflow:hidden; 
+	display:inline-block; 
+	background:url(../images/face.gif) no-repeat;
+	text-align:center;
+	line-height:24px;
+	color:#fff; 
+}
 /*成长日记发表--上传图片*/
 .growth_pic_fileupload{ 
 	width:20px; 

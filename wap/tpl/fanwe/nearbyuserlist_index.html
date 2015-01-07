@@ -41,28 +41,27 @@ function get_nearby_user(){
 		var geolocation = new BMap.Geolocation(); 
 		var geoc = new BMap.Geocoder(); 
 		geolocation.getCurrentPosition(function (r) { 			
-			/*
+			
 			if (this.getStatus() == BMAP_STATUS_SUCCESS ) { 
 				//origin = r.point.lng + "," + r.point.lat; 			
-				alert("我所在位置的坐标："+origin); 
+				//alert("我所在位置的坐标："+origin); 
+				var longitude=r.point.lng;
+				var latitude=r.point.lat;			
 				var pt = r.point;
 				geoc.getLocation(pt, function(rs){
-					alert(rs.address);
-					$("#user_location").val(rs.address);					
+					//alert(rs.address);
+					var location = rs.address;
+					userxypoint(longitude,latitude,location);
 				});
-				var longitude=r.point.lng;
-				var latitude=r.point.lat;	
-			/
+			/*	
 			//模拟
 			if(1==1){
 				var longitude=114.41776;
 				var latitude=30.483698;	
-			
+			*/
 				$("#hide_xpoint").val(longitude);
 				$("#hide_ypoint").val(latitude);
-				ajaxgetbyxypoint(longitude,latitude,'all');
-				var location = $("#user_location").val();	
-				//userxypoint(longitude,latitude,location);
+				ajaxgetbyxypoint(longitude,latitude,'all');				
 			}else{
 				alert("定位失败，请稍后刷新重试");	
 				ajaxgetbyxypoint(0,0,'all');
@@ -102,6 +101,7 @@ function userxypoint(longitude,latitude,location){
 	query.latitude = latitude;
 	query.longitude = longitude;
 	query.location = location;
+	//alert(query.latitude+"--"+query.longitude+"--"+query.location);
 	query.post_type = "json";
 	var ajaxurl = '{url a="index" r="userxypoint"}';
 	$.ajax({

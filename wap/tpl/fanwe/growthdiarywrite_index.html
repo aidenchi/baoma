@@ -29,7 +29,11 @@
 									<div id="image_box"></div>
 								</div>
 								-->
-								<div style="margin-left:10px;">									
+								<div style="margin-left:10px;">	
+									<!--
+									<label class="growth_insertface" id="insertface">									
+									</label>
+									-->
 									<label class="growth_pic_fileupload" >
 										<input type="file" class="filebox" name="growth_diary_image" id="growth_diary_image" onchange="uploadImage();">
 									</label>
@@ -50,9 +54,36 @@
 				 
 				</div><!--wrap end-->
 
+
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>	
-<script type="text/javascript" src="./js/ajaxupload.js"></script>			
+<script type="text/javascript" src="./js/ajaxupload.js"></script>	
+<script type="text/javascript" src="./js/jquery.bgiframe.js"></script>	
+<script type="text/javascript" src="./js/jquery.weebox.js"></script>			
 <script type="text/javascript">
+$(document).ready(function () {   
+	//插入表情
+   $("#insertface").click(function(){
+		alert("aa");
+        var obj = this;
+		var face_html = $("#face_box_hd").html();
+		var face_tab_html = $("#face_box_tab").html();
+		$.weeboxs.open(
+			face_html, 
+			{
+				boxid:'form_pop_box',
+				contentType:'text',
+				position:'element',
+				trigger:obj,
+				draggable:false,
+				modal:false,
+				showButton:false,
+				title:face_tab_html,
+				width:405
+			});
+   });
+});
+
+//上传图片
 function uploadImage(){
 	$.ajaxFileUpload({
 		url : '/growthdiaryupload.php',
@@ -74,7 +105,7 @@ function uploadImage(){
 		}
 	});
 }
-
+//删除图片
 function del_img(o){
 	$(o).parent().remove();
 }

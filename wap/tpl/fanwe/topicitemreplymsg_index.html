@@ -1,0 +1,24 @@
+{include file="./inc/header_topic.html"}
+			
+			<div class="wrap">
+					{if $data.topic_replynoread_count gt 0}					
+					<div class="list-view">
+						{foreach from=$data.topic_replynoread_list item=topic}	
+							<div style="padding:10px;">
+								<a style="font-size:14px;color:#adadad;" href='{wap_url a="index" r="topicitem#index"  p="id=$topic.item.id"}'>
+									您的帖子<font style="color:#6E7D8B;">“{$topic.item.forum_title}”</font>有<font style="color:#fe4229;font-size:14px;">{$topic.num}</font>条新回复
+								</a>
+							</div>
+						{/foreach}		
+						
+					</div><!--list-view end-->	
+					{else}
+					<div style="margin-top:10px;margin-bottom:10px;text-align:center;">
+					暂无未读回复
+					</div>
+					{/if}					
+					
+				</div><!--wrap end-->		
+				
+{include file="./inc/footer.html"}				
+			

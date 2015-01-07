@@ -24,7 +24,7 @@ class mytopiclist
 			$limit = (($page-1)*$page_size).",".$page_size;
 			$limit_sql=" limit ".$limit;
 			$sql_count = "select count(*) from ".DB_PREFIX."topic where user_id= ".intval($user_data['id'])." and is_effect = 1 and is_delete = 0  and fav_id = 0 ".
-			"and relay_id = 0 and type='share' order by id desc";
+			"and relay_id = 0 and type='share' and id = origin_id order by id desc";
 			$total = $GLOBALS['db']->getOne($sql_count);
 			$page_total = ceil($total/$page_size);
 			

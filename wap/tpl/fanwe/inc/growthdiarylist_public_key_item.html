@@ -3,7 +3,13 @@
 								{foreach from=$data.growth_diary_list item=growth_diary}
 								<tr>
 									<td class="td_line" width="50" style="text-align:center;" valign="top">
+										{if $data.login_user_id eq $growth_diary.user_id}
+										<a href='{wap_url a="index" r="user_center#index"}'>
+										{else}
+										<a href='{wap_url a="index" r="userinfo#index" p="user_id=$growth_diary.user_id"}'>
+										{/if}
 										<img style="border-radius:35px;" src='{function name="get_user_avatar" uid=$growth_diary.user_id type="small" }'>
+										</a>
 										<br/>
 										{$growth_diary.user_name}
 									</td>								

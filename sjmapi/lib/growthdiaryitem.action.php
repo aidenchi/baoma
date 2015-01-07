@@ -22,6 +22,16 @@ class growthdiaryitem
 		$growth_diary_item = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."growth_diary".$condition);
 		if($growth_diary_item){
 			$growth_diary_item['exit'] = 1;
+			
+			//判断当前登录者是否是这篇日记的主人，是的话则把这篇日记的未读回复置为已读
+			if($growth_diary_item['user_id'] == intval($user_data['id'])){
+				$noreadreply_sql = "select id from ".DB_PREFIX."growth_diary_reply where growth_diary_id =".$id." and is_read = 0 ";
+				$growth_diary_noreadreply_list = $GLOBALS['db']->getAll($noreadreply_sql);
+				foreach($growth_diary_noreadreply_list as $k0=>$v0){
+					$GLOBALS['db']->query("update ".DB_PREFIX."growth_diary_reply set is_read = 1 where id = ".$v0['id']);
+				}
+			}
+			
 			//图片
 			if($growth_diary_item['has_pic'] == 1){
 				$growth_diary_item['pic_list'] = array();
@@ -56,7 +66,7 @@ class growthdiaryitem
 			$reply_sql_count = "select count(*) from ".DB_PREFIX."growth_diary_reply where growth_diary_id = ".$id;
 			$reply_count = $GLOBALS['db']->getOne($reply_sql_count);
 			$page_total = ceil($reply_count/$page_size);
-			$reply_sql = "select * from ".DB_PREFIX."growth_diary_reply where growth_diary_id = ".$id." order by create_time asc".$limit_sql;
+			$reply_sql = "select * from ".DB_PREFIX."growth_diary_reply where growth_diary_id = ".$id." order by create_time desc".$limit_sql;
 			$reply_list = $GLOBALS['db']->getAll($reply_sql);			
 			$growth_diary_item['reply_count'] = intval($reply_count);	
 			$growth_diary_item['reply_list'] = $reply_list;	

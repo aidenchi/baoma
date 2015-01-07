@@ -1,0 +1,72 @@
+{include file="./inc/header_common.html"}
+<style>
+.growth_diary_top{
+	background: #A2CEA0;
+	width: 100%;
+	position: relative;
+}
+.growth_diary_date{
+	width: 100%;
+	height: 40px;	
+}
+.growth_diary_user {
+	width: 100%;
+	height: 180px;	
+	text-align: center;
+}
+.growth_circle{
+	width: 100%;
+	height: 30px;
+	background: #999999;
+	opacity: 0.5;
+	filter:alpha(opacity=50)
+}
+</style>
+			<div class="growth_diary_top">
+				<div class="growth_diary_date">
+					<div style="float:left;width:50%;text-align:left;">
+						<a href='{wap_url a="index" r="growthdiarydate#index"}'>
+							<span>日历</span>
+						</a>
+					</div>
+					<div style="float:left;width:50%;text-align:right;">
+						<a href='{wap_url a="index" r="growthdiarywrite#index"}'>
+							<span>记录</span>		
+						</a>
+					</div>
+				</div>
+				<div class="growth_diary_user">
+					<img style="border-radius:60px;" src='{function name="get_user_avatar" uid=$data.login_user_id type="middle" }'>
+					<br/>
+					<span style="color:#fff; font-size:18px; line-height:24px;">{$data.login_user_name}</span><br/>
+					<span style="color:#fff; font-size:18px; line-height:24px;">{function name="get_user_age_byid" uid=$data.login_user_id}</span>
+				 </div>	
+				 <div class="growth_circle">
+					<a href='{wap_url a="index" r="growthdiarylist_public#index"}'>
+						<span style="padding-left:10px;line-height:30px;font-size:16px;color:#fff;font-weight:bold"><成长圈</span>
+					</a>
+				 </div>
+			</div>
+			
+			<div class="wrap">
+					{if $data.total_noread_count gt 0}					
+					<div class="list-view">
+						{foreach from=$data.growth_diary_hasreply_noread_list item=growth_diary}	
+							<div style="padding:10px;">
+								<a style="font-size:14px;color:#adadad;" href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.item.id"}'>
+									您的成长日记<font style="color:#6E7D8B;">“{$growth_diary.item.short_content}”</font>有<font style="color:#fe4229;font-size:14px;">{$growth_diary.num}</font>条新回复
+								</a>
+							</div>
+						{/foreach}		
+						
+					</div><!--list-view end-->	
+					{else}
+					<div style="margin-top:10px;margin-bottom:10px;text-align:center;">
+					暂无未读回复
+					</div>
+					{/if}					
+					
+				</div><!--wrap end-->		
+				
+{include file="./inc/footer.html"}				
+			

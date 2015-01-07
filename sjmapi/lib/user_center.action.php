@@ -54,7 +54,20 @@ class user_center
 			$my_focus_count = $GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."user_focus where focus_user_id = ".intval($user_data['id']));//我的关注
 			$my_fans_count = $GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."user_focus where focused_user_id = ".intval($user_data['id']));//我的粉丝
 			$root['my_focus_count'] =$my_focus_count;
-			$root['my_fans_count'] =$my_fans_count;
+			$root['my_fans_count'] =$my_fans_count;			
+			
+			/****成长日记*****/
+			//查询出我的成长日记的ids
+			$my_growth_diary_list = $GLOBALS['db']->getAll("select * from ".DB_PREFIX."growth_diary where user_id = ".intval($user_data['id'])." order by create_time desc");
+			$my_growth_diary_ids = '';
+			foreach($my_growth_diary_list as $k0=>$v0){
+				$my_growth_diary_ids = $my_growth_diary_ids.$v0['id'].',';
+			}
+			$my_growth_diary_ids = substr($my_growth_diary_ids,0,-1);
+			$my_growth_diary_ids = '('.$my_growth_diary_ids.')';
+			$growth_diary_total_noread_count_sql = "select count(*) from ".DB_PREFIX."growth_diary_reply where growth_diary_id in ".$my_growth_diary_ids." and is_read = 0";
+			$growth_diary_total_noread_count = $GLOBALS['db']->getOne($growth_diary_total_noread_count_sql);
+			$root['growth_diary_total_noread_count'] =$growth_diary_total_noread_count;
 			
 		}
 		$root['city_name']=$city_name;

@@ -43,13 +43,27 @@
 	height:100px;
 	background: #ccc;
 }
+.topic_search_box {	
+	width:100%;
+	height: 40px;
+	background: #f6f6f6;
+	position: relative;	
+	display: none;
+}
+.topic_search_box .search_text {
+	width:90%;
+	dispalay: inline-block;
+	height: 30px;
+	padding: 5px;
+	position: relative;
+}
 </style>			
 			
 			<div class="topic_list_top">
 				<div class="topic_list_top_left">
 				<i class="fa fa-search"></i>
 				</div>
-				<div class="topic_list_top_center">
+				<div class="topic_list_top_center">						
 					<a href='{wap_url a="index" r="topiclist#index"}'><span {if $data.cate_id eq 0}class='selected'{/if}>精选</span></a>
 					{foreach from=$data.cate_list item=cate}
 					<a href='{wap_url a="index" r="topiclist#index"  p="cid=$cate.id"}'><span {if $data.cate_id eq $cate.id}class='selected'{/if}>{$cate.name}</span></a>
@@ -61,6 +75,24 @@
 					</a>
 				</div>
 			</div>
+			
+			<!--
+			<div class="topic_search_box">
+				<div class="search_text">					
+					<input type="text" placeholder="请输入帖子标题关键字" id="keyword" value="{$data.keyword}">
+				</div>
+				<div class="search_btn">
+					<a href="javascript:void(0);" onclick="search_submit()">搜索</a>
+				</div>
+			 </div>
+			 -->
+			 <div class="topic_search_box">
+				<div class="search_text">
+					<input type="hidden" name="cid" id="cid" value="{$data.cate_id}" />
+					<input class="inputtext" type="text" placeholder="请输入帖子标题关键字" id="keyword" value="{$data.keyword}" />
+					<input class="inputsubmit" type="button" value="搜索" onclick="search_submit()"/>
+				</div>
+			 </div>
 			
 			<div class="topic_list_bg">
 				<div style="padding:30px;">贝欧论坛……</div>
@@ -179,6 +211,17 @@ function favorite_topic(topic_id,author_user_id){
 			alert("服务器提交错误");
 		}
 	});
+}
+
+$(document).ready(function () {   
+   $(".topic_list_top_left").click(function(){
+       $(".topic_search_box").toggle();
+   });
+});
+
+//根据帖子标题关键字
+function search_submit(){
+	window.location.href='index.php?ctl=topiclist&cid='+$("#cid").val()+'&keyword='+$("#keyword").val();
 }
 </script>
 				
