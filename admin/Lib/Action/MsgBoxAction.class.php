@@ -8,6 +8,21 @@
 // +----------------------------------------------------------------------
 
 class MsgBoxAction extends CommonAction{
+	public function index()
+	{
+		$map['type'] = 0;
+		if (method_exists ( $this, '_filter' )) {
+			$this->_filter ( $map );
+		}
+		$name=$this->getActionName();
+		$model = D ($name);
+		if (! empty ( $model )) {
+			$this->_list ( $model, $map );
+		}
+		$this->display ();
+		return;
+	}
+	
 	public function view()
 	{
 		$id = intval($_REQUEST ['id']);

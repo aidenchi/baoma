@@ -1,4 +1,4 @@
-{include file="./inc/header.html"}
+{include file="./inc/header_common.html"}
 <style>
 .msg_list_table {
 	width:100%;
@@ -35,6 +35,12 @@
 	text-align: center;
 }
 </style>
+
+
+<div style="padding:10px 0; background:#fff; border-bottom: 1px solid #e6e6e6; ">
+	<a href='{wap_url a="index" r="mymsglist#index"}'><i class="fa fa-chevron-left"></i>&nbsp;返回</a>
+</div>
+
 <div class="wrap">
 	<div class="content">
 				{if $data.page_flag neq 0 and $data.page_flag neq 1 and $data.page_flag neq 2}
@@ -86,6 +92,7 @@
 							<table style="width:100%; color:#adadad;">									
 								<tr>										
 									<td>
+										<!--
 										{foreach from=$data.fans_list item=fans_item}		
 											<div class="fans_user" style="cursor:pointer;" onclick="set_to_user('{$fans_item.user_name}');">					
 												<img src='{function name="get_user_avatar" uid=$fans_item.id t="small"}' /> 		
@@ -93,13 +100,23 @@
 												{$fans_item.user_name}
 											</div>						
 										{/foreach}
+										-->
+										{foreach from=$data.user_list item=user_item}		
+											<div class="fans_user" style="cursor:pointer;" onclick="set_to_user('{$user_item.user_name}');">					
+												<img src='{function name="get_user_avatar" uid=$user_item.id t="small"}' /> 		
+												<br />	
+												{$user_item.user_name}
+											</div>						
+										{/foreach}
 									</td>
 								<tr>
 								<tr>
 									<td>
+										{if $data.page.page_total gt 1} 
 										<div class="fy">
 											{$pages}
 										</div>
+										{/if}
 									</td>
 								<tr>									
 							</table>
@@ -128,83 +145,98 @@
 				{if $data.page_flag eq 2}
 					<div class="blank8"></div>
 					<div class="list-view">
-						<div class="list_title">共<span id="my_msg_count">{$data.msg_count}</span>条</div>
-						{if $data.msg_list}
-						 <table cellspacing="0" cellpadding="0" border="0" class="msg_list_table">
-							<tbody>
-								{foreach from=$data.msg_list item=msg_item}
-								<tr class="pm_row">
-									<!--
-									<td width="15">					
-										<input type="checkbox" value="0_53_0_8" name="pm_key[]">					
-									</td>
-									-->
-									<td width="15">
-										{if $msg_item.system_msg_id neq 0 or $msg_item.is_notice}<span class="pm_pic"></span>{/if}
-										{if $msg_item.system_msg_id eq 0 and $msg_item.is_notice eq 0}
-											{if $msg_item.to_user_id eq $data.login_user_id}
-											<a href='{wap_url a="index" r="userinfo#index" p="user_id=$msg_item.from_user_id"}'>
-												<img src='{function name="get_user_avatar" uid=$msg_item.from_user_id type="small" }'>
-											</a>
-											{/if}
-											{if $msg_item.from_user_id eq $data.login_user_id}
-											<a href='{wap_url a="index" r="userinfo#index" p="user_id=$msg_item.to_user_id"}'>
-												<img src='{function name="get_user_avatar" uid=$msg_item.to_user_id type="small" }'>
-											</a>
-											{/if}
-										{/if}
-									</td>									
-									<td style="text-align:left;">										
-										{if $msg_item.type eq 0 and $msg_item.is_read eq 0}<span class="new_pm"></span>{/if}		
-										{if $msg_item.system_msg_id neq 0 or $msg_item.is_notice}
-											{if $msg_item.is_notice}
-												系统通知
-											{else}
-												系统消息
-											{/if}
-											：<span style="font-weight:bolder;">{$msg_item.title}</span>
-										{/if}
-										{if $msg_item.system_msg_id eq 0 and $msg_item.is_notice eq 0}		
-											{if $msg_item.from_user_id eq $data.login_user_id}
-												我
-											{else}
-												{function name="get_user_name_by_user_id" v=$msg_item.from_user_id"}
-											{/if}
-												对
-											{if $msg_item.to_user_id eq $data.login_user_id}
-												我
-											{else}
-												{function name="get_user_name_by_user_id" v=$msg_item.to_user_id}
-											{/if}
-												说：									
-										{/if}
-										<br />
-										<a href='{wap_url a="index" r="mymsgdetail#index" p="id=$msg_item.group_key"}'>
-											{function name="msubstr" v=$msg_item.content b=0 e=100}
-										</a>&nbsp;&nbsp;
-										<a href='{url a="index" r="mymsgdetail#index" p="id=$msg_item.group_key"}' class="view_pm">
-											{if $msg_item.system_msg_id eq 0 and $msg_item.type eq 0 and $msg_item.is_notice eq 0}
-												[查看回复]
-											{else}
-												[查看]			
-											{/if}			
-										</a>								
-									</td>
-									<td width="100" style="text-align:right;">
-										{function name="sprintf" f=共%s封 v=$msg_item.total}
-										<br />
-										{function name="pass_date" v=$msg_item.create_time}			
-									</td>
-								</tr>				
-							{/foreach}								
-							</tbody>
-						</table>
-						 
-						<div class="fy">
-							{$pages}
+						<div class="list_title">我与{$data.dest_user_name}共<span id="my_msg_count">{$data.one_to_one_msg_count}</span>条交流信息</div>						
+						<!--------------------------------------------------信息记录------------------------------------------------>
+						{if $data.one_to_one_msg_list}
+						<div style="padding-left:10px;padding-top:5px;">
+							<input type="checkbox" name="checkall" />
+							<a style="padding-left:18px;" href="javascript:void(0);" onclick="delete_msg()">删除</a>
 						</div>
+						<div>
+						<form name="pm_list">	
+							<table cellspacing="0" cellpadding="0" border="0" class="msg_list_table">
+								{foreach from=$data.one_to_one_msg_list item=msg_item}
+								<tbody id="msg_{$msg_item.id}">									
+									<tr class="pm_row">
+										<td width=15>					
+											<input type="checkbox" value="{$msg_item.id}" name="id[]" />					
+										</td>
+										<td width="15">
+											{if $msg_item.system_msg_id eq 0 and $msg_item.is_notice eq 0}
+												{if $msg_item.to_user_id eq $data.login_user_id}
+												<a href='{wap_url a="index" r="userinfo#index" p="user_id=$msg_item.from_user_id"}'>
+													<img src='{function name="get_user_avatar" uid=$msg_item.from_user_id type="small" }'>
+												</a>
+												{/if}
+												{if $msg_item.from_user_id eq $data.login_user_id}
+												<a href='{wap_url a="index" r="userinfo#index" p="user_id=$msg_item.to_user_id"}'>
+													<img src='{function name="get_user_avatar" uid=$data.login_user_id type="small" }'>
+												</a>
+												{/if}
+											{/if}
+										</td>									
+										<td valign="top" style="text-align:left;">										
+											{if $msg_item.system_msg_id eq 0 and $msg_item.is_notice eq 0}
+												<span style="color:#6E7D8B;">
+												{if $msg_item.from_user_id eq $data.login_user_id}
+													我
+												{else}
+													{function name="get_user_name_by_user_id" v=$msg_item.from_user_id"}
+												{/if}
+												</span>												
+												<!--
+													对
+												{if $msg_item.to_user_id eq $data.login_user_id}
+													我
+												{else}
+													{function name="get_user_name_by_user_id" v=$msg_item.to_user_id}
+												{/if}
+												
+													说：
+												-->	：						
+											{/if}
+											<br />
+											<span style="color:#adadad;">{$msg_item.content}</span>				
+										</td>
+										<td width="100" valign="top" style="text-align:right;">										
+											<span style="color:#adadad;font-size:12px;">{function name="pass_date" v=$msg_item.create_time}</span>								
+										</td>
+									</tr>
+								</tbody>
+								{/foreach}							
+							</table>
+							{if $data.page.page_total gt 1} 
+							<div class="fy">
+								{$pages}
+							</div>
+							{/if}
+						</form>
+						</div>
+						<!--------------------------------------------------发信息------------------------------------------------>
+						<div style="padding: 10px 10px;">
+							<form id="mysendmsg_form" action='{wap_url a="index" r="mymsgsend#index"}' autocomplete="off" method="post" onsubmit="return check(this)">
+								<input type="hidden" name="to_user_name" id="to_user_name" value="{$data.dest_user_name}">
+								<table style="width:100%">
+									<tr>
+										<td width=80 align="center">信息内容:</td>
+										<td>
+											<div class="myintro_txt">					
+												<textarea name="content" id="content" maxlength=200 placeholder="点击输入您要发送的信息，最多200字"></textarea>				
+											</div>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<div class="btn_login">
+												<input type="submit" name="Submit" class="mj-submit" value="发送" style="background: none;">
+											</div>
+										</td>
+									</tr>
+								</table>
+							<form>
+						</div>	
 						{else}
-						<div class="assess_list" style="text-align:center;padding:10px 0;"> 暂无</div>
+						<div class="assess_list" style="text-align:center;padding:10px 0;">暂无</div>
 						{/if}
 					</div><!--list-view end-->
 				{/if}
@@ -213,6 +245,51 @@
 </div>
 
 <script type="text/javascript">
+$(document).ready(function(){
+	$("input[name='checkall']").click(function(){    
+		if(this.checked){    
+			$("input[name='id[]']").attr("checked", true);   
+		}else{    
+			$("input[name='id[]']").attr("checked", false); 
+		}    
+	});
+});
+
+function delete_msg(){
+	var cbos = $("input[name='id[]']:checked");
+	if(cbos.length==0){
+		alert("请选中您要删除的消息记录");
+	}else{
+		if(confirm("确定删除吗")){			
+			var msg_ids = $("input[name='id[]']:checked");
+			//alert(msg_ids.length);
+			var msg_ids_val = "";
+			for (var i=0; i < msg_ids.length; i++) {
+				msg_id_val = msg_ids[i].value;
+				msg_ids_val = msg_ids_val+","+msg_id_val;
+			}
+			//alert(msg_ids_val);
+			var query = new Object();
+			query.msg_ids_val = msg_ids_val;
+			query.post_type = "json";
+			var ajaxurl = '{wap_url a="index" r="mymsgdel#index"}';
+			$.ajax({
+				url:ajaxurl,
+				data:query,
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					//alert(data.msg_ids_val);
+					location.reload();
+				}
+				,error:function(){
+					alert("服务器提交错误");
+				}
+			});
+		}
+	}
+}
+
 function set_to_user(user_name){
 	$("#to_user_name").val(user_name);
 }
@@ -238,15 +315,12 @@ function  check(){
 		type:"post",
 		dataType:"json",
 		success:function(data){
-			alert(data);
-			/*
 			if(data.status==1){ 	
 				alert(data.info);
-				window.location.href='{wap_url a="index" r="mymsglist#index"}';
+				window.location.href=data.href;
 			}else{
 				alert(data.info);
 			}
-			*/
 		}
 		,error:function(){
 			alert("服务器提交错误");

@@ -43,9 +43,9 @@
 							<span style="padding-left:20px;">{function name="pass_date" time=$data.topic_item.create_time }</span>
 						</div>
 					</div><!--list-view end-->
-			
-					<div class="blank8"></div>  	
 					
+					{if $data.topic_item.reply_count gt 0}
+					<div class="blank8"></div> 					
 					<div class="list-view">
 						 <ul class="">
 						 {foreach from=$data.topic_reply_list item=topic_reply key=key}
@@ -89,6 +89,7 @@
 						</div>
 						{/if}
 					</div><!--list-view end-->
+					{/if}
 					
 					<div class="blank8"></div>
 					<div id="topic_reply" style="border-top: 1px solid #e6e6e6; border-bottom: 1px solid #e6e6e6;">

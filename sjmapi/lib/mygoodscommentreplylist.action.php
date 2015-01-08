@@ -23,17 +23,17 @@ class mygoodscommentreplylist
 			$page_size = PAGE_SIZE;//10
 			$limit = (($page-1)*$page_size).",".$page_size;
 			$limit_sql=" limit ".$limit;
-			$sql_count = "select count(*) from ".DB_PREFIX."message as m where m.rel_table = 'deal' and m.is_buy = 1 and m.pid = 0 and m.city_id =".$city_id." and m.user_id = ".intval($user_data['id']).
+			$sql_count = "select count(*) from ".DB_PREFIX."message as m where m.rel_table = 'deal' and m.is_buy = 1 and m.pid = 0 and m.user_id = ".intval($user_data['id']).
 			" and m.admin_reply != '' and m.update_time != 0";
 			$total = $GLOBALS['db']->getOne($sql_count);
 			$page_total = ceil($total/$page_size);
 			
 			$sql = "select m.id,m.rel_id,m.is_effect,m.content,m.create_time,m.point,m.admin_reply,m.update_time,u.user_name,m.user_id,m.title from ".DB_PREFIX.
-			"message as m left join ".DB_PREFIX."user as u on u.id=m.user_id where m.rel_table = 'deal' and m.is_buy = 1 and m.pid = 0 and m.city_id =".
-			$city_id." and m.user_id = ".intval($user_data['id'])." and m.admin_reply != '' and m.update_time != 0 order by m.create_time desc".$limit_sql;
+			"message as m left join ".DB_PREFIX."user as u on u.id=m.user_id where m.rel_table = 'deal' and m.is_buy = 1 and m.pid = 0 and m.user_id = ".intval($user_data['id'])." and m.admin_reply != '' and m.update_time != 0 order by m.create_time desc".$limit_sql;
 
 			$list = $GLOBALS['db']->getAll($sql);
 			foreach($list as $k=>$v){
+				$GLOBALS['db']->query("update ".DB_PREFIX."message set is_read = 1 where id = ".$v['id']);	
 				$list[$k]['goods_id']=$v['rel_id'];
 				$list[$k]['goods_name'] = $GLOBALS['db']->getOne("select name from ".DB_PREFIX."deal where id = ".$list[$k]['goods_id']);
 				$list[$k]['update_time_format']=getBeforeTimelag($v['update_time']);

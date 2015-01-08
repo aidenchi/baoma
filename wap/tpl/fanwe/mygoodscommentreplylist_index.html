@@ -1,4 +1,9 @@
-{include file="./inc/header.html"}
+{include file="./inc/header_common.html"}
+
+<div style="padding:10px 0; background:#fff; border-bottom: 1px solid #e6e6e6; ">
+	<a href='{wap_url a="index" r="user_center#index"}'><i class="fa fa-chevron-left"></i>&nbsp;返回</a>
+</div>
+
 <div class="wrap">
 	<div class="content">
 	<!--<div class="comment_list_txt1">-->
@@ -16,7 +21,7 @@
 			   <div id="con_one_1" class="hover">
 					<div class="blank8"></div>
 					<div class="list-view">
-						<div class="list_title"><i class="fa fa-bullhorn"></i>共<span id="my_goods_comment_count">{$data.my_goods_comment_count}</span>条</div>
+						<div class="list_title">共<span id="my_goods_comment_count">{$data.my_goods_comment_count}</span>条</div>
 						 {if $data.my_goods_comment_list}
 							 <ul class="shop_comment_list">
 								{foreach from=$data.my_goods_comment_list item=comment }

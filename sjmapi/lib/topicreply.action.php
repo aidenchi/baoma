@@ -19,6 +19,7 @@ class topicreply
 			$root['user_login_status'] = 1;
 			$content = $GLOBALS['request']['content'];
 			$topic_id = intval($GLOBALS['request']['topic_id']);
+			$reply_id = intval($GLOBALS['request']['reply_id']);
 			$reply_user_id = intval($GLOBALS['request']['reply_user_id']);
 			$reply_user_name = $GLOBALS['request']['reply_user_name'];
 			$content = $GLOBALS['request']['content'];
@@ -32,7 +33,35 @@ class topicreply
 			$topic_reply['reply_user_name'] = $reply_user_name;
 			$topic_reply['create_time'] = get_gmtime();
 			$topic_reply['is_effect']  = 1;
-			$topic_reply['is_delete'] = 0;			
+			$topic_reply['is_delete'] = 0;		
+			$topic_reply['is_read'] = 0;
+			$topic_reply['reply_is_read'] = 0;
+			
+			//当前登录者是否是所访问的这篇帖子的作者
+			$topic_author_user_id = $GLOBALS['db']->getOne("select user_id from ".DB_PREFIX."topic where id = ".$topic_id);
+			if($topic_author_user_id == intval($user_data['id'])){//当前登录者 是 这篇帖子的作者，is_read为1
+				$topic_reply['is_read'] = 1;
+				if($reply_id == 0){//如果没有at别人,reply_is_read为1
+					$topic_reply['reply_is_read'] = 1;
+				}else{
+					if($topic_author_user_id == $reply_user_id){//如果有at别人,并且at的是帖子的作者，reply_is_read为1
+						$topic_reply['reply_is_read'] = 1;
+					}else{
+						$topic_reply['reply_is_read'] = 0;
+					}
+				}
+			}else{//当前登录者 不是 这篇帖子的作者，is_read为0
+				$topic_reply['is_read'] = 0;
+				if($reply_id == 0){//如果没有at别人,reply_is_read为1
+					$topic_reply['reply_is_read'] = 1;
+				}else{
+					if($topic_author_user_id == $reply_user_id){//如果有at别人,并且at的是帖子的作者，reply_is_read为1
+						$topic_reply['reply_is_read'] = 1;
+					}else{
+						$topic_reply['reply_is_read'] = 0;
+					}
+				}
+			}
 			
 			$GLOBALS['db']->autoExecute(DB_PREFIX."topic_reply",$topic_reply,"INSERT","");
 			$reply_id = intval($GLOBALS['db']->insert_id());

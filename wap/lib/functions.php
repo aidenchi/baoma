@@ -84,7 +84,14 @@ function get_user_avatar($id,$type)
 	//@file_put_contents($avatar_check_file,@file_get_contents(APP_ROOT_PATH."public/avatar/noavatar_".$type.".gif"));
 }
 
-//获取用户名
+//通过user_id获取user_name
+function get_user_name_by_user_id($id)
+{
+	$user_name = $GLOBALS['db']->getOne("select user_name from ".DB_PREFIX."user where id = ".intval($id));
+	return $user_name;
+}
+
+//获取等级
 function get_user_level_byid($id){
 	$level_id = $GLOBALS['db']->getOne("select level_id from ".DB_PREFIX."user where id = ".intval($id));
 	$level_name = $GLOBALS['db']->getOne("select name from ".DB_PREFIX."user_level where id = ".intval($level_id));
@@ -215,28 +222,6 @@ function pass_date($time)
 		break;
 	}
 	return $timelag_str;
-}
-
-//通过user_id获取user_name
-function get_user_name_by_user_id($id)
-{
-	$key = md5("USER_NAME_LINK_".$id);
-	if(isset($GLOBALS[$key]))
-	{
-		return $GLOBALS[$key];
-	}
-	else
-	{
-		$uname = load_dynamic_cache($key);
-		if($uname===false)
-		{
-			$u = $GLOBALS['db']->getRow("select id,user_name,is_merchant,is_daren from ".DB_PREFIX."user where id = ".intval($id));
-			$uname = "<a href='".wap_url("index","userinfo",array("user_id"=>$id))."' >".$u['user_name']."</a>";
-			set_dynamic_cache($key,$uname);
-		}
-		$GLOBALS[$key] = $uname; 
-		return $GLOBALS[$key];
-	}
 }
 
 /***************************ymy add 2014-12-12*end**********************************/

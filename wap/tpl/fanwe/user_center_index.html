@@ -10,7 +10,12 @@
 							   	    </div>
 									<div class="name">
 										  <b>{$data.user_name}</b>
-										  <p>{$data.user_point_level}&nbsp;&nbsp;经验值:<font class="font-fc8">{$data.user_point}</font></p>
+										  <b>
+											{if $data.sex eq 0}公主{/if}
+											{if $data.sex eq 1}王子{/if}
+										  </b>
+										  <P>积分：{$data.score}</P>
+										  <p>{$data.user_point_level}&nbsp;&nbsp;贝壳:<font class="font-fc8">{$data.user_point}</font></p>
 									</div>
 							   </div>
 						  </div>
@@ -25,46 +30,41 @@
 				       	    	<a href='{wap_url a="index" r="mygoodscommentreplylist#index"}'  p="pay_status=0"}">
 				       	    	    <div class="per_li">
 				       	    	    	<i class="fa fa-tags"></i>
-										<span>评论回复</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-							<li>
-				       	    	<a href=''>
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-truck"></i>
-										<span>论坛回复</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-							<li>
-				       	    	<a href=''>
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-tag"></i>
-										<span>私信</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-							<li>
-								{if $data.growth_diary_total_noread_count gt 0}
-				       	    	<a href='{wap_url a="index" r="growthdiaryitemreplymsg#index"}'>
-								{else}
-								<a href='{wap_url a="index" r="growthdiarylist_public#index"}'>
-								{/if}
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-tag"></i>
-										<span>成长日记
-										{if $data.growth_diary_total_noread_count gt 0}
-										<font style="font-style:italic;">(未读回复{$data.growth_diary_total_noread_count}条)</font>
-										{/if}
+										<span>评论回复
+											{if $data.goods_dp_reply_noread_count gt 0}
+											<font style="font-style:italic;">(未读回复{$data.goods_dp_reply_noread_count}条)</font>
+											{/if}
 										</span>
 										<i class="fa fa-chevron-right"></i>
 				       	    	    </div>
 				       	        </a>
 							</li>
+							<li>
+				       	    	<a href='{wap_url a="index" r="topicitemreplymsg#index"}'>
+				       	    	    <div class="per_li">
+				       	    	    	<i class="fa fa-truck"></i>
+										<span>论坛回复
+											{if $data.topic_replynoread_count_total gt 0}
+											<font style="font-style:italic;">(未读消息{$data.topic_replynoread_count_total}条)</font>
+											{/if}
+										</span>
+										<i class="fa fa-chevron-right"></i>
+				       	    	    </div>
+				       	        </a>
+							</li>
+							<li>
+				       	    	<a href='{wap_url a="index" r="mymsglist#index"}'>
+				       	    	    <div class="per_li">
+				       	    	    	<i class="fa fa-tag"></i>
+										<span>私信
+											{if $data.msg_noread_count gt 0}
+											<font style="font-style:italic;">(未读消息{$data.msg_noread_count}条)</font>
+											{/if}
+										</span>
+										<i class="fa fa-chevron-right"></i>
+				       	    	    </div>
+				       	        </a>
+							</li>							
 				       </ul>		 
 				</div>       
 							
@@ -85,7 +85,7 @@
 				       	    	<a href='{wap_url a="index" r="mytopiclist#index"}'>
 				       	    	    <div class="per_li">
 				       	    	    	<i class="fa fa-bullhorn "></i>
-										<span>我的主帖<font style="font-style:italic;">(共{$data.my_topic_count}篇)</font></span>
+										<span>我的帖子<font style="font-style:italic;">(共{$data.my_topic_count}篇)</font></span>
 										<i class="fa fa-chevron-right"></i>
 				       	    	    </div>
 				       	        </a>
@@ -102,33 +102,7 @@
 				       </ul>		 
 				</div>
 	
-	<!--
-	<div class="blank8"></div>
-   
-                 <div class="list-view">
-				       <ul class="person_details one">
-				       	    <li>
-				       	    	<a href="">
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-bullhorn "></i>
-										<span>草稿箱</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-							<li>
-				       	    	<a href="">
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-bullhorn "></i>
-										<span>浏览历史</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-				       </ul>		 
-				</div>
--->
-	<div class="blank8"></div>
+				<div class="blank8"></div>
    
                  <div class="list-view">
 				       <ul class="person_details one">
@@ -146,6 +120,50 @@
 				       	    	    <div class="per_li">
 				       	    	    	<i class="fa fa-bullhorn "></i>
 										<span>我的粉丝<font style="font-style:italic;">(共{$data.my_fans_count}人)</font></span>
+										<i class="fa fa-chevron-right"></i>
+				       	    	    </div>
+				       	        </a>
+							</li>
+							<li>
+								{if $data.growth_diary_total_noread_count gt 0}
+				       	    	<a href='{wap_url a="index" r="growthdiaryitemreplymsg#index"}'>
+								{else}
+								<a href='{wap_url a="index" r="growthdiarylist_public#index"}'>
+								{/if}
+				       	    	    <div class="per_li">
+				       	    	    	<i class="fa fa-bullhorn"></i>
+										<span>成长日记
+										{if $data.growth_diary_total_noread_count gt 0}
+										<font style="font-style:italic;">(未读回复{$data.growth_diary_total_noread_count}条)</font>
+										{/if}
+										</span>
+										<i class="fa fa-chevron-right"></i>
+				       	    	    </div>
+				       	        </a>
+							</li>
+							<li>
+				       	    	<a href='{wap_url a="index" r="myfanslist#index"}'>
+				       	    	    <div class="per_li">
+				       	    	    	<i class="fa fa-bullhorn "></i>
+										<span>积分商城</span>
+										<i class="fa fa-chevron-right"></i>
+				       	    	    </div>
+				       	        </a>
+							</li>
+							<li>
+				       	    	<a href='{wap_url a="index" r="myfanslist#index"}'>
+				       	    	    <div class="per_li">
+				       	    	    	<i class="fa fa-bullhorn "></i>
+										<span>草稿箱</span>
+										<i class="fa fa-chevron-right"></i>
+				       	    	    </div>
+				       	        </a>
+							</li>
+							<li>
+				       	    	<a href='{wap_url a="index" r="myfanslist#index"}'>
+				       	    	    <div class="per_li">
+				       	    	    	<i class="fa fa-bullhorn "></i>
+										<span>浏览历史</span>
 										<i class="fa fa-chevron-right"></i>
 				       	    	    </div>
 				       	        </a>

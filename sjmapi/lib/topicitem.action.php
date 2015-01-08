@@ -24,6 +24,22 @@ class topicitem
 		
 		if($topic_item){
 			$root['exit']=1;
+			//判断当前登录者是否是这篇帖子的主人，是的话则把这篇帖子的未读回复置为已读is_read 置为1
+			if($topic_item['user_id'] == intval($user['id'])){
+				$noreadreply_sql = "select id from ".DB_PREFIX."topic_reply where topic_id = ".$topic_id." and is_read = 0 ";
+				$topic_noreadreply_list = $GLOBALS['db']->getAll($noreadreply_sql);
+				foreach($topic_noreadreply_list as $k0=>$v0){
+					$GLOBALS['db']->query("update ".DB_PREFIX."topic_reply set is_read = 1 where id = ".$v0['id']);
+				}
+			}else{//不是的话则把这篇帖子的别人对当前登录者的回复置为已读reply_is_read 置为1
+				$reply_noreadreply_sql = "select id from ".DB_PREFIX."topic_reply where topic_id = ".$topic_id.
+				" and reply_user_id = ".intval($user['id'])." and reply_is_read = 0 ";
+				$topic_reply_noreadreply_list = $GLOBALS['db']->getAll($reply_noreadreply_sql);
+				foreach($topic_reply_noreadreply_list as $k1=>$v1){
+					$GLOBALS['db']->query("update ".DB_PREFIX."topic_reply set reply_is_read = 1 where id = ".$v1['id']);
+				}
+			}
+			
 			//读取回复
 			$page=$page==0?1:$page;
 			$page_size = PAGE_SIZE;//10

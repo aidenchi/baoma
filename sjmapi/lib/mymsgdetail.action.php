@@ -25,7 +25,8 @@ class mymsgdetail
 				and group_key = '".$group_key."'";
 			$row = $GLOBALS['db']->getRow($row_sql);
 			if($row['count']==0){
-				//没有消息对象， 直接创建消息	
+				//没有消息对象， 直接创建消息,即写私信
+				/*
 				//查出fans列表			
 				$page = intval($GLOBALS['request']['page']); //分页
 				$page=$page==0?1:$page;
@@ -35,11 +36,26 @@ class mymsgdetail
 				$page_total = ceil($fans_count/$page_size);			
 				//输出粉丝
 				$fans_list = $GLOBALS['db']->getAll("select focus_user_id as id,focus_user_name as user_name from ".DB_PREFIX."user_focus where focused_user_id = ".
-				intval($user_data['id'])." order by id desc limit ".$limit);
-				
+				intval($user_data['id'])." order by id desc limit ".$limit);					
 				$root['fans_count']=intval($fans_count);
 				$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);
 				$root['fans_list']=$fans_list;
+				*/
+				//查出所有用户列表			
+				$page = intval($GLOBALS['request']['page']); //分页
+				$page=$page==0?1:$page;
+				$page_size = PAGE_SIZE;//10
+				$limit = (($page-1)*$page_size).",".$page_size;				
+				$user_count = $GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."user where id != ".intval($user_data['id']).
+				" and is_delete = 0 and is_effect = 1");
+				$page_total = ceil($user_count/$page_size);			
+				//输出用户
+				$user_list = $GLOBALS['db']->getAll("select id, user_name from ".DB_PREFIX."user where id != ".intval($user_data['id']).
+				" and is_delete = 0 and is_effect = 1 order by id desc limit ".$limit);					
+				$root['user_count']=intval($user_count);
+				$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);
+				$root['user_list']=$user_list;
+
 				$root['page_flag']=0;
 				$root['page_title']="写私信";
 			}else if($row['system_msg_id']>0||$row['is_notice']==1){
@@ -87,6 +103,7 @@ class mymsgdetail
 				$root['one_to_one_msg_count']=intval($one_to_one_msg_count);
 				$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);
 				$root['one_to_one_msg_list']=$one_to_one_msg_list;
+				$root['dest_user_name']=$dest_user_name;
 				$root['page_flag']=2;
 				$root['page_title']="我与".$dest_user_name."的私信";
 			}

@@ -3,10 +3,14 @@
 								{foreach from=$data.growth_diary_list item=growth_diary}
 								<tr>
 									<td class="td_line" width="50" style="text-align:center;" valign="top">
-										{if $data.login_user_id eq $growth_diary.user_id}
-										<a href='{wap_url a="index" r="user_center#index"}'>
+										{if $data.login_user_id gt 0}
+											{if $data.login_user_id eq $growth_diary.user_id}
+											<a href='{wap_url a="index" r="user_center#index"}'>
+											{else}
+											<a href='{wap_url a="index" r="userinfo#index" p="user_id=$growth_diary.user_id"}'>
+											{/if}
 										{else}
-										<a href='{wap_url a="index" r="userinfo#index" p="user_id=$growth_diary.user_id"}'>
+											<a href='javascript:void(0);' onclick="login_ts()">
 										{/if}
 										<img style="border-radius:35px;" src='{function name="get_user_avatar" uid=$growth_diary.user_id type="small" }'>
 										</a>
@@ -18,7 +22,11 @@
 											<tr>								
 												<td>
 													<!--文字内容-->
+													{if $data.login_user_id gt 0}
 													<a style="font-size:14px;" href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
+													{else}
+													<a href='javascript:void(0);' onclick="login_ts()">
+													{/if}
 													{$growth_diary.short_content}	
 													</a>
 													<!--图片内容-->
@@ -41,7 +49,11 @@
 														<font id="fav_text_{$growth_diary.id}">喜欢</font>(<font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>)
 														{/if}
 													</span>
+													{if $data.login_user_id gt 0}
 													<a href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
+													{else}
+													<a href='javascript:void(0);' onclick="login_ts()">
+													{/if}
 														<span style="padding-right:10px;">评论({$growth_diary.reply_count})</span>
 													</a>
 													<span>{function name="pass_date" time=$growth_diary.create_time }</span>			

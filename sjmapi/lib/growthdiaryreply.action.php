@@ -25,6 +25,12 @@ class growthdiaryreply
 			$growth_diary_reply['user_name'] = $user_data['user_name'];
 			$growth_diary_reply['user_id'] = intval($user_data['id']);
 			$growth_diary_reply['create_time'] = get_gmtime();
+			$growth_diary_reply['is_read'] = 0;
+			
+			$growth_diary_author_user_id = $GLOBALS['db']->getOne("select user_id from ".DB_PREFIX."growth_diary where id = ".$growth_diary_id);
+			if($growth_diary_author_user_id == intval($user_data['id'])){//如果是自己回复自己的成长日记，is_read为1
+				$growth_diary_reply['is_read'] = 1;
+			}
 			
 			$GLOBALS['db']->autoExecute(DB_PREFIX."growth_diary_reply",$growth_diary_reply,"INSERT","");
 			$reply_id = intval($GLOBALS['db']->insert_id());

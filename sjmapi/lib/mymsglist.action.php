@@ -30,11 +30,11 @@ class mymsglist
 			$msg_count = $GLOBALS['db']->getOne($sql_count);
 			$page_total = ceil($msg_count/$page_size);
 			
-			//消息列表
+			//消息列表(type为0:别人发给我的；type为1:我发给别人的)
 			$sql = "select group_key,count(group_key) as total from ".DB_PREFIX."msg_box  
 				where is_delete = 0 and ((to_user_id = ".intval($user_data['id'])." and `type` = 0) or (from_user_id = ".intval($user_data['id'])." and `type` = 1))  
 				group by group_key 
-				order by system_msg_id desc,is_notice desc,max(create_time) desc limit ".$limit;
+				order by max(create_time) desc limit ".$limit;
 			$msg_list = $GLOBALS['db']->getAll($sql);
 			foreach($msg_list as $k=>$v){
 				$msg_list[$k] = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."msg_box where group_key = '".$v['group_key']."' and ((to_user_id = ".intval($user_data['id'])." and `type` = 0) or (from_user_id = ".intval($user_data['id'])." and `type` = 1))  order by create_time desc limit 1");

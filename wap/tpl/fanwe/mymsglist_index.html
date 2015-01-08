@@ -1,4 +1,4 @@
-{include file="./inc/header.html"}
+{include file="./inc/header_common.html"}
 <style>
 .msg_list_table {
 	width:100%;
@@ -21,6 +21,11 @@
 	height: 12px;
 }
 </style>
+
+<div style="padding:10px 0; background:#fff; border-bottom: 1px solid #e6e6e6; ">
+	<a href='{wap_url a="index" r="user_center#index"}'><i class="fa fa-chevron-left"></i>&nbsp;返回</a>
+</div>
+				
 <div class="wrap">
 	<div class="content">
 					<div class="blank8"></div>
@@ -30,15 +35,18 @@
 							<i style="float:right;"><a href='{wap_url a="index" r="mymsgdetail#index"}'>写私信</a></i>
 						</div>
 						{if $data.msg_list}
+						<div style="padding-left:10px;padding-top:5px;">
+							<input type="checkbox" name="checkall" />
+							<a style="padding-left:18px;" href="javascript:void(0);" onclick="delete_msg()">删除</a>
+						</div>
+						<form name="pm_list">	
 						 <table cellspacing="0" cellpadding="0" border="0" class="msg_list_table">
 							<tbody>
 								{foreach from=$data.msg_list item=msg_item}
 								<tr class="pm_row">
-									<!--
 									<td width="15">					
-										<input type="checkbox" value="0_53_0_8" name="pm_key[]">					
+										<input type="checkbox" value="{$msg_item.group_key}" name="pm_key[]">					
 									</td>
-									-->
 									<td width="15">
 										{if $msg_item.system_msg_id neq 0 or $msg_item.is_notice}<span class="pm_pic"></span>{/if}
 										{if $msg_item.system_msg_id eq 0 and $msg_item.is_notice eq 0}
@@ -68,19 +76,23 @@
 											{if $msg_item.from_user_id eq $data.login_user_id}
 												我
 											{else}
+												<a href='{wap_url a="index" r="userinfo#index" p="user_id=$msg_item.to_user_id"}'>
 												{function name="get_user_name_by_user_id" v=$msg_item.from_user_id"}
+												</a>
 											{/if}
 												对
 											{if $msg_item.to_user_id eq $data.login_user_id}
 												我
 											{else}
+												<a href='{wap_url a="index" r="userinfo#index" p="user_id=$msg_item.to_user_id"}'>
 												{function name="get_user_name_by_user_id" v=$msg_item.to_user_id}
+												</a>
 											{/if}
 												说:									
 										{/if}
 										<br />
 										<a href='{wap_url a="index" r="mymsgdetail#index" p="id=$msg_item.group_key"}'>
-											{function name="msubstr" v=$msg_item.content b=0 e=100}
+											{function name="msubstr" v=$msg_item.content b=0 e=15}
 										</a>&nbsp;&nbsp;
 										<a href='{url a="index" r="mymsgdetail#index" p="id=$msg_item.group_key"}' class="view_pm">
 											{if $msg_item.system_msg_id eq 0 and $msg_item.type eq 0 and $msg_item.is_notice eq 0}
@@ -90,7 +102,7 @@
 											{/if}			
 										</a>								
 									</td>
-									<td width="100" style="text-align:right;">
+									<td width="80" style="text-align:right;">
 										{function name="sprintf" f=共%s封 v=$msg_item.total}
 										<br />
 										{function name="pass_date" v=$msg_item.create_time}			
@@ -99,10 +111,12 @@
 							{/foreach}								
 							</tbody>
 						</table>
-						 
+						{if $data.page.page_total gt 1}  
 						<div class="fy">
 							{$pages}
 						</div>
+						</form>
+						{/if}
 						{else}
 						<div class="assess_list" style="text-align:center;padding:10px 0;">暂无私信</div>
 						{/if}
@@ -111,32 +125,49 @@
 </div>
 
 <script type="text/javascript">
-function delete_goods_comment(goods_comment_id,one_goods_comment_li_obj){
-	var query = new Object();
-	query.goods_comment_id = goods_comment_id;
-	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="goodscommentdel#index"}';
-	//alert(query.topic_reply_id);	
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.status==1){ 	
-				one_goods_comment_li_obj.hide();
-				var my_goods_comment_count = $("#my_goods_comment_count").html();
-				my_goods_comment_count = parseInt(my_goods_comment_count)-1;
-				$("#my_goods_comment_count").html(my_goods_comment_count);
-				alert(data.info);
-			}else{
-				alert(data.info);
-			}
-		}
-		,error:function(){
-			alert("服务器提交错误");
-		}
+$(document).ready(function(){
+	$("input[name='checkall']").click(function(){    
+		if(this.checked){    
+			$("input[name='pm_key[]']").attr("checked", true);   
+		}else{    
+			$("input[name='pm_key[]']").attr("checked", false); 
+		}    
 	});
+});
+
+function delete_msg(){
+	var cbos = $("input[name='pm_key[]']:checked");
+	if(cbos.length==0){
+		alert("请选中您要删除的消息记录");
+	}else{
+		if(confirm("确定删除吗")){			
+			var group_keys = $("input[name='pm_key[]']:checked");
+			//alert(group_keys.length);
+			var group_keys_val = "";
+			for (var i=0; i < group_keys.length; i++) {
+				group_key_val = group_keys[i].value;
+				group_keys_val = group_keys_val+","+group_key_val;
+			}
+			//alert(group_keys_val);
+			var query = new Object();
+			query.group_keys_val = group_keys_val;
+			query.post_type = "json";
+			var ajaxurl = '{wap_url a="index" r="mymsgdelbykey#index"}';
+			$.ajax({
+				url:ajaxurl,
+				data:query,
+				type:"post",
+				dataType:"json",
+				success:function(data){
+					alert(data.group_keys_val);
+					location.reload();
+				}
+				,error:function(){
+					alert("服务器提交错误");
+				}
+			});
+		}
+	}
 }
 </script>
 

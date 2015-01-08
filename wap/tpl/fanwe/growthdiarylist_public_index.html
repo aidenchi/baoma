@@ -82,7 +82,8 @@
 						<div class="list_title">成长圈</div>
 						<div id="pagecontent">
 							{include file="./inc/growthdiarylist_public_key_item.html"}
-						</div>						
+						</div>	
+						<input type="hidden" name="login_user_id" id="login_user_id" value="{$data.login_user_id}" />
 						<input type="hidden" name="currentpage" id="currentpage" value="{$data.page.page}" />
 						<input type="hidden" name="totalpage" id="totalpage" value="{$data.page.page_total}" />
 					</div><!--list-view end-->	
@@ -95,6 +96,10 @@
 				</div><!--wrap end-->		
 
 <script type="text/javascript">
+function login_ts(){
+	alert("请先登录");
+}
+
 function favorite_growth_diary(growth_diary_id,author_user_id){
 	//alert(growth_diary_id+"--"+author_user_id);
 	var text_id = "fav_text_"+growth_diary_id;

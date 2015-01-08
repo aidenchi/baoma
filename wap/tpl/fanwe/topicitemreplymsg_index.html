@@ -1,16 +1,29 @@
-{include file="./inc/header_topic.html"}
-			
-			<div class="wrap">
-					{if $data.topic_replynoread_count gt 0}					
+{include file="./inc/header_common.html"}
+				
+				<div style="padding:10px 0; background:#fff; border-bottom: 1px solid #e6e6e6; ">
+					<a href='{wap_url a="index" r="user_center#index"}'><i class="fa fa-chevron-left"></i>&nbsp;返回</a>
+				</div>
+				
+				<div class="wrap">		
+					<div class="blank8"></div>
+					{if $data.topic_replynoread_count_total gt 0}						
 					<div class="list-view">
+						<!--我的帖子的新回复-->
 						{foreach from=$data.topic_replynoread_list item=topic}	
 							<div style="padding:10px;">
 								<a style="font-size:14px;color:#adadad;" href='{wap_url a="index" r="topicitem#index"  p="id=$topic.item.id"}'>
 									您的帖子<font style="color:#6E7D8B;">“{$topic.item.forum_title}”</font>有<font style="color:#fe4229;font-size:14px;">{$topic.num}</font>条新回复
 								</a>
 							</div>
+						{/foreach}	
+						<!--我的回复的新回复-->
+						{foreach from=$data.topic_reply_replynoread_list item=topic}	
+							<div style="padding:10px;">
+								<a style="font-size:14px;color:#adadad;" href='{wap_url a="index" r="topicitem#index"  p="id=$topic.item.id"}'>
+									您回复过的帖子<font style="color:#6E7D8B;">“{$topic.item.forum_title}”</font>有<font style="color:#fe4229;font-size:14px;">{$topic.num}</font>条新回复@您
+								</a>
+							</div>
 						{/foreach}		
-						
 					</div><!--list-view end-->	
 					{else}
 					<div style="margin-top:10px;margin-bottom:10px;text-align:center;">

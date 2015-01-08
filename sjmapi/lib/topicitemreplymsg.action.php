@@ -41,9 +41,29 @@ class topicitemreplymsg
 			}
 			$root['topic_replynoread_list']=$topic_replynoread_list;
 			$root['topic_replynoread_count']=intval($topic_replynoread_count);
+			$root['topic_replynoread_sql'] = $topic_replynoread_sql;
 			
 			/******************************************别人对我回复的回复******************************************/
+			//别人对我回复的回复  未读的数量
+			$topic_reply_replynoread_sql_count = "select count(*) from ".DB_PREFIX."topic_reply where topic_id not in ".$my_topic_ids.
+				" and reply_user_id = ".intval($user_data['id'])." and reply_is_read = 0";
+			$topic_reply_replynoread_count = $GLOBALS['db']->getOne($topic_reply_replynoread_sql_count);
+			//别人对我回复的回复  未读
+			$topic_reply_replynoread_sql = "select topic_id,count(*) as num from ".DB_PREFIX."topic_reply where topic_id not in ".$my_topic_ids.
+			" and reply_user_id = ".intval($user_data['id'])." and reply_is_read = 0 group by topic_id";
+			$topic_reply_replynoread_list = $GLOBALS['db']->getAll($topic_reply_replynoread_sql);
+			foreach($topic_reply_replynoread_list as $k1=>$v1){
+				$topic_item1 = $GLOBALS['db']->getRow("select id,forum_title from ".DB_PREFIX."topic where id = ".$v1['topic_id']);
+				$topic_reply_replynoread_list[$k1]['item'] = $topic_item1;
+			}
+			$root['topic_reply_replynoread_list']=$topic_reply_replynoread_list;
+			$root['topic_reply_replynoread_count']=intval($topic_reply_replynoread_count);
+			$root['topic_reply_replynoread_sql'] = $topic_reply_replynoread_sql;
 			
+			
+			//总的回复数量
+			$topic_replynoread_count_total = intval($topic_replynoread_count) + intval($topic_reply_replynoread_count);
+			$root['topic_replynoread_count_total'] = $topic_replynoread_count_total;
 		}
 		
 		$root['page_title'] = "贝欧-论坛帖子未读回复";

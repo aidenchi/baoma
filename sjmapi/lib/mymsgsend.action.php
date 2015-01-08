@@ -19,13 +19,22 @@ class mymsgsend
 		}else{
 			$root['user_login_status'] = 1;
 			
-			$to_user_name = addslashes(trim($_REQUEST['to_user_name']));
+			$to_user_name = addslashes(trim($GLOBALS['request']['to_user_name']));
+			$content = htmlspecialchars(addslashes(trim($GLOBALS['request']['content'])));
 			$to_user_id = $GLOBALS['db']->getOne("select id from ".DB_PREFIX."user where user_name = '".$to_user_name."'");
 			if(intval($to_user_id)==0){
 				$root['status'] = 0;
 				$root['info'] = "收件人不存在";
+			}else{
+				//function send_user_msg($title,$content,$from_user_id,$to_user_id,$create_time,$sys_msg_id=0,$only_send=false,$is_notice = false)
+				send_user_msg("",$content,intval($user_data['id']),$to_user_id,get_gmtime());
+				$root['status'] = 1;
+				$key = array($to_user_id,intval($user_data['id']));
+				sort($key);
+				$group_key = implode("_",$key);
+				$root['href'] = "index.php?ctl=mymsgdetail&id=".$group_key;
+				$root['info'] = "已发送";
 			}
-			//未写完
 		}	
 		
 		output($root);
