@@ -1,4 +1,4 @@
-{include file="./inc/header_common.html"}
+{include file="./inc/header.html"}
 <style>
 .msg_list_table {
 	width:100%;
@@ -35,11 +35,6 @@
 	text-align: center;
 }
 </style>
-
-
-<div style="padding:10px 0; background:#fff; border-bottom: 1px solid #e6e6e6; ">
-	<a href='{wap_url a="index" r="mymsglist#index"}'><i class="fa fa-chevron-left"></i>&nbsp;返回</a>
-</div>
 
 <div class="wrap">
 	<div class="content">
@@ -161,7 +156,7 @@
 										<td width=15>					
 											<input type="checkbox" value="{$msg_item.id}" name="id[]" />					
 										</td>
-										<td width="15">
+										<td width="60">
 											{if $msg_item.system_msg_id eq 0 and $msg_item.is_notice eq 0}
 												{if $msg_item.to_user_id eq $data.login_user_id}
 												<a href='{wap_url a="index" r="userinfo#index" p="user_id=$msg_item.from_user_id"}'>
@@ -258,35 +253,53 @@ $(document).ready(function(){
 function delete_msg(){
 	var cbos = $("input[name='id[]']:checked");
 	if(cbos.length==0){
-		alert("请选中您要删除的消息记录");
+		//alert("请选中您要删除的消息记录");
+		$("#alert_content").html("请选中您要删除的消息记录！");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},2000);
 	}else{
-		if(confirm("确定删除吗")){			
-			var msg_ids = $("input[name='id[]']:checked");
-			//alert(msg_ids.length);
-			var msg_ids_val = "";
-			for (var i=0; i < msg_ids.length; i++) {
-				msg_id_val = msg_ids[i].value;
-				msg_ids_val = msg_ids_val+","+msg_id_val;
+		 $("#confirm_content").html("您确定要删除选中的消息记录吗");
+		 $('#my-confirm').modal({
+			relatedTarget: this,
+			onConfirm: function(options) {
+				var msg_ids = $("input[name='id[]']:checked");
+				//alert(msg_ids.length);
+				var msg_ids_val = "";
+				for (var i=0; i < msg_ids.length; i++) {
+					msg_id_val = msg_ids[i].value;
+					msg_ids_val = msg_ids_val+","+msg_id_val;
+				}
+				//alert(msg_ids_val);
+				var query = new Object();
+				query.msg_ids_val = msg_ids_val;
+				query.post_type = "json";
+				var ajaxurl = '{wap_url a="index" r="mymsgdel#index"}';
+				$.ajax({
+					url:ajaxurl,
+					data:query,
+					type:"post",
+					dataType:"json",
+					success:function(data){
+						//alert(data.msg_ids_val);
+						location.reload();
+					}
+					,error:function(){
+						//alert("服务器提交错误");
+						$("#alert_content").html("服务器提交错误，请稍后重新操作");
+						$('#my-alert').modal({
+							relatedTarget: this,
+						});
+					}
+				});
+			},
+			onCancel: function() {
+				
 			}
-			//alert(msg_ids_val);
-			var query = new Object();
-			query.msg_ids_val = msg_ids_val;
-			query.post_type = "json";
-			var ajaxurl = '{wap_url a="index" r="mymsgdel#index"}';
-			$.ajax({
-				url:ajaxurl,
-				data:query,
-				type:"post",
-				dataType:"json",
-				success:function(data){
-					//alert(data.msg_ids_val);
-					location.reload();
-				}
-				,error:function(){
-					alert("服务器提交错误");
-				}
-			});
-		}
+		  });
 	}
 }
 
@@ -297,11 +310,25 @@ function set_to_user(user_name){
 function  check(){	
 	var form = $("#mysendmsg_form");	
 	if($.trim($("#to_user_name").val()) == '')	{
-		alert("收件人不能为空！");
+		//alert("收件人不能为空！");
+		$("#alert_content").html("收件人不能为空！");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 		return false;
 	}
 	if($.trim($("#content").val()) == '')	{
-		alert("信息内容不能为空！");
+		//alert("信息内容不能为空！");
+		$("#alert_content").html("信息内容不能为空！");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 		return false;
 	}
 	var query = new Object();
@@ -316,14 +343,22 @@ function  check(){
 		dataType:"json",
 		success:function(data){
 			if(data.status==1){ 	
-				alert(data.info);
+				//alert(data.info);
 				window.location.href=data.href;
 			}else{
-				alert(data.info);
+				//alert(data.info);
+				$("#alert_content").html(data.info);
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
 			}
 		}
 		,error:function(){
-			alert("服务器提交错误");
+			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});	
 		return false;

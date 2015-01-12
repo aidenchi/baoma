@@ -3,6 +3,16 @@
 			<div class="wrap">
 					<!-----------------------------------广告图片------------------------------>
 					<div class="top">
+						<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
+						  <ul class="am-slides">
+							{foreach from="$data.adv_list" item="adv"}
+							<li>
+							  <img src="{$adv.img}">
+							</li>
+							{/foreach}
+						  </ul>
+						</div>			
+						<!--
 						<div class="flash" id=containerFlashAnimation>
 							<section>
 								<div id="banner_box" class="box_swipe" style="visibility: visible;height:200px;overflow:hidden;">
@@ -22,41 +32,38 @@
 								</div>
 							</section>
 						</div>
+						-->
 					</div>
 					
 					<div class="blank8"></div>
 					<!-----------------------------------圆圈图标菜单------------------------------>
 					<div class="sort_nav">
 					    <div class="sort_list">
-					  	    <ul>
-								<li class="sort_li">
-					  	    		<a href='{wap_url a="index" r="nearbyuserlist#index"}'>
-					  	    			<span class="yuan" style="background-color:#3ed087"></span>
-										<span class="txt">附近玩伴</span>
-									</a>
-					  	    	</li>
-								<li class="sort_li">
+					  	    <ul class="am-avg-sm-4">
+							  <li>
+									<a href='{wap_url a="index" r="nearbyuserlist#index"}'>
+									<span class="txt"><span class="am-icon-child am-icon-btn"></span><p>附近玩伴</p></span>
+								</a>
+								</li>
+								<li>
 									{if $data.login_user_id gt 0}
-					  	    		<a href='{wap_url a="index" r="growthdiarylist#index"}'>	
+										<a href='{wap_url a="index" r="growthdiarylist#index"}'>	
 									{else}
 									<a href='{wap_url a="index" r="growthdiarylist_public#index"}'>	
 									{/if}
-					  	    			<span class="yuan" style="background-color:#FF0000"></span>
-										<span class="txt">成长日记</span>
+										<span class="txt"><span class="am-icon-calendar am-icon-btn"></span><p>成长日记</p></span>
 									</a>
-					  	    	</li>
-								<li class="sort_li">
-					  	    		<a href='{wap_url a="index" r="topiclist#index"  p="cid=4"}'>
-					  	    			<span class="yuan" style="background-color:#9F5F9F"></span>
-										<span class="txt">二手交易</span>
+									</li>
+								<li>
+										<a href='{wap_url a="index" r="topiclist#index"  p="cid=4"}'>
+										<span class="txt"><span class="am-icon-cny am-icon-btn"></span><p>二手交易</p></span>
 									</a>
-					  	    	</li>
-								<li class="sort_li">
-					  	    		<a href='{wap_url a="index" r="articlelist#index"}'>
-					  	    			<span class="yuan" style="background-color:#f6606c"></span>
-										<span class="txt">免费活动</span>
+									</li>
+								<li>
+									<a href='{wap_url a="index" r="articlelist#index"}'>
+									<span class="txt"><span class="am-icon-coffee am-icon-btn"></span><p>免费活动</p></span>
 									</a>
-					  	    	</li>
+									</li>
 							</ul>
 					    </div><!--sort_list end-->
 					</div><!--sort_nav end-->
@@ -64,39 +71,83 @@
 					<div class="blank8"></div>
 					<!-----------------------------------推荐活动------------------------------>
 					<div class="list-view bor_none">
-						 <div class="list_title" style="border: none;">推荐活动</div>
+						 <div class="list_title"><i class="iconfont">&#xe655;</i>推荐</div>
+							<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-overlay" data-am-gallery="{ pureview: true }">
+								{foreach from="$data.article_list" item="article"}
+								  <li>
+									<div class="am-gallery-item">
+									 <a href='{wap_url a="index" r="articleitem#index" p="id=$article.id"}'>
+										<img src="{$article.icon}"
+										alt="{$article.name}" />
+										<h3 class="am-gallery-title">{$article.name}</h3>
+										<h3 class="am-gallery-brief">{function name="msubstr" v=$article.brief b=0 e=10}</h3>
+										<div class="am-gallery-desc">2375-09-26</div>
+									  </a>
+									</div>
+								  </li>
+								{/foreach}
+							</ul>
+						 <!--
 						 <ul class="sp_ul">
 							{foreach from="$data.article_list" item="article"}
 						 	<li class="sp_li">
 						 	    <a href='{wap_url a="index" r="articleitem#index" p="id=$article.id"}'>
 						 	    	<img src="{$article.icon}" width="100%">
-									<div class="h">{$article.name}</div>
+									<div class="h">
+                                    	<h4>{$article.name}</h4>
+                                    	<p>{function name="msubstr" v=$article.brief b=0 e=10}</p>                                        
+                                    </div>
 						 	    </a>
 						 	</li>
 							{/foreach}
 						</ul>
+						-->
 					</div>
 					
 					<div class="blank8"></div>
 					<!-----------------------------------推荐商铺------------------------------>
 					<div class="list-view bor_none">
-						 <div class="list_title" style="border: none;">推荐店铺</div>
+						 <div class="list_title"><i class="iconfont">&#xe60a;</i>推荐店铺</div>
 						 <ul class="tuan_ul">
 							{foreach from=$data.recommend_supplier_location_list item=location}
 							<li class="tuan_li">
 						 	     <a href='{wap_url a="index" r="merchantitem#index" p="id=$location.id"}'>
 						 	     	<div class="list_item">
 						 	     		 <div class="pic">
-						 	     		 	<img src="{$location.logo}" width="108" height="67">
+						 	     		 	<img src="{$location.logo}" width="90" height="66">
 											<!--<i class="tuan_ico hot">精选</i>-->
 										 </div>
 										 <div class="info">
 										 	<h2>{$location.name}</h2>
 											<h3>{$location.mobile_brief}</h3>
+											{if $location.tags}
+                                            <p class="txt_tag">
+												{foreach from=$location.tags_arr item=tag}
+												<span>{$tag}</span>
+												{/foreach}
+											</p>
+											{/if}
 											<div class="tuan_price">
-						                         <p style="font-size:12px;color:#b2b2b2;">
-						                         	 地址:{$location.api_address}
-												 </p>
+                                            	<ul>
+                                                	<li class="w_75">
+                                                    	<div class="five_star_orange">
+								   	    					<i class="fa fa-star orange"></i>
+                                                            <i class="fa fa-star orange"></i>
+                                                            <i class="fa fa-star orange"></i>
+                                                            <i class="fa fa-star orange"></i>
+                                                            <i class="fa fa-star orange"></i>
+                                                            <div class="five_star_grey" style="width:{$message.width}%;">
+                                                                <i class="fa fa-star grey"></i>
+                                                                <i class="fa fa-star grey"></i>
+                                                                <i class="fa fa-star grey"></i>
+                                                                <i class="fa fa-star grey"></i>
+                                                                <i class="fa fa-star grey"></i>
+                                                            </div>
+							   							</div>
+                                                    </li>                                                    
+                                                    <li class="w_25"><span class="am-icon-eye"></span>{$location.hit_count}</li>
+                                                    <li class="w_75">{$location.api_address}</li>
+                                                </ul>
 						                     </div>
 										 </div>
 						 	     	</div>

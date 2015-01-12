@@ -192,7 +192,8 @@ class merchantlist
 			$item = m_merchantItem($item);			
 			$merchant_list[] = $item;
 		}
-		foreach($merchant_list as $k=>$v){		
+		foreach($merchant_list as $k=>$v){	
+			$merchant_list[$k]['tags_arr'] = explode(' ',$v['tags']); 
 			$merchant_list[$k]['cate_name']=$GLOBALS['db']->getOne("select name from ".DB_PREFIX."deal_cate where id=".$v['deal_cate_id']);
 			//$merchant_list[$k]['width'] = $v['avg_point'] > 0 ? ($v['avg_point'] / 5) * 100 : 0;
 			//$merchant_list[$k]['avg_point']=round($v['avg_point'],1);		

@@ -1,7 +1,6 @@
-{include file="./inc/header.html"}
+{include file="./inc/header_common.html"}
 <div class="wrap">
 	<div class="content">
-			<div class="blank8"></div>		
 				{if $data.user_info}
                  <div class="list-view">					
 				       <ul class="person_details one">
@@ -9,33 +8,36 @@
 				       	    	<div class="person_account">						  	 
 								   <div class="account_info">
 										<div class="pic">
-											<img src='{function name="get_user_avatar" uid=$data.user_info.user_id type="middle"}' width="59" height="59">
+											<img src='{function name="get_user_avatar" uid=$data.user_info.user_id type="middle"}' width="80" height="80">                                            
 										</div>
 										<div class="name">
-											  <b>{$data.user_info.user_name}</b>&nbsp;&nbsp;
-											  {if $data.user_info.focused eq 0}
-											  <a href="javascript:void(0);" onclick="focus_user({$data.user_info.user_id},this);" class="add_focus">关注TA</a>
-											  {else}
-											  <a href="javascript:void(0);" onclick="focus_user({$data.user_info.user_id},this);" class="remove_focus">取消关注</a>
-											  {/if}
-										</div>
+											  <p><b>{$data.user_info.user_name}</b></p>
+                                              <p><span><i class="iconfont">&#xe619;</i>{$data.user_info.user_point_level}</span><span><i class="iconfont">&#xe651;</i><font class="font-fc8">{$data.user_info.point}</font></span><span><i class="iconfont">&#xe621;</i>{if $data.user_info.sex eq 0}女{/if}{if $data.user_info.sex eq 1}男{/if}</span></p>
+											  
+                                              <div class="user_info">										
+                                                    <p>
+                                                        个人简介:
+                                                          {if $data.user_info.my_intro}
+                                                            {$data.user_info.my_intro}
+                                                          {else}
+                                                            无
+                                                          {/if}
+                                                    </p>
+                                            </div>
+                                            
+										</div>                                        
 								   </div>
+                                   <div class="add_r">
+                                            	{if $data.user_info.focused eq 0}
+                                                  <a href="javascript:void(0);" onclick="focus_user({$data.user_info.user_id},this);" class="add_focus">+关注TA</a>
+                                                  {else}
+                                                  <a href="javascript:void(0);" onclick="focus_user({$data.user_info.user_id},this);" class="remove_focus">取消关注</a>
+                                                  {/if}
+                                    </div>
 							  </div>
 							</li>
 							<li>
-				       	    	<div class="user_info">
-										<p>等级：{$data.user_info.user_point_level}</p>
-										<p>经验值：<font class="font-fc8">{$data.user_info.point}</font>	</p>
-										<p>性别：{if $data.user_info.sex eq 0}女{/if}{if $data.user_info.sex eq 1}男{/if}</p>
-										<p>
-											个人简介：
-											  {if $data.user_info.my_intro}
-												{$data.user_info.my_intro}
-											  {else}
-											    无
-											  {/if}
-										</p>
-				       	    	</div>
+				       	    	
 							</li>
 				       </ul>		 
 				</div>
@@ -46,36 +48,52 @@
 						 {if $data.user_topic}
 						 <ul class="">
 						 {foreach from=$data.user_topic item=topic}
-							<li class="topic_li" id="topic_item_{$topic.id}">
+							<li class="topic_li" id="topic_item_{$topic.id}">						 	      
 						 	     	<div class="list_item">
 						 	     		 <div class="topic_user_headimg">
-						 	     		 	<img src='{function name="get_user_avatar" uid=$topic.user_id type="small" }'>
-						 	     		 </div>
-										 <div class="info">
-											<a href='{wap_url a="index" r="topicitem#index"  p="id=$topic.id"}'>
-										 	<i>{$topic.forum_title}</i>
-											<h3>{$topic.short_content}</h3>	
+											{if $data.login_user_id eq $topic.user_id}
+											<a href='{wap_url a="index" r="user_center#index"}'>
+											{else}
+											<a href='{wap_url a="index" r="userinfo#index" p="user_id=$topic.user_id"}'>
+											{/if}
+						 	     		 	<img src='{function name="get_user_avatar" uid=$topic.user_id type="small" }' width="50" height="50">
+                                            <p>{$topic.user_name}</p>
+											{if $topic.is_best gt 0}
+											<i class="topic_ico ico">精华</i>
+											{/if}
+											{if $topic.is_recommend gt 0}
+											<i class="topic_ico ico">推荐</i>
+											{/if}
+											{if $topic.is_top gt 0}
+											<i class="topic_ico ico">置顶</i>
+											{/if}
 											</a>
-											<div class="topic_bottom">												 
-						                         <p class="topic_bottom_text">
-													<a href='{wap_url a="index" r="topicitem#index"  p="id=$topic.id"}'>
-													<em>
-													<i>{$topic.user_name}</i><i>&nbsp;•</i>
-													<i>{function name="pass_date" time=$topic.create_time }</i><i>&nbsp;•</i>						                         	
-													{$topic.reply_count}<i>&nbsp;条回复</i>
-													</em>	
+						 	     		 </div>										 
+										 <div class="info">
+											<div class="topic_bottom">
+												<div style="width:100%;">
+													<a style="color:#b2b2b2;" href='{wap_url a="index" r="topicitem#index"  p="id=$topic.id"}'>
+													<i style="color: #000;">{$topic.forum_title}</i>
+													<h3>{$topic.short_content}</h3>	
 													</a>
-												 </p>													 
-												 <p class="topic_bottom_text_right">
-													{if $data.user_info.user_id eq $data.current_user_id}
-													<a href="javascript:void(0);" onclick="delete_topic({$topic.id},$('#topic_item_{$topic.id}'));"><i>删除</i></a>
-													{/if}
-												 </p>
-						                     </div>
-										 </div>
-						 	     	</div>
-						 	</li>
-							{/foreach}							
+												</div>
+						                    </div>
+											<div class="topic_bottom">
+												<div style="width:70%;">
+													<span style="padding-right:2px;"><span class="am-icon-eye"></span>{$topic.hit_count}</span>
+													<span style="padding-right:2px;"><span class="am-icon-heart-o" ></span>{$topic.fav_count}</span>
+													<a style="color:#b2b2b2;" href='{wap_url a="index" r="topicitem#index"  p="id=$topic.id"}'>
+													<span><span class="am-icon-comment-o"></span>{$topic.reply_count}</span>
+													</a>
+												</div>
+												<div style="text-align:right; width:30%;">													
+													<span>{function name="pass_date" time=$topic.create_time }</span>
+												</div>
+						                     </div>											 
+										 </div>										 
+						 	     	</div>						 	     
+								</li>
+							{/foreach}						 					
 						 </ul>
 						 {else}
 						 <div class="assess_list" style="text-align:center;padding:10px 0;">最近未发表过帖子</div>

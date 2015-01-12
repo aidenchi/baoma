@@ -32,7 +32,6 @@
 
 .five_star_orange{
 	display:inline-block;
-	width:90px;
 	line-height:20px;
 	overflow:hidden;
 	position:relative;
@@ -53,13 +52,11 @@
 
 .five_star_orange .orange{
 	color:#e2e2e2;
-	margin:0px 2px;
 	font-size:15px;
 }
 
 .five_star_grey .grey{
 	color:#f59436;
-	margin:0px 2px;
 	font-size:15px;
 }
 

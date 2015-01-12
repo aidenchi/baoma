@@ -97,9 +97,11 @@
 						</li>						
 						{/foreach}
 					</ul>
+					{if $data.page.page_total gt 1}
 					<div class="fy">
 						{$pages}
-					</div>				
+					</div>	
+					{/if}					
 				</div>
 				
 				<div style="padding: 10px 8px;text-align:center;">

@@ -154,7 +154,7 @@
 	font-size:15px;
 	padding: 5px 0;
 }
-
+.shop_comment_list li .name a{color:#1160ab;}
 .shop_comment_list li .comment_p{
 	color: #4b4b4b;
 		font-size: 12px;

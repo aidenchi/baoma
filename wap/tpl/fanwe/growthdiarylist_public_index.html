@@ -3,62 +3,17 @@
 <?php die();?>
 {/if}
 {include file="./inc/header_common.html"}
-<style>
-.growth_diary_top{
-	background: #A2CEA0;
-	width: 100%;
-	position: relative;
-}
-.growth_diary_date{
-	width: 100%;
-	height: 40px;	
-}
-.growth_diary_user {
-	width: 100%;
-	height: 180px;	
-	text-align: center;
-}
-.growth_circle{
-	width: 100%;
-	height: 30px;
-	background: #999999;
-	opacity: 0.5;
-	filter:alpha(opacity=50)
-}
-.growth_diary_list_table {
-	width:100%;
-	color: #adadad;
-	font-size:12px;
-}
-.growth_diary_list_table a{
-	color: #adadad;
-}
-.td_line{
-	line-height: 22px;
-	padding: 10px;
-	border-bottom: 1px solid #f5f5f5;
-}
-.pic_item {
-	position: relative;
-	width: 100px;
-	height: 100px;
-	float: left;
-	display: inline-block;
-	margin-top: 5px;
-	margin-right: 5px;
-}
-</style>
 		{if $data.login_user_id gt 0}
 			<div class="growth_diary_top">
 				<div class="growth_diary_date">
 					<div style="float:left;width:50%;text-align:left;">
-						<a href='{wap_url a="index" r="growthdiarydate_public#index"}'>
-							<span>日历</span>
+						<a href='{wap_url a="index" r="growthdiarydate#index"}'>
+							<span class="am-icon-calendar" style="font-size:30px; color:#fff;margin:10px;"></span>							
 						</a>
 					</div>
 					<div style="float:left;width:50%;text-align:right;">
 						<a href='{wap_url a="index" r="growthdiarywrite#index"}'>
-							<span>记录</span>		
+							<span class="am-icon-plus" style="font-size:30px; color:#fff;margin:10px;"></span>
 						</a>
 					</div>
 				</div>
@@ -82,8 +37,7 @@
 						<div class="list_title">成长圈</div>
 						<div id="pagecontent">
 							{include file="./inc/growthdiarylist_public_key_item.html"}
-						</div>	
-						<input type="hidden" name="login_user_id" id="login_user_id" value="{$data.login_user_id}" />
+						</div>						
 						<input type="hidden" name="currentpage" id="currentpage" value="{$data.page.page}" />
 						<input type="hidden" name="totalpage" id="totalpage" value="{$data.page.page_total}" />
 					</div><!--list-view end-->	
@@ -97,12 +51,20 @@
 
 <script type="text/javascript">
 function login_ts(){
-	alert("请先登录");
+	//alert("请先登录");
+	$("#alert_content").html("请先登录");
+	$('#my-alert').modal({
+		relatedTarget: this,
+	});
+	setTimeout(function(){
+		$('#my-alert').modal('close');
+	},2000);
 }
 
 function favorite_growth_diary(growth_diary_id,author_user_id){
 	//alert(growth_diary_id+"--"+author_user_id);
 	var text_id = "fav_text_"+growth_diary_id;
+	var fav_icon_id = "fav_icon_"+growth_diary_id;
 	var count_id = "fav_count_"+growth_diary_id;
 	var query = new Object();
 	query.growth_diary_id = growth_diary_id;
@@ -117,32 +79,70 @@ function favorite_growth_diary(growth_diary_id,author_user_id){
 		dataType:"json",
 		success:function(data){
 			if(data.user_login_status==0){
-				alert(data.login_info);
+				//alert(data.login_info);
+				$("#alert_content").html(data.login_info);
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
 			}else{
 				if(data.fav_status == 1){
-					alert("取消喜欢成功！");					
-					document.getElementById(text_id).innerText = "喜欢";					
+					//alert("取消喜欢成功！");					
+					//document.getElementById(text_id).innerText = "喜欢";
+					document.getElementById(fav_icon_id).style.color = "";						
 					var fav_count = document.getElementById(count_id).innerText;
 					fav_count = parseInt(fav_count) - 1;
 					document.getElementById(count_id).innerText = fav_count;
+					$("#alert_content").html("取消喜欢成功！");
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+					setTimeout(function(){
+						$('#my-alert').modal('close');
+					},1000);
 				}
 				if(data.fav_status == 2){
-					alert("喜欢成功！");
-					document.getElementById(text_id).innerText = "已喜欢";				
+					//alert("喜欢成功！");
+					//document.getElementById(text_id).innerText = "已喜欢";	
+					document.getElementById(fav_icon_id).style.color = "#f90";	
 					var fav_count = document.getElementById(count_id).innerText;
 					fav_count = parseInt(fav_count) + 1;
 					document.getElementById(count_id).innerText = fav_count;
+					$("#alert_content").html("喜欢成功！");
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+					setTimeout(function(){
+						$('#my-alert').modal('close');
+					},1000);
 				}
 				if(data.fav_status == 3){
-					alert("操作失败");
+					//alert("操作失败");
+					$("#alert_content").html("操作失败！");
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+					setTimeout(function(){
+						$('#my-alert').modal('close');
+					},2000);
 				}
 				if(data.fav_status == 4){
-					alert("自己不能喜欢自己的日记");
+					//alert("自己不能喜欢自己的日记");
+					$("#alert_content").html("自己不能喜欢自己的日记！");
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+					setTimeout(function(){
+						$('#my-alert').modal('close');
+					},2000);
 				}
 			}
 		}
 		,error:function(){
-			alert("服务器提交错误");
+			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});
 }
@@ -152,11 +152,11 @@ $(window).scroll(function () {
 	var scrollTop = $(document).scrollTop();   
     var windowHeight = $(window).height();
 	var scrollHeight = $(document).height();
-	console.log("滚动条到顶部的垂直高度: "+scrollTop);     
-    console.log('浏览器的高度：'+windowHeight);  
-	console.log("页面的文档高度 ："+scrollHeight); 
+	//console.log("滚动条到顶部的垂直高度: "+scrollTop);     
+    //console.log('浏览器的高度：'+windowHeight);  
+	//console.log("页面的文档高度 ："+scrollHeight); 
 	var proportion = parseFloat((scrollTop + windowHeight)/scrollHeight);
-	console.log(proportion); 
+	//console.log(proportion); 
     //if (scrollTop + windowHeight == scrollHeight) {   
 	if (proportion>0.98){
 		//此处是滚动条到底部时候触发的事件，在这里写要加载的数据，或者是拉动滚动条的操作

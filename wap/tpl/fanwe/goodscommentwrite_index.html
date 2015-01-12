@@ -47,7 +47,14 @@ function  add_comment(){
 	var type=$("#type").val();
 	
 	if(!content){
-		alert("请填写评论内容");
+		//alert("请填写评论内容");
+		$("#alert_content").html("请填写评论内容");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 		return false;		
 	}
 	
@@ -65,14 +72,29 @@ function  add_comment(){
 		dataType:"json",
 		success:function(data){
 			if(data["status"]==1){ 
-				alert(data.info);
-				window.location.href="{wap_url a="index" r="goodscommentlist" p="type=$request.type&goods_id=$request.goods_id"}";
+				//alert(data.info);
+				$("#alert_content").html(data.info);
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
+				setTimeout(function(){
+					$('#my-alert').modal('close');
+					window.location.href="{wap_url a="index" r="goodscommentlist" p="type=$request.type&goods_id=$request.goods_id"}";
+				},2000);
 			}else{
-				alert(data.info);
+				//alert(data.info);
+				$("#alert_content").html(data.info);
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
 			}
 		}
 		,error:function(){
-			alert("服务器提交错误");
+			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});	
 	return false;

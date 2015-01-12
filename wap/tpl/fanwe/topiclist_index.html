@@ -1,104 +1,55 @@
-{include file="./inc/header_common.html"}
-<style>
-.topic_list_top{
-	background: #fff;
-	width: 100%;
-	position: relative;
-	height: 40px;	
-	display: -webkit-box;
-	line-height:40px;
-}
-.topic_list_top_left{
-	background: #eee;
-	width: 10%;	
-	text-align: center;
-	font-size:24px;
-	color:#ccc;
-}
-.topic_list_top_center {
-	width: 80%;	
-	overflow: hidden;
-}
-.topic_list_top_center a{
-	color:#5B5B5B;
-	font-size:16px;
-	padding-left:8px;
-	padding-right:8px;
-}
-.topic_list_top_center .selected{
-	font-weight: bolder;
-	color: #f59436;
-}
-.topic_list_top_right{
-	background: #eee;
-	width: 10%;
-	text-align: center;
-}
-.topic_list_top_right a{
-	color:#ccc;
-	font-size:24px;
-}
-.topic_list_bg{
-	width: 100%;
-	height:100px;
-	background: #ccc;
-}
-.topic_search_box {	
-	width:100%;
-	height: 40px;
-	background: #f6f6f6;
-	position: relative;	
-	display: none;
-}
-.topic_search_box .search_text {
-	width:90%;
-	dispalay: inline-block;
-	height: 30px;
-	padding: 5px;
-	position: relative;
-}
-</style>			
-			
+{include file="./inc/header_common.html"}					
 			<div class="topic_list_top">
 				<div class="topic_list_top_left">
-				<i class="fa fa-search"></i>
+				<span class="am-icon-search"></span>
 				</div>
-				<div class="topic_list_top_center">						
+				<div class="topic_list_top_center">	
+					<div class="am-dropdown" data-am-dropdown>
+					  <button class="am-btn am-btn-primary am-dropdown-toggle" data-am-dropdown-toggle>
+						{$data.cate_name}
+					  <span class="am-icon-caret-down"></span>
+					  </button>
+					  <ul class="am-dropdown-content">
+						<li class="am-dropdown-header"><a href='{wap_url a="index" r="topiclist#index"}'><span {if $data.cate_id eq 0}class='selected'{/if}>精选</span></a></li>
+						{foreach from=$data.cate_list item=cate}
+						<li><a href='{wap_url a="index" r="topiclist#index"  p="cid=$cate.id"}'><span {if $data.cate_id eq $cate.id}class='selected'{/if}>{$cate.name}</span></a></li>
+						{/foreach}
+					  </ul>
+					</div>
+					<!--
 					<a href='{wap_url a="index" r="topiclist#index"}'><span {if $data.cate_id eq 0}class='selected'{/if}>精选</span></a>
 					{foreach from=$data.cate_list item=cate}
 					<a href='{wap_url a="index" r="topiclist#index"  p="cid=$cate.id"}'><span {if $data.cate_id eq $cate.id}class='selected'{/if}>{$cate.name}</span></a>
 					{/foreach}		
+					-->
 				</div>
 				<div class="topic_list_top_right">
 				    <a href='{wap_url a="index" r="topicwrite#index"}'>
-					<i class="fa fa-edit"></i>
+					<span class="am-icon-edit"></span>
 					</a>
 				</div>
 			</div>
 			
-			<!--
-			<div class="topic_search_box">
-				<div class="search_text">					
-					<input type="text" placeholder="请输入帖子标题关键字" id="keyword" value="{$data.keyword}">
-				</div>
-				<div class="search_btn">
-					<a href="javascript:void(0);" onclick="search_submit()">搜索</a>
-				</div>
-			 </div>
-			 -->
-			 <div class="topic_search_box">
-				<div class="search_text">
-					<input type="hidden" name="cid" id="cid" value="{$data.cate_id}" />
-					<input class="inputtext" type="text" placeholder="请输入帖子标题关键字" id="keyword" value="{$data.keyword}" />
-					<input class="inputsubmit" type="button" value="搜索" onclick="search_submit()"/>
-				</div>
-			 </div>
+			 <input type="hidden" name="cid" id="cid" value="{$data.cate_id}" />
+			 <div style="display:none;" id="topic_search_box" class="am-input-group am-input-group-sm">
+				  <input type="text" class="am-form-field" placeholder="" id="keyword" value="{$data.keyword}">
+				  <span class="am-input-group-label" onclick="search_submit()" > <span class="am-icon-search"></span></span>
+   		     </div>
 			
 			<div class="topic_list_bg">
-				<div style="padding:30px;">贝欧论坛……</div>
+				<!--<div style="padding:30px;">贝欧论坛……</div>-->
+						<div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{&quot;directionNav&quot;:false}'>
+						  <ul class="am-slides">
+							{foreach from="$data.adv_list" item="adv"}
+							<li>
+							  <img src="{$adv.img}">
+							</li>
+							{/foreach}
+						  </ul>
+						</div>	
 			</div>
 
-			<div class="wrap">
+				<div class="wrap">
 					<div class="list-view">
 						 <!--<div class="list_title">共{$data.total}篇帖子</div>-->
 						 {if $data.one_cate_topic_list}
@@ -112,7 +63,8 @@
 											{else}
 											<a href='{wap_url a="index" r="userinfo#index" p="user_id=$topic.user_id"}'>
 											{/if}
-						 	     		 	<img src='{function name="get_user_avatar" uid=$topic.user_id type="small" }'>
+						 	     		 	<img src='{function name="get_user_avatar" uid=$topic.user_id type="small" }' width="50" height="50">
+                                            <p>{$topic.user_name}</p>
 											{if $topic.is_best gt 0}
 											<i class="topic_ico ico">精华</i>
 											{/if}
@@ -130,22 +82,22 @@
 												<h3>{$topic.short_content}</h3>	
 											</a>
 											<div class="topic_bottom">
-												<div style="width:50%">
-													<span style="padding-right:5px;">浏览&nbsp;{$topic.hit_count}</span>
-													<span style="cursor:pointer; padding-right:5px;" onclick="favorite_topic({$topic.id},{$topic.user_id})">
+												<div style="width:70%;">
+													<span style="padding-right:2px;"><span class="am-icon-eye"></span>{$topic.hit_count}</span>
+													<span style="cursor:pointer; padding-right:2px;" onclick="favorite_topic({$topic.id},{$topic.user_id})">
 														{if $topic.is_fav eq 1}
-														<font id="fav_text_{$topic.id}">已点赞</font>&nbsp;<font id="fav_count_{$topic.id}">{$topic.fav_count}</font>
+														<font id="fav_text_{$topic.id}"><span id="fav_icon_{$topic.id}" class="am-icon-heart-o" style="color:#f90"></span></font><font id="fav_count_{$topic.id}">{$topic.fav_count}</font>
 														{else}
-														<font id="fav_text_{$topic.id}">点赞</font>&nbsp;<font id="fav_count_{$topic.id}">{$topic.fav_count}</font>
+														<font id="fav_text_{$topic.id}"><span id="fav_icon_{$topic.id}" class="am-icon-heart-o"></span></font><font id="fav_count_{$topic.id}">{$topic.fav_count}</font>
 														{/if}
 													</span>
 													<a style="color:#b2b2b2;" href='{wap_url a="index" r="topicitem#index"  p="id=$topic.id"}'>
-													<span style="padding-right:5px;">回复&nbsp;{$topic.reply_count}</span>
+													<span><span class="am-icon-comment-o"></span>{$topic.reply_count}</span>
 													</a>
 												</div>
-												<div style="width:50%; text-align:right;">
-													<span style="padding-right:10px;">{$topic.user_name}</span>
-													<span style="padding-right:10px;">{function name="pass_date" time=$topic.create_time }</span>
+												<div style="text-align:right; width:30%;">
+													
+													<span>{function name="pass_date" time=$topic.create_time }</span>
 												</div>
 						                     </div>											 
 										 </div>										 
@@ -168,6 +120,7 @@
 <script>
 function favorite_topic(topic_id,author_user_id){
 	//alert(topic_id+"--"+author_user_id);
+	var fav_icon_id = "fav_icon_"+topic_id;
 	var text_id = "fav_text_"+topic_id;
 	var count_id = "fav_count_"+topic_id;
 	var query = new Object();
@@ -183,39 +136,65 @@ function favorite_topic(topic_id,author_user_id){
 		dataType:"json",
 		success:function(data){
 			if(data.user_login_status==0){
-				alert(data.login_info);
+				//alert(data.login_info);
+				$("#alert_content").html(data.login_info);
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
 			}else{
-				if(data.fav_status == 1){
-					alert("取消点赞成功！");					
-					document.getElementById(text_id).innerText = "点赞";					
+				if(data.fav_status == 1){									
+					//document.getElementById(text_id).innerText = "点赞";	
+					document.getElementById(fav_icon_id).style.color = "";			
 					var fav_count = document.getElementById(count_id).innerText;
 					fav_count = parseInt(fav_count) - 1;
 					document.getElementById(count_id).innerText = fav_count;
+					//alert("取消点赞成功！");	
+					$("#alert_content").html("取消点赞成功！");
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
 				}
-				if(data.fav_status == 2){
-					alert("点赞成功！");
-					document.getElementById(text_id).innerText = "已点赞";				
+				if(data.fav_status == 2){					
+					//document.getElementById(text_id).innerText = "已点赞";
+					document.getElementById(fav_icon_id).style.color = "#f90";
 					var fav_count = document.getElementById(count_id).innerText;
 					fav_count = parseInt(fav_count) + 1;
 					document.getElementById(count_id).innerText = fav_count;
+					//alert("点赞成功！");
+					$("#alert_content").html("点赞成功！");
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
 				}
 				if(data.fav_status == 3){
-					alert("操作失败");
+					//alert("操作失败");
+					$("#alert_content").html("操作失败！");
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
 				}
 				if(data.fav_status == 4){
-					alert("自己不能点赞自己的帖子");
+					//alert("自己不能点赞自己的帖子");
+					$("#alert_content").html("自己不能点赞自己的帖子！");
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
 				}
 			}
 		}
 		,error:function(){
-			alert("服务器提交错误");
+			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});
 }
 
 $(document).ready(function () {   
    $(".topic_list_top_left").click(function(){
-       $(".topic_search_box").toggle();
+       $("#topic_search_box").toggle();
    });
 });
 

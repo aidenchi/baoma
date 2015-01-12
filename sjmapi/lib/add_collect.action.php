@@ -25,7 +25,7 @@ class add_collect{
 						//已经设置打折提醒，则取消
 						$sql = "delete from ".DB_PREFIX."deal_collect where user_id = $user_id and deal_id = $goods_id";
 						$GLOBALS['db']->query($sql);
-						$root['info'] ="取消收藏";
+						$root['info'] ="取消收藏成功";
 					}else{
 						//没设置，则设置
 						$deal_collect = array(

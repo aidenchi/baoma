@@ -49,6 +49,7 @@ class growthdiaryadd
 				$GLOBALS['db']->autoExecute(DB_PREFIX."growth_diary",$growthdiary,"INSERT","");
 				$id = intval($GLOBALS['db']->insert_id());
 				if($id>0){
+					increase_user_active_growth_diary(intval($user_data['id']),"发表了一篇成长日记");
 					$root['status']=1;
 					$root['info']='提交成功';
 					$root['action_flag']=0;

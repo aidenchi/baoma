@@ -37,6 +37,10 @@ class mytopiclist
 				}else{
 					$my_topic_list[$k]['short_content'] = preg_replace("/<br[^>]+>/i","",$my_topic_list[$k]['content']);
 				}
+				//点赞数量
+				$fav_sql_count = "select count(*) from ".DB_PREFIX."topic_favorite where topic_id = ".$v['id'];
+				$fav_total = $GLOBALS['db']->getOne($fav_sql_count);
+				$my_topic_list[$k]['fav_count'] = intval($fav_total);
 			}
 			$root['total']=$total;
 			$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);

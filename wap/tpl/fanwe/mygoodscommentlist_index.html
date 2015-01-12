@@ -5,8 +5,8 @@
 		<div id="Tab1">
 			<div class="Menubox">
 				<ul>
-				   <li id="one1" onclick="javascrtpt:window.location.href='{wap_url a="index" r="mysuppliercommentlist#index"}'" style=" border-right:1px solid #ccc;">店铺点评(共<span id="my_supplier_comment_count">{$data.my_supplier_comment_count}</span>条)</li>
-				   <li id="one2" onclick="javascrtpt:window.location.href='{wap_url a="index" r="mygoodscommentlist#index"}'"  class="hover" style="border-right:1px solid #ccc;">商品点评(共<span id="my_goods_comment_count">{$data.my_goods_comment_count}</span>条)</li>
+				   <li id="one1" onclick="javascrtpt:window.location.href='{wap_url a="index" r="mysuppliercommentlist#index"}'" style="background:#fff;" border-right:1px solid #ccc;">店铺点评(共<span id="my_supplier_comment_count">{$data.my_supplier_comment_count}</span>条)</li>
+				   <li id="one2" onclick="javascrtpt:window.location.href='{wap_url a="index" r="mygoodscommentlist#index"}'"  class="hover" style="border-left:1px solid #ccc;">商品点评(共<span id="my_goods_comment_count">{$data.my_goods_comment_count}</span>条)</li>
 				</ul>
 			</div>
 			<div class="Contentbox">  
@@ -27,8 +27,8 @@
 									   </div>
 									   <span class="comment_time">
 									   {$comment.create_time_format}
-									   <a href="javascript:void(0);" onclick="delete_goods_comment({$comment.id},$('#goods_comment_{$comment.id}'));">删除</a>
 									   {if $comment.is_effect eq 0}<i style="color:red;">未审核</i>&nbsp;{/if}
+									   <a href="javascript:void(0);" onclick="delete_goods_comment_confirm({$comment.id},$('#goods_comment_{$comment.id}'));"><span class="am-icon-remove"></span></a>
 									   </span>
 									</div>
 									<div class="comment_p">
@@ -43,9 +43,11 @@
 								</li>
 								{/foreach}
 							 </ul>
+							 {if $data.page.page_total gt 1}
 							 <div class="fy">
 								{$pages}
 							 </div>
+							 {/if}
 							 {else}
 							 <div class="assess_list" style="text-align:center;padding:10px 0;"> 暂无评论</div>
 							 {/if}
@@ -58,6 +60,19 @@
 </div>
 
 <script type="text/javascript">
+function delete_goods_comment_confirm(goods_comment_id,one_goods_comment_li_obj){
+	 $("#confirm_content").html("您确定要删除这条点评吗");
+	 $('#my-confirm').modal({
+        relatedTarget: this,
+        onConfirm: function(options) {
+			delete_goods_comment(goods_comment_id,one_goods_comment_li_obj); 
+		},
+        onCancel: function() {
+			
+        }
+      });
+}
+
 function delete_goods_comment(goods_comment_id,one_goods_comment_li_obj){
 	var query = new Object();
 	query.goods_comment_id = goods_comment_id;
@@ -75,16 +90,27 @@ function delete_goods_comment(goods_comment_id,one_goods_comment_li_obj){
 				var my_goods_comment_count = $("#my_goods_comment_count").html();
 				my_goods_comment_count = parseInt(my_goods_comment_count)-1;
 				$("#my_goods_comment_count").html(my_goods_comment_count);
-				alert(data.info);
+				//alert(data.info);
+				location.reload();
 			}else{
-				alert(data.info);
+				//alert(data.info);
+				$("#alert_content").html(data.info);
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
 			}
 		}
 		,error:function(){
-			alert("服务器提交错误");
+			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});
 }
 </script>
 
-{include file="./inc/footer.html"} 
+<div class="amz-toolbar" id="amz-toolbar">
+<a href="#top" title="回到顶部" class="am-icon-btn am-icon-arrow-up am-active" id="amz-go-top"></a>
+</div>	

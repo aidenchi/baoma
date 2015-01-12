@@ -13,6 +13,7 @@
 	font-size: 18px;
 }
 </style>
+
 <div class="header">
 	 <div class="search_box_tx">
     	<div class="search_text_tx">
@@ -147,7 +148,14 @@
 							 <div><img src="{$deal.logo}" width="108" height="67"></div>	
 							 <div class="good_deta">
 								  <h4>{$deal.name}</h4>
-								  <p>标签：{if $deal.tags}{$deal.tags}{else}无{/if}</p>
+								  <!--标签-->
+								  {if $deal.tags}
+								  <p class="txt_tag">
+									{foreach from=$deal.tags_arr item=tag}
+										<span>{$tag}</span>
+									{/foreach}
+								  </p>
+								  {/if}
 								  <p>简介：{if $deal.brief}{$deal.brief}{else}无{/if}</p>
 								  <div class="grade">
 										 <span>评分：</span>

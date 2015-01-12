@@ -17,12 +17,23 @@ a{text-decoration:none}
 .over{
 	overflow:hidden;
 }
+/*fonticon style*/
+@font-face {
+  font-family: 'iconfont';
+  src: url('http://at.alicdn.com/t/font_1420721901_24084.eot'); /* IE9*/
+  src: url('http://at.alicdn.com/t/font_1420721901_24084.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('http://at.alicdn.com/t/font_1420721901_24084.woff') format('woff'), /* chrome、firefox */
+  url('http://at.alicdn.com/t/font_1420721901_24084.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('http://at.alicdn.com/t/font_1420721901_24084.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont{font-family:"iconfont";font-size:30px;font-style:normal; font-weight:bold;}
+
 *{-webkit-tap-highlight-color:rgba(0,0,0,0)}
 input,select,textarea{-webkit-tap-highlight-color:rgba(0,0,0,0);border:0;border-radius:0}
 textarea:focus{outline:0}
 body{color:#000;font-family:Microsoft YaHei;/*background:#f8f8f8;*/}
 html{-webkit-tap-highlight-color: transparent;overflow-x: hidden;height: 100%;min-width: 320px;overflow-x: auto;}
-html,body{background-color:#E2E2E2;color:#333;font-size:14px;-webkit-text-size-adjust:none}
+html,body{background-color:#f2f2f2;color:#333;font-size:14px;-webkit-text-size-adjust:none}
 input, textarea, keygen, select, button, isindex, meter, progress {-webkit-writing-mode: horizontal-tb; font-size:100%;}
 input, textarea, keygen, select, button, isindex {margin: 0em;font: -webkit-small-control;color: initial;letter-spacing: normal;word-spacing: normal;text-transform: none;text-indent: 0px;text-shadow: none;display: inline-block;text-align: start;}
 body{overflow-x: hidden;}
@@ -32,7 +43,7 @@ body
      font-size: 1em;
      font-family: 'microsoft yahei',Verdana,Arial,Helvetica,sans-serif;
      color: #000;
-	 background:#f8f8f8;}
+	 background:#fff;}
 	 
 	 
 .wrap{
@@ -128,8 +139,9 @@ min-width: 50px;
 .sort_list{ 
    background:@box_color;
    overflow:hidden;
-   padding: 4px 0 10px 0;
-   /*border-bottom: 1px solid @border_main;*/
+   padding:8px 0;
+   border-bottom: 1px solid @border_main;
+   border-top: 1px solid @border_main;
    }
 
 
@@ -148,7 +160,7 @@ min-width: 50px;
    color: inherit;
    height: 100%;
    }
-
+.sort_list .sort_li p{}
 .sort_li a .yuan{
    border-radius: 20px; 
    display:block;
@@ -189,28 +201,33 @@ min-width: 50px;
 			 
 			 
 .sort_li a .txt{ 
-   color:#979797;
+   color:#222;
    }	
-
+.sort_li .iconfont{ 
+	color:#f7a525; 
+	display:inherit; 
+	border:2px solid #f7a525; 
+	border-radius:50%; 
+	-webkit-border-radius:50%; 
+	padding:10px; font-size:30px;}
+	
 .list_title{
-	color:#5f5f5f;
+	color:#888;
 	font-size:16px;
-	padding-top:8px;
-	padding-left: 10px;
-	padding-bottom:5px;
-	border-bottom:1px solid #f5f5f5;
+	border-bottom:1px solid @border_main;
+	border-top:1px solid @border_main;
+	background:#f2f2f2;
+	padding:0px 0 0px 10px;
+	font-weight:bold;
 	}		 
 	
 .list_title i{
-	margin-right:7px;
-	font-size:16px;
+	margin-right:5px;
+	font-size:24px;
+	color:#999;
 }	
 .list-view{
 	background:@box_color;
-	/*border:1px solid @border_main;*/
-	border-top:1px solid @border_main;
-	border-bottom:1px solid @border_main;
-	/*margin:0 6px;*/
 }		 
 
 .blank8{
@@ -232,8 +249,8 @@ min-width: 50px;
 
 .sp_li a{
 	display:block;
-	padding:0 5px;
-	padding-right:10px;
+	margin:0 5px;
+	position:relative;
 }
 
 .sp_ul{
@@ -242,13 +259,10 @@ min-width: 50px;
 }
 
 .sp_li .h{
-	font-size:15px;
-	color:#595959;
-	line-height:26px;
-	text-align:center;
-	padding:0 5px;
-	white-space: nowrap;
+	position:absolute; bottom:0; left:0px; height:44px;	font-size:14px;	color:#fff; line-height:150%; width:100%; text-align:center; white-space: nowrap;background:rgba(0,0,0,.4); text-align:left; 
 }
+.sp_li .h h4,.sp_li .h p{padding:0 5px; font-weight:bold;}
+.sp_li .h h4{ color:#f3a525; }
 
 
 .f_user{
@@ -321,17 +335,14 @@ min-width: 50px;
 
 .footer-sort ul li{ 
    display: inline-block;
-   width:19%;
-   border-right:1px solid #666;
+   width:23%;
    color:#666;
    text-align:center;
-   line-height:12px;
    box-sizing:border-box;
 	-moz-box-sizing:border-box; /* Firefox */
 	-webkit-box-sizing:border-box; /* Safari */
    }
-   
-   
+     
 .footer_p{
 	 width:100%;
 	 text-align:center;
@@ -339,9 +350,18 @@ min-width: 50px;
 	 line-height:34px;
 	 }   
 .footer-sort{
-	padding:11px 0 5px 0;
+	padding-bottom:5px;
 	text-align:center;
+	background:rgba(247,165,37,.8);
+	box-shadow:0 -3px 3px #999;
+	-webkit-box-shadow:0 -3px 3px #999;
+	position:fixed;
+	bottom:0;
+	width:100%;
+	
 }
+.footer-sort li a{ color:#fff; font-size:14px; font-weight:bold;}
+.footer-sort li a i{}
 
 .footer_num .footer_bor{
    display:inline-block;
@@ -455,10 +475,10 @@ margin-right: 5px;
 	position:relative; 
 	overflow:hidden; 
 	display:inline-block; 
-	background:url(../images/album.gif) no-repeat;
-	text-align:center;
+	/*background:url(../images/album.gif) no-repeat;*/
 	line-height:24px;
-	color:#fff; 
+	/*color:#fff; */
+	left:15px;
 }
 .growth_pic_fileuploading{ 
 	width: 70px;
@@ -508,47 +528,50 @@ margin-right: 5px;
 .topic_li .list_item{
    display: -webkit-box;
    display: -moz-box;
-   width: 100%;
    display:box;
-   padding:8px 10px 9px 10px;
+   margin:8px;
+   padding-bottom:5px;
+   border-bottom:1px solid #d9d9d9;
 }	
 .topic_li .list_item .topic_user_headimg{
-   width: 50px;
+   /*width: 50px;*/
    margin: 0px 12px 0 0;
    display: inline-block;
    overflow: hidden;
    position: relative;
 }
-.topic_li{	
-	border-bottom:1px solid #f5f5f5;
-}
 .topic_ico{
-	padding:0 11px 5px 0;
+	/*padding:0 11px -2px 0; */
 	position:absolute;
-	top:-20px;
+	top:0px;
 	left:0px;
-	height:35px;
-	width:41px;
-	border-radius: 0 0 22px 0;	
+	height:25px;
+	width:49px;
+	border-radius: 30px 30px 0 0;	
 	color:#fff;
 	text-align:center;
-	line-height:60px;
-	font-size:12px;
+	line-height:26px;
+	font-size:10px;
+	opacity:0.7;
 }
 .topic_user_headimg .ico{
 	background:#fb4226;
 }	
+.topic_user_headimg a img,.topic_user_headimg img{ border-radius:50%;border: 1px solid #FFF;
+ width:50px; height:50px; overflow:hidden;}
+.topic_user_headimg p{ font-size:12px; text-align:center; padding-top:8px;}
 .topic_li .info{
 	-webkit-box-flex: 1;
 	-moz-box-flex:1;
 	color: #6E7D8B;
-	padding-right:10px;
 }
+.topic_li .info a i{ color:#000;}
+.topic_li .info a .iconfont{ color:#bbb;}
 .topic_li .info h3{
    font-size: 12px;
    color: #b2b2b2;
-   height: 28px;
-   line-height: 14px;
+   height: 32px;
+   line-height: 16px;
    overflow: hidden;
    display: -webkit-box;
    display: -moz-box;
@@ -559,7 +582,7 @@ margin-right: 5px;
    -moz-line-clamp: 2;
    -moz-box-orient: vertical;
    word-break: break-all;
-  margin: 11px 0;
+  margin: 3px 0;
 }
 
 /******************************************************论坛回复列表的主帖*ymy*add*2014-12-10***************************************************/
@@ -673,6 +696,7 @@ margin-right: 5px;
 .reply_topic_bottom_p{
 	padding-top:8px;	
 }
+.reply_topic_bottom_text_right .iconfont{ font-size:14px; color:#f60;}
 
 /*************************************************************论坛帖子内容下面的小文字公用*ymy*add*2014-12-10****************************************************/
 .topic_bottom{
@@ -707,8 +731,59 @@ margin-right: 5px;
 	color: #b2b2b2;
 	padding-right:20px;
 }
+.topic_bottom .iconfont{ font-size:12px; color:#bbb;}
+.topic_bottom .zan_gray{ color:#bbb;}
+.topic_bottom .zan{ color:#bbb;}
+
+.topic_t_bar{ padding:10px; background:#fff; border-bottom: 1px solid #e6e6e6; }
+.topic_t_bar a{ font-size:15px; font-weight:bold; color:#4f8fdd; display:inline-block;}
+.topic_t_bar .t_l{ width:85%;}
 
 /*************************************************************成长日志*ymy*add*2014-12-10****************************************************/
+.growth_diary_top{
+	background: #ADD07C;
+	width: 100%;
+	position: relative;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+}
+.growth_diary_date{
+	width: 100%;
+	height: 40px;	
+}
+.growth_diary_user {
+	width: 100%;
+	height: 200px;	
+	text-align: center;
+}
+.growth_circle{
+	width: 100%;
+	height: 30px;
+	background:rgba(51,51,51,.3)
+}
+.growth_diary_list_table {
+	width:100%;
+	color: #adadad;
+	font-size:12px;
+}
+.growth_diary_list_table a{
+	color: #373737;
+}
+.td_line{
+	line-height: 22px;
+	padding: 10px 0;
+	border-bottom: 1px solid #f5f5f5;
+}
+.pic_item {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	float: left;
+	display: inline-block;
+	margin-top: 5px;
+	margin-right: 5px;
+}
+
 .growth_li .list_item{
    display: -webkit-box;
    display: -moz-box;
@@ -803,12 +878,12 @@ margin-right: 5px;
 }	
 
 .tuan_li .list_item .pic{
-   width: 100px;
    margin: 0px 12px 0 0;
    display: inline-block;
    overflow: hidden;
    position: relative;
-}	 
+}
+.tuan_li .list_item .pic img{ overflow:hidden;}	 
 
 
 .tuan_li{
@@ -845,25 +920,23 @@ margin-right: 5px;
 }	
 
 .tuan_li .info h2{
-   font-size: 15px;
-   color: #323232;
-   height: 15px;
-    overflow: hidden;
+   font-size:15px;
+   color: #222;
    display: -webkit-box;
    display: -moz-box;
-   font-weight: bold;
    -webkit-line-clamp: 2;
    -moz-line-clamp: 2;
    -webkit-box-orient: vertical;
    -moz-box-orient: vertical;
    word-break: break-all;
-   line-height: 15px;
+   line-height:16px;
+   font-weight:bold;
 }
 .tuan_li .info h3{
-   font-size: 12px;
-   color: #b2b2b2;
-   height: 28px;
-   line-height: 14px;
+   font-size:12px;
+   color: #888;
+   height:30px;
+   line-height:14px;
    overflow: hidden;
    display: -webkit-box;
    display: -moz-box;
@@ -874,7 +947,7 @@ margin-right: 5px;
    -moz-line-clamp: 2;
    -moz-box-orient: vertical;
    word-break: break-all;
-  margin: 11px 0;
+  margin:3px 0;
 
 }
 
@@ -885,7 +958,13 @@ margin-right: 5px;
    width: 100%;
    display:box;
 }
-
+.tuan_price ul{ width:100%;}
+.tuan_price ul li{ float:left; color:#999; font-size:12px; height:20px; line-height:20px;}
+.tuan_price ul .w_75{ width:75%;}
+.tuan_price ul .w_25{ width:25%;}
+.tuan_price ul li i{ font-size:12px; color:#aaa;}
+.tuan_price ul .distance{ font-size:15px;}
+.txt_tag span{ background:#f5af23; display:inline-block; margin:0 3px 0 0; color:#fff; font-size:12px; padding:0 2px;}
 .tuan_price .price{
    -webkit-box-flex: 1;
    -moz-box-flex: 1;
@@ -983,7 +1062,6 @@ position: relative;
 	border-bottom:1px solid @border_style;
 	line-height:30px;
 	color:@font_style;
-	text-align:center;
 }
 
 .pull_down .menu span{
@@ -994,7 +1072,7 @@ position: relative;
 
 .pull_down .menu i{
 	padding:0 5px;
-	font-size:18px;
+	font-size:20px;
 }
 
 
@@ -1110,15 +1188,17 @@ position: relative;
 
 
 .fy{
-	display:-moz-box;
+	/*display:-moz-box;
     display:-webkit-box;
-    display:box;
+    display:box;*/
 	/*width:100%;*/
 	padding:7px 10px;
 	/*border-bottom:1px solid #e6e6e6;*/
 	border-radius:5px;
 	background:#fff;
+	text-align:center;
 }
+.fy a:hover{ border-color:#f60; color:#f60;}
 .fy .next{
 	display:inline-block;
 	width:72px;
@@ -1299,22 +1379,25 @@ a.react{
 	position: fixed;
 	right: 10px;
 	bottom:75px;
-	width: 40px;
-	height: 40px;
+	width: 35px;
+	height: 35px;
 	line-height:35px;
 	z-index: 130;
 	border-radius: 50%;
 	overflow: hidden;
-	text-align: center;
-	font-size:30px;
+	text-align: center;	
 	color:@font_white;
-	background:@main_color;;
+	background:@main_color;
+	font-size:24px;
+	border:4px solid #f5b857;
 }
 .gotop a{
 	display: block;
 	color: inherit;
 	height: 100%;
+	background:#fff;
 }
+.gotop .iconfont{font-size:20px; color:#f5b857;}
 .com-client{
 	border-bottom:1px solid @border_main;
 	background:@box_color;
@@ -1424,7 +1507,7 @@ margin:20px 0;
 }
 .choose_li{
 	padding:8px 10px 9px 10px;
-	/*border-bottom:1px solid #f5f5f5;*/
+	border-bottom:1px solid #d9d9d9;
 }
 .choose_li .choose_item{
    display: -webkit-box;
@@ -1433,7 +1516,7 @@ margin:20px 0;
    display:box;   
 }
 .choose_li .choose_title{
-   width: 50px;
+   width: 45px;
    display: inline-block;
    position: relative;
    color: #5f5f5f;
@@ -1444,9 +1527,71 @@ margin:20px 0;
     color: #6E7D8B;
 }	
 .choose_li .choose_content i{
-	padding-right: 20px;
+	margin:0 2px; line-height:16px;
 }
 .choose_li .choose_content .selected{
 	font-weight: bolder;
 	color: #f59436;
+	background:#f59436;
+	color:#fff;
+}
+
+/********************帖子列表topiclist*******************/
+.topic_list_top{
+	background: #fff;
+	width: 100%;
+	position: relative;
+	height: 40px;	
+	display: -webkit-box;
+	line-height:40px;
+	box-shadow:0 3px 3px #999;
+}
+.topic_list_top_left{
+
+	width: 10%;	
+	text-align: center;
+	font-size:24px;
+	color:#ccc;
+}
+.topic_list_top .fa{ line-height:35px; padding-left:50%; margin-left:-11px;}
+.topic_list_top_center {
+	width: 80%;	
+	text-align:center;
+}
+.topic_list_top_center a{
+	color:#5B5B5B;
+	font-size:16px;
+	padding-left:8px;
+	padding-right:8px;
+}
+.topic_list_top_center .selected{
+	font-weight: bolder;
+	color: #f59436;
+}
+.topic_list_top_right{
+
+	width: 10%;
+	text-align: center;
+}
+.topic_list_top_right a{
+	color:#ccc;
+	font-size:24px;
+}
+.topic_list_bg{
+	width: 100%;
+	background: #ccc;
+}
+.topic_search_box {	
+	width:100%;
+	height: 40px;
+	background: #f6f6f6;
+	position: relative;	
+	display: none;
+}
+.topic_search_box .search_text {
+	width:90%;
+	dispalay: inline-block;
+	height: 30px;
+	padding: 5px;
+	position: relative;
 }

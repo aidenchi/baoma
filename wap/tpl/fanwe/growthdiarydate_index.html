@@ -1,4 +1,4 @@
-{include file="./inc/header_growth.html"}
+{include file="./inc/header_common.html"}
 <style>
 .wrap{font: 16px/1.6em Arial, Geneva, Helvetica, sans-serif;}
 .current_date{font-size:18px;font-weight:bold;margin-bottom:10px;}
@@ -99,17 +99,32 @@ function getGrowthdairy(current_year_val, current_month_year){
 	});	
 }
 </script>
-<div class="header">
-	<div class="c-hd">
-        <section class="header_left_text">
-              <a href='{wap_url a="index" r="growthdiarylist#index"}'>列表</a>
-	    </section>
-        <section class="logo_img">{$data.page_title}</section>
-        <section class="h_search"><!--这里是头部的隐藏列表，点击可操作-->
-			<a href='{wap_url a="index" r="growthdiarywrite#index"}'><i>记录一下</i></a>
-	    </section>
-     </div>	 
-</div>	
+
+			<div class="growth_diary_top">
+				<div class="growth_diary_date">
+					<div style="float:left;width:50%;text-align:left;">
+						<a href='{wap_url a="index" r="growthdiarylist#index"}'>
+							<span class="am-icon-list" style="font-size:30px; color:#fff;margin:10px;"></span>							
+						</a>
+					</div>
+					<div style="float:left;width:50%;text-align:right;">
+						<a href='{wap_url a="index" r="growthdiarywrite#index"}'>
+							<span class="am-icon-plus" style="font-size:30px; color:#fff;margin:10px;"></span>
+						</a>
+					</div>
+				</div>
+				<div class="growth_diary_user">
+					<img style="border-radius:60px;" src='{function name="get_user_avatar" uid=$data.login_user_id type="middle" }'>
+					<br/>
+					<span style="color:#fff; font-size:18px; line-height:24px;">{$data.login_user_name}</span><br/>
+					<span style="color:#fff; font-size:18px; line-height:24px;">{function name="get_user_age_byid" uid=$data.login_user_id}</span>
+				 </div>	
+				 <div class="growth_circle">
+					<a href='{wap_url a="index" r="growthdiarylist_public#index"}'>
+						<span style="padding-left:10px;line-height:30px;font-size:16px;color:#fff;font-weight:bold"><成长圈</span>
+					</a>
+				 </div>
+			</div>
 
 			<div class="wrap">			
 				<div class="blank8"></div>

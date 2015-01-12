@@ -3175,6 +3175,40 @@ function increase_user_active($user_id,$log)
 	}
 }
 
+
+//增加会员活跃度----成长日记
+function increase_user_active_growth_diary($user_id,$log)
+{
+	$t_begin_time = to_timespan(to_date(get_gmtime(),"Y-m-d"));  //今天开始
+	$t_end_time = to_timespan(to_date(get_gmtime(),"Y-m-d"))+ (24*3600 - 1);  //今天结束
+	$y_begin_time = $t_begin_time - (24*3600); //昨天开始
+	$y_end_time = $t_end_time - (24*3600);  //昨天结束
+	
+	$point = intval(app_conf("USER_GROWTH_DIARY_POINT"));
+	$score = intval(app_conf("USER_GROWTH_DIARY_POINT"));
+	$point_max = intval(app_conf("USER_GROWTH_DIARY_POINT_MAX"));
+	$score_max = intval(app_conf("USER_GROWTH_DIARY_SCORE_MAX"));
+	
+	$sum_score = intval($GLOBALS['db']->getOne("select sum(score) from ".DB_PREFIX."user_active_log where user_id = ".$user_id." and create_time between ".$t_begin_time." and ".$t_end_time));
+	$sum_point = intval($GLOBALS['db']->getOne("select sum(point) from ".DB_PREFIX."user_active_log where user_id = ".$user_id." and create_time between ".$t_begin_time." and ".$t_end_time));
+	
+	$money = 0;
+	if($sum_score>=$score_max)$score = 0;
+	if($sum_point>=$point_max)$point = 0;
+	
+	if($money>0||$score>0||$point>0)
+	{
+		require_once  APP_ROOT_PATH."system/libs/user.php";
+		modify_account(array("money"=>$money,"score"=>$score,"point"=>$point),$user_id,$log);
+		$data['user_id'] = $user_id;
+		$data['create_time'] = get_gmtime();
+		$data['money'] = $money;
+		$data['score'] = $score;
+		$data['point'] = $point;
+		$GLOBALS['db']->autoExecute(DB_PREFIX."user_active_log",$data);
+	}
+}
+
 /**
  * 
  * @param $location_id 店铺ID

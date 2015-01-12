@@ -1,8 +1,4 @@
-{include file="./inc/header_common.html"}
-
-<div style="padding:10px 0; background:#fff; border-bottom: 1px solid #e6e6e6; ">
-	<a href='{wap_url a="index" r="user_center#index"}'><i class="fa fa-chevron-left"></i>&nbsp;返回</a>
-</div>
+{include file="./inc/header.html"}
 
 <div class="wrap">
 	<div class="content">
@@ -21,7 +17,7 @@
 			   <div id="con_one_1" class="hover">
 					<div class="blank8"></div>
 					<div class="list-view">
-						<div class="list_title">共<span id="my_goods_comment_count">{$data.my_goods_comment_count}</span>条</div>
+						<div class="list_title"><i class="fa fa-bullhorn"></i>共<span id="my_goods_comment_count">{$data.my_goods_comment_count}</span>条</div>
 						 {if $data.my_goods_comment_list}
 							 <ul class="shop_comment_list">
 								{foreach from=$data.my_goods_comment_list item=comment }
@@ -36,8 +32,8 @@
 									   </div>
 									   <span class="comment_time">
 									   {$comment.create_time_format}
-									   <a href="javascript:void(0);" onclick="delete_goods_comment({$comment.id},$('#goods_comment_{$comment.id}'));">删除</a>
 									   {if $comment.is_effect eq 0}<i style="color:red;">未审核</i>&nbsp;{/if}
+									   <a href="javascript:void(0);" onclick="delete_goods_comment_confirm({$comment.id},$('#goods_comment_{$comment.id}'));"><span class="am-icon-remove"></span></a>
 									   </span>
 									</div>
 									<div class="comment_p">
@@ -50,9 +46,11 @@
 								</li>
 								{/foreach}
 							 </ul>
+							 {if $data.page.page_total gt 1}
 							 <div class="fy">
 								{$pages}
 							 </div>
+							 {/if}
 							 {else}
 							 <div class="assess_list" style="text-align:center;padding:10px 0;"> 暂无评论</div>
 							 {/if}
@@ -65,6 +63,19 @@
 </div>
 
 <script type="text/javascript">
+function delete_goods_comment_confirm(goods_comment_id,one_goods_comment_li_obj){
+	 $("#confirm_content").html("您确定要删除这条点评吗");
+	 $('#my-confirm').modal({
+        relatedTarget: this,
+        onConfirm: function(options) {
+			delete_goods_comment(goods_comment_id,one_goods_comment_li_obj); 
+		},
+        onCancel: function() {
+			
+        }
+      });
+}
+
 function delete_goods_comment(goods_comment_id,one_goods_comment_li_obj){
 	var query = new Object();
 	query.goods_comment_id = goods_comment_id;
@@ -82,13 +93,21 @@ function delete_goods_comment(goods_comment_id,one_goods_comment_li_obj){
 				var my_goods_comment_count = $("#my_goods_comment_count").html();
 				my_goods_comment_count = parseInt(my_goods_comment_count)-1;
 				$("#my_goods_comment_count").html(my_goods_comment_count);
-				alert(data.info);
+				//alert(data.info);
 			}else{
-				alert(data.info);
+				//alert(data.info);
+				$("#alert_content").html(data.info);
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
 			}
 		}
 		,error:function(){
-			alert("服务器提交错误");
+			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});
 }

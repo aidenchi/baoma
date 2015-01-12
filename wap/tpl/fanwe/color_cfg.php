@@ -3,16 +3,16 @@ return array(
 
  //主要设置@main_color，@font_style
  //最初色版本#fc8600，
-    "@main_color"   =>  "#999999", //整体风格颜色
+    "@main_color"   =>  "#f5b857", //整体风格颜色
 	
-	"@border_main" =>   "#e6e6e6",  //主要边框颜色
+	"@border_main" =>   "#d9d9d9",  //主要边框颜色
     "@border_style"=>   "#fc8600",  //整体风格边框颜色
     
     "@font_white"  =>   "#fff",    //白色字体
     "@font_style"  =>   "#fc8600", //整体风格字体 
     "@font_red"    =>   "#ed3130", //类似一些字体突出显示的
     
-    "@body_color"  =>   "#f8f8f8", //整体背景色
+    "@body_color"  =>   "#fff", //整体背景色
     "@box_color"   =>   "#fff",    //块颜色
     "@box_red"     =>   "#ed3130", //类似一些按钮需显示显眼，
     

@@ -1,59 +1,17 @@
 {include file="./inc/header_common.html"}
 <style>
-.growth_diary_top{
-	background: #A2CEA0;
-	width: 100%;
-	position: relative;
-}
-.growth_diary_date{
-	width: 100%;
-	height: 40px;	
-}
-.growth_diary_user {
-	width: 100%;
-	height: 180px;	
-	text-align: center;
-}
-.growth_circle{
-	width: 100%;
-	height: 30px;
-	background: #999999;
-	opacity: 0.5;
-	filter:alpha(opacity=50)
-}
-.growth_diary_list_table {
-	width:100%;
-	color: #adadad;
-	font-size:12px;
-}
-.growth_diary_list_table a{
-	color: #adadad;
-}
-.td_line{
-	line-height: 22px;
-	padding: 10px;
-	border-bottom: 1px solid #f5f5f5;
-}
-.pic_item {
-	position: relative;
-	width: 100px;
-	height: 100px;
-	float: left;
-	display: inline-block;
-	margin-top: 5px;
-	margin-right: 5px;
-}
+.wrap .iconfont{ font-size:12px;}
 </style>
 			<div class="growth_diary_top">
 				<div class="growth_diary_date">
 					<div style="float:left;width:50%;text-align:left;">
 						<a href='{wap_url a="index" r="growthdiarydate#index"}'>
-							<span>日历</span>
+							<span class="am-icon-calendar" style="font-size:30px; color:#fff;margin:10px;"></span>							
 						</a>
 					</div>
 					<div style="float:left;width:50%;text-align:right;">
 						<a href='{wap_url a="index" r="growthdiarywrite#index"}'>
-							<span>记录</span>		
+							<span class="am-icon-plus" style="font-size:30px; color:#fff;margin:10px;"></span>
 						</a>
 					</div>
 				</div>
@@ -73,55 +31,60 @@
 			<div class="wrap">
 					{if $data.growth_diary_list}					
 					<div class="list-view">
-						<div class="list_title">共{$data.total}篇日记</div>
+						<div class="list_title"><span style="display:inline-block; width:35%;">共{$data.total}篇日记</span><span style="font-size:12px; color:#bbb;">最近一篇日志发表于{if $data.day_time gt 0}{$data.day_time}天前{else}今天{/if}</span></div>
 						<table cellspacing="0" cellpadding="0" border="0" class="growth_diary_list_table">							
 							{foreach from=$data.growth_diary_list item=growth_diary}								
 							<tbody id="growth_diary_{$growth_diary.id}">
 								<tr>
 									<td class="td_line" width="50" style="text-align:center;" valign="top">
-										<span style="font-size:20px;">{$growth_diary.record_month}.{$growth_diary.record_day}</span>
+										<span style="font-size:22px;">{$growth_diary.record_month}.{$growth_diary.record_day}</span>
 									</td>								
 									<td class="td_line">	
 										<table cellspacing="0" cellpadding="0" border="0" width="100%">		
 											<tr>								
 												<td>
 													<!--文字内容-->
-													<a style="font-size:14px;" href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
+													<a style="font-size:14px; line-height:14px;" href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
 													{$growth_diary.short_content}	
 													</a>
 													<!--图片内容-->
 													{if $growth_diary.has_pic}
-													<br/>										
-													{foreach from=$growth_diary.pic_list item=pic_item}
-														<div class='pic_item'>
-															<img src='{$pic_item.small_preview_path}' />
-														</div>
-													{/foreach}
+													<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-imgbordered" data-am-gallery="{ pureview: true }">
+														{foreach from="$growth_diary.pic_list" item="pic_item"}
+														  <li>
+															<div class="am-gallery-item">
+															  <a href='{wap_url a="index" r="merchantitem#index" p="id=$location.id"}'>
+																<img src="{$pic_item.small_preview_path}" data-rel="{$pic_item.large_path}" />
+															  </a>
+															</div>
+														  </li>
+														{/foreach}
+													</ul>
 													{/if}
 												</td>
 												<td width="35px;" align="right" valign="top" >	
 													<!--
 													<a style="color: #adadad;" href='{wap_url a="index" r="growthdiarywrite#index"  p="id=$growth_diary.id"}'><i style="color:red;">编辑</i></a>&nbsp;
 													-->
-													<a style="color: #adadad;" href="javascript:void(0);" onclick="delete_growth_diary({$growth_diary.id},$('#growth_diary_{$growth_diary.id}'));"><i style="color:red;">删除</i></a>				
+													<a href="javascript:void(0);" onclick="delete_growth_diary_confirm({$growth_diary.id},$('#growth_diary_{$growth_diary.id}'));"><span class="am-icon-remove"></span></a>				
 												</td>
 											</tr>	
 											<tr>								
-												<td style="padding-top:10px;">
+												<td style="padding-top:10px;">                                                	
 													{if $growth_diary.is_public eq 1}
-													<span style="padding-right:3px;">喜欢({$growth_diary.fav_count})</span>										
+													<span style="padding-right:3px;"><span class="am-icon-eye"></span>{$growth_diary.hit_count}</span>
+													<span style="padding-right:3px;"><span class="am-icon-heart-o"></span>{$growth_diary.fav_count}</span>										
 													<a href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
-														<span style="padding-right:10px;color:#adadad;">评论({$growth_diary.reply_count})</span>
+														<span style="padding-right:10px;color:#adadad;"><span class="am-icon-comment-o"></span>{$growth_diary.reply_count}</span>
 													</a>
-													{/if}										
-													<span>{function name="pass_date" time=$growth_diary.create_time }</span>		
+													{/if}	
 												</td>
 												<td width="35px;" align="right">	
 													{if $growth_diary.is_public eq 1}
-														<span style="cursor:pointer;" id="public_status_{$growth_diary.id}" onclick="change_public_status({$growth_diary.id})">公开</span>
+														<span style="cursor:pointer;" id="public_status_{$growth_diary.id}" onclick="change_public_status({$growth_diary.id})"><span id="lock_icon_{$growth_diary.id}" class="am-icon-unlock"></span></span>
 													{/if}
 													{if $growth_diary.is_public eq 0}
-														<span style="cursor:pointer;" id="public_status_{$growth_diary.id}" onclick="change_public_status({$growth_diary.id})">私有</span>
+														<span style="cursor:pointer;" id="public_status_{$growth_diary.id}" onclick="change_public_status({$growth_diary.id})"><span id="lock_icon_{$growth_diary.id}" class="am-icon-lock"></span></span>
 													{/if}
 												</td>
 											</tr>				
@@ -130,11 +93,13 @@
 								</tr>						
 							</tbody>
 							{/foreach}							
-						</table>
+						</table>						
 						<!--分页-->
+						{if $data.page.page_total gt 1}
 						<div class="fy">
 							{$pages}
 						</div>
+						{/if}
 					</div><!--list-view end-->	
 					{else}
 					<div style="margin-top:10px;margin-bottom:10px;text-align:center;">
@@ -147,6 +112,7 @@
 <script type="text/javascript">
 function change_public_status(growth_diary_id){
 	var public_status_id = "public_status_"+growth_diary_id;
+	var lock_icon_id = "lock_icon_"+growth_diary_id;
 	//alert(public_status_id);
 	var query = new Object();
 	query.growth_diary_id = growth_diary_id;
@@ -160,22 +126,52 @@ function change_public_status(growth_diary_id){
 		success:function(data){
 			if(data.status==1){
 				if(data.public_status == 0){
-					document.getElementById(public_status_id).innerText = "私有";	
+					//document.getElementById(public_status_id).innerText = "私有";	
+					document.getElementById(lock_icon_id).className = "am-icon-lock";	
 				}
 				if(data.public_status == 1){
-					document.getElementById(public_status_id).innerText = "公开";	
+					//document.getElementById(public_status_id).innerText = "公开";	
+					document.getElementById(lock_icon_id).className = "am-icon-unlock";	
 				}
-				alert(data.info);
+				//alert(data.info);
+				$("#alert_content").html(data.info);
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
+				setTimeout(function(){
+					$('#my-alert').modal('close');
+				},1000);
 			}else{
-				alert(data.info);
+				//alert(data.info);
+				$("#alert_content").html(data.info);
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
 			}
 		}
 		,error:function(){
-			alert("服务器提交错误");
+			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});
 }
+//删除成长日记confirm
+function delete_growth_diary_confirm(growth_diary_id,one_growth_diary_obj){
+	 $("#confirm_content").html("您确定要删除这篇成长日记吗");
+	 $('#my-confirm').modal({
+        relatedTarget: this,
+        onConfirm: function(options) {
+			delete_growth_diary(growth_diary_id,one_growth_diary_obj);      },
+        onCancel: function() {
+			
+        }
+      });
+}
 
+//删除成长日记
 function delete_growth_diary(growth_diary_id,one_growth_diary_obj){
 	var query = new Object();
 	query.id = growth_diary_id;
@@ -190,13 +186,22 @@ function delete_growth_diary(growth_diary_id,one_growth_diary_obj){
 		success:function(data){
 			if(data.status==1){ 
 				one_growth_diary_obj.remove();
+				location.reload();
 				//alert(data.info);
 			}else{
-				alert(data.info);
+				//alert(data.info);
+				$("#alert_content").html(data.info);
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
 			}
 		}
 		,error:function(){
-			alert("服务器提交错误");
+			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});
 }

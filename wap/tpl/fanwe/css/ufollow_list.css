@@ -249,31 +249,31 @@ padding: 0px;
 margin: 0px;
 }
 .add_focus, .add_focus:hover {
-color: #774433;
-text-decoration: none;
-background: url(http://192.168.1.250/o2o/app/Tpl/fanwe/images/focus_ico.gif) no-repeat 4px 5px #fff;
-display: inline-block;
-height: 20px;
-line-height: 20px;
-padding-left: 18px;
-border: #d8d8d7 solid 1px;
-width: 44px;
-margin-top: 5px;
-font-size: 12px;
+	text-decoration: none;
+	background:#4f8fd9;
+	display: inline-block;
+	height:25px;
+	line-height: 25px;
+	border: #1160ab solid 1px;
+	width:68px;
+	margin-top: 5px;
+	border-radius:5px;
+	color:#fff;
+	text-align:center;
 }
 
 .remove_focus, .remove_focus:hover {
-color: #979797;
-text-decoration: none;
-display: inline-block;
-height: 20px;
-line-height: 20px;
-text-align: center;
-border: #d8d8d7 solid 1px;
-width: 62px;
-margin-top: 5px;
-background: #fff;
-font-size: 12px;
+color: #888;
+	text-decoration: none;
+	display: inline-block;
+	height: 25px;
+	line-height: 25px;
+	text-align: center;
+	border: #d8d8d7 solid 1px;
+	width: 68px;
+	margin-top: 5px;
+	background: #eee;
+	border-radius:5px;
 }
 
 .toogle_topic_image_box img {

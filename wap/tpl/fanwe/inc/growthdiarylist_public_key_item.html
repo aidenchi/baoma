@@ -2,7 +2,7 @@
 							<tbody>
 								{foreach from=$data.growth_diary_list item=growth_diary}
 								<tr>
-									<td class="td_line" width="50" style="text-align:center;" valign="top">
+									<td class="td_line" width="80" style="text-align:center;" valign="top">
 										{if $data.login_user_id gt 0}
 											{if $data.login_user_id eq $growth_diary.user_id}
 											<a href='{wap_url a="index" r="user_center#index"}'>
@@ -31,22 +31,28 @@
 													</a>
 													<!--图片内容-->
 													{if $growth_diary.has_pic}
-													<br/>										
-													{foreach from=$growth_diary.pic_list item=pic_item}
-														<div class='pic_item'>
-															<img src='{$pic_item.small_preview_path}' />
-														</div>
-													{/foreach}
+													<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-imgbordered" data-am-gallery="{ pureview: true }">
+														{foreach from="$growth_diary.pic_list" item="pic_item"}
+														  <li>
+															<div class="am-gallery-item">
+															  <a href='{wap_url a="index" r="merchantitem#index" p="id=$location.id"}'>
+																<img src="{$pic_item.small_preview_path}" data-rel="{$pic_item.large_path}" />
+															  </a>
+															</div>
+														  </li>
+														{/foreach}
+													</ul>
 													{/if}
 												</td>
 											</tr>	
 											<tr>								
 												<td style="padding-top:10px;">
+													<span style="padding-right:3px;"><span class="am-icon-eye"></span>{$growth_diary.hit_count}</span>
 													<span style="padding-right:3px; cursor:pointer;" onclick="favorite_growth_diary({$growth_diary.id},{$growth_diary.user_id})">
 														{if $growth_diary.is_fav eq 1}
-														<font id="fav_text_{$growth_diary.id}">已喜欢</font>(<font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>)
+														<font id="fav_text_{$growth_diary.id}"><span id="fav_icon_{$growth_diary.id}" class="am-icon-heart-o" style="color:#f90"></span></font><font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>
 														{else}
-														<font id="fav_text_{$growth_diary.id}">喜欢</font>(<font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>)
+														<font id="fav_text_{$growth_diary.id}"><span id="fav_icon_{$growth_diary.id}" class="am-icon-heart-o"></font><font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>
 														{/if}
 													</span>
 													{if $data.login_user_id gt 0}
@@ -54,7 +60,7 @@
 													{else}
 													<a href='javascript:void(0);' onclick="login_ts()">
 													{/if}
-														<span style="padding-right:10px;">评论({$growth_diary.reply_count})</span>
+															<span style="padding-right:10px;"><span class="am-icon-comment-o"></span>{$growth_diary.reply_count}</span>
 													</a>
 													<span>{function name="pass_date" time=$growth_diary.create_time }</span>			
 												</td>

@@ -67,9 +67,18 @@ class GrowthDiaryAction extends CommonAction{
 		$id = $_REQUEST ['id'];
 		if (isset ( $id )) {
 				$condition = array ('id' => array ('in', explode ( ',', $id ) ) );
+				$list_data = M(MODULE_NAME)->where($condition)->findAll();	
+				foreach($list_data as $data){
+					if(intval(app_conf('USER_GROWTH_DIARY_DELETE_POINT'))<0 || intval(app_conf('USER_GROWTH_DIARY_DELETE_SCORE'))<0){
+						require_once  APP_ROOT_PATH."system/libs/user.php";
+						modify_account(array("money"=>0,"score"=>intval(app_conf('USER_GROWTH_DIARY_DELETE_SCORE')),"point"=>intval(app_conf('USER_GROWTH_DIARY_DELETE_POINT'))),$data['user_id'],"成长日记被删除");	
+					}
+				}
+				
 				$list = M(MODULE_NAME)->where ( $condition )->delete();	
 			
 				if ($list!==false) {
+					
 					save_log($info.l("FOREVER_DELETE_SUCCESS"),1);
 					$this->success (l("FOREVER_DELETE_SUCCESS"),$ajax);
 				} else {

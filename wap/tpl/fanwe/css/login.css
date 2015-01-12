@@ -49,9 +49,8 @@ color: #484848;
  }
 .Menubox li.hover{
  padding:0px;
- background:#fff;
+ background:#f2f2f2;
  font-weight:bold;
- border: none;
  -webkit-box-flex: 1;
   -moz-box-flex: 1;
 }
@@ -118,6 +117,7 @@ color: #484848;
 	font-size: 26px;
 	color: #878787;
 }
+.inputpc .fa{ margin:8px; color:#bbb;}
 .input_sr{
 	-webkit-box-flex:1;
 	-moz-box-flex:1;
@@ -125,7 +125,7 @@ color: #484848;
 	overflow:hidden;
 }
 .inputtxt input{
-	color:#c0c0c0;
+	color:#555;
 	font-size:15px;
 	background: none;
 	border: none;
@@ -159,20 +159,22 @@ color: #484848;
 	font-size:15px;
 }
 .btn_login{
-	margin-top:10px;
-	width: 100%;
-	border-radius: 15px;
-	height: 35px;
+	margin:6px auto 6px auto;
+	width: 80%;
+	border-radius: 8px;
+	border-width:1px;
+	border-color:#d2d2d2;
+	height: 32px;
 	overflow: hidden;
-	background:@main_color;
+	background:#fff;
 }
 .btn_login input{
 	width: 100%;
 	border-radius: 15px;
-	background: #fb8602;
+	background: #4f8fd9;
 	height: 35px;
 	text-align: center;
-	color: @font_white;
+	color:#d2d2d2;
 	font-size:14px;
 	font-weight:bolder;
 	border:none;
@@ -347,34 +349,40 @@ margin-top: 10px;
 	padding-top: 8px;
 }	
 .add_focus, .add_focus:hover {
-	color: #774433;
 	text-decoration: none;
-	background: url(../images/focus_ico.gif) no-repeat 4px 5px #fff;
+	background:#4f8fd9;
 	display: inline-block;
-	height: 20px;
-	line-height: 20px;
-	padding-left: 15px;
-	border: #d8d8d7 solid 1px;
-	width: 50px;
+	height:25px;
+	line-height: 25px;
+	border: #1160ab solid 1px;
+	width:68px;
 	margin-top: 5px;
+	border-radius:5px;
+	color:#fff;
+	text-align:center;
 }
 .remove_focus, .remove_focus:hover {
-	color: #979797;
+	color: #888;
 	text-decoration: none;
 	display: inline-block;
-	height: 20px;
-	line-height: 20px;
+	height: 25px;
+	line-height: 25px;
 	text-align: center;
 	border: #d8d8d7 solid 1px;
-	width: 62px;
+	width: 68px;
 	margin-top: 5px;
-	background: #fff;
+	background: #eee;
+	border-radius:5px;
 }
 /*个人资料页面*/
 .user_info {
-	padding: 0 20px;
+	padding-left:20px;
 	border-bottom: 1px solid #f5f5f5;
 	color: #939393;
 	position: relative;
-	line-height: 35px;
+	line-height: 24px;
 }
+.name p span{ margin-right:5px; color:#888;}
+.name p .iconfont{ font-size:12px; color:#bbb; margin-right:3px;}
+.account_info .user_info{ padding-left:0; border-bottom:0; line-height:16px;}
+.add_r{ position:absolute; right:5px; top:10px;}

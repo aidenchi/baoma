@@ -1,4 +1,4 @@
-{include file="./inc/header_common.html"}
+{include file="./inc/header.html"}
 <style>
 .msg_list_table {
 	width:100%;
@@ -21,18 +21,14 @@
 	height: 12px;
 }
 </style>
-
-<div style="padding:10px 0; background:#fff; border-bottom: 1px solid #e6e6e6; ">
-	<a href='{wap_url a="index" r="user_center#index"}'><i class="fa fa-chevron-left"></i>&nbsp;返回</a>
-</div>
-				
+	
 <div class="wrap">
 	<div class="content">
 					<div class="blank8"></div>
 					<div class="list-view">
 						<div class="list_title">
 							我的私信(共<span id="my_msg_count">{$data.msg_count}</span>条)
-							<i style="float:right;"><a href='{wap_url a="index" r="mymsgdetail#index"}'>写私信</a></i>
+							<i style="float:right;font-size:12px;"><a href='{wap_url a="index" r="mymsgdetail#index"}'>写私信</a></i>
 						</div>
 						{if $data.msg_list}
 						<div style="padding-left:10px;padding-top:5px;">
@@ -138,35 +134,53 @@ $(document).ready(function(){
 function delete_msg(){
 	var cbos = $("input[name='pm_key[]']:checked");
 	if(cbos.length==0){
-		alert("请选中您要删除的消息记录");
+		//alert("请选中您要删除的消息记录");
+		$("#alert_content").html("请选中您要删除的消息记录！");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},2000);
 	}else{
-		if(confirm("确定删除吗")){			
-			var group_keys = $("input[name='pm_key[]']:checked");
-			//alert(group_keys.length);
-			var group_keys_val = "";
-			for (var i=0; i < group_keys.length; i++) {
-				group_key_val = group_keys[i].value;
-				group_keys_val = group_keys_val+","+group_key_val;
+		 $("#confirm_content").html("您确定要删除选中的消息记录吗");
+		 $('#my-confirm').modal({
+			relatedTarget: this,
+			onConfirm: function(options) {
+				var group_keys = $("input[name='pm_key[]']:checked");
+				//alert(group_keys.length);
+				var group_keys_val = "";
+				for (var i=0; i < group_keys.length; i++) {
+					group_key_val = group_keys[i].value;
+					group_keys_val = group_keys_val+","+group_key_val;
+				}
+				//alert(group_keys_val);
+				var query = new Object();
+				query.group_keys_val = group_keys_val;
+				query.post_type = "json";
+				var ajaxurl = '{wap_url a="index" r="mymsgdelbykey#index"}';
+				$.ajax({
+					url:ajaxurl,
+					data:query,
+					type:"post",
+					dataType:"json",
+					success:function(data){
+						//alert(data.group_keys_val);
+						location.reload();
+					}
+					,error:function(){
+						//alert("服务器提交错误");
+						$("#alert_content").html("服务器提交错误，请稍后重新操作");
+						$('#my-alert').modal({
+							relatedTarget: this,
+						});
+					}
+				});
+			},
+			onCancel: function() {
+				
 			}
-			//alert(group_keys_val);
-			var query = new Object();
-			query.group_keys_val = group_keys_val;
-			query.post_type = "json";
-			var ajaxurl = '{wap_url a="index" r="mymsgdelbykey#index"}';
-			$.ajax({
-				url:ajaxurl,
-				data:query,
-				type:"post",
-				dataType:"json",
-				success:function(data){
-					alert(data.group_keys_val);
-					location.reload();
-				}
-				,error:function(){
-					alert("服务器提交错误");
-				}
-			});
-		}
+		  });
 	}
 }
 </script>

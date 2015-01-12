@@ -4,19 +4,41 @@
 					<div class="list-view">
 						 <div class="list_title">活动列表</div>
 						 {if $data.article_list}
+							<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-overlay" >
+								{foreach from="$data.article_list" item="article"}
+								  <li>
+									<div class="am-gallery-item">
+									  <a href='{wap_url a="index" r="articleitem#index" p="id=$article.id"}'>
+										<img src="{$article.icon}"
+										alt="{$article.name}" />
+										<h3 class="am-gallery-title">{$article.name}</h3>
+										<h3 class="am-gallery-brief">{function name="msubstr" v=$article.brief b=0 e=10}</h3>
+										<div class="am-gallery-desc">2375-09-26</div>
+									  </a>
+									</div>
+								  </li>
+								{/foreach}
+							</ul>
+						 <!--
 						 <ul class="sp_ul">
 							{foreach from="$data.article_list" item="article"}
 						 	<li class="sp_li">
 						 	    <a href='{wap_url a="index" r="articleitem#index" p="id=$article.id"}'>
 						 	    	<img src="{$article.icon}" width="100%">
-									<div class="h">{$article.name}</div>
+                                    <div class="h">
+                                    	<h4>这里是红色标题</h4>
+                                    	<p>{$article.name}</p>                                        
+                                    </div>
 						 	    </a>
 						 	</li>
 							{/foreach}
 						</ul>
+						-->
+						{if $data.page.page_total gt 1}
 						<div class="fy">
 							{$pages}
 						</div>
+						{/if}
 						{else}
 						 <div class="assess_list" style="text-align:center;padding:10px 0;">暂无活动信息</div>
 						{/if}

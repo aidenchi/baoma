@@ -3,19 +3,11 @@
 <?php die();?>
 {/if}
 {include file="./inc/header_common.html"}
-<style>
-.nearby_user_list_table {
-	width:100%;
-	color: #adadad;
-	font-size:12px;
-}
-.nearby_user_list_table td {
-	line-height: 22px;
-	padding: 10px;
-	height: 100px;
-	border-bottom: 1px solid #f5f5f5;
-}
-</style>
+<?php
+		$this->_var['parse_pagecss'][] = $this->_var['TMPL_REAL']."/css/merchantlist_index.css";	
+			
+?>
+<link rel="stylesheet" type="text/css" href='{function name="parse_css" v="$parse_pagecss"}' />
 <!--ajax 刷新数据部分 start-->
 <div id="ajax_user_list">
 	{include file="./inc/nearbyuserlist_key_item.html"}
@@ -63,7 +55,14 @@ function get_nearby_user(){
 				$("#hide_ypoint").val(latitude);
 				ajaxgetbyxypoint(longitude,latitude,'all');				
 			}else{
-				alert("定位失败，请稍后刷新重试");	
+				//alert("定位失败，请稍后刷新重试");	
+				$("#alert_content").html("定位失败，请稍后刷新重试");
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
+				setTimeout(function(){
+					$('#my-alert').modal('close');
+				},2000);
 				ajaxgetbyxypoint(0,0,'all');
 			}
 		});	
@@ -116,6 +115,32 @@ function userxypoint(longitude,latitude,location){
 			//alert("userxypoint--no");
 		}
 	});		 		
+}
+
+//根据昵称查询
+function search_submit(){			
+	var keyword=$("#keyword").val();
+	var ajaxurl = '{wap_url a="index" r="nearbyuserlist"}';
+	var query = new Object();
+	query.keyword = keyword;
+	query.xpoint = $("#hide_xpoint").val();
+	query.ypoint = $("#hide_ypoint").val();
+	query.distance = "all";
+	query.is_ajax=1;
+	//alert(query.keyword);
+	$.ajax({
+		url:ajaxurl,
+		data:query,
+		type:"Post",
+		dataType:"text",
+		success:function(data){
+			//alert(data);
+			$("#ajax_user_list").html(data);
+		}
+		,error:function(){
+			//alert("服务器提交错误");
+		}
+	});	
 }
 </script>
 

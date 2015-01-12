@@ -1,84 +1,48 @@
 {include file="./inc/header.html"}
-<div class="wrap">
 
-	<div class="content">
-	 <div class="comment_list_txt">
-		<form id="myinfo_form" action='{wap_url a="index" r="myinfosave#index"}' autocomplete="off" method="post" onsubmit="return check(this)">		 
-			<div class="Contentbox">
-				<table style="width:100%">
-					<tr>
-						<td colspan="2">
-							<div style="color:#adadad;font-style:italic">提示：Email或昵称修改后需要重新登录。</div>
-							<div class="blank8"></div>
-						</td>
-					</tr>
-					<tr>
-						<td>Email:</td>
-						<td>
-							<div class="inputtxt3">
-								<div class="input_sr"><input type="text" name="user_email" id="user_email" value="{$data.email}"></div>
-							</div>
-							<div class="blank8"></div>
-						</td>
-					</tr>
-					<tr>
-						<td>昵称:</td>
-						<td>
-							<div class="inputtxt3">
-								<div class="input_sr"><input type="text" name="user_name" id="user_name" value="{$data.user_name}"></div>
-							</div>
-							<div class="blank8"></div>
-						</td>
-					</tr>
-					<tr>
-						<td style="width:80px">头像:</td>
-						<td>
-							<img id="avatar" src='{function name="get_user_avatar" uid=$data.uid type="middle"}' />
-							<div class="blank8"></div>
-							<label style="margin-left:30px;" class="fileupload" onclick="upd_file(this,'avatar_file',{$data.uid});">
-							<input type="file" class="filebox" name="avatar_file" id="avatar_file"/>
-							</label>
-							<label style="margin-left:30px;" class="fileuploading hide" ></label>
-						</td>
-					</tr>
-					<tr>
-						<td>选择性别:</td>
-						<td>
-							<div class="inputtxt2 chk2"> 
-								<input class="mt_sex" type="radio" name="sex" value="1" {if $data.sex eq 1}checked="true"{/if} /><span class="chk_sp2">男</span>
-								<input class="mt_sex" type="radio" name="sex" value="0" {if $data.sex eq 0}checked="true"{/if} /><span class="chk_sp2">女</span>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>出生日期:</td>
-						<td>
-							<div class="inputtxt3">
-								<div class="input_sr"><input placeholder="点击选择出生日期" type="text" name="birth" id="birth" value="{$data.byear}-{$data.bmonth}-{$data.bday}" onClick="WdatePicker()"></div>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td>个人简介:</td>
-						<td>
-							<div class="myintro_txt">					
-								<textarea name="my_intro" id="my_intro" maxlength=50 placeholder="点击输入您的个人简介，最多50字">{$data.my_intro}</textarea>				
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<div class="btn_login">
-								<input type="submit" name="Submit" class="mj-submit" value="修改" style="background: none;">
-							</div>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</form>
-	 </div>
-	</div>
-</div>		
+	<form class="am-form" style="padding:10px;" id="myinfo_form" action='{wap_url a="index" r="myinfosave#index"}' autocomplete="off" method="post" onsubmit="return check(this)">
+	  <fieldset>
+		<div class="am-form-group">
+			<label for="doc-ipt-email-1">头像</label><br/>
+		    <img id="avatar" src='{function name="get_user_avatar" uid=$data.uid type="middle"}' />
+			<div class="blank8"></div>
+			<label style="margin-left:30px;" class="fileupload" onclick="upd_file(this,'avatar_file',{$data.uid});">
+			<input type="file" class="filebox" name="avatar_file" id="avatar_file"/>
+			</label>
+			<label style="margin-left:30px;" class="fileuploading hide" ></label>
+		</div>		
+		<div class="am-form-group">
+		  <label for="doc-ipt-pwd-1">昵称</label>
+		  <input type="text" class="" id="user_name" name="user_name" value="{$data.user_name}">
+		</div>		
+		<div class="am-form-group">
+		  <label for="doc-select-1">性别</label>
+		  <select id="sex" name="sex">
+			<option value="1" {if $data.sex eq 1}selected="true"{/if} >男</option>
+			<option value="0" {if $data.sex eq 0}selected="true"{/if} >女</option>
+		  </select>
+		  <span class="am-form-caret"></span>
+		</div>
+		<div class="am-form-group am-form-icon">
+			<label for="doc-select-1">出生日期</label>
+			<input type="text" class="" placeholder="请选择出生日期" name="birth" id="birth" value="{$data.byear}-{$data.bmonth}-{$data.bday}" onClick="WdatePicker()">
+		</div>
+		
+		<div class="am-form-group">
+		  <label for="doc-ipt-email-1">Email</label>
+		  <input type="email" class="" id="user_email" name="user_email" placeholder="输入电子邮件" value="{$data.email}">
+		</div>
+		<div class="am-form-group">
+		  <label for="doc-ta-1">个人简介</label>
+		  <textarea class="" rows="5" id="my_intro" name="my_intro" maxlength=50 placeholder="点击输入您的个人简介，最多50字">{$data.my_intro}</textarea>
+		</div>
+		<div class="am-form-group" style="text-align:center;">
+		<p><button type="submit" class="am-btn am-btn-default">提交</button></p>
+		<div>
+	  </fieldset>
+	</form>
+	
+
 <script type="text/javascript" src="./js/My97DatePicker/WdatePicker.js"></script>	
 <script type="text/javascript" src="./js/ajaxupload.js"></script>	
 <script type="text/javascript">
@@ -92,7 +56,8 @@ function upd_file(obj,file_id,uid)
 		  $.ajaxFileUpload
 		   (
 			   {
-				    url:'/index.php?ctl=avatar&act=upload&uid='+uid,
+				    url:'/shop.php?ctl=avatar&act=upload&uid='+uid,
+					//url:'/avatarupload.php&uid='+uid,
 				    secureuri:false,
 				    fileElementId:file_id,
 				    dataType: 'json',
@@ -108,13 +73,23 @@ function upd_file(obj,file_id,uid)
 				   		}
 				   		else
 				   		{
-				   			$.showErr(data.msg);
+				   			//$.showErr(data.msg);
+							//alert(data.msg);
+							$("#alert_content").html(data.msg);
+							$('#my-alert').modal({
+								relatedTarget: this,
+							});
 				   		}
 				   		
 				    },
 				    error: function (data, status, e)
 				    {
-						$.showErr(data.responseText);;
+						//$.showErr(data.responseText);
+						//alert(data.responseText);
+						$("#alert_content").html(data.responseText);
+						$('#my-alert').modal({
+								relatedTarget: this,
+						});
 				    	$(obj).show();
 				    	$(obj).parent().find(".fileuploading").removeClass("hide");
 						$(obj).parent().find(".fileuploading").removeClass("show");
@@ -130,28 +105,35 @@ function upd_file(obj,file_id,uid)
 function  check(){	
 	var form = $("#myinfo_form");	
 	if($.trim($("#user_email").val()) == '')	{
-		alert("Email不能为空！");
+		//alert("Email不能为空！");
+		$("#alert_content").html("Email不能为空！");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 		return false;
 	}
 	if($.trim($("#user_name").val()) == '')	{
-		alert("昵称不能为空！");
+		//alert("昵称不能为空！");
+		$("#alert_content").html("昵称不能为空！");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 		return false;
 	}
 	var query = new Object();
-	var sex = document.getElementsByName("sex");
-	var sex_val = 0;
-	for (var i=0; i < sex.length; i++) {
-		if (sex.item(i).checked) {
-			sex_val = sex.item(i).value;
-			break;
-		}
-	}
-	query.user_email = $("#user_email").val();
+	query.user_email = $("#user_email").val();	
 	query.user_name = $("#user_name").val();
+	query.sex = $("#sex option:selected").val();
 	query.birth = $("#birth").val();
 	query.my_intro = $("#my_intro").val();
 	query.post_type = "json";
-	//alert(query.email+"--"+query.user_name+"--"+query.sex_val+"--"+query.birth+"--"+query.post_type+"--"+query.my_intro);
+	//alert(query.user_email+"--"+query.user_name+"--"+query.sex+"--"+query.birth+"--"+query.post_type+"--"+query.my_intro);
 	var ajaxurl = form.attr("action");
 	$.ajax({
 		url:ajaxurl,
@@ -160,17 +142,36 @@ function  check(){
 		dataType:"json",
 		success:function(data){
 			if(data.status==1){ 	
-				alert(data.info);
-				window.location.href='{wap_url a="index" r="myinfo#index"}';
+				//alert(data.info);
+				$("#alert_content").html(data.info);
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
+				setTimeout(function(){
+                	$('#my-alert').modal('close');
+					window.location.href='{wap_url a="index" r="myinfo#index"}';
+                },1000);				
 			}else{
-				alert(data.info);
+				//alert(data.info);
+				$("#alert_content").html(data.info);
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
 			}
 		}
 		,error:function(){
-			alert("服务器提交错误");
+			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});	
 		return false;
 	}
 </script>					
-{include file="./inc/footer.html"} 
+
+
+<div class="amz-toolbar" id="amz-toolbar">
+<a href="#top" title="回到顶部" class="am-icon-btn am-icon-arrow-up am-active" id="amz-go-top"></a>
+</div>	

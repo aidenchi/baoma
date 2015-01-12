@@ -12,6 +12,15 @@ class topiclist
 		$root = array();
 		$root["login_user_id"] = intval($user_data['id']);
 		
+		//广告列表
+		$adv_list = $GLOBALS['db']->getAll(" select * from ".DB_PREFIX."m_adv where page = 'wap' and city_id in (0,1,".intval($city_id).") and status = 1 order by sort desc ");		
+		foreach($adv_list as $k=>$v){
+			$adv_list[$k]['img']=str_replace("./public/","/public/",$adv_list[$k]['img']);
+			//$adv_list[$k]['img'] = get_abs_img_root($v['img']);//get_abs_img_root(get_spec_image($v['img'],640,100,0));
+			//$adv_list[$k]['img2'] = get_spec_image($v['img'],640,100,1);
+		}
+		$root['adv_list'] = $adv_list;
+		
 		//输出版块
 		$cate_list = $GLOBALS['db']->getAll("select * from ".DB_PREFIX."topic_tag_cate where showin_web = 1 order by sort desc");
 		$root["cate_list"] = $cate_list;
@@ -20,9 +29,7 @@ class topiclist
 		$page = intval($GLOBALS['request']['page']); //分页
 		$keyword =strim($GLOBALS['request']['keyword']);
 		
-		$condition = "1=1";
-		
-		$cate_name =  $GLOBALS['db']->getOne("select name from ".DB_PREFIX."topic_tag_cate where id = ".$cid);
+		$condition = "1=1";		
 		
 		$topic_id_list = $GLOBALS['db']->getAll("select * from ".DB_PREFIX."topic_cate_link where cate_id = ".$cid);
 		$topic_ids = '';
@@ -34,8 +41,10 @@ class topiclist
 		
 		if($cid > 0){
 			$condition = $condition." and id in ".$topic_ids." ";
+			$cate_name =  $GLOBALS['db']->getOne("select name from ".DB_PREFIX."topic_tag_cate where id = ".$cid);
 		}else{
 			$condition = $condition." and (is_top = 1 or is_recommend = 1 or is_best = 1) ";
+			$cate_name = "精选";
 		}
 		
 		//关键字搜索

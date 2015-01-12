@@ -63,6 +63,18 @@ class growthdiarylist
 			$root['total'] = $total;
 			$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);
 			$root['growth_diary_list'] = $growth_diary_list;
+			
+			//最近一篇日记发表距离当天多久
+			$sdate = 86400;
+			$now_time = time();
+			$last_growth_diary_time = $growth_diary_list[0]['create_time'];
+			$diff_time = $now_time - $last_growth_diary_time;
+			if($diff_time > $sdate){
+				$day_time = floor($diff_time / $sdate);
+			}else{
+				$day_time = 0;
+			}
+			$root['day_time'] = intval($day_time);
 		}
 		
 		$root['city_name']=$city_name;

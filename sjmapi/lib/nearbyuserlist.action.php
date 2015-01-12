@@ -14,6 +14,7 @@ class nearbyuserlist
 		$GLOBALS['user_info'] = $user_data = es_session::get('user_info');
 		$age_id = intval($GLOBALS['request']['age_id']);//年龄id
 		$sex = intval($GLOBALS['request']['sex']);//性别
+		$keyword = strim($GLOBALS['request']['keyword']);
 		
 		$ypoint =  doubleval($GLOBALS['request']['ypoint']);  //ypoint 
 		$xpoint = doubleval($GLOBALS['request']['xpoint']);  //xpoint
@@ -34,6 +35,10 @@ class nearbyuserlist
 		$where = " is_effect = 1 and is_delete = 0 ";
 		$field_append = " ";
 		$orderby = " order by id desc ";
+		
+		if($keyword){
+			$where = $where." and user_name like '%".$keyword."%' "; 			
+		}
 		
 		//位置
 
@@ -174,12 +179,14 @@ class nearbyuserlist
 			$user_list[$k] = $item;
 		}
 		$root['email']=$email;
+		$root['sql']=$sql;
 		$root['quan_list'] = $quan_list;
 		$root['age_id'] = $age_id;
 		$root['xpoint']=$xpoint;
 		$root['ypoint']=$ypoint;
 		$root['distance'] = $distance;
 		$root['sex'] = $sex;
+		$root['keyword'] = $keyword;
 		$root['user_list'] = $user_list;
 		$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);
 		$root['page_title']='附近玩伴';		

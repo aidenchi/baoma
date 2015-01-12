@@ -19,6 +19,9 @@ class growthdiarydate
 			$root['user_login_status'] = 1;
 			$root['page_title'] = "成长日历";
 			
+			$root["login_user_id"] = intval($user_data['id']);
+			$root["login_user_name"] = $user_data['user_name'];
+			
 			$current_year =intval($GLOBALS['request']['current_year']);//页面上当前日历界面年份
 			$current_month =intval($GLOBALS['request']['current_month']);//页面上当前日历界面月份
 			

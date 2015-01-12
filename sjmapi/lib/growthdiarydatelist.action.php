@@ -17,6 +17,8 @@ class growthdiarydatelist
 			$root['page_title'] = "登录";			
 		}else{
 			$root['user_login_status'] = 1;		
+			$root["login_user_id"] = intval($user_data['id']);
+			$root["login_user_name"] = $user_data['user_name'];
 			
 			$year = intval($GLOBALS['request']['year']);
 			$month = intval($GLOBALS['request']['month']);
@@ -33,7 +35,29 @@ class growthdiarydatelist
 				}else{
 					$growth_diary_list[$k]['short_content'] = preg_replace("/<br[^>]+>/i","",$growth_diary_list[$k]['content']);
 				}
+				//图片内容
+				if($v['has_pic'] == 1){
+					$growth_diary_list[$k]['pic_list'] = array();
+					$pic_ids_arr = explode(',',$v['pic_ids']);
+					for($index=0;$index<count($pic_ids_arr);$index++){ 
+						$img_id = $pic_ids_arr[$index];
+						$img_item = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."growth_diary_upload where id = ".$img_id);
+						$img_item['small_preview_path']=str_replace("./public/","/public/",$img_item['small_preview_path']);
+						$img_item['large_path']=str_replace("./public/","/public/",$img_item['large_path']);
+						$growth_diary_list[$k]['pic_list'][$index] = $img_item;
+					} 					
+				}
+				//喜欢的数量
+				$fav_sql_count = "select count(*) from ".DB_PREFIX."growth_diary_favorite where growth_diary_id = ".$v['id'];
+				$fav_total = $GLOBALS['db']->getOne($fav_sql_count);
+				$growth_diary_list[$k]['fav_count'] = intval($fav_total);
+				//评论的数量
+				$reply_sql_count = "select count(*) from ".DB_PREFIX."growth_diary_reply where growth_diary_id = ".$v['id'];
+				$reply_count = $GLOBALS['db']->getOne($reply_sql_count);
+				$growth_diary_list[$k]['reply_count'] = intval($reply_count);
 			}
+				
+				
 			$root['total'] = $total;
 			$root['growth_diary_list'] = $growth_diary_list;
 			$root['page_title'] = $year."年".$month."月".$day."日成长日记";

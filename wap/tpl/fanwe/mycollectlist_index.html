@@ -27,9 +27,11 @@
 		 	</li>
 			{/foreach}
 		 </ul>
+		 {if $data.page.page_total gt 1}
 		 <div class="fy">
 			{$pages}
 		 </div>
+		 {/if}
 		{else}
 		 <div class="assess_list" style="text-align:center;padding:10px 0;">您未收藏任何商品</div>
 		{/if}

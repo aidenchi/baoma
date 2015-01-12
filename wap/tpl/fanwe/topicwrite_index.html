@@ -1,59 +1,62 @@
 {include file="./inc/header.html"}
-<div class="wrap">
 
-	<div class="content">
-	 <div class="comment_list_txt">
-		<form id="topic_add_form" action='{wap_url a="index" r="topicadd"}' autocomplete="off" method="post" onsubmit="return check(this)">		 
-		 <div class="Contentbox">				
-				<div class="inputtxt1">
-					<div class="input_sr"><input type="text" placeholder="请输入主题" name="forum_title" id="forum_title"></div>
-				</div>		   
-				<div class="topic_write_txt">
-					<input type="hidden" id="type" name="type" value="share" />
-					<textarea name="content" id="content" placeholder="请输入内容"></textarea>
-					<div class="blank"></div>					
-				</div>
-				<div class="inputtxt2 chk2"> 
-					<span class="chk_sp1">选择板块:</span>
-					{foreach from=$data.cate_list item=cate}
-						<input class="mt_sex" type="radio" name="cate_name" value="{$cate.id}" /><span class="chk_sp2">{$cate.name}</span>
-					{/foreach}
-				</div>
-				<div class="btn_login">
-				<input type="submit" name="Submit" class="mj-submit" value="发帖" style="background: none;">
-				</div>
-		 </div>	            
-		</form>
-	 </div>
-	</div>
-</div>				
+
+<form class="am-form" style="padding:10px;" id="topic_add_form" action='{wap_url a="index" r="topicadd#index"}' autocomplete="off" method="post" onsubmit="return check(this)">
+	  <fieldset>	
+		<input type="hidden" id="type" name="type" value="share" />
+		<div class="am-form-group">
+		  <input type="text" class="" placeholder="请输入主题" id="forum_title" name="forum_title" value="">
+		</div>		
+		<div class="am-form-group">
+		  <textarea class="" rows="5" id="content" name="content" placeholder="请输入内容">{$data.my_intro}</textarea>
+		</div>
+		<div class="am-form-group">
+		  <select id="cate_name" name="cate_name">
+			{foreach from=$data.cate_list item=cate}
+				<option value="{$cate.id}">{$cate.name}</option>
+			{/foreach}
+		  </select>
+		  <span class="am-form-caret"></span>
+		</div>
+		<div class="am-form-group" style="text-align:center;">
+		<p><button type="submit" class="am-btn am-btn-default">发帖</button></p>
+		<div>
+	  </fieldset>
+</form>
+
+			
 <script type="text/javascript">
 function  check(){	
-	var form = $("#topic_add_form");			
+	var form = $("#topic_add_form");	
+	var forum_title = $("#forum_title").val();
 	var textarea = $(form).find("textarea");
+	if($.trim(forum_title)==''){
+		$("#alert_content").html("请输入主题");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
+		return false;
+	}
 	if($.trim(textarea.val())==''){
-		alert("请输入内容");
+		//alert("请输入内容");
+		$("#alert_content").html("请输入内容");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 		return false;
 	}
-	var cate_name = document.getElementsByName("cate_name");
-	var cate_name_val = "";
-	var cate_name_flag = false;
-	for (var i=0; i < cate_name.length; i++) {
-		if (cate_name.item(i).checked) {
-			cate_name_flag = true
-			cate_name_val = cate_name.item(i).value;
-			break;
-		}
-	}
-	if(!cate_name_flag){
-		alert("请选择板块");
-		return false;
-	}
+
 	var query = new Object();
 	query.forum_title = $("#forum_title").val();
 	query.content = textarea.val();
 	query.type = $("#type").val();
-	query.cate_id = cate_name_val;
+	query.cate_id = $("#cate_name option:selected").val();
 	query.post_type = "json";
 	//alert(query.forum_title+"--"+query.content+"--"+query.type+"--"+query.post_type+"--"+query.cate_id);
 	var ajaxurl = form.attr("action");
@@ -64,14 +67,22 @@ function  check(){
 		dataType:"json",
 		success:function(data){
 			if(data.status==1){ 	
-				alert(data.info);
-				window.location.href="{wap_url a="index" r="topiclist#index"}";
+				//alert(data.info);
+				window.location.href='{wap_url a="index" r="mytopiclist#index"}';
 			}else{
-				alert(data.info);
+				//alert(data.info);
+				$("#alert_content").html(data.info);
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
 			}
 		}
 		,error:function(){
-			alert("服务器提交错误");
+			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});	
 		return false;

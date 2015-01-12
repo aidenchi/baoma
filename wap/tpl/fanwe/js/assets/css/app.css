@@ -1,0 +1,206 @@
+/* Write your styles */
+/* 菜单导航样式 */
+.am-navbar-default .am-navbar-nav {
+  background-color: #ffa74d;
+}
+
+/* 头部样式 */
+.am-header-default {
+  background-color: #F7A525;
+}
+
+/* 样式 */
+.am-btn-primary {
+color: #949494;
+background-color: #FFFFFF;
+border-color: #FFFFFF;
+}
+.am-active .am-btn-primary.am-dropdown-toggle {
+color: #949494;
+background-color: #FFFFFF;
+border-color: #FFFFFF; 
+}
+.am-btn {
+font-size:1.0rem;
+}
+.am-btn-primary:hover{
+color: #FFA742;
+background-color: #FFFFFF;
+border-color: #FFFFFF;}
+
+
+/* 样式 */
+.am-navbar {
+position: fixed;
+left: 0;
+bottom: 0;
+width: 100%;
+height: 49px;
+opacity: 0.93;
+line-height: 49px;
+z-index: 1010;
+-webkit-box-shadow: 0 -3px 3px #999;}
+
+
+.am-gallery-overlay .am-gallery-title {
+font-weight: 400;
+font-size: 0.8rem;
+color: #FDC64F;
+position: absolute;
+bottom: 18px;
+width: 100%;
+background-color: rgba(0,0,0,.5);
+text-indent: 5px;
+height: 20px;
+line-height: 20px;
+display: block;
+word-wrap: normal;
+text-overflow: ellipsis;
+white-space: nowrap;
+overflow: hidden;
+}
+
+.am-gallery-overlay .am-gallery-brief {
+font-weight: 400;
+font-size: 0.6rem;
+color: #fff;
+position: absolute;
+bottom: 0;
+width: 100%;
+background-color: rgba(0,0,0,.5);
+text-indent: 5px;
+height: 18px;
+line-height: 18px;
+display: block;
+word-wrap: normal;
+text-overflow: ellipsis;
+white-space: nowrap;
+overflow: hidden;
+}
+
+.am-icon-child.am-icon-btn {
+	color:#fff;
+	background-color: #ffa74d;
+}
+
+.am-icon-calendar.am-icon-btn {
+	color:#fff;
+	background-color: #f57d6e;
+}
+
+.am-icon-cny.am-icon-btn {
+	color:#fff;
+	background-color: #41c8cd;
+}
+
+.am-icon-coffee.am-icon-btn {
+	color:#fff;
+	background-color: #fa82a5;
+}
+
+.am-avg-sm-4 li {
+	text-align: center;
+
+}
+
+/* 用户中心样式 */
+.am-icon-at.am-icon-btn {
+	color:#fff;
+	background-color: #ffa74d;
+}
+/* 粉丝 */
+.am-icon-edit.am-icon-btn {
+	color:#fff;
+	background-color: #fa82a5;
+}
+/* 帖子 */
+.am-icon-edit.am-icon-btn {
+	color:#fff;
+	background-color: #fa82a5;
+}
+/* 私信  */
+.am-icon-envelope.am-icon-btn {
+	color:#fff;
+	background-color: #fa82a5;
+}
+/* 成长日历 */
+.am-icon-calendar.am-icon-btn {
+	color:#fff;
+	background-color: #fa82a5;
+}
+/* 积分商城 */
+.am-icon-gift.am-icon-btn {
+	color:#fff;
+	background-color: #fa82a5;
+}
+/* 评论回复 */
+.am-icon-comment.am-icon-btn {
+	color:#fff;
+	background-color: #f57d6e;
+}
+/* 论坛回复 */
+.am-icon-comments.am-icon-btn {
+	color:#fff;
+	background-color: #41c8cd;
+}
+/* 我的点评 */
+.am-icon-edit.am-icon-btn {
+	color:#fff;
+	background-color: #fa82a5;
+}
+/* 草稿箱 */
+.am-icon-edit.am-icon-btn {
+	color:#fff;
+	background-color: #fa82a5;
+}
+/* 收藏 */
+.am-icon-star.am-icon-btn {
+	color:#fff;
+	background-color: #fa82a5;
+}
+/* 浏览历史 */
+.am-icon-history.am-icon-btn {
+	color:#fff;
+	background-color: #fa82a5;
+}
+/* 个人资料 */
+.am-icon-user.am-icon-btn {
+	color:#fff;
+	background-color: #fa82a5;
+}
+/* 修改密码 */
+.am-icon-shield.am-icon-btn {
+	color:#fff;
+	background-color: #fa82a5;
+}
+/* 退出 */
+.am-icon-power-off.am-icon-btn {
+	color:#fff;
+	background-color: #fa82a5;
+}
+.user-message.am-icon-btn{
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	font-size: 8px;
+	line-height: 22px;
+	border-radius: 50%;
+	background-color: #f00;
+	color: #fff;
+	text-align: center;
+}
+
+/* 向上滚 */
+
+@media only screen and (min-width: 641px)
+.amz-toolbar {
+bottom: 10px;
+}
+.amz-toolbar {
+position: fixed;
+right: 10px;
+bottom: 70px;
+z-index: 999;
+}

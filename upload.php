@@ -31,7 +31,7 @@ require './app/Lib/shop_init.php';
 	             @mkdir(APP_ROOT_PATH."public/comment/".$dir);
 	             @chmod(APP_ROOT_PATH."public/comment/".$dir, 0777);
 	        }
-	        
+	     
 	    if(app_conf("IS_WATER_MARK")==1)
 	    $img_result = save_image_upload($_FILES,"topic_image","comment/".$dir,$whs=array('thumb'=>array(100,100,1,0)),1,1);
 	    else

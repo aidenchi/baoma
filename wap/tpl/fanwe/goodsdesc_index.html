@@ -42,9 +42,9 @@
 							   <div class="share j_share">
 						 	   	    <a onclick="add_collect({$data.id},this);">
 						 	   	    	{if $data.is_collect eq 0}
-						 	   	    	<i class="fa fa-star"></i><span class="collect_text">收藏</span>
+						 	   	    	<i class="fa fa-star-o"></i><span class="collect_text">收藏</span>
 										{else}
-										<i class="fa fa-star-o"></i><span class="collect_text">取消收藏</span>
+										<i class="fa fa-star"></i><span class="collect_text">已收藏</span>
 										{/if}										
 						 	   	    </a>
 						 	   </div>
@@ -60,22 +60,33 @@
 										data:query,
 										type:"POST",
 										dataType:"json",
-										success:function(data){
-											alert(data.info);
+										success:function(data){											
 											if(data.status==1){
 												//alert("变为取消收藏");
-												$(".j_share .fa").removeClass("fa-star");
-												$(".j_share .fa").addClass("fa-star-o");
-												$(".collect_text").html("取消收藏");
-											}else{
-												//alert("变为收藏");
 												$(".j_share .fa").removeClass("fa-star-o");
 												$(".j_share .fa").addClass("fa-star");
+												$(".collect_text").html("已收藏");
+											}else{
+												//alert("变为收藏");
+												$(".j_share .fa").removeClass("fa-star");
+												$(".j_share .fa").addClass("fa-star-o");
 												$(".collect_text").html("收藏");
 											}
+											//alert(data.info);
+											$("#alert_content").html(data.info);
+											$('#my-alert').modal({
+												relatedTarget: this,
+											});
+											setTimeout(function(){
+												$('#my-alert').modal('close');
+											},1000);	
 										}
 										,error:function(){
 											//alert("服务器提交错误");
+											$("#alert_content").html("服务器提交错误，请稍后重新操作");
+											$('#my-alert').modal({
+												relatedTarget: this,
+											});
 										}
 									});	
 									return false;

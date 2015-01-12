@@ -1,215 +1,170 @@
-{include file="./inc/header.html"}
+{include file="./inc/header_common.html"}
 <div class="wrap">
 	<div class="content">
-			<div class="blank8"></div>		
 					<div class="list-view">
 						  <div class="person_account">						  	 
 							   <div class="account_info">
 							   	    <div class="pic">
-							   	    	<img src='{function name="get_user_avatar" uid=$data.uid type="middle"}' width="59" height="59">
+							   	    	<img src='{function name="get_user_avatar" uid=$data.uid type="middle"}' width="80" height="80">
 							   	    </div>
 									<div class="name">
-										  <b>{$data.user_name}</b>
+										  <b style="padding-right:5px; font-size:16px;">{$data.user_name}</b>
 										  <b>
-											{if $data.sex eq 0}公主{/if}
-											{if $data.sex eq 1}王子{/if}
+											{if $user.sex eq 0}
+											<span class="am-icon-female" style="color:#EF62E5"></span>
+											{/if}
+											{if $user.sex eq 1}
+											<span class="am-icon-male" style="color:#35A7F9"></span>
+											{/if}
 										  </b>
-										  <P>积分：{$data.score}</P>
-										  <p>{$data.user_point_level}&nbsp;&nbsp;贝壳:<font class="font-fc8">{$data.user_point}</font></p>
+										  <P style="color:#F9E734;">
+										  <span class="am-icon-paw am-icon-spin"  style="color:#F3F927;"></span>{$data.score}&nbsp;&nbsp;&nbsp;&nbsp;
+										  <span class="am-icon-btc  am-icon-spin"   style="color:#F3F927;"></span>{$data.user_point}
+										  </P>
+										  <p style="color:#F9E734;">
+										  <span class="am-icon-long-arrow-up"  style="color:#F3F927;"></span>{$data.user_point_level}&nbsp;&nbsp;
+										  </p>
 									</div>
 							   </div>
 						  </div>
 						  
 					</div>	
 
-			<div class="blank8"></div>
-	
-	          <div class="list-view">
-				       <ul class="person_details one">
-				       	    <li>
-				       	    	<a href='{wap_url a="index" r="mygoodscommentreplylist#index"}'  p="pay_status=0"}">
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-tags"></i>
-										<span>评论回复
-											{if $data.goods_dp_reply_noread_count gt 0}
-											<font style="font-style:italic;">(未读回复{$data.goods_dp_reply_noread_count}条)</font>
-											{/if}
-										</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-							<li>
-				       	    	<a href='{wap_url a="index" r="topicitemreplymsg#index"}'>
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-truck"></i>
-										<span>论坛回复
-											{if $data.topic_replynoread_count_total gt 0}
-											<font style="font-style:italic;">(未读消息{$data.topic_replynoread_count_total}条)</font>
-											{/if}
-										</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-							<li>
-				       	    	<a href='{wap_url a="index" r="mymsglist#index"}'>
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-tag"></i>
-										<span>私信
-											{if $data.msg_noread_count gt 0}
-											<font style="font-style:italic;">(未读消息{$data.msg_noread_count}条)</font>
-											{/if}
-										</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>							
-				       </ul>		 
-				</div>       
-							
-   <div class="blank8"></div>
-   
-              <div class="list-view">
-				       <ul class="person_details one">
-				       	    <li>
-				       	    	<a href='{wap_url a="index" r="mysuppliercommentlist#index"}'>
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-map-marker"></i>
-										<span>我的点评<font style="font-style:italic;">(共{$data.my_supplier_and_goods_comment_count}条)</font></span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-							<li>
-				       	    	<a href='{wap_url a="index" r="mytopiclist#index"}'>
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-bullhorn "></i>
-										<span>我的帖子<font style="font-style:italic;">(共{$data.my_topic_count}篇)</font></span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>							
-							<li>
-								<a href='{wap_url a="index" r="mycollectlist#index"}'>
-									<div class="per_li">
-										<i class="fa fa-bullhorn "></i>
-										<span>我的收藏<font style="font-style:italic;">(共{$data.my_goods_collect_count}条)</font></span>
-										<i class="fa fa-chevron-right"></i>
-									</div>
-								</a>
-							</li>
-				       </ul>		 
-				</div>
-	
-				<div class="blank8"></div>
-   
-                 <div class="list-view">
-				       <ul class="person_details one">
-				       	    <li>
-				       	    	<a href='{wap_url a="index" r="myfocuslist#index"}'>
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-bullhorn "></i>
-										<span>我的关注<font style="font-style:italic;">(共{$data.my_focus_count}人)</font></span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-							<li>
-				       	    	<a href='{wap_url a="index" r="myfanslist#index"}'>
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-bullhorn "></i>
-										<span>我的粉丝<font style="font-style:italic;">(共{$data.my_fans_count}人)</font></span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-							<li>
-								{if $data.growth_diary_total_noread_count gt 0}
+                <!--2015-01-07添加-->
+                <div class="list-view">
+                	<ul class="user-center am-avg-sm-3 am-avg-md-3 am-avg-lg-3">
+                    	<li>
+                        	
+                        	<div>
+                            	<a href='{wap_url a="index" r="myfocuslist#index"}'>
+                            	<span class="am-icon-at am-icon-btn"></span><p>我的关注</p>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                        	<div>
+                                <a href='{wap_url a="index" r="myfanslist#index"}'>
+                            	<span class="am-icon-child am-icon-btn"></span><p>我的粉丝</p>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                        	<div>
+                            	<a href='{wap_url a="index" r="mytopiclist#index"}'>
+                            	<span class="am-icon-child am-icon-btn"></span><p>我的帖子</p>
+                                </a>
+                            </div>
+                        </li>
+                         <li>
+                        	<div>
+                            	<a href='{wap_url a="index" r="mymsglist#index"}'>
+                            	<span class="am-icon-envelope am-icon-btn"></span>
+								<p>私信
+								{if $data.msg_noread_count gt 0}
+								<span class="user-message am-icon-btn">{$data.msg_noread_count}</span>
+								{/if}
+								</p>
+                                </a>
+                            </div>
+                        </li>
+                         <li>
+                        	<div>
+                            	{if $data.growth_diary_total_noread_count gt 0}
 				       	    	<a href='{wap_url a="index" r="growthdiaryitemreplymsg#index"}'>
 								{else}
 								<a href='{wap_url a="index" r="growthdiarylist_public#index"}'>
 								{/if}
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-bullhorn"></i>
-										<span>成长日记
-										{if $data.growth_diary_total_noread_count gt 0}
-										<font style="font-style:italic;">(未读回复{$data.growth_diary_total_noread_count}条)</font>
-										{/if}
-										</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-							<li>
-				       	    	<a href='{wap_url a="index" r="myfanslist#index"}'>
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-bullhorn "></i>
-										<span>积分商城</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-							<li>
-				       	    	<a href='{wap_url a="index" r="myfanslist#index"}'>
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-bullhorn "></i>
-										<span>草稿箱</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-							<li>
-				       	    	<a href='{wap_url a="index" r="myfanslist#index"}'>
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-bullhorn "></i>
-										<span>浏览历史</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-				       </ul>		 
-				</div>
-				
-	<div class="blank8"></div>
-   
-                 <div class="list-view">
-				       <ul class="person_details one">
-				       	    <li>
-				       	    	<a href='{wap_url a="index" r="myinfo#index"}'>
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-bullhorn "></i>
-										<span>个人资料</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-							<li>
-				       	    	<a href='{wap_url a="index" r="pwd#index"}'>
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-lock"></i>
-										<span>修改密码</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-							<li>
-				       	    	<a href='{wap_url a="index" r="login_out#index" p="&post_type=unset" }'>
-				       	    	    <div class="per_li">
-				       	    	    	<i class="fa fa-lock"></i>
-										<span>退出当前账号</span>
-										<i class="fa fa-chevron-right"></i>
-				       	    	    </div>
-				       	        </a>
-							</li>
-				       </ul>		 
-				</div>
-				<!--
-					<div class="buy ">
-						  <a href="{wap_url a="index" r="login_out#index" p="&post_type=unset" }" class="plank">退出当前账号</a>
-					</div>	
-				-->
-				</div>
+                            	<span class="am-icon-calendar am-icon-btn"></span>
+								<p>成长日历
+								{if $data.growth_diary_total_noread_count gt 0}
+								<span class="user-message am-icon-btn">{$data.growth_diary_total_noread_count}</span>
+								{/if}
+								</p>
+                                </a>
+                            </div>
+                        </li>
+                         <li>
+                        	<div>
+                            	<a href="#">
+                            	<span class="am-icon-gift am-icon-btn"></span><p>积分商城</p>
+                                </a>
+                            </div>
+                        </li>
+                         <li>
+                        	<div>
+                            	<a href='{wap_url a="index" r="mygoodscommentreplylist#index"}'>
+                            	<span class="am-icon-comment am-icon-btn"></span>
+								<p>评论回复
+								{if $data.goods_dp_reply_noread_count gt 0}
+								<span class="user-message am-icon-btn">{$data.goods_dp_reply_noread_count}</span>
+								{/if}
+								</p>
+                                </a>
+                            </div>
+                        </li>
+                         <li>
+                        	<div>
+                            	<a href='{wap_url a="index" r="topicitemreplymsg#index"}'>
+                            	<span class="am-icon-comments am-icon-btn"></span>
+								<p>论坛回复
+								{if $data.topic_replynoread_count_total gt 0}
+								<span class="user-message am-icon-btn">{$data.topic_replynoread_count_total}</span>
+								{/if}
+								</p>
+                                </a>
+                            </div>
+                        </li>
+                         <li>
+                        	<div>
+                            	<a href='{wap_url a="index" r="mysuppliercommentlist#index"}'>
+                            	<span class="am-icon-child am-icon-btn"></span><p>我的点评</p>
+                                </a>
+                            </div>
+                        </li>
+                         <li>
+                        	<div>
+                            	<a href="#">
+                            	<span class="am-icon-edit am-icon-btn"></span><p>草稿箱</p>
+                                </a>
+                            </div>
+                        </li>
+                         <li>
+                        	<div>
+                            	<a href='{wap_url a="index" r="mycollectlist#index"}'>
+                            	<span class="am-icon-star am-icon-btn"></span><p>收藏</p>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                        	<div>
+                            	<a href="#">
+                            	<span class="am-icon-history am-icon-btn"></span><p>浏览历史</p>
+                                </a>
+                            </div>
+                        </li>
+						<li>
+                        	<div>
+                            	<a href='{wap_url a="index" r="myinfo#index"}'>
+                            	<span class="am-icon-user am-icon-btn"></span><p>个人资料</p>
+                                </a>
+                            </div>
+                        </li>
+						<li>
+                        	<div>
+                            	<a href='{wap_url a="index" r="pwd#index"}'>
+                            	<span class="am-icon-shield am-icon-btn"></span><p>修改密码</p>
+                                </a>
+                            </div>
+                        </li>
+						<li>
+                        	<div>
+                            	<a href='{wap_url a="index" r="login_out#index" p="&post_type=unset" }'>
+                            	<span class="am-icon-power-off am-icon-btn"></span><p>退出</p>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
 </div>
 
