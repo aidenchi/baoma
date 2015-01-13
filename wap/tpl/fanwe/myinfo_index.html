@@ -56,8 +56,7 @@ function upd_file(obj,file_id,uid)
 		  $.ajaxFileUpload
 		   (
 			   {
-				    url:'/shop.php?ctl=avatar&act=upload&uid='+uid,
-					//url:'/avatarupload.php&uid='+uid,
+					url:'/avatarupload.php?uid='+uid,
 				    secureuri:false,
 				    fileElementId:file_id,
 				    dataType: 'json',

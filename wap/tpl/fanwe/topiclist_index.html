@@ -32,7 +32,7 @@
 			
 			 <input type="hidden" name="cid" id="cid" value="{$data.cate_id}" />
 			 <div style="display:none;" id="topic_search_box" class="am-input-group am-input-group-sm">
-				  <input type="text" class="am-form-field" placeholder="" id="keyword" value="{$data.keyword}">
+				  <input type="text" class="am-form-field" placeholder="" id="keyword" value="{$data.keyword}" onkeydown="keySearch();">
 				  <span class="am-input-group-label" onclick="search_submit()" > <span class="am-icon-search"></span></span>
    		     </div>
 			
@@ -199,6 +199,11 @@ $(document).ready(function () {
 });
 
 //根据帖子标题关键字
+function keySearch(){
+  if (event.keyCode==13)   //回车键的键值为13
+     search_submit();  //调用登录按钮的登录事件
+}
+
 function search_submit(){
 	window.location.href='index.php?ctl=topiclist&cid='+$("#cid").val()+'&keyword='+$("#keyword").val();
 }

@@ -4,8 +4,8 @@ class merchantitem
 	public function index()
 	{
 		//print_r($GLOBALS['request']);
-		$email = addslashes($GLOBALS['request']['email']);//用户名或邮箱
-		$pwd = addslashes($GLOBALS['request']['pwd']);//密码
+		$email = strim($GLOBALS['request']['email']);
+		$pwd = strim($GLOBALS['request']['pwd']);	
 		
 		//检查用户,用户密码
 		$user = user_check($email,$pwd);
@@ -80,6 +80,7 @@ class merchantitem
 			}
 		}	
 		
+		$goods_list_count=$GLOBALS['db']->getOne("select count(*) from ".DB_PREFIX."deal as a left join ".DB_PREFIX."deal_location_link as b on b.deal_id=a.id ".$g_where);
 		$goods_list=$GLOBALS['db']->getAll("select a.brief,a.id,a.is_hot,a.name,a.sub_name,a.origin_price,a.current_price,a.icon,a.buy_count,a.discount from ".DB_PREFIX."deal as a left join ".DB_PREFIX."deal_location_link as b on b.deal_id=a.id ".$g_where." order by a.sort desc,a.id desc limit 3");
 
 		foreach($goods_list as $k=>$v)
@@ -111,6 +112,7 @@ class merchantitem
 		}else{
 			$root['goods_list']=$goods_list;
 		}
+		$root['goods_list_count']=$goods_list_count;
 		
 		/**************************************************门店评论****************************************/
 		//获取已经审核的评论列表（前3条）
@@ -179,6 +181,7 @@ class merchantitem
 		$root['return'] = 1;
 		$root['user_login_status'] = 1;
 		$root['page_title'] =$root['name'];//店铺名
+		$root['login_user_id'] = intval($user['id']);
 		output($root);
 	}
 }

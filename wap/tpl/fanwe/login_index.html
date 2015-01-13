@@ -35,11 +35,25 @@ function  do_login(){
 	var obj1=$("#email").val();
 	var obj2=$("#pwd").val();
 	if(!obj1){
-		alert("请填写账户或邮箱");
+		//alert("请填写账户或邮箱");
+		$("#alert_content").html("请输入邮箱或昵称");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 		return false;	
 	}
 	if(!obj2){
-		alert("请填写密码");
+		//alert("请填写密码");
+		$("#alert_content").html("请输入密码");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 		return false;	
 	}	
 	
@@ -56,17 +70,30 @@ function  do_login(){
 		type:"Post",
 		dataType:"json",
 		success:function(data){
-			alert(data.info);
+			//alert(data.info);
+			/*
 			if(data.user_login_status == 1){
 				if(document.referrer.indexOf("login") > 0){
 					window.location.href = "{wap_url a="index" r="index#index"}";
 				}else{
 					location.replace(document.referrer);
 				}
+			}*/
+			if(data.user_login_status == 1){
+				window.location.href="{wap_url a="index" r="user_center#index"}";
+			}else{
+				$("#alert_content").html("账号或密码错误，登录失败");
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
 			}
 		}
 		,error:function(){
-			alert("服务器提交错误");
+			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});
 	return false;

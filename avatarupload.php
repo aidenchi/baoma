@@ -1,12 +1,16 @@
 <?php
-		if($GLOBALS['user_info']['id']==0)
-		{
-			$data['status'] = 0;  //未登录
-			$data['msg'] = $GLOBALS['lang']['PLEASE_LOGIN_FIRST'];
-			ajax_return($data);
-		}
+		require './system/common.php';
+		require './app/lib/common.php';
+		$upd_id = $id = intval($_REQUEST['uid']);
+		/*
+		$data['uid'] = $upd_id;
+		$data['status'] = 1; 
+		ajax_return($data);
+		*/
+		
 		//上传处理
 		//创建avatar临时目录
+		
 		if (!is_dir(APP_ROOT_PATH."public/avatar")) { 
 	             @mkdir(APP_ROOT_PATH."public/avatar");
 	             @chmod(APP_ROOT_PATH."public/avatar", 0777);
@@ -15,7 +19,7 @@
 	             @mkdir(APP_ROOT_PATH."public/avatar/temp");
 	             @chmod(APP_ROOT_PATH."public/avatar/temp", 0777);
 	        }
-		$upd_id = $id = intval($_REQUEST['uid']);
+		//$upd_id = $id = intval($_REQUEST['uid']);
 		
 
 	    if (is_animated_gif($_FILES['avatar_file']['tmp_name']))
@@ -83,5 +87,6 @@
 		$data['middle_url'] = get_user_avatar($upd_id,"middle");
 		$data['big_url'] = get_user_avatar($upd_id,"big");
 		ajax_return($data);
+		
 
 ?>

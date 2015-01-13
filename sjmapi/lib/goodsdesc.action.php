@@ -15,13 +15,14 @@ class goodsdesc{
 		 * limit_num: 库存数量
 		 
 		 */
-		$email = addslashes(trim($GLOBALS['request']['email']));//用户名或邮箱
-		$pwd = trim($GLOBALS['request']['pwd']);//密码
+		$email = strim($GLOBALS['request']['email']);
+		$pwd = strim($GLOBALS['request']['pwd']);	
 		$id = intval($GLOBALS['request']['id']);//商品ID
-		$city_id =strim($GLOBALS['request']['city_id']);//城市名称
+		$city_id =strim($GLOBALS['request']['city_id']);//城市名称	
 		
-		$user = user_check($email,$pwd,false);
+		$user = user_check($email,$pwd);
 		$user_id = intval($user['id']);
+		
 		$is_collect = 0;
 		if ($user_id > 0){
 			$sql2 = "select count(*) from ".DB_PREFIX."deal_collect where deal_id = ".$id." and user_id=".$user_id;
@@ -171,6 +172,7 @@ class goodsdesc{
 		$root['page_title']=$root['name'];//商品名
 		$root['is_collect']=$is_collect;
 		$root['city_name']=$city_name;
+		$root['login_user_id'] = intval($user['id']);
 		output($root);	
 	}
 }

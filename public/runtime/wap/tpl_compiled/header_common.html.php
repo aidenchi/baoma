@@ -46,6 +46,7 @@
 	</script>
 	
     <?php
+		set_time_limit(0); 
 		$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/style.css";	
 		$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/activity_list.css";	
 		$this->_var['pagecss'][] = $this->_var['TMPL_REAL']."/css/activity_subject.css";	

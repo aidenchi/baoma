@@ -171,7 +171,7 @@ if($class =='biz_unset'){
 }
 
 
-//用户登陆处理;
+//用户登录处理;
 user_login();
 
 $user_info = es_session::get('user_info');
@@ -212,12 +212,12 @@ if(es_session::get("supplier_id")){
 	$request_param['biz_pwd']=es_session::get("biz_pwd");
 }
 
-//如果商家已经登陆,再点：登陆按钮时,则直接转到验证界面
+//如果商家已经登录,再点：登录按钮时,则直接转到验证界面
 if($class =='biz_login' && $request_param['supplier_id'] > 0){
 	app_redirect(wap_url('index','biz_input_page'));
 }
 
-//如果用户已经登陆,再点：登陆按钮时,则直接转到会员中心界面
+//如果用户已经登录,再点：登录按钮时,则直接转到会员中心界面
 if($class =='login' && $request_param['uid'] > 0){
 	//logUtils::log_obj($request_param);
 	app_redirect(wap_url('index','user_center'));
@@ -302,10 +302,10 @@ if($request_param['post_type']!='json'){
 	}
 	//print_r($data);exit;
 	
-	 //判断是否需要登陆
+	 //判断是否需要登录
 	if(isset($data['user_login_status']) && $data['user_login_status'] == 0 &&  $class != "biz_login" &&  $class != "app_down" &&  $class != "pwd" && $class != "login" && $class !='register' && $class !='register_verify_code') {
 	
-		//接口需要求登陆,并且未登陆时,提示用户登陆;
+		//接口需要求登录,并且未登录时,提示用户登录;
 		//es_session::delete("uid");
 		//es_session::delete("user_email");
 		//es_session::delete("user_pwd");
@@ -316,13 +316,13 @@ if($request_param['post_type']!='json'){
 			es_session::delete("biz_email");
 			es_session::delete("biz_pwd");
 			
-			showSuccess('请先登陆!',0,wap_url('index','biz_login#index'));
+			showSuccess('请先登录!',0,wap_url('index','biz_login#index'));
 		}else{
 			es_cookie::delete("user_name");
 			es_cookie::delete("user_pwd");
 			es_session::delete("user_info");
 			
-			showSuccess('请先登陆!',0,wap_url('index','login#index'));
+			showSuccess('请先登录!',0,wap_url('index','login#index'));
 		}
 	
 	}
@@ -368,7 +368,7 @@ if($request_param['post_type']!='json'){
 		es_cookie::set("user_name",$data['mobile_user_name'],3600*24*30);
 		es_cookie::set("user_pwd",md5($data['mobile_user_pwd']."_EASE_COOKIE"),3600*24*30);	
 
-		//用户登陆处理;
+		//用户登录处理;
 		user_login();
 	}
 	
@@ -396,14 +396,14 @@ if($request_param['post_type']!='json'){
 	$GLOBALS['tmpl']->assign('APP_ROOT',APP_ROOT);
 	
 	if (es_session::get('user_info')){
-		$GLOBALS['tmpl']->assign('is_login',1);//用户已登陆
+		$GLOBALS['tmpl']->assign('is_login',1);//用户已登录
 	}else{
-		$GLOBALS['tmpl']->assign('is_login',0);//用户未登陆
+		$GLOBALS['tmpl']->assign('is_login',0);//用户未登录
 	}
 	if (es_cookie::get('is_app_down')){
-		$GLOBALS['tmpl']->assign('is_app_down',1);//用户已登陆
+		$GLOBALS['tmpl']->assign('is_app_down',1);//用户已登录
 	}else{
-		$GLOBALS['tmpl']->assign('is_app_down',0);//用户未登陆
+		$GLOBALS['tmpl']->assign('is_app_down',0);//用户未登录
 	}
 
 	//==============================
@@ -432,9 +432,9 @@ if($request_param['post_type']!='json'){
 	//@eval("\$data = ".$data.';');
 	$data=base64_decode($data);
 	/*
-	//判断是否需要登陆
+	//判断是否需要登录
 	if(isset($data['user_login_status']) && $data['user_login_status'] == 0 && $class != "login" && $class !='register' && $class !='register_verify_code') {
-		//接口需要求登陆,并且未登陆时,提示用户登陆;
+		//接口需要求登录,并且未登录时,提示用户登录;
 		es_session::delete("uid");
 		es_session::delete("user_email");
 		es_session::delete("user_pwd");
@@ -443,7 +443,7 @@ if($request_param['post_type']!='json'){
 		es_session::delete("biz_email");
 		es_session::delete("biz_pwd");
 	
-		showSuccess('请先登陆!',0,url('index','login#index'));
+		showSuccess('请先登录!',0,url('index','login#index'));
 	
 	}*/
 	

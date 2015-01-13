@@ -50,19 +50,47 @@
 		var obj2=$("#newpassword").val();
 		var obj3=$("#newpassword2").val();
 		if(!old_pwd){
-			alert("请填密码");
+			//alert("请填密码");
+			$("#alert_content").html("请填密码");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
+			setTimeout(function(){
+				$('#my-alert').modal('close');
+			},1000);
 			return false;		
 		}
 		if(!obj2){
-			alert("请填新的密码");
+			//alert("请填新的密码");
+			$("#alert_content").html("请填新的密码");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
+			setTimeout(function(){
+				$('#my-alert').modal('close');
+			},1000);
 			return false;		
 		}	
 		if(!obj3){
-			alert("请填确认新的密码");
+			//alert("请填确认新的密码");
+			$("#alert_content").html("请填确认新的密码");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
+			setTimeout(function(){
+				$('#my-alert').modal('close');
+			},1000);
 			return false;
 		}
 		if(obj2!=obj3){
-			alert("两次密码不一致");
+			//alert("两次密码不一致");
+			$("#alert_content").html("两次密码不一致");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
+			setTimeout(function(){
+				$('#my-alert').modal('close');
+			},1000);
 			return false;
 		}	
 		var query = new Object();
@@ -76,13 +104,25 @@
 			type:"post",
 			dataType:"json",
 			success:function(data){
-				alert(data.info);
+				//alert(data.info);
 				if(data.return==1){ 
 					window.location.href="{wap_url a="index" r="user_center#index"}";
+				}else{
+					$("#alert_content").html(data.info);
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+					setTimeout(function(){
+						$('#my-alert').modal('close');
+					},2000);
 				}
 			}
 			,error:function(){
-				alert("服务器提交错误");
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
 			}
 		});	
 		return false;

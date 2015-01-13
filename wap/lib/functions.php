@@ -308,8 +308,9 @@ function showErr($msg,$ajax=0,$jump='',$stay=0)
 //显示成功
 function showSuccess($msg,$ajax=0,$jump='',$stay=0)
 {
-	echo "<script>alert('".$msg."');location.href='".$jump."';</script>";exit;
-	/*
+	//echo "<script>alert('".$msg."');location.href='".$jump."';</script>";exit;
+	echo "<script>location.href='".$jump."';</script>";exit;
+	
 	if($ajax==1)
 	{
 		$result['status'] = 1;
@@ -333,7 +334,7 @@ function showSuccess($msg,$ajax=0,$jump='',$stay=0)
 		$GLOBALS['tmpl']->display("success.html");
 		exit;
 	}
-	*/
+	
 }
 
 function do_postcart($request_param){

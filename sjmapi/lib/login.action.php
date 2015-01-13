@@ -16,7 +16,7 @@ class login{
 				$user_data = es_session::get('user_info');
 				$root['return'] = 1;
 				$root['user_login_status'] = 1;//用户登陆状态：1:成功登陆;0：未成功登陆
-				$root['info'] = "用户登陆成功";	
+				$root['info'] = "用户登录成功";	
 				$root['uid'] = $user_data['id'];
 				$root['user_name'] = $user_data['user_name'];
 				$root['user_pwd'] = $user_data['user_pwd'];
@@ -109,7 +109,7 @@ class login{
 			$root['page_title']="我的账户";
 			$root['user_avatar'] = get_abs_img_root(get_muser_avatar($user_data['id'],"big"));
 		}else{
-			$root['page_title']="登陆";
+			$root['page_title']="登录";
 			
 			$api = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."api_login where class_name = 'Qqv2'");
 			if ($api){

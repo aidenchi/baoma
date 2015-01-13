@@ -1,4 +1,4 @@
-{include file="./inc/header_common.html"}
+<?php echo $this->fetch('./inc/header_common.html'); ?>
 			<div class="header">
 				<div class="c-hd">
 					<section class="cut_city">
@@ -166,7 +166,9 @@ function  check_submit(){
 	query.has_pic = has_pic_val;
 	query.pic_ids = pic_ids_val;
 	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="growthdiaryadd"}';
+	var ajaxurl = '<?php
+echo parse_wap_url_tag("u:index|growthdiaryadd|"."".""); 
+?>';
 	if(flag){
 		$.ajax({
 			url:ajaxurl,
@@ -177,9 +179,13 @@ function  check_submit(){
 				if(data.status==1){ 	
 					//alert(data.info);
 					if(data.action_flag == 1){
-						window.location.href='{wap_url a="index" r="growthdiaryitem#index" p="id=$data.id"}';					
+						window.location.href='<?php
+echo parse_wap_url_tag("u:index|growthdiaryitem#index|"."id=".$this->_var['data']['id']."".""); 
+?>';					
 					}else{
-						window.location.href='{wap_url a="index" r="growthdiarylist#index"}';
+						window.location.href='<?php
+echo parse_wap_url_tag("u:index|growthdiarylist#index|"."".""); 
+?>';
 					}
 				}else{
 					//alert(data.info);
@@ -201,5 +207,5 @@ function  check_submit(){
 }
 </script>	
 				
-{include file="./inc/footer.html"}				
+<?php echo $this->fetch('./inc/footer.html'); ?>				
 			

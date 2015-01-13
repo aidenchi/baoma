@@ -1,43 +1,15 @@
-<style>
-.search_box_tx .search_more_button_tx {
-	position: absolute;
-	width: 30px;
-	height: 50px;
-	border-radius: 5px;
-	font-size: 13px;
-	top: 15px;
-	right: 10px;
-}
-.search_box_tx .search_more_button_tx a i {
-	font-size: 18px;
-}
-.nearby_user_list_table {
-	width:100%;
-	color: #adadad;
-	font-size:12px;
-}
-.nearby_user_list_table td {
-	line-height: 22px;
-	padding: 10px 5px 10px 5px;
-	height: 90px;
-	border-top: 1px solid #d9d9d9;
-	border-bottom: 1px solid #d9d9d9;
-}
-.distance{ font-size:16px; position:absolute; right:0; top:3px;}
-</style>
-
 <!-----------------------------------------------header------------------------------------------>
 <div class="header">
 	<div class="search_box_tx">
     	<div class="search_text_tx">
-			<input type="text" placeholder="请输入昵称" id="keyword" value="{$data.keyword}">
+			<input type="text" placeholder="请输入昵称" id="keyword" value="{$data.keyword}" onkeydown="keySearch();">
 			<a class="search_ico_tx" onclick="search_submit()"><i class="fa fa-search"></i></a>
 		</div>
 		<div class="search_more_button_tx" id="more_search">
 			 <a href="javascript:void(0);"><i class="fa fa-list-ul"></i></a>
 		</div>
      </div>
-	 <!--****{$data.sql}*****-->
+	 <!--****{$data.sql}*****--{$data.aa}-->
 	 <div class="list-view" id="more_search_pull_down" style="margin-bottom:10px;display:none;">
 		<input type="hidden" id="hide_xpoint" name="hide_xpoint" value={$data.xpoint} />
 		<input type="hidden" id="hide_ypoint" name="hide_ypoint" value={$data.ypoint} />
@@ -144,7 +116,7 @@
 											&nbsp;&nbsp;
 											{function name="get_user_age_byid" uid=$user.id}
 										</div>
-										<div><i class="iconfont" style="font-size:14px;">&#xe61f;</i>{if $data.location}{$user.location}{else}未知{/if}</div>
+										<div><i class="iconfont" style="font-size:14px;">&#xe61f;</i>{if $user.location}{$user.location}{else}未知{/if}</div>
 									</td>
 									<!--
 									<td width="50" align="right" valign="top">	
@@ -176,7 +148,7 @@
 <script>
 $(document).ready(function () {
     $("#more_search").click(function(){
-       $("#more_search_pull_down").toggle();
+       $("#more_search_pull_down").toggle(300);
     });
 });
 </script>				

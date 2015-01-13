@@ -86,15 +86,41 @@ function getGrowthdairy(current_year_val, current_month_year){
 				//alert(item['record_date']+"--"+item['record_day']); 
 				var day_id = "day"+item['record_day'];
 				//alert(day_id);
+				var text_icon_html = "<span class='am-icon-pencil-square-o'></span>";
+				var image_icon_html = "<span class='am-icon-image'></span>";
+				var video_icon_html = "<span class='am-icon-video-camera'></span>";
 				document.getElementById(day_id).style.backgroundColor ="#f49f35";
 				var td_old_content = document.getElementById(day_id).innerHTML;
-				var td_new_content = "<a href='index.php?ctl=growthdiarydatelist&year="+current_year_val+"&month="+current_month_year+"&day="+item['record_day']+"'>"+td_old_content+"</a>"
+				var icon_html = "";
+				if(item['content'] !=''){//有文字
+					if(td_old_content.indexOf("pencil") > 0 ){
+					}else{
+						icon_html = icon_html+text_icon_html;
+					}
+				}				
+				if(item['has_pic'] ==1){//有图
+					if(td_old_content.indexOf("image") > 0 ){
+					}else{
+						icon_html = icon_html+image_icon_html;
+					}
+				}
+				if(item['has_video'] ==1){//有图
+					if(td_old_content.indexOf("video") > 0 ){
+					}else{
+						icon_html = icon_html+video_icon_html;
+					}
+				}
+				var td_new_content = "<a href='index.php?ctl=growthdiarydatelist&year="+current_year_val+"&month="+current_month_year+"&day="+item['record_day']+"'>"+icon_html+td_old_content+"</a>"
 				document.getElementById(day_id).innerHTML = td_new_content;
 				//alert(td_content);
 			});
 		},
 		error:function(){
-			alert("服务器提交错误");
+			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});	
 }
@@ -114,10 +140,10 @@ function getGrowthdairy(current_year_val, current_month_year){
 					</div>
 				</div>
 				<div class="growth_diary_user">
-					<img style="border-radius:60px;" src='{function name="get_user_avatar" uid=$data.login_user_id type="middle" }'>
+					<img style="border-radius:70px;border: 3px solid #8aa06c;" src='{function name="get_user_avatar" uid=$data.login_user_id type="middle" }'>
 					<br/>
 					<span style="color:#fff; font-size:18px; line-height:24px;">{$data.login_user_name}</span><br/>
-					<span style="color:#fff; font-size:18px; line-height:24px;">{function name="get_user_age_byid" uid=$data.login_user_id}</span>
+					<span style="color:#F08D1B; font-size:16px; line-height:18px;">{function name="get_user_age_byid" uid=$data.login_user_id}</span>
 				 </div>	
 				 <div class="growth_circle">
 					<a href='{wap_url a="index" r="growthdiarylist_public#index"}'>

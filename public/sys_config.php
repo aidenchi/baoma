@@ -21,7 +21,7 @@ return array(
 'MAX_FILE_SIZE'=>'1',
 'ALLOW_FILE_EXT'=>'1',
 'BG_COLOR'=>'#ffffff',
-'IS_WATER_MARK'=>'1',
+'IS_WATER_MARK'=>'0',
 'TEMPLATE'=>'fanwe',
 'YOUHUI_SEND_LIMIT'=>'5',
 'SCORE_UNIT'=>'积分',

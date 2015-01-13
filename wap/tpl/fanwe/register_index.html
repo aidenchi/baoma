@@ -65,31 +65,80 @@ function  check(){
 	var obj6=$("#ref_uid").val();
 	var myreg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
 	if(!obj1){
-		alert("请填写邮箱");
+		//alert("请填写邮箱");
+		$("#alert_content").html("请填写邮箱");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 		return false;	
 	}
 	if(!myreg.test(obj1)){
-	    alert('提示\n\n请输入有效的E_mail！');
+	    //alert('提示\n\n请输入有效的E_mail！');
+		$("#alert_content").html("请输入有效的E_mail！");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 	    return false;
 	   }
 	if(!obj2){
-		alert("请填昵称");
+		//alert("请填昵称");
+		$("#alert_content").html("请填昵称");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 		return false;
 	}
 	if(!obj3){
-		alert("请填密码");
+		//alert("请填密码");
+		$("#alert_content").html("请填密码");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 		return false;		
 	}	
 	if(!obj4){
-		alert("请填确认密码");
+		//alert("请填确认密码");
+		$("#alert_content").html("请填确认密码");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 		return false;		
 	}
 	if(!obj5){
-		alert("选择性别");
+		//alert("选择性别");
+		$("#alert_content").html("选择性别");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 		return false;		
 	}
 	if(obj3!=obj4){
-		alert("两次密码不一致");
+		//alert("两次密码不一致");
+		$("#alert_content").html("两次密码不一致");
+		$('#my-alert').modal({
+			relatedTarget: this,
+		});
+		setTimeout(function(){
+			$('#my-alert').modal('close');
+		},1000);
 		return false;	
 	}	
 	var query = new Object();
@@ -107,14 +156,22 @@ function  check(){
 		dataType:"json",
 		success:function(data){
 			if(data.status==1){ 	
-				alert(data.info);
+				//alert(data.info);
 				window.location.href="{wap_url a="index" r="user_center#index"}";
 			}else{
-				alert(data.info);
+				//alert(data.info);
+				$("#alert_content").html(data.info);
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
 			}
 		}
 		,error:function(){
-			alert("服务器提交错误");
+			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});	
 		return false;

@@ -52,6 +52,7 @@ function get_nearby_store(){
 				//$("#loading").hide();
 				ajaxgetbyxypoint(longitude,latitude,'all','default');	
 			}else{
+				$("#loading").hide();
 				//alert("定位失败，请稍后刷新重试");
 				$("#alert_content").html("定位失败，请稍后刷新重试");
 				$('#my-alert').modal({
@@ -95,6 +96,11 @@ function ajaxgetbyxypoint(longitude,latitude,distance,order_type){
 }
 
 //根据店铺名查询
+function keySearch(){
+  if (event.keyCode==13)   //回车键的键值为13
+     search_submit();  //调用登录按钮的登录事件
+}
+
 function search_submit(){			
 	var keyword=$("#keyword").val();
 	var ajaxurl = '{wap_url a="index" r="merchantlist"}';
@@ -117,6 +123,10 @@ function search_submit(){
 		}
 		,error:function(){
 			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});	
 }

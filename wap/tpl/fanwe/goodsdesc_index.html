@@ -223,7 +223,11 @@
 							 {/if}						 
 						</div>	
 						<div class="i_say">
+							{if $data.login_user_id gt 0}
 							<input type="submit" class="plank" value="我要点评" onclick="javascrtpt:window.location.href='{wap_url a="index" r="goodscommentwrite#index" p="goods_id=$data.id"}'" style="background:none;"/> 
+							{else}
+							<input type="submit" class="plank" value="我要点评" onclick="login_ts()" style="background:none;"/> 
+							{/if}
 						</div>
 					</div><!--list-view end-->	
 					
@@ -231,3 +235,17 @@
 </div><!---wrap end-->
 
 {include file="./inc/footer.html"} 
+
+<script>
+function login_ts(){
+	//alert("请先登录");
+	$("#alert_content").html("请先登录");
+	$('#my-alert').modal({
+		relatedTarget: this,
+	});
+	setTimeout(function(){
+		$('#my-alert').modal('close');
+	},2000);
+}
+
+</script>

@@ -55,7 +55,8 @@ function get_nearby_user(){
 				$("#hide_ypoint").val(latitude);
 				ajaxgetbyxypoint(longitude,latitude,'all');				
 			}else{
-				//alert("定位失败，请稍后刷新重试");	
+				//alert("定位失败，请稍后刷新重试");
+				$("#loading").hide();
 				$("#alert_content").html("定位失败，请稍后刷新重试");
 				$('#my-alert').modal({
 					relatedTarget: this,
@@ -88,7 +89,7 @@ function ajaxgetbyxypoint(longitude,latitude,distance){
 			$("#ajax_user_list").html(data);
 		}
 		,error:function(){
-			alert("服务器提交错误");
+			//alert("服务器提交错误");
 		}
 	});	
 }
@@ -118,6 +119,11 @@ function userxypoint(longitude,latitude,location){
 }
 
 //根据昵称查询
+function keySearch(){
+  if (event.keyCode==13)   //回车键的键值为13
+     search_submit();  //调用登录按钮的登录事件
+}
+
 function search_submit(){			
 	var keyword=$("#keyword").val();
 	var ajaxurl = '{wap_url a="index" r="nearbyuserlist"}';
@@ -139,6 +145,10 @@ function search_submit(){
 		}
 		,error:function(){
 			//alert("服务器提交错误");
+			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
 		}
 	});	
 }

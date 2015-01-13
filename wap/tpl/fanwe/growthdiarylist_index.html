@@ -16,14 +16,14 @@
 					</div>
 				</div>
 				<div class="growth_diary_user">
-					<img style="border-radius:60px;" src='{function name="get_user_avatar" uid=$data.login_user_id type="middle" }'>
+					<img style="border-radius:70px;border: 3px solid #8aa06c;" src='{function name="get_user_avatar" uid=$data.login_user_id type="middle" }'>
 					<br/>
 					<span style="color:#fff; font-size:18px; line-height:24px;">{$data.login_user_name}</span><br/>
-					<span style="color:#fff; font-size:18px; line-height:24px;">{function name="get_user_age_byid" uid=$data.login_user_id}</span>
+					<span style="color:#F08D1B; font-size:16px; line-height:18px;">{function name="get_user_age_byid" uid=$data.login_user_id}</span>
 				 </div>	
 				 <div class="growth_circle">
 					<a href='{wap_url a="index" r="growthdiarylist_public#index"}'>
-						<span style="padding-left:10px;line-height:30px;font-size:16px;color:#fff;font-weight:bold"><成长圈</span>
+						<span  class="am-icon-calendar" style="margin-left:6px;color:#fff;"></span><span style="padding-left:10px;line-height:30px;font-size:16px;color:#fff;font-weight:bold">成长圈</span>
 					</a>
 				 </div>
 			</div>
@@ -36,7 +36,7 @@
 							{foreach from=$data.growth_diary_list item=growth_diary}								
 							<tbody id="growth_diary_{$growth_diary.id}">
 								<tr>
-									<td class="td_line" width="50" style="text-align:center;" valign="top">
+									<td class="td_line" width="50" style="text-align:center;color:#676767" valign="top">
 										<span style="font-size:22px;">{$growth_diary.record_month}.{$growth_diary.record_day}</span>
 									</td>								
 									<td class="td_line">	
@@ -62,11 +62,11 @@
 													</ul>
 													{/if}
 												</td>
-												<td width="35px;" align="right" valign="top" >	
+												<td width="35px;" align="center" valign="top" >	
 													<!--
 													<a style="color: #adadad;" href='{wap_url a="index" r="growthdiarywrite#index"  p="id=$growth_diary.id"}'><i style="color:red;">编辑</i></a>&nbsp;
 													-->
-													<a href="javascript:void(0);" onclick="delete_growth_diary_confirm({$growth_diary.id},$('#growth_diary_{$growth_diary.id}'));"><span class="am-icon-remove"></span></a>				
+													<a href="javascript:void(0);" onclick="delete_growth_diary_confirm({$growth_diary.id},$('#growth_diary_{$growth_diary.id}'));"><span class="am-icon-remove am-icon-sm" style="color:#ababab"></span></a>				
 												</td>
 											</tr>	
 											<tr>								
@@ -79,12 +79,12 @@
 													</a>
 													{/if}	
 												</td>
-												<td width="35px;" align="right">	
+												<td width="35px;" align="center">	
 													{if $growth_diary.is_public eq 1}
-														<span style="cursor:pointer;" id="public_status_{$growth_diary.id}" onclick="change_public_status({$growth_diary.id})"><span id="lock_icon_{$growth_diary.id}" class="am-icon-unlock"></span></span>
+														<span style="cursor:pointer;" id="public_status_{$growth_diary.id}" onclick="change_public_status({$growth_diary.id})"><span id="lock_icon_{$growth_diary.id}" class="am-icon-unlock am-icon-sm"></span></span>
 													{/if}
 													{if $growth_diary.is_public eq 0}
-														<span style="cursor:pointer;" id="public_status_{$growth_diary.id}" onclick="change_public_status({$growth_diary.id})"><span id="lock_icon_{$growth_diary.id}" class="am-icon-lock"></span></span>
+														<span style="cursor:pointer;" id="public_status_{$growth_diary.id}" onclick="change_public_status({$growth_diary.id})"><span id="lock_icon_{$growth_diary.id}" class="am-icon-lock am-icon-sm"></span></span>
 													{/if}
 												</td>
 											</tr>				
@@ -127,11 +127,11 @@ function change_public_status(growth_diary_id){
 			if(data.status==1){
 				if(data.public_status == 0){
 					//document.getElementById(public_status_id).innerText = "私有";	
-					document.getElementById(lock_icon_id).className = "am-icon-lock";	
+					document.getElementById(lock_icon_id).className = "am-icon-lock am-icon-sm";	
 				}
 				if(data.public_status == 1){
 					//document.getElementById(public_status_id).innerText = "公开";	
-					document.getElementById(lock_icon_id).className = "am-icon-unlock";	
+					document.getElementById(lock_icon_id).className = "am-icon-unlock am-icon-sm";	
 				}
 				//alert(data.info);
 				$("#alert_content").html(data.info);

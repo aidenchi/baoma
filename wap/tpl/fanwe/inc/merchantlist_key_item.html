@@ -1,23 +1,8 @@
 <!-----------------------------------------------header------------------------------------------>
-<style>
-.search_box_tx .search_more_button_tx {
-	position: absolute;
-	width: 30px;
-	height: 50px;
-	border-radius: 5px;
-	font-size: 13px;
-	top: 15px;
-	right: 10px;
-}
-.search_box_tx .search_more_button_tx a i {
-	font-size: 18px;
-}
-</style>
-
 <div class="header">
 	 <div class="search_box_tx">
     	<div class="search_text_tx">
-			<input type="text" placeholder="请输入商家名称或标签" id="keyword" value="{$data.keyword}">
+			<input type="text" placeholder="请输入商家名称或标签" id="keyword" value="{$data.keyword}" onkeydown="keySearch();">
 			<a class="search_ico_tx" onclick="search_submit()"><i class="fa fa-search"></i></a>
 		</div>
 		<div class="search_more_button_tx" id="more_search">
@@ -202,7 +187,7 @@ $(document).ready(function () {
    $(".hide_list").height(x-93);
   
    $("#more_search").click(function(){
-       $("#more_search_pull_down").toggle();
+       $("#more_search_pull_down").toggle(300);
    });
 });
 </script>

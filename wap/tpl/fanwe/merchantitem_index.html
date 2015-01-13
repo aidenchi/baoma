@@ -126,10 +126,12 @@
 						 	     </a>
 						 	</li>
 							{/foreach}
-						 </ul>						 
+						 </ul>	
+						{if $data.goods_list_count gt 3}
 						 <div class="see_more">
 						 	<a href='{wap_url a="index" r="goodslist#index"  p="merchant_id=$data.id"}'>查看全部商品</a>
 						 </div>
+						 {/if}
 						 {else}
 						 <div class="assess_list" style="text-align:center;padding:10px 0;"> 暂无商品</div>					
 						 {/if}
@@ -235,9 +237,27 @@
 						 {/if}						 
 					</div>	
 					<div class="i_say">
+						{if $data.login_user_id gt 0}
 						<input type="submit" class="plank" value="我要点评" onclick="javascrtpt:window.location.href='{wap_url a="index" r="suppliercommentwrite#index" p="id=$data.id"}'" style="background:none;"/> 
+						{else}
+						<input type="submit" class="plank" value="我要点评" onclick="login_ts()" style="background:none;"/> 
+						{/if}
 					</div>
 				</div><!--list-view end-->	
 				
 				
 {include file="./inc/footer.html"} 
+
+<script>
+function login_ts(){
+	//alert("请先登录");
+	$("#alert_content").html("请先登录");
+	$('#my-alert').modal({
+		relatedTarget: this,
+	});
+	setTimeout(function(){
+		$('#my-alert').modal('close');
+	},2000);
+}
+
+</script>

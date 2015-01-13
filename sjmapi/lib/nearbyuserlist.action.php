@@ -9,8 +9,10 @@ class nearbyuserlist
 		$city_id = intval($GLOBALS['request']['city_id']);
 		
 		$email = strim($GLOBALS['request']['email']);
-		$pwd = strim($GLOBALS['request']['pwd']);		
+		$pwd = strim($GLOBALS['request']['pwd']);
+		$user_login = user_check($email,$pwd);		
 		$result = do_login_user($email,$pwd);
+		
 		$GLOBALS['user_info'] = $user_data = es_session::get('user_info');
 		$age_id = intval($GLOBALS['request']['age_id']);//年龄id
 		$sex = intval($GLOBALS['request']['sex']);//性别
@@ -32,7 +34,7 @@ class nearbyuserlist
 		}
 		
 		//查询条件
-		$where = " is_effect = 1 and is_delete = 0 ";
+		$where = " id != ".intval($user_login['id'])." and is_effect = 1 and is_delete = 0 ";
 		$field_append = " ";
 		$orderby = " order by id desc ";
 		
@@ -190,6 +192,7 @@ class nearbyuserlist
 		$root['user_list'] = $user_list;
 		$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);
 		$root['page_title']='附近玩伴';		
+		$root['aa'] = $user_login['id'];
 		
 		output($root);
 	}	
