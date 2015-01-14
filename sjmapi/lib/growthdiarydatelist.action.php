@@ -47,6 +47,17 @@ class growthdiarydatelist
 						$growth_diary_list[$k]['pic_list'][$index] = $img_item;
 					} 					
 				}
+				//视频内容
+				if($v['has_video'] == 1  && $v['video_ids'] != ''){
+					$growth_diary_list[$k]['video_list'] = array();
+					$video_ids_arr = explode(',',$v['video_ids']);
+					for($index2=0;$index2<count($video_ids_arr);$index2++){ 
+						$video_id = $video_ids_arr[$index2];
+						$video_item = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."growth_diary_upload where id = ".$video_id." and filetype = 'video'");
+						$video_item['video_path']=str_replace("./public/","/public/",$video_item['large_path']);
+						$growth_diary_list[$k]['video_list'][$index2] = $video_item;
+					} 					
+				}
 				//喜欢的数量
 				$fav_sql_count = "select count(*) from ".DB_PREFIX."growth_diary_favorite where growth_diary_id = ".$v['id'];
 				$fav_total = $GLOBALS['db']->getOne($fav_sql_count);

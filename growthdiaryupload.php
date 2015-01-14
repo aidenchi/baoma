@@ -43,8 +43,9 @@
 	//保存图像信息
 	require_once APP_ROOT_PATH."system/utils/es_imagecls.php";
 	$image = new es_imagecls();
-	$info = $image->getImageInfo($img_result['growth_diary_image']['path']);		
-	$image_data['filename'] = valid_str($_FILES['growth_diary_image']['name']);
+	$info = $image->getImageInfo($img_result['growth_diary_image']['path']);
+	$image_data['create_time'] = get_gmtime();	
+	$image_data['filetype'] = 'image';
 	$image_data['filesize'] = filesize($img_result['growth_diary_image']['path']);
 	$image_data['small_preview_path'] = $img_result['growth_diary_image']['thumb']['thumb']['url'];
 	$image_data['large_path'] = $img_result['growth_diary_image']['url'];

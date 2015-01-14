@@ -1,7 +1,7 @@
 /* Write your styles */
 /* 菜单导航样式 */
 .am-navbar-default .am-navbar-nav {
-  background-color: #ffa74d;
+  background-color: #F4881A;
 }
 
 /* 头部样式 */
@@ -109,14 +109,14 @@ overflow: hidden;
 	background-color: #ffa74d;
 }
 /* 粉丝 */
-.am-icon-edit.am-icon-btn {
+.am-icon-smile-o.am-icon-btn {
 	color:#fff;
-	background-color: #fa82a5;
+	background-color: #ffa74d;
 }
 /* 帖子 */
-.am-icon-edit.am-icon-btn {
+.am-icon-file-text-o.am-icon-btn {
 	color:#fff;
-	background-color: #fa82a5;
+	background-color: #ffa74d;
 }
 /* 私信  */
 .am-icon-envelope.am-icon-btn {
@@ -141,42 +141,42 @@ overflow: hidden;
 /* 论坛回复 */
 .am-icon-comments.am-icon-btn {
 	color:#fff;
-	background-color: #41c8cd;
+	background-color: #f57d6e;
 }
 /* 我的点评 */
-.am-icon-edit.am-icon-btn {
+.am-icon-reply.am-icon-btn {
 	color:#fff;
-	background-color: #fa82a5;
+	background-color: #f57d6e;
 }
 /* 草稿箱 */
 .am-icon-edit.am-icon-btn {
 	color:#fff;
-	background-color: #fa82a5;
+	background-color: #36B7E5;
 }
 /* 收藏 */
 .am-icon-star.am-icon-btn {
 	color:#fff;
-	background-color: #fa82a5;
+	background-color: #36B7E5;
 }
 /* 浏览历史 */
 .am-icon-history.am-icon-btn {
 	color:#fff;
-	background-color: #fa82a5;
+	background-color: #36B7E5;
 }
 /* 个人资料 */
 .am-icon-user.am-icon-btn {
 	color:#fff;
-	background-color: #fa82a5;
+	background-color: #E5AE36;
 }
 /* 修改密码 */
 .am-icon-shield.am-icon-btn {
 	color:#fff;
-	background-color: #fa82a5;
+	background-color: #E5AE36;
 }
 /* 退出 */
 .am-icon-power-off.am-icon-btn {
 	color:#fff;
-	background-color: #fa82a5;
+	background-color: #E5AE36;
 }
 .user-message.am-icon-btn{
 	-webkit-box-sizing: border-box;
@@ -203,4 +203,23 @@ position: fixed;
 right: 10px;
 bottom: 70px;
 z-index: 999;
+}
+
+
+.am-btn-secondary {color: #fff;
+background-color: #FF9912;
+border-color: #FF9912;}
+
+.am-btn-secondary:hover {color: #fff;
+background-color: #FF9912;
+border-color: #FF9912;}
+
+.am-btn-secondary:focus {color: #fff;
+background-color: #FF9912;
+border-color: #FF9912;}
+
+ .am-active .am-btn-secondary.am-dropdown-toggle {
+color: #fff;
+background-color: #FF9912;
+border-color: #FF9912;
 }

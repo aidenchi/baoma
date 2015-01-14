@@ -51,11 +51,23 @@
 													{if $growth_diary.has_pic}
 													<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-imgbordered" data-am-gallery="{ pureview: true }">
 														{foreach from="$growth_diary.pic_list" item="pic_item"}
-														  <li>
+														  <li style="width:120px;">
 															<div class="am-gallery-item">
-															  <a href='{wap_url a="index" r="merchantitem#index" p="id=$location.id"}'>
 																<img src="{$pic_item.small_preview_path}" data-rel="{$pic_item.large_path}" />
-															  </a>
+															</div>
+														  </li>
+														{/foreach}
+													</ul>
+													{/if}
+													<!--视频内容-->
+													{if $growth_diary.has_video}
+													<ul style="padding-left:10px;padding-top:10px;">
+														{foreach from="$growth_diary.video_list" item="video_item"}
+														  <li style="float:left;padding-right:10px;padding-bottom:5px;">
+															<div>
+																<video height="100" src="{$video_item.video_path}" preload="Metadata" controls="controls" >
+																您的浏览器不支持 video 标签。
+																</video >
 															</div>
 														  </li>
 														{/foreach}

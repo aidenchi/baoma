@@ -13,16 +13,16 @@
 </div>
 <script type="text/javascript">
 	Zepto(function($){
-    	//	bind ajax		
+    	//	bind ajax		
     	$('a.cat').on('click',function(){
-    		var tid = this.id; 			
+    		var tid = this.id; 			
     		$.ajax({
-    			type: 'GET',			
+    			type: 'GET',			
     			url: 'wap.php?ctl=category&act=getscate', 
     			dataType: 'json',
     			data: {id:tid},
     			timeout: 300,
-    			success: function(data){										$( "[id^='child_']").empty().css('display','none');										//if( data.status == 1){											$( '#child_'+tid).empty().css('display','block');						$( '#child_'+tid).append('<a class="c-cat" href="wap.php?id='+tid+'">全部</a>');								$.each(data.data, function(index, item){ 							var a = 1;							$('#child_'+tid).append('<a class="c-cat" href="'+item.url+'">'+item.name+'&nbsp;('+item.count+')</a>');						});										//}else{										//	location.href = 'wap.php?id='+tid;										//}					
+    			success: function(data){										$( "[id^='child_']").empty().css('display','none');										//if( data.status == 1){											$( '#child_'+tid).empty().css('display','block');						$( '#child_'+tid).append('<a class="c-cat" href="wap.php?id='+tid+'">全部</a>');								$.each(data.data, function(index, item){ 							var a = 1;							$('#child_'+tid).append('<a class="c-cat" href="'+item.url+'">'+item.name+'&nbsp;('+item.count+')</a>');						});										//}else{										//	location.href = 'wap.php?id='+tid;										//}					
     			},
     			error: function(xhr,type){
     				

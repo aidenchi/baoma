@@ -5,8 +5,8 @@ return array(
  //最初色版本#fc8600，
     "@main_color"   =>  "#f5b857", //整体风格颜色
 	
-	"@border_main" =>   "#d9d9d9",  //主要边框颜色
-    "@border_style"=>   "#fc8600",  //整体风格边框颜色
+	"@border_main" =>   "#f0f0f0",  //主要边框颜色
+    "@border_style"=>   "#f0f0f0",  //整体风格边框颜色
     
     "@font_white"  =>   "#fff",    //白色字体
     "@font_style"  =>   "#fc8600", //整体风格字体 

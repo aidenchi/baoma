@@ -40,15 +40,26 @@ class growthdiarylist
 					$growth_diary_list[$k]['short_content'] = preg_replace("/<br[^>]+>/i","",$growth_diary_list[$k]['content']);
 				}
 				//图片内容
-				if($v['has_pic'] == 1){
+				if($v['has_pic'] == 1 && $v['pic_ids'] != ''){
 					$growth_diary_list[$k]['pic_list'] = array();
 					$pic_ids_arr = explode(',',$v['pic_ids']);
 					for($index=0;$index<count($pic_ids_arr);$index++){ 
 						$img_id = $pic_ids_arr[$index];
-						$img_item = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."growth_diary_upload where id = ".$img_id);
+						$img_item = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."growth_diary_upload where id = ".$img_id." and filetype = 'image'");
 						$img_item['small_preview_path']=str_replace("./public/","/public/",$img_item['small_preview_path']);
 						$img_item['large_path']=str_replace("./public/","/public/",$img_item['large_path']);
 						$growth_diary_list[$k]['pic_list'][$index] = $img_item;
+					} 					
+				}
+				//视频内容
+				if($v['has_video'] == 1  && $v['video_ids'] != ''){
+					$growth_diary_list[$k]['video_list'] = array();
+					$video_ids_arr = explode(',',$v['video_ids']);
+					for($index2=0;$index2<count($video_ids_arr);$index2++){ 
+						$video_id = $video_ids_arr[$index2];
+						$video_item = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."growth_diary_upload where id = ".$video_id." and filetype = 'video'");
+						$video_item['video_path']=str_replace("./public/","/public/",$video_item['large_path']);
+						$growth_diary_list[$k]['video_list'][$index2] = $video_item;
 					} 					
 				}
 				//喜欢的数量

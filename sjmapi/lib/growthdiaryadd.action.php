@@ -26,6 +26,9 @@ class growthdiaryadd
 			$has_pic = intval($GLOBALS['request']['has_pic']);
 			$pic_ids = $GLOBALS['request']['pic_ids'];
 			$pic_ids = substr($pic_ids,1);
+			$has_video = intval($GLOBALS['request']['has_video']);
+			$video_ids = $GLOBALS['request']['video_ids'];
+			$video_ids = substr($video_ids,1);
 			$record_date = date('Y-m-d');//记录日期
 			$record_date_arr = explode('-',$record_date); 
 			$record_year = intval($record_date_arr[0]);
@@ -44,6 +47,8 @@ class growthdiaryadd
 			$growthdiary['is_public'] = $is_public;
 			$growthdiary['has_pic'] = $has_pic;
 			$growthdiary['pic_ids'] = $pic_ids;
+			$growthdiary['has_video'] = $has_video;
+			$growthdiary['video_ids'] = $video_ids;
 			$growthdiary['create_time'] = get_gmtime();			
 			if($id==0){//新增insert记录操作
 				$GLOBALS['db']->autoExecute(DB_PREFIX."growth_diary",$growthdiary,"INSERT","");

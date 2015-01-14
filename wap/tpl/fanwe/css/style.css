@@ -470,14 +470,13 @@ margin-right: 5px;
 }
 /*成长日记发表--上传图片*/
 .growth_pic_fileupload{ 
-	width:20px; 
-	height:24px; 
+	width:40px; 
+	height:40px; 
 	position:relative; 
 	overflow:hidden; 
 	display:inline-block; 
-	/*background:url(../images/album.gif) no-repeat;*/
 	line-height:24px;
-	/*color:#fff; */
+	color:#666;
 	left:15px;
 }
 .growth_pic_fileuploading{ 
@@ -499,6 +498,14 @@ margin-right: 5px;
 .image_item {
 	position: relative;
 	width: 100px;
+	height: 100px;
+	float: left;
+	display: inline-block;
+	margin-right: 5px;
+	padding-bottom:10px;
+}
+.video_item {
+	position: relative;
 	height: 100px;
 	float: left;
 	display: inline-block;
@@ -783,7 +790,6 @@ margin-right: 5px;
 	margin-top: 5px;
 	margin-right: 5px;
 }
-
 .growth_li .list_item{
    display: -webkit-box;
    display: -moz-box;
@@ -878,16 +884,21 @@ margin-right: 5px;
 }	
 
 .tuan_li .list_item .pic{
-   margin: 0px 12px 0 0;
+   margin: 0px 6px 0 0;
    display: inline-block;
    overflow: hidden;
    position: relative;
+   border-radius: 4px;
 }
-.tuan_li .list_item .pic img{ overflow:hidden;}	 
+.tuan_li .list_item .pic img{
+ overflow:hidden;
+ width:92px;
+ height:80px;
+}	 
 
 
 .tuan_li{
-	padding:8px 10px 9px 10px;
+	padding:8px 10px 9px 6px;
 	border-bottom:1px solid #f5f5f5;
 }
 
@@ -920,8 +931,8 @@ margin-right: 5px;
 }	
 
 .tuan_li .info h2{
-   font-size:15px;
-   color: #222;
+   font-size:14px;
+   color: #666;
    display: -webkit-box;
    display: -moz-box;
    -webkit-line-clamp: 2;
@@ -935,7 +946,7 @@ margin-right: 5px;
 .tuan_li .info h3{
    font-size:12px;
    color: #888;
-   height:30px;
+   height:14px;
    line-height:14px;
    overflow: hidden;
    display: -webkit-box;

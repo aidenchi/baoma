@@ -8,24 +8,85 @@
 					<section style="padding:10px 10px;display:inline-block;position:relative;font-size: 18px;">
 						<a onclick="check_submit();" style="color:#fff;cursor:pointer;">发送</a>
 					</section>
-				 </div>	 
-			</div>	
-			
+				 </div>
+			</div>
+
 <form class="am-form">
 	<fieldset>
 		<div class="am-form-group" >
 			<textarea class="" rows="5" name="content" id="content" placeholder="这一刻的想法……"></textarea>
-			
 			<label class="growth_pic_fileupload" >
-			  <span class="am-icon-image"></span>
+			  <span class="am-icon-image am-icon-lg" style="color:#ababab"></span>
 			  <input type="file" class="filebox" name="growth_diary_image" id="growth_diary_image" onchange="uploadImage();">
 			</label>
 			<label class="growth_pic_fileupload" >
-			  <span class="am-icon-video-camera"></span>
+			  <span class="am-icon-video-camera am-icon-lg" style="color:#ababab"></span>
 			  <input type="file" class="filebox" name="growth_diary_video" id="growth_diary_video" onchange="uploadVideo();">
 			</label>
 			<div id="image_box" style="padding-left:15px;">
+				<!--
+				<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-imgbordered" data-am-gallery="{ pureview: true }">
+					{foreach from="$growth_diary.pic_list" item="pic_item"}
+					 <li>
+						<div class="am-gallery-item">
+							<a href='{wap_url a="index" r="merchantitem#index" p="id=$location.id"}'>
+							<img src="{$pic_item.small_preview_path}" data-rel="{$pic_item.large_path}" />
+							</a>
+						</div>
+					 </li>
+					{/foreach}
+				</ul>
 				
+				<div class="image_item">
+					<input type="hidden" name="growth_diary_image_id" value="66">
+					<span class="del_image" onclick="del_img(this);">x</span>
+					<img src="/public/growth_diary/201501/14/10/6053c0b4cfb8a3b87c74a586029028b751_100x100.jpg">
+				</div>
+				
+				<div class="video_item">
+					<video id="video" height="100" src="/public/growth_diary/201501/14/11/67f43eb6887c8bf2124826bc0eebb42b11.mp4" controls="controls">
+					您的浏览器不支持 video 标签。
+					</video >
+				</div>
+				<script type="text/javascript">
+				var fullscreen = function(elem) {
+					var prefix = 'webkit';
+					  if ( elem[prefix + 'EnterFullScreen'] ) {
+						return prefix + 'EnterFullScreen';
+					  } else if( elem[prefix + 'RequestFullScreen'] ) {
+						return prefix + 'RequestFullScreen';
+					  };
+					return false;
+				};
+				function autoFullScrenn(v){
+					var ua   = navigator.userAgent.toLowerCase();  
+					var Android = String(ua.match(/android/i)) == "android";
+					// if(!Android) return;//非android系统不使用;
+					var video  = v,doc = document;
+					var fullscreenvideo = fullscreen(doc.createElement("video"));
+					if(!fullscreen) {
+						alert("不支持全屏模式");
+						return;
+					}
+					video.addEventListener("webkitfullscreenchange",function(e){
+						if(!doc.webkitIsFullScreen){//退出全屏暂停视频
+							this.pause();
+						};
+					}, false);
+					video.addEventListener("click", function(){
+						this.play();
+						video[fullscreenvideo]();
+					}, false);
+		 
+					video.addEventListener('ended',function(){
+						doc.webkitCancelFullScreen(); //播放完毕自动退出全屏
+					},false);
+		 
+				};
+				var v = document.getElementById('video');
+				autoFullScrenn(v);
+				</script>
+				-->
 			</div>
 		</div>
 		<div class="blank8"></div>
@@ -44,10 +105,10 @@
 	</fieldset>
 </form>
 
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>	
-<script type="text/javascript" src="./js/ajaxupload.js"></script>	
-<script type="text/javascript" src="./js/jquery.bgiframe.js"></script>	
-<script type="text/javascript" src="./js/jquery.weebox.js"></script>			
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+<script type="text/javascript" src="./js/ajaxupload.js"></script>
+<script type="text/javascript" src="./js/jquery.bgiframe.js"></script>
+<script type="text/javascript" src="./js/jquery.weebox.js"></script>
 <script type="text/javascript">
 //上传视频
 function uploadVideo(){
@@ -55,13 +116,36 @@ function uploadVideo(){
 		url : '/growthdiaryupload_video.php',
 		secureuri : false,
 		fileElementId : 'growth_diary_video',
-		dataType : 'json',		
+		dataType : 'json',
 		success : function(data, status) {
-			alert(data.error);
-			//页面操作暂未写
+			//alert(data.error);
+			if(data.error == 1){
+				$("#alert_content").html("您上传的视频格式不正确");
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
+			}
+			if(data.error == 2){
+				$("#alert_content").html("您上传的视频文件太大");
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
+			}
+			if(data.error == 3){
+				$("#alert_content").html("抱歉，上传失败，稍后重试");
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
+			}
+			if(data.error == 0){
+				var html = "<div class='video_item'>"+
+					"<input type='hidden' name='growth_diary_video_id' value='"+data.id+"'>"+
+					"<video height='100' src='"+data.video_path+"' preload='Metadata' controls='controls'>您的浏览器不支持 video 标签。</video ></div>";
+				$("#image_box").html($("#image_box").html()+html);
+			}
 		},
 		error : function(data, status, e) {
-			
+
 		}
 	});
 }
@@ -79,7 +163,7 @@ function uploadImage(){
 		url : '/growthdiaryupload.php',
 		secureuri : false,
 		fileElementId : 'growth_diary_image',
-		dataType : 'json',		
+		dataType : 'json',
 		success : function(data, status) {
 			//alert(data.error+"--"+data.message+"--"+data.name);
 			if(data.error==0){
@@ -110,17 +194,17 @@ function del_img(o){
 
 function get_location(){
 	$("#location").val("正在定位…");
-	var geolocation = new BMap.Geolocation(); 
-	var geoc = new BMap.Geocoder(); 
-	geolocation.getCurrentPosition(function (r) { 	
-		if (this.getStatus() == BMAP_STATUS_SUCCESS ) { 
-			origin = r.point.lng + "," + r.point.lat; 			
-			//alert("我所在位置的坐标："+origin); 
+	var geolocation = new BMap.Geolocation();
+	var geoc = new BMap.Geocoder();
+	geolocation.getCurrentPosition(function (r) {
+		if (this.getStatus() == BMAP_STATUS_SUCCESS ) {
+			origin = r.point.lng + "," + r.point.lat;
+			//alert("我所在位置的坐标："+origin);
 			var pt = r.point;
             geoc.getLocation(pt, function(rs){
                 //alert(rs.address);
 				$("#location").val(rs.address);
-            }); 
+            });
 		}else{
 			//alert('定位失败');
 			$("#alert_content").html("定位失败");
@@ -129,10 +213,10 @@ function get_location(){
 			});
 			$("#location").val("");
 		}
-	});	
+	});
 }
 
-function  check_submit(){	
+function  check_submit(){
 	var flag = true;
 	if($.trim($("#content").val())==''){
 		//alert("请输入内容");
@@ -156,8 +240,20 @@ function  check_submit(){
 			pic_ids_val = pic_ids_val+","+growth_diary_image_id_val;
 		}
 		//alert(has_pic_val+"---"+pic_ids_val);
-	}	
-	
+	}
+	//视频
+	var has_video_val = 0;
+	var video_ids_val = "";
+	var growth_diary_video_id = document.getElementsByName("growth_diary_video_id");
+	if(growth_diary_video_id.length > 0){
+		has_video_val = 1;
+		for (var i=0; i < growth_diary_video_id.length; i++) {
+			growth_diary_video_id_val = growth_diary_video_id.item(i).value;
+			video_ids_val = video_ids_val+","+growth_diary_video_id_val;
+		}
+		//alert(has_video_val+"---"+video_ids_val);
+	}
+
 	var query = new Object();
 	query.id = $("#growth_diary_id").val();
 	query.content = $("#content").val();
@@ -165,6 +261,8 @@ function  check_submit(){
 	query.is_public = $("#is_public option:selected").val()
 	query.has_pic = has_pic_val;
 	query.pic_ids = pic_ids_val;
+	query.has_video = has_video_val;
+	query.video_ids = video_ids_val;
 	query.post_type = "json";
 	var ajaxurl = '{wap_url a="index" r="growthdiaryadd"}';
 	if(flag){
@@ -174,10 +272,10 @@ function  check_submit(){
 			type:"post",
 			dataType:"json",
 			success:function(data){
-				if(data.status==1){ 	
+				if(data.status==1){
 					//alert(data.info);
 					if(data.action_flag == 1){
-						window.location.href='{wap_url a="index" r="growthdiaryitem#index" p="id=$data.id"}';					
+						window.location.href='{wap_url a="index" r="growthdiaryitem#index" p="id=$data.id"}';
 					}else{
 						window.location.href='{wap_url a="index" r="growthdiarylist#index"}';
 					}
@@ -196,10 +294,9 @@ function  check_submit(){
 					relatedTarget: this,
 				});
 			}
-		});	
+		});
 	}
 }
-</script>	
-				
-{include file="./inc/footer.html"}				
-			
+</script>
+
+{include file="./inc/footer.html"}

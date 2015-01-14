@@ -12,7 +12,7 @@
 .bor-fc8{ border-color:@border_style;} /*用在头部右边的隐藏菜单*/
 
 html body{background:@body_color;} 
-a{color:#6E7D8B;text-decoration:none;}
+a{color:#4a4a4a;text-decoration:none;}
 
 /*这个文件还是留着，因为有些节点刚好用到这些类，不多不少*/ 
  

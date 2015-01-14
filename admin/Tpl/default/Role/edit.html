@@ -30,6 +30,7 @@
 					<span title="{$access_item.module}">{$access_item.name}</span>&nbsp;&nbsp;{%CHECK_ALL}<input type="checkbox" value="{$access_item.id}_0" name="role_access[]" onclick="check_module(this);" <if condition="$access_item['module_auth'] eq 1">checked="checked"</if> />
 					
 					</td>
+					
 					<td>
 
 						<foreach name="access_item.node_list" item="node_item">
