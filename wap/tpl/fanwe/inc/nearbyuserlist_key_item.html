@@ -117,10 +117,6 @@
 <!------------------------------------------center-------------------------------------------->
 			<div class="wrap">
 					<div class="list-view">
-						<!--定位加载-->
-						<div id="loading" style="display:none;text-align:center;padding:10px 0;">
-							<img id="loading_img" src="./images/loading.gif" /><br/><span id="loading_text">正在定位…</span>
-						</div>
 						{if $data.user_list}
 						<table cellspacing="0" cellpadding="0" border="0" class="nearby_user_list_table">
 							<tbody>
@@ -136,15 +132,14 @@
 										</div>
 										<div>
 											{if $user.sex eq 0}
-											公主
+											<span class="am-icon-female" style="color:#f60"></span>
 											{/if}
 											{if $user.sex eq 1}
-											王子
+											<span class="am-icon-male" style="color:#555"></span>
 											{/if}
-											&nbsp;&nbsp;
 											{function name="get_user_age_byid" uid=$user.id}
 										</div>
-										<div><i class="iconfont" style="font-size:14px;">&#xe61f;</i>{if $user.location}{$user.location}{else}未知{/if}</div>
+										<div><span class="am-icon-map-marker"></span>&nbsp;{if $user.location}{$user.location}{else}未知{/if}</div>
 									</td>
 									<!--
 									<td width="50" align="right" valign="top">	

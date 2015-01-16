@@ -19,6 +19,13 @@ class growthdiarywrite
 			$root['user_login_status'] = 1;			
 			$root['page_title'] = "成长日记";			
 			$id = intval($GLOBALS['request']['id']);
+			//输出表情数据html
+			$qq_expression = $GLOBALS['db']->getAll("select `type`,`title`,`emotion`,`filename` from ".DB_PREFIX."expression where type='qq' order by id asc");
+			foreach($qq_expression as $k=>$v){
+				$qq_expression[$k]['filename'] = "/public/expression/".$v['type']."/".$v['filename'];
+			}
+			$root['qq_expression']=$qq_expression;
+		
 			if($id > 0){
 				$condition = " where user_id = ".intval($user_data['id'])." and id = ".$id;
 				$growth_diary_item = $GLOBALS['db']->getRow("select * from ".DB_PREFIX."growth_diary".$condition);				

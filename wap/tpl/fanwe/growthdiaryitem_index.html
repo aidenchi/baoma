@@ -1,6 +1,27 @@
-{include file="./inc/header_common.html"}
-{include file="./inc/bbs_header_topbar.html"}
-
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+    <!-- Mobile Devices Support @begin -->
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="false" name="twcClient" id="twcClient">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <!--允许全屏模式-->
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <!--指定sari的样式-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta content="telephone=no" name="format-detection" />
+    <!-- Mobile Devices Support @end -->
+	<title>{$data.page_title}</title>
+	{include file="./inc/common.html"}
+</head> 
+<body>
+	{include file="./inc/bbs_header_topbar.html"}
+	{include file="./inc/pop.html"}
+	
 				{if $data.growth_diary_item.exit}			
 				<div id="wrap" class="wrap">
 					<div class="blank8"></div>					
@@ -41,11 +62,11 @@
 											{foreach from="$data.growth_diary_item.video_list" item="video_item"}
 											 <li style="float:left;padding-right:10px;padding-bottom:5px;">
 												<div>
-													<video height="100" src="{$video_item.video_path}" preload="Metadata" controls="controls" >
+													<video width="110" src="{$video_item.video_path}" preload="Metadata" >
 														您的浏览器不支持 video 标签。
 													</video >
 												</div>
-											 </li>
+											  </li>
 											{/foreach}
 										</ul>
 										{/if}
@@ -57,9 +78,9 @@
 												{else}	
 													<span style="padding-right:3px; cursor:pointer;" onclick="favorite_growth_diary({$data.growth_diary_item.id},{$data.growth_diary_item.user_id})">
 														{if $data.growth_diary_item.is_fav eq 1}
-														<font id="fav_text_{$data.growth_diary_item.id}"><span id="fav_icon_{$data.growth_diary_item.id}" class="am-icon-heart-o" style="color:#f90" ></span></font><font id="fav_count_{$data.growth_diary_item.id}">{$data.growth_diary_item.fav_count}</font>
+														<span id="fav_icon_{$data.growth_diary_item.id}" class="am-icon-heart" style="color:#ff537b" ></span>&nbsp;<font id="fav_count_{$data.growth_diary_item.id}">{$data.growth_diary_item.fav_count}</font>
 														{else}
-														<font id="fav_text_{$data.growth_diary_item.id}"><span id="fav_icon_{$data.growth_diary_item.id}" class="am-icon-heart-o" ></span></font><font id="fav_count_{$data.growth_diary_item.id}">{$data.growth_diary_item.fav_count}</font>
+														<span id="fav_icon_{$data.growth_diary_item.id}" class="am-icon-heart-o" ></span>&nbsp;<font id="fav_count_{$data.growth_diary_item.id}">{$data.growth_diary_item.fav_count}</font>
 														{/if}
 													</span>	
 												{/if}
@@ -69,10 +90,7 @@
 												<span>{function name="pass_date" time=$data.growth_diary_item.create_time }</span>	
 											</p>
 											<p class="growth_writedetail">
-												{if $data.login_user_id eq $data.growth_diary_item.user_id}
-												<!--
-												<a href='{wap_url a="index" r="growthdiarywrite#index"  p="id=$data.growth_diary_item.id"}'><i>编辑</i></a>&nbsp;&nbsp;
-												-->											
+												{if $data.login_user_id eq $data.growth_diary_item.user_id}										
 												<a href="javascript:void(0);" onclick="delete_growth_diary_confirm({$data.growth_diary_item.id},$('#wrap'));"><span class="am-icon-remove am-icon-sm" style="color:#ababab"></span></a>
 												{/if}
 											</p>
@@ -137,7 +155,8 @@
 								<input type="hidden" name="growth_diary_id" id="growth_diary_id" value="{$data.growth_diary_item.id}">
 								<textarea name="content" id="content" placeholder="请输入评论内容"></textarea>
 							</div>
-							<div class="btn_login">
+							
+							<div class="btn_login">								
 								<input type="submit" name="Submit" class="mj-submit" value="发送" style="background: none;">
 							</div>
 						</form>
@@ -155,239 +174,244 @@
 				<div id="growth_diarydel" style="display:none;margin-top:10px;margin-bottom:10px;text-align:center;">
 					<span id="growth_diarydelmsg"></span>
 				</div>
+				
+	<div class="amz-toolbar" id="amz-toolbar">
+		<a href="#top" title="回到顶部" class="am-icon-btn am-icon-arrow-up am-active" id="amz-go-top"></a>
+	</div>	
 
-<script type="text/javascript">
-//删除成长日记confirm
-function delete_growth_diary_confirm(growth_diary_id,growth_diary_obj){
-	 $("#confirm_content").html("您确定要删除这篇成长日记吗");
-	 $('#my-confirm').modal({
-        relatedTarget: this,
-        onConfirm: function(options) {
-			delete_growth_diary(growth_diary_id,growth_diary_obj);      },
-        onCancel: function() {
-			
-        }
-      });
-}
+	<script type="text/javascript">
+	//删除成长日记confirm
+	function delete_growth_diary_confirm(growth_diary_id,growth_diary_obj){
+		 $("#confirm_content").html("您确定要删除这篇成长日记吗");
+		 $('#my-confirm').modal({
+			relatedTarget: this,
+			onConfirm: function(options) {
+				delete_growth_diary(growth_diary_id,growth_diary_obj);      },
+			onCancel: function() {
+				
+			}
+		  });
+	}
 
-//删除成长日记
-function delete_growth_diary(growth_diary_id,growth_diary_obj){
-	var query = new Object();
-	query.id = growth_diary_id;
-	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="growthdiarydel#index"}';
-	//alert(query.topic_id);
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.status==1){ 
-				growth_diary_obj.hide();
-				$("#growth_diarydel").show();
-				$("#growth_diarydelmsg").html(data.info);
-				//alert(data.info);
-			}else{
-				//alert(data.info);
-				$("#alert_content").html(data.info);
+	//删除成长日记
+	function delete_growth_diary(growth_diary_id,growth_diary_obj){
+		var query = new Object();
+		query.id = growth_diary_id;
+		query.post_type = "json";
+		var ajaxurl = '{wap_url a="index" r="growthdiarydel#index"}';
+		//alert(query.topic_id);
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status==1){ 
+					growth_diary_obj.hide();
+					$("#growth_diarydel").show();
+					$("#growth_diarydelmsg").html(data.info);
+					//alert(data.info);
+				}else{
+					//alert(data.info);
+					$("#alert_content").html(data.info);
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+				}
+			}
+			,error:function(){
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
 				$('#my-alert').modal({
 					relatedTarget: this,
 				});
 			}
-		}
-		,error:function(){
-			//alert("服务器提交错误");
-			$("#alert_content").html("服务器提交错误，请稍后重新操作");
-			$('#my-alert').modal({
-				relatedTarget: this,
-			});
-		}
-	});
-}
+		});
+	}
 
-//喜欢
-function favorite_growth_diary(growth_diary_id,author_user_id){
-	//alert(growth_diary_id+"--"+author_user_id);
-	var fav_icon_id = "fav_icon_"+growth_diary_id;
-	var text_id = "fav_text_"+growth_diary_id;
-	var count_id = "fav_count_"+growth_diary_id;
-	var query = new Object();
-	query.growth_diary_id = growth_diary_id;
-	query.author_user_id = author_user_id;
-	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="growthdiaryfavorite#index"}';
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.user_login_status==0){
-				alert(data.login_info);
-			}else{
-				if(data.fav_status == 1){									
-					//document.getElementById(text_id).innerText = "喜欢";	
-					document.getElementById(fav_icon_id).style.color = "";			
-					var fav_count = document.getElementById(count_id).innerText;
-					fav_count = parseInt(fav_count) - 1;
-					document.getElementById(count_id).innerText = fav_count;
-					//alert("取消喜欢成功！");	
-					$("#alert_content").html("取消喜欢成功！");
-					$('#my-alert').modal({
-						relatedTarget: this,
-					});
-					setTimeout(function(){
-						$('#my-alert').modal('close');
-					},1000);
-				}
-				if(data.fav_status == 2){					
-					//document.getElementById(text_id).innerText = "已喜欢";		
-					document.getElementById(fav_icon_id).style.color = "#f90";	
-					var fav_count = document.getElementById(count_id).innerText;
-					fav_count = parseInt(fav_count) + 1;
-					document.getElementById(count_id).innerText = fav_count;
-					//alert("喜欢成功！");
-					$("#alert_content").html("喜欢成功！");
-					$('#my-alert').modal({
-						relatedTarget: this,
-					});
-					setTimeout(function(){
-						$('#my-alert').modal('close');
-					},1000);
-				}
-				if(data.fav_status == 3){
-					//alert("操作失败");
-					$("#alert_content").html("操作失败！");
-					$('#my-alert').modal({
-						relatedTarget: this,
-					});
-					setTimeout(function(){
-						$('#my-alert').modal('close');
-					},2000);
-				}
-				if(data.fav_status == 4){
-					//alert("自己不能喜欢自己的日记");
-					$("#alert_content").html("自己不能喜欢自己的日记！");
-					$('#my-alert').modal({
-						relatedTarget: this,
-					});
-					setTimeout(function(){
-						$('#my-alert').modal('close');
-					},2000);
+	//喜欢
+	function favorite_growth_diary(growth_diary_id,author_user_id){
+		//alert(growth_diary_id+"--"+author_user_id);
+		var fav_icon_id = "fav_icon_"+growth_diary_id;
+		var text_id = "fav_text_"+growth_diary_id;
+		var count_id = "fav_count_"+growth_diary_id;
+		var query = new Object();
+		query.growth_diary_id = growth_diary_id;
+		query.author_user_id = author_user_id;
+		query.post_type = "json";
+		var ajaxurl = '{wap_url a="index" r="growthdiaryfavorite#index"}';
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.user_login_status==0){
+					alert(data.login_info);
+				}else{
+					if(data.fav_status == 1){									
+						//document.getElementById(text_id).innerText = "喜欢";
+						document.getElementById(fav_icon_id).className = "am-icon-heart-o";
+						document.getElementById(fav_icon_id).style.color = "";			
+						var fav_count = document.getElementById(count_id).innerText;
+						fav_count = parseInt(fav_count) - 1;
+						document.getElementById(count_id).innerText = fav_count;
+						//alert("取消喜欢成功！");	
+						$("#alert_content").html("取消喜欢成功！");
+						$('#my-alert').modal({
+							relatedTarget: this,
+						});
+						setTimeout(function(){
+							$('#my-alert').modal('close');
+						},1000);
+					}
+					if(data.fav_status == 2){					
+						//document.getElementById(text_id).innerText = "已喜欢";
+						document.getElementById(fav_icon_id).className = "am-icon-heart";
+						document.getElementById(fav_icon_id).style.color = "#ff537b";	
+						var fav_count = document.getElementById(count_id).innerText;
+						fav_count = parseInt(fav_count) + 1;
+						document.getElementById(count_id).innerText = fav_count;
+						//alert("喜欢成功！");
+						$("#alert_content").html("喜欢成功！");
+						$('#my-alert').modal({
+							relatedTarget: this,
+						});
+						setTimeout(function(){
+							$('#my-alert').modal('close');
+						},1000);
+					}
+					if(data.fav_status == 3){
+						//alert("操作失败");
+						$("#alert_content").html("操作失败！");
+						$('#my-alert').modal({
+							relatedTarget: this,
+						});
+						setTimeout(function(){
+							$('#my-alert').modal('close');
+						},2000);
+					}
+					if(data.fav_status == 4){
+						//alert("自己不能喜欢自己的日记");
+						$("#alert_content").html("自己不能喜欢自己的日记！");
+						$('#my-alert').modal({
+							relatedTarget: this,
+						});
+						setTimeout(function(){
+							$('#my-alert').modal('close');
+						},2000);
+					}
 				}
 			}
-		}
-		,error:function(){
-			//alert("服务器提交错误");
-			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+			,error:function(){
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
+			}
+		});
+	}
+
+	//提交评论表单
+	function check_reply(){
+		var form = $("form[name='growth_diary_reply_form']")			
+		var textarea = $(form).find("textarea");
+		if($.trim(textarea.val())==''){
+			//alert("请输入内容");
+			$("#alert_content").html("请输入内容");
 			$('#my-alert').modal({
 				relatedTarget: this,
 			});
+			setTimeout(function(){
+				$('#my-alert').modal('close');
+			},1000);
+			return false;
 		}
-	});
-}
-
-//提交评论表单
-function check_reply(){
-	var form = $("form[name='growth_diary_reply_form']")			
-	var textarea = $(form).find("textarea");
-	if($.trim(textarea.val())==''){
-		//alert("请输入内容");
-		$("#alert_content").html("请输入内容");
-		$('#my-alert').modal({
-			relatedTarget: this,
-		});
-		setTimeout(function(){
-			$('#my-alert').modal('close');
-		},1000);
+		var query = new Object();
+		query.content = textarea.val();
+		query.growth_diary_id = $("#growth_diary_id").val();
+		query.post_type = "json";
+		var ajaxurl = form.attr("action");
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status==1){ 	
+					//alert(data.info);
+					location.href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$data.growth_diary_item.id"}';
+				}else{
+					//alert(data.info);
+					$("#alert_content").html(data.info);
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+				}
+			}
+			,error:function(){
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
+			}
+		});	
 		return false;
 	}
-	var query = new Object();
-	query.content = textarea.val();
-	query.growth_diary_id = $("#growth_diary_id").val();
-	query.post_type = "json";
-	var ajaxurl = form.attr("action");
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.status==1){ 	
-				//alert(data.info);
-				location.href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$data.growth_diary_item.id"}';
-			}else{
-				//alert(data.info);
-				$("#alert_content").html(data.info);
+
+	//删除回复confirm
+	function delete_growth_diary_reply_confirm(reply_id,one_reply_li_obj){
+		 $("#confirm_content").html("您确定要删除这条回复吗");
+		 $('#my-confirm').modal({
+			relatedTarget: this,
+			onConfirm: function(options) {
+				delete_growth_diary_reply(reply_id,one_reply_li_obj);      },
+			onCancel: function() {
+				
+			}
+		  });
+	}
+
+	//删除回复
+	function delete_growth_diary_reply(reply_id,one_reply_li_obj){
+		var query = new Object();
+		query.reply_id = reply_id;
+		query.post_type = "json";
+		var ajaxurl = '{wap_url a="index" r="growthdiaryreplydel#index"}';
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status==1){ 	
+					one_reply_li_obj.remove();
+					var reply_count = $("#reply_count").html();
+					reply_count = parseInt(reply_count)-1;
+					$("#reply_count").html(reply_count);
+					//alert(data.info);
+					location.reload();
+				}else{
+					//alert(data.info);
+					$("#alert_content").html(data.info);
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+				}
+			}
+			,error:function(){
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
 				$('#my-alert').modal({
 					relatedTarget: this,
 				});
 			}
-		}
-		,error:function(){
-			//alert("服务器提交错误");
-			$("#alert_content").html("服务器提交错误，请稍后重新操作");
-			$('#my-alert').modal({
-				relatedTarget: this,
-			});
-		}
-	});	
-	return false;
-}
-
-//删除回复confirm
-function delete_growth_diary_reply_confirm(reply_id,one_reply_li_obj){
-	 $("#confirm_content").html("您确定要删除这条回复吗");
-	 $('#my-confirm').modal({
-        relatedTarget: this,
-        onConfirm: function(options) {
-			delete_growth_diary_reply(reply_id,one_reply_li_obj);      },
-        onCancel: function() {
-			
-        }
-      });
-}
-
-//删除回复
-function delete_growth_diary_reply(reply_id,one_reply_li_obj){
-	var query = new Object();
-	query.reply_id = reply_id;
-	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="growthdiaryreplydel#index"}';
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.status==1){ 	
-				one_reply_li_obj.remove();
-				var reply_count = $("#reply_count").html();
-				reply_count = parseInt(reply_count)-1;
-				$("#reply_count").html(reply_count);
-				//alert(data.info);
-				location.reload();
-			}else{
-				//alert(data.info);
-				$("#alert_content").html(data.info);
-				$('#my-alert').modal({
-					relatedTarget: this,
-				});
-			}
-		}
-		,error:function(){
-			//alert("服务器提交错误");
-			$("#alert_content").html("服务器提交错误，请稍后重新操作");
-			$('#my-alert').modal({
-				relatedTarget: this,
-			});
-		}
-	});
-}
-</script>		
-			
-<div class="amz-toolbar" id="amz-toolbar">
-<a href="#top" title="回到顶部" class="am-icon-btn am-icon-arrow-up am-active" id="amz-go-top"></a>
-</div>		
+		});
+	}
+	</script>		
+</body>
+</html>					
+		
 			

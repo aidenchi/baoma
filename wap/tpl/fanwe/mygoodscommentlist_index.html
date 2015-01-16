@@ -1,8 +1,31 @@
-{include file="./inc/header.html"}
-<div class="wrap">
-	<div class="content">
-	<div class="comment_list_txt1">
-		<div id="Tab1">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+    <!-- Mobile Devices Support @begin -->
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="false" name="twcClient" id="twcClient">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <!--允许全屏模式-->
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <!--指定sari的样式-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta content="telephone=no" name="format-detection" />
+    <!-- Mobile Devices Support @end -->
+	<title>{$data.page_title}</title>
+	{include file="./inc/common.html"}
+</head> 
+<body>
+	{include file="./inc/header.html"}
+	{include file="./inc/pop.html"}
+	
+	<div class="wrap">
+		<div class="content">
+		<div class="comment_list_txt1">
+			<div id="Tab1">
 			<div class="Menubox">
 				<ul>
 				   <li id="one1" onclick="javascrtpt:window.location.href='{wap_url a="index" r="mysuppliercommentlist#index"}'" style="background:#fff;" border-right:1px solid #ccc;">店铺点评(共<span id="my_supplier_comment_count">{$data.my_supplier_comment_count}</span>条)</li>
@@ -53,64 +76,67 @@
 							 {/if}
 					</div><!--list-view end-->
 			   </div>
-			</div>
-		</div>	
+			</div><!--Contentbox end-->
+			</div>	<!--Tab1 end -->
+		</div>
+		</div>
 	</div>
-	</div>
-</div>
+	
+	<div class="amz-toolbar" id="amz-toolbar">
+		<a href="#top" title="回到顶部" class="am-icon-btn am-icon-arrow-up am-active" id="amz-go-top"></a>
+	</div>	
+	
+	<script type="text/javascript">
+	function delete_goods_comment_confirm(goods_comment_id,one_goods_comment_li_obj){
+		 $("#confirm_content").html("您确定要删除这条点评吗");
+		 $('#my-confirm').modal({
+			relatedTarget: this,
+			onConfirm: function(options) {
+				delete_goods_comment(goods_comment_id,one_goods_comment_li_obj); 
+			},
+			onCancel: function() {
+				
+			}
+		  });
+	}
 
-<script type="text/javascript">
-function delete_goods_comment_confirm(goods_comment_id,one_goods_comment_li_obj){
-	 $("#confirm_content").html("您确定要删除这条点评吗");
-	 $('#my-confirm').modal({
-        relatedTarget: this,
-        onConfirm: function(options) {
-			delete_goods_comment(goods_comment_id,one_goods_comment_li_obj); 
-		},
-        onCancel: function() {
-			
-        }
-      });
-}
-
-function delete_goods_comment(goods_comment_id,one_goods_comment_li_obj){
-	var query = new Object();
-	query.goods_comment_id = goods_comment_id;
-	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="goodscommentdel#index"}';
-	//alert(query.topic_reply_id);	
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.status==1){ 	
-				one_goods_comment_li_obj.hide();
-				var my_goods_comment_count = $("#my_goods_comment_count").html();
-				my_goods_comment_count = parseInt(my_goods_comment_count)-1;
-				$("#my_goods_comment_count").html(my_goods_comment_count);
-				//alert(data.info);
-				location.reload();
-			}else{
-				//alert(data.info);
-				$("#alert_content").html(data.info);
+	function delete_goods_comment(goods_comment_id,one_goods_comment_li_obj){
+		var query = new Object();
+		query.goods_comment_id = goods_comment_id;
+		query.post_type = "json";
+		var ajaxurl = '{wap_url a="index" r="goodscommentdel#index"}';
+		//alert(query.topic_reply_id);	
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status==1){ 	
+					one_goods_comment_li_obj.hide();
+					var my_goods_comment_count = $("#my_goods_comment_count").html();
+					my_goods_comment_count = parseInt(my_goods_comment_count)-1;
+					$("#my_goods_comment_count").html(my_goods_comment_count);
+					//alert(data.info);
+					location.reload();
+				}else{
+					//alert(data.info);
+					$("#alert_content").html(data.info);
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+				}
+			}
+			,error:function(){
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
 				$('#my-alert').modal({
 					relatedTarget: this,
 				});
 			}
-		}
-		,error:function(){
-			//alert("服务器提交错误");
-			$("#alert_content").html("服务器提交错误，请稍后重新操作");
-			$('#my-alert').modal({
-				relatedTarget: this,
-			});
-		}
-	});
-}
-</script>
-
-<div class="amz-toolbar" id="amz-toolbar">
-<a href="#top" title="回到顶部" class="am-icon-btn am-icon-arrow-up am-active" id="amz-go-top"></a>
-</div>	
+		});
+	}
+	</script>
+	
+</body>
+</html>	

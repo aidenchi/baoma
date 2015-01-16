@@ -74,6 +74,7 @@ class suppliercommentlist{
 		$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);	
 		$root['total']=$total;
 		$root['message_list']=$list;
+		$root['login_user_id'] = intval($user['id']);
 		$root['merchant_id']=$merchant_id;
 		$root['page_title']="店铺点评列表";
 		

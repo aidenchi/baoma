@@ -66,8 +66,8 @@ class topiclist
 			"and type='share' and origin_id = id order by is_top desc , create_time desc".$limit_sql;		
 		$one_cate_topic_list = $GLOBALS['db']->getAll($sql);
 		foreach($one_cate_topic_list as $k=>$v){
-			if(msubstr(preg_replace("/<[^>]+>/i","",$one_cate_topic_list[$k]['content']),0,40)!=preg_replace("/<[^>]+>/i","",$one_cate_topic_list[$k]['content'])){
-				$one_cate_topic_list[$k]['short_content'] = msubstr(preg_replace("/<[^>]+>/i","",$one_cate_topic_list[$k]['content']),0,40);
+			if(msubstr(preg_replace("/<[^>]+>/i","",$one_cate_topic_list[$k]['content']),0,18)!=preg_replace("/<[^>]+>/i","",$one_cate_topic_list[$k]['content'])){
+				$one_cate_topic_list[$k]['short_content'] = msubstr(preg_replace("/<[^>]+>/i","",$one_cate_topic_list[$k]['content']),0,18);
 			}else{
 				$one_cate_topic_list[$k]['short_content'] = preg_replace("/<br[^>]+>/i","",$one_cate_topic_list[$k]['content']);
 			}

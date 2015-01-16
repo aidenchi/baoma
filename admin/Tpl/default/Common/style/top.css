@@ -1,5 +1,5 @@
 @CHARSET "UTF-8";
-body{background:url(../images/topbg.png) repeat-x; font-size:12px; font-family:"verdana,Arial";  margin:0px; padding:0px; color:#404040; }
+body{background:#222; font-size:12px; font-family:"verdana,Arial";  margin:0px; padding:0px; color:#404040; }
 div{margin:0 auto; padding:0;}
 h1,h2,h3,h4,h5,h6,ul,li,dl,dt,dd,form,img,p{margin:0; padding:0; border:none; list-style-type:none;}
 a{ color:#333;}

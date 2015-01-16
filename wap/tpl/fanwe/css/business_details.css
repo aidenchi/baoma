@@ -145,7 +145,7 @@
 
 .grade b{
 	color:#f49332;
-	margin-left:9px;
+	margin-left:0px;
 	font-size:13px;
 	display: -webkit-box;
     height:20px;
@@ -207,7 +207,7 @@
 
 .business_ul .grade b{
 	font-size:12px;
-	line-height:23px;
+	line-height:21px;
 }
 
 

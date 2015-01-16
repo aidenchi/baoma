@@ -1,7 +1,28 @@
-{include file="./inc/header_common.html"}
-<style>
-.wrap .iconfont{ font-size:12px;}
-</style>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+    <!-- Mobile Devices Support @begin -->
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="false" name="twcClient" id="twcClient">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <!--允许全屏模式-->
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <!--指定sari的样式-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta content="telephone=no" name="format-detection" />
+    <!-- Mobile Devices Support @end -->
+	<title>{$data.page_title}</title>
+	{include file="./inc/common.html"}
+	<style>
+	.wrap .iconfont{ font-size:12px;}
+	</style>
+</head> 
+<body>
+	{include file="./inc/pop.html"}
 			<div class="growth_diary_top">
 				<div class="growth_diary_date">
 					<div style="float:left;width:50%;text-align:left;">
@@ -30,16 +51,16 @@
 			
 			<div class="wrap">
 					{if $data.growth_diary_list}					
-					<div class="list-view">
+					<div class="list-view" >
 						<div class="list_title"><span style="display:inline-block; width:35%;">共{$data.total}篇日记</span><span style="font-size:12px; color:#bbb;">最近一篇日志发表于{if $data.day_time gt 0}{$data.day_time}天前{else}今天{/if}</span></div>
-						<table cellspacing="0" cellpadding="0" border="0" class="growth_diary_list_table">							
+						<table style="background-color:#ecd9bc" cellspacing="0" cellpadding="0" border="0" class="growth_diary_list_table" >							
 							{foreach from=$data.growth_diary_list item=growth_diary}								
 							<tbody id="growth_diary_{$growth_diary.id}">
 								<tr>
 									<td class="td_line" width="50" style="text-align:center;color:#676767" valign="top">
 										<span style="font-size:22px;">{$growth_diary.record_month}.{$growth_diary.record_day}</span>
 									</td>								
-									<td class="td_line">	
+									<td class="td_line" style="padding:10px;">	
 										<table cellspacing="0" cellpadding="0" border="0" width="100%">		
 											<tr>								
 												<td>
@@ -65,9 +86,10 @@
 														{foreach from="$growth_diary.video_list" item="video_item"}
 														  <li style="float:left;padding-right:10px;padding-bottom:5px;">
 															<div>
-																<video height="100" src="{$video_item.video_path}" preload="Metadata" controls="controls" >
+																<video id="video_{$video_item.id}" width="110" src="{$video_item.video_path}" preload="Metadata"  onclick="FullscreenPlay($('#video_{$video_item.id}'))">
 																您的浏览器不支持 video 标签。
 																</video >
+													
 															</div>
 														  </li>
 														{/foreach}
@@ -75,25 +97,23 @@
 													{/if}
 												</td>
 												<td width="35px;" align="center" valign="top" >	
-													<!--
-													<a style="color: #adadad;" href='{wap_url a="index" r="growthdiarywrite#index"  p="id=$growth_diary.id"}'><i style="color:red;">编辑</i></a>&nbsp;
-													-->
-													<a href="javascript:void(0);" onclick="delete_growth_diary_confirm({$growth_diary.id},$('#growth_diary_{$growth_diary.id}'));"><span class="am-icon-remove am-icon-sm" style="color:#ababab"></span></a>				
+													<a href="javascript:void(0);" onclick="delete_growth_diary_confirm({$growth_diary.id},$('#growth_diary_{$growth_diary.id}'));"><span class="am-icon-remove am-icon-sm" style="color:#A97F5D"></span></a>				
 												</td>
 											</tr>	
 											<tr>								
 												<td style="padding-top:10px;">                                                	
 													{if $growth_diary.is_public eq 1}
-													<span style="padding-right:3px;"><span class="am-icon-eye"></span>{$growth_diary.hit_count}</span>
-													<span style="padding-right:3px;"><span class="am-icon-heart-o"></span>{$growth_diary.fav_count}</span>										
+													<span style="padding-right:10px;"><span class="am-icon-eye"></span>&nbsp;{$growth_diary.hit_count}</span>
+													<span style="padding-right:10px;"><span class="am-icon-heart-o"></span>&nbsp;{$growth_diary.fav_count}</span>										
 													<a href='{wap_url a="index" r="growthdiaryitem#index"  p="id=$growth_diary.id"}'>
-														<span style="padding-right:10px;color:#adadad;"><span class="am-icon-comment-o"></span>{$growth_diary.reply_count}</span>
+														<span style="padding-right:10px;color:#A97F5D;"><span class="am-icon-comment-o"></span>&nbsp;{$growth_diary.reply_count}</span>
 													</a>
 													{/if}	
 												</td>
 												<td width="35px;" align="center">	
 													{if $growth_diary.is_public eq 1}
 														<span style="cursor:pointer;" id="public_status_{$growth_diary.id}" onclick="change_public_status({$growth_diary.id})"><span id="lock_icon_{$growth_diary.id}" class="am-icon-unlock am-icon-sm"></span></span>
+														<span class="am-icon-share-alt" data-am-modal="{target:'#share-actions'}"></span>
 													{/if}
 													{if $growth_diary.is_public eq 0}
 														<span style="cursor:pointer;" id="public_status_{$growth_diary.id}" onclick="change_public_status({$growth_diary.id})"><span id="lock_icon_{$growth_diary.id}" class="am-icon-lock am-icon-sm"></span></span>
@@ -119,104 +139,129 @@
 					</div>
 					{/if}					
 					
-				</div><!--wrap end-->		
+				</div><!--wrap end-->	
 
-<script type="text/javascript">
-function change_public_status(growth_diary_id){
-	var public_status_id = "public_status_"+growth_diary_id;
-	var lock_icon_id = "lock_icon_"+growth_diary_id;
-	//alert(public_status_id);
-	var query = new Object();
-	query.growth_diary_id = growth_diary_id;
-	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="growthdiarypublicstatus#index"}';
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.status==1){
-				if(data.public_status == 0){
-					//document.getElementById(public_status_id).innerText = "私有";	
-					document.getElementById(lock_icon_id).className = "am-icon-lock am-icon-sm";	
+				<!---------------分享-------------->
+				<div class="am-modal-actions" id="share-actions">
+				  <div class="am-modal-actions-group">
+					<ul class="am-list">
+					  <li class="am-modal-actions-header">...</li>
+					  <li><a href="#"><span class="am-icon-wechat"></span> ...</a></li>
+					  <li class="am-modal-actions-danger">
+						<a href="#"><i class="am-icon-twitter"></i> ...</a>
+					  </li>
+					</ul>
+				  </div>
+				  <div class="am-modal-actions-group">
+					<button class="am-btn am-btn-secondary am-btn-block" data-am-modal-close>取消</button>
+				  </div>
+				</div>
+
+	{include file="./inc/footer.html"}			
+	
+	<script type="text/javascript">
+	//点击全屏播放视频
+	function FullscreenPlay(obj){
+		 obj[0].webkitEnterFullscreen();
+		 obj[0].play();
+	}
+
+	function change_public_status(growth_diary_id){
+		var public_status_id = "public_status_"+growth_diary_id;
+		var lock_icon_id = "lock_icon_"+growth_diary_id;
+		//alert(public_status_id);
+		var query = new Object();
+		query.growth_diary_id = growth_diary_id;
+		query.post_type = "json";
+		var ajaxurl = '{wap_url a="index" r="growthdiarypublicstatus#index"}';
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status==1){
+					if(data.public_status == 0){
+						//document.getElementById(public_status_id).innerText = "私有";	
+						document.getElementById(lock_icon_id).className = "am-icon-lock am-icon-sm";	
+					}
+					if(data.public_status == 1){
+						//document.getElementById(public_status_id).innerText = "公开";	
+						document.getElementById(lock_icon_id).className = "am-icon-unlock am-icon-sm";	
+					}
+					//alert(data.info);
+					$("#alert_content").html(data.info);
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+					setTimeout(function(){
+						$('#my-alert').modal('close');
+					},1000);
+				}else{
+					//alert(data.info);
+					$("#alert_content").html(data.info);
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
 				}
-				if(data.public_status == 1){
-					//document.getElementById(public_status_id).innerText = "公开";	
-					document.getElementById(lock_icon_id).className = "am-icon-unlock am-icon-sm";	
-				}
-				//alert(data.info);
-				$("#alert_content").html(data.info);
-				$('#my-alert').modal({
-					relatedTarget: this,
-				});
-				setTimeout(function(){
-					$('#my-alert').modal('close');
-				},1000);
-			}else{
-				//alert(data.info);
-				$("#alert_content").html(data.info);
+			}
+			,error:function(){
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
 				$('#my-alert').modal({
 					relatedTarget: this,
 				});
 			}
-		}
-		,error:function(){
-			//alert("服务器提交错误");
-			$("#alert_content").html("服务器提交错误，请稍后重新操作");
-			$('#my-alert').modal({
-				relatedTarget: this,
-			});
-		}
-	});
-}
-//删除成长日记confirm
-function delete_growth_diary_confirm(growth_diary_id,one_growth_diary_obj){
-	 $("#confirm_content").html("您确定要删除这篇成长日记吗");
-	 $('#my-confirm').modal({
-        relatedTarget: this,
-        onConfirm: function(options) {
-			delete_growth_diary(growth_diary_id,one_growth_diary_obj);      },
-        onCancel: function() {
-			
-        }
-      });
-}
+		});
+	}
+	//删除成长日记confirm
+	function delete_growth_diary_confirm(growth_diary_id,one_growth_diary_obj){
+		 $("#confirm_content").html("您确定要删除这篇成长日记吗");
+		 $('#my-confirm').modal({
+			relatedTarget: this,
+			onConfirm: function(options) {
+				delete_growth_diary(growth_diary_id,one_growth_diary_obj);      },
+			onCancel: function() {
+				
+			}
+		  });
+	}
 
-//删除成长日记
-function delete_growth_diary(growth_diary_id,one_growth_diary_obj){
-	var query = new Object();
-	query.id = growth_diary_id;
-	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="growthdiarydel#index"}';
-	//alert(query.topic_id);
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.status==1){ 
-				one_growth_diary_obj.remove();
-				location.reload();
-				//alert(data.info);
-			}else{
-				//alert(data.info);
-				$("#alert_content").html(data.info);
+	//删除成长日记
+	function delete_growth_diary(growth_diary_id,one_growth_diary_obj){
+		var query = new Object();
+		query.id = growth_diary_id;
+		query.post_type = "json";
+		var ajaxurl = '{wap_url a="index" r="growthdiarydel#index"}';
+		//alert(query.topic_id);
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status==1){ 
+					one_growth_diary_obj.remove();
+					location.reload();
+					//alert(data.info);
+				}else{
+					//alert(data.info);
+					$("#alert_content").html(data.info);
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+				}
+			}
+			,error:function(){
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
 				$('#my-alert').modal({
 					relatedTarget: this,
 				});
 			}
-		}
-		,error:function(){
-			//alert("服务器提交错误");
-			$("#alert_content").html("服务器提交错误，请稍后重新操作");
-			$('#my-alert').modal({
-				relatedTarget: this,
-			});
-		}
-	});
-}
-</script>				
-{include file="./inc/footer.html"}				
+		});
+	}
+	</script>				
+</body>
+</html>			
 			

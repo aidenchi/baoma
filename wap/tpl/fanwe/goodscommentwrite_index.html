@@ -1,6 +1,28 @@
-{include file="./inc/header.html"}
-<div class="wrap">
-		<div class="content">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+    <!-- Mobile Devices Support @begin -->
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="false" name="twcClient" id="twcClient">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <!--允许全屏模式-->
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <!--指定sari的样式-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta content="telephone=no" name="format-detection" />
+    <!-- Mobile Devices Support @end -->
+	<title>{$data.page_title}</title>
+	{include file="./inc/common.html"}
+</head> 
+<body>
+	{include file="./inc/header.html"}
+	{include file="./inc/pop.html"}
+			<div class="wrap">
+				<div class="content">
 					<!--------------------------------评分星星----------20140916----------------->
 					<div class="tx_star">
 						<div class="five_star_grey">
@@ -23,82 +45,87 @@
 					      
 					<div class="comment_commentary" onclick = "javascript:add_comment()">发表评论</div>						 	
 				</div>
-</div>				
-<script type="text/javascript">
-$(document).ready(function () { 
-	/*-----------------------------星星评分-------------start------------------------- */
-	$(".tx_star .five_star_grey i").mouseover(function(){
-	 	    var t=$(this).index() + 1;
-	        $(".tx_star .five_star_grey i").css("color","#e2e2e2");
-		 	$(".tx_star .five_star_grey i:lt("+t+")").css("color","#fc8600");
-	        $(".tx_star b span").html(t);
-	        
-	        $("#point").val(t);
-	})
-	/*------------------------------星星评分---------------end------------------------- */
-	 
-	 
-});	
+			</div>				
 
-function  add_comment(){
-	var content=$("#content").val();
-	var point=$("#point").val();
-	var id=$("#id").val();
-	var type=$("#type").val();
+	{include file="./inc/footer.html"}	
 	
-	if(!content){
-		//alert("请填写评论内容");
-		$("#alert_content").html("请填写评论内容");
-		$('#my-alert').modal({
-			relatedTarget: this,
-		});
-		setTimeout(function(){
-			$('#my-alert').modal('close');
-		},1000);
-		return false;		
-	}
-	
-	var query = new Object();
-	query.id = id;
-	query.type = type;
-	query.point = point;
-	query.content = content;
-	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="add_deal_dp"}';
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data["status"]==1){ 
-				//alert(data.info);
-				$("#alert_content").html(data.info);
-				$('#my-alert').modal({
-					relatedTarget: this,
-				});
-				setTimeout(function(){
-					$('#my-alert').modal('close');
-					window.location.href="{wap_url a="index" r="goodscommentlist" p="type=$request.type&goods_id=$request.goods_id"}";
-				},2000);
-			}else{
-				//alert(data.info);
-				$("#alert_content").html(data.info);
+	<script type="text/javascript">
+	$(document).ready(function () { 
+		/*-----------------------------星星评分-------------start------------------------- */
+		$(".tx_star .five_star_grey i").mouseover(function(){
+				var t=$(this).index() + 1;
+				$(".tx_star .five_star_grey i").css("color","#e2e2e2");
+				$(".tx_star .five_star_grey i:lt("+t+")").css("color","#fc8600");
+				$(".tx_star b span").html(t);
+				
+				$("#point").val(t);
+		})
+		/*------------------------------星星评分---------------end------------------------- */
+		 
+		 
+	});	
+
+	function  add_comment(){
+		var content=$("#content").val();
+		var point=$("#point").val();
+		var id=$("#id").val();
+		var type=$("#type").val();
+		
+		if(!content){
+			//alert("请填写评论内容");
+			$("#alert_content").html("请填写评论内容");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
+			setTimeout(function(){
+				$('#my-alert').modal('close');
+			},1000);
+			return false;		
+		}
+		
+		var query = new Object();
+		query.id = id;
+		query.type = type;
+		query.point = point;
+		query.content = content;
+		query.post_type = "json";
+		var ajaxurl = '{wap_url a="index" r="add_deal_dp"}';
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data["status"]==1){ 
+					//alert(data.info);
+					$("#alert_content").html(data.info);
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+					setTimeout(function(){
+						$('#my-alert').modal('close');
+						window.location.href="{wap_url a="index" r="goodscommentlist" p="type=$request.type&goods_id=$request.goods_id"}";
+					},2000);
+				}else{
+					//alert(data.info);
+					$("#alert_content").html(data.info);
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+				}
+			}
+			,error:function(){
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
 				$('#my-alert').modal({
 					relatedTarget: this,
 				});
 			}
-		}
-		,error:function(){
-			//alert("服务器提交错误");
-			$("#alert_content").html("服务器提交错误，请稍后重新操作");
-			$('#my-alert').modal({
-				relatedTarget: this,
-			});
-		}
-	});	
-	return false;
-}
+		});	
+		return false;
+	}
 
-</script>
-{include file="./inc/footer.html"}	
+	</script>
+
+</body>
+</html>	

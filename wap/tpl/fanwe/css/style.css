@@ -504,14 +504,6 @@ margin-right: 5px;
 	margin-right: 5px;
 	padding-bottom:10px;
 }
-.video_item {
-	position: relative;
-	height: 100px;
-	float: left;
-	display: inline-block;
-	margin-right: 5px;
-	padding-bottom:10px;
-}
 .image_item .del_image {
 	text-decoration: none;
 	font-size: 14px;
@@ -536,9 +528,9 @@ margin-right: 5px;
    display: -webkit-box;
    display: -moz-box;
    display:box;
-   margin:8px;
-   padding-bottom:5px;
+   padding:4px;
    border-bottom:1px solid #d9d9d9;
+   width:100%;
 }	
 .topic_li .list_item .topic_user_headimg{
    /*width: 50px;*/
@@ -657,7 +649,7 @@ margin-right: 5px;
 }	
 .topic_item_reply_li{	
 	padding:8px 10px 9px 10px;   
-	border-bottom:1px solid #f5f5f5;	
+	border-bottom:1px solid #eee;	
 }
 .topic_item_reply_li .info{
 	-webkit-box-flex: 1;
@@ -713,6 +705,23 @@ margin-right: 5px;
    display:box;
    font-size:12px; 
    color:#b2b2b2;
+   position:relative;
+}
+.dw-r-time{ position:absolute; right:6px; bottom:0;}
+.jin,.jian,.ding{
+	padding: 0 5px;
+	margin-right: 5px;
+	height: 16px;
+	line-height: 16px;
+	display: inline-block;
+	vertical-align: 10%;
+	border-radius: 2px;
+	font-size:10px; color:#fff; margin-left:3px;
+}
+.jin{background-color:#f60;}
+.ding{ background-color:#0c9f02;}
+.jian{
+background-color: #db5f40;
 }
 .topic_bottom .topic_bottom_text{
    -webkit-box-flex: 1;
@@ -768,18 +777,25 @@ margin-right: 5px;
 	height: 30px;
 	background:rgba(51,51,51,.3)
 }
-.growth_diary_list_table {
+/*.growth_diary_list_table {
 	width:100%;
 	color: #adadad;
 	font-size:12px;
-}
+	margin:5px;
+	border:1px solid #ddd;
+	border-bottom-color:#888;
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;
+	box-shadow:0px 0px 8px #ccc;
+} */
 .growth_diary_list_table a{
-	color: #373737;
+	color: #8C5225;
 }
 .td_line{
 	line-height: 22px;
-	padding: 10px 0;
+	padding: 10px;
 	border-bottom: 1px solid #f5f5f5;
+	color:#A97F5D;
 }
 .pic_item {
 	position: relative;
@@ -790,6 +806,7 @@ margin-right: 5px;
 	margin-top: 5px;
 	margin-right: 5px;
 }
+
 .growth_li .list_item{
    display: -webkit-box;
    display: -moz-box;
@@ -1548,6 +1565,21 @@ margin:20px 0;
 }
 
 /********************帖子列表topiclist*******************/
+.topic_list_ul {
+	background-color:#ebebeb;
+	}
+.topic_list_ul li {
+-moz-box-shadow: 0 1px 2px #cacaca;
+-webkit-box-shadow: 0 1px 2px #cacaca;
+box-shadow: 0 1px 2px #cacaca;
+-moz-border-radius: 4px;
+-webkit-border-radius: 4px;
+border-radius: 4px;
+margin: 6px 5px;
+background-color: #fff;
+}	
+
+
 .topic_list_top{
 	background: #fff;
 	width: 100%;
@@ -1561,7 +1593,7 @@ margin:20px 0;
 
 	width: 10%;	
 	text-align: center;
-	font-size:24px;
+	font-size:20px;
 	color:#ccc;
 }
 .topic_list_top .fa{ line-height:35px; padding-left:50%; margin-left:-11px;}
@@ -1586,7 +1618,7 @@ margin:20px 0;
 }
 .topic_list_top_right a{
 	color:#ccc;
-	font-size:24px;
+	font-size:20px;
 }
 .topic_list_bg{
 	width: 100%;
@@ -1621,3 +1653,40 @@ margin:20px 0;
 	border-bottom: 1px solid #d9d9d9;
 }
 .nearby_user_list_table .distance{ font-size:16px; position:absolute; right:0; top:3px;}
+
+
+/*************私信********************/
+.msg_list_table {
+	width:100%;
+}
+.msg_list_table td {
+	line-height: 22px;
+	padding: 10px;
+	text-align: center;
+}
+.pm_pic {
+	background: url(../images/sys_pm.gif) no-repeat;
+	display: inline-block;
+	width: 48px;
+	height: 48px;
+}
+.new_pm {
+	background: url(../images/new_pm.gif) no-repeat;
+	display: inline-block;
+	width: 18px;
+	height: 12px;
+}
+.sys_msg_title {
+	color: #FE7000;
+	font-weight: bolder;
+	font-size: 14px;
+	padding: 10px;
+	text-align: center;
+}
+.fans_user {
+	width: 80px;
+	height: 100px;
+	margin: 10px;
+	float: left;
+	text-align: center;
+}

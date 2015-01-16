@@ -20,7 +20,7 @@ class growthdiaryadd
 			$root['page_title'] = "成长日历";
 			
 			$id = intval($GLOBALS['request']['id']);				
-			$content = $GLOBALS['request']['content'];
+			$content = $GLOBALS['request']['content'];			
 			$location = $GLOBALS['request']['location'];
 			$is_public = intval($GLOBALS['request']['is_public']);
 			$has_pic = intval($GLOBALS['request']['has_pic']);
@@ -34,6 +34,10 @@ class growthdiaryadd
 			$record_year = intval($record_date_arr[0]);
 			$record_month = intval($record_date_arr[1]);
 			$record_day = intval($record_date_arr[2]);
+			
+			//替换成表情图片
+			$expression_replace_array = get_expression();
+			$content = str_replace($expression_replace_array['search'],$expression_replace_array['replace'],$content);
 			
 			$growthdiary = array();
 			$growthdiary['user_id'] = $user_data['id'];
@@ -78,5 +82,16 @@ class growthdiaryadd
 		$root['city_name']=$city_name;
 		output($root);
 	}
+}
+
+function get_expression(){
+	$qq_expression = $GLOBALS['db']->getAll("select * from ".DB_PREFIX."expression where type='qq'");
+	foreach($qq_expression as $item){
+		$search[] = $item['emotion'];
+		$replace[] = "<img src='/public/expression/".$item['type']."/".$item['filename']."' alt='".$item['title']."' />";
+	}
+	$expression_replace_array['search'] = $search;
+	$expression_replace_array['replace'] = $replace;
+	return $expression_replace_array;
 }
 ?>

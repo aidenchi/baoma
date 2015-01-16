@@ -1,43 +1,29 @@
-{include file="./inc/header.html"}
-<style>
-.msg_list_table {
-	width:100%;
-}
-.msg_list_table td {
-	line-height: 22px;
-	padding: 10px;
-	text-align: center;
-}
-.pm_pic {
-	background: url(./images/sys_pm.gif) no-repeat;
-	display: inline-block;
-	width: 48px;
-	height: 48px;
-}
-.new_pm {
-	background: url(./images/new_pm.gif) no-repeat;
-	display: inline-block;
-	width: 18px;
-	height: 12px;
-}
-.sys_msg_title {
-	color: #FE7000;
-	font-weight: bolder;
-	font-size: 14px;
-	padding: 10px;
-	text-align: center;
-}
-.fans_user {
-	width: 80px;
-	height: 100px;
-	margin: 10px;
-	float: left;
-	text-align: center;
-}
-</style>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+    <!-- Mobile Devices Support @begin -->
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="false" name="twcClient" id="twcClient">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <!--允许全屏模式-->
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <!--指定sari的样式-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta content="telephone=no" name="format-detection" />
+    <!-- Mobile Devices Support @end -->
+	<title>{$data.page_title}</title>
+	{include file="./inc/common.html"}
+</head> 
+<body>
+	{include file="./inc/header.html"}
+	{include file="./inc/pop.html"}
 
-<div class="wrap">
-	<div class="content">
+		<div class="wrap">
+			<div class="content">
 				{if $data.page_flag neq 0 and $data.page_flag neq 1 and $data.page_flag neq 2}
 					<div class="blank8"></div>
 					<div class="list-view">
@@ -236,133 +222,136 @@
 					</div><!--list-view end-->
 				{/if}
 					
-	</div>
-</div>
-
-<script type="text/javascript">
-$(document).ready(function(){
-	$("input[name='checkall']").click(function(){    
-		if(this.checked){    
-			$("input[name='id[]']").attr("checked", true);   
-		}else{    
-			$("input[name='id[]']").attr("checked", false); 
-		}    
+			</div>
+		</div>
+	
+	{include file="./inc/footer.html"} 
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("input[name='checkall']").click(function(){    
+			if(this.checked){    
+				$("input[name='id[]']").attr("checked", true);   
+			}else{    
+				$("input[name='id[]']").attr("checked", false); 
+			}    
+		});
 	});
-});
 
-function delete_msg(){
-	var cbos = $("input[name='id[]']:checked");
-	if(cbos.length==0){
-		//alert("请选中您要删除的消息记录");
-		$("#alert_content").html("请选中您要删除的消息记录！");
-		$('#my-alert').modal({
-			relatedTarget: this,
-		});
-		setTimeout(function(){
-			$('#my-alert').modal('close');
-		},2000);
-	}else{
-		 $("#confirm_content").html("您确定要删除选中的消息记录吗");
-		 $('#my-confirm').modal({
-			relatedTarget: this,
-			onConfirm: function(options) {
-				var msg_ids = $("input[name='id[]']:checked");
-				//alert(msg_ids.length);
-				var msg_ids_val = "";
-				for (var i=0; i < msg_ids.length; i++) {
-					msg_id_val = msg_ids[i].value;
-					msg_ids_val = msg_ids_val+","+msg_id_val;
+	function delete_msg(){
+		var cbos = $("input[name='id[]']:checked");
+		if(cbos.length==0){
+			//alert("请选中您要删除的消息记录");
+			$("#alert_content").html("请选中您要删除的消息记录！");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
+			setTimeout(function(){
+				$('#my-alert').modal('close');
+			},2000);
+		}else{
+			 $("#confirm_content").html("您确定要删除选中的消息记录吗");
+			 $('#my-confirm').modal({
+				relatedTarget: this,
+				onConfirm: function(options) {
+					var msg_ids = $("input[name='id[]']:checked");
+					//alert(msg_ids.length);
+					var msg_ids_val = "";
+					for (var i=0; i < msg_ids.length; i++) {
+						msg_id_val = msg_ids[i].value;
+						msg_ids_val = msg_ids_val+","+msg_id_val;
+					}
+					//alert(msg_ids_val);
+					var query = new Object();
+					query.msg_ids_val = msg_ids_val;
+					query.post_type = "json";
+					var ajaxurl = '{wap_url a="index" r="mymsgdel#index"}';
+					$.ajax({
+						url:ajaxurl,
+						data:query,
+						type:"post",
+						dataType:"json",
+						success:function(data){
+							//alert(data.msg_ids_val);
+							location.reload();
+						}
+						,error:function(){
+							//alert("服务器提交错误");
+							$("#alert_content").html("服务器提交错误，请稍后重新操作");
+							$('#my-alert').modal({
+								relatedTarget: this,
+							});
+						}
+					});
+				},
+				onCancel: function() {
+					
 				}
-				//alert(msg_ids_val);
-				var query = new Object();
-				query.msg_ids_val = msg_ids_val;
-				query.post_type = "json";
-				var ajaxurl = '{wap_url a="index" r="mymsgdel#index"}';
-				$.ajax({
-					url:ajaxurl,
-					data:query,
-					type:"post",
-					dataType:"json",
-					success:function(data){
-						//alert(data.msg_ids_val);
-						location.reload();
-					}
-					,error:function(){
-						//alert("服务器提交错误");
-						$("#alert_content").html("服务器提交错误，请稍后重新操作");
-						$('#my-alert').modal({
-							relatedTarget: this,
-						});
-					}
-				});
-			},
-			onCancel: function() {
-				
+			  });
+		}
+	}
+
+	function set_to_user(user_name){
+		$("#to_user_name").val(user_name);
+	}
+
+	function  check(){	
+		var form = $("#mysendmsg_form");	
+		if($.trim($("#to_user_name").val()) == '')	{
+			//alert("收件人不能为空！");
+			$("#alert_content").html("收件人不能为空！");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
+			setTimeout(function(){
+				$('#my-alert').modal('close');
+			},1000);
+			return false;
+		}
+		if($.trim($("#content").val()) == '')	{
+			//alert("信息内容不能为空！");
+			$("#alert_content").html("信息内容不能为空！");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
+			setTimeout(function(){
+				$('#my-alert').modal('close');
+			},1000);
+			return false;
+		}
+		var query = new Object();
+		query.to_user_name = $("#to_user_name").val();
+		query.content = $("#content").val();
+		query.post_type = "json";
+		var ajaxurl = form.attr("action");
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status==1){ 	
+					//alert(data.info);
+					window.location.href=data.href;
+				}else{
+					//alert(data.info);
+					$("#alert_content").html(data.info);
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+				}
 			}
-		  });
-	}
-}
-
-function set_to_user(user_name){
-	$("#to_user_name").val(user_name);
-}
-
-function  check(){	
-	var form = $("#mysendmsg_form");	
-	if($.trim($("#to_user_name").val()) == '')	{
-		//alert("收件人不能为空！");
-		$("#alert_content").html("收件人不能为空！");
-		$('#my-alert').modal({
-			relatedTarget: this,
-		});
-		setTimeout(function(){
-			$('#my-alert').modal('close');
-		},1000);
-		return false;
-	}
-	if($.trim($("#content").val()) == '')	{
-		//alert("信息内容不能为空！");
-		$("#alert_content").html("信息内容不能为空！");
-		$('#my-alert').modal({
-			relatedTarget: this,
-		});
-		setTimeout(function(){
-			$('#my-alert').modal('close');
-		},1000);
-		return false;
-	}
-	var query = new Object();
-	query.to_user_name = $("#to_user_name").val();
-	query.content = $("#content").val();
-	query.post_type = "json";
-	var ajaxurl = form.attr("action");
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.status==1){ 	
-				//alert(data.info);
-				window.location.href=data.href;
-			}else{
-				//alert(data.info);
-				$("#alert_content").html(data.info);
+			,error:function(){
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
 				$('#my-alert').modal({
 					relatedTarget: this,
 				});
 			}
-		}
-		,error:function(){
-			//alert("服务器提交错误");
-			$("#alert_content").html("服务器提交错误，请稍后重新操作");
-			$('#my-alert').modal({
-				relatedTarget: this,
-			});
-		}
-	});	
-		return false;
-}
-</script>
+		});	
+			return false;
+	}
+	</script>
 
-{include file="./inc/footer.html"} 
+</body>
+</html>		

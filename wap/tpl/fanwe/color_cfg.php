@@ -3,7 +3,7 @@ return array(
 
  //主要设置@main_color，@font_style
  //最初色版本#fc8600，
-    "@main_color"   =>  "#f5b857", //整体风格颜色
+    "@main_color"   =>  "#F4881A", //整体风格颜色
 	
 	"@border_main" =>   "#f0f0f0",  //主要边框颜色
     "@border_style"=>   "#f0f0f0",  //整体风格边框颜色

@@ -223,3 +223,8 @@ color: #fff;
 background-color: #FF9912;
 border-color: #FF9912;
 }
+
+
+.am-form select,.am-form textarea,.am-form input[type=text] {  
+font-size: 1.2rem;
+}

@@ -1,29 +1,29 @@
-{include file="./inc/header.html"}
-<style>
-.msg_list_table {
-	width:100%;
-}
-.msg_list_table td {
-	line-height: 22px;
-	padding: 10px;
-	text-align: center;
-}
-.pm_pic {
-	background: url(./images/sys_pm.gif) no-repeat;
-	display: inline-block;
-	width: 48px;
-	height: 48px;
-}
-.new_pm {
-	background: url(./images/new_pm.gif) no-repeat;
-	display: inline-block;
-	width: 18px;
-	height: 12px;
-}
-</style>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+    <!-- Mobile Devices Support @begin -->
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="false" name="twcClient" id="twcClient">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <!--允许全屏模式-->
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <!--指定sari的样式-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta content="telephone=no" name="format-detection" />
+    <!-- Mobile Devices Support @end -->
+	<title>{$data.page_title}</title>
+	{include file="./inc/common.html"}
+</head> 
+<body>
+	{include file="./inc/header.html"}
+	{include file="./inc/pop.html"}
 	
-<div class="wrap">
-	<div class="content">
+			<div class="wrap">
+				<div class="content">
 					<div class="blank8"></div>
 					<div class="list-view">
 						<div class="list_title">
@@ -117,72 +117,76 @@
 						<div class="assess_list" style="text-align:center;padding:10px 0;">暂无私信</div>
 						{/if}
 					</div><!--list-view end-->
-	</div>
-</div>
-
-<script type="text/javascript">
-$(document).ready(function(){
-	$("input[name='checkall']").click(function(){    
-		if(this.checked){    
-			$("input[name='pm_key[]']").attr("checked", true);   
-		}else{    
-			$("input[name='pm_key[]']").attr("checked", false); 
-		}    
-	});
-});
-
-function delete_msg(){
-	var cbos = $("input[name='pm_key[]']:checked");
-	if(cbos.length==0){
-		//alert("请选中您要删除的消息记录");
-		$("#alert_content").html("请选中您要删除的消息记录！");
-		$('#my-alert').modal({
-			relatedTarget: this,
+				</div>
+			</div>
+	
+	{include file="./inc/footer.html"} 
+	
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("input[name='checkall']").click(function(){    
+			if(this.checked){    
+				$("input[name='pm_key[]']").attr("checked", true);   
+			}else{    
+				$("input[name='pm_key[]']").attr("checked", false); 
+			}    
 		});
-		setTimeout(function(){
-			$('#my-alert').modal('close');
-		},2000);
-	}else{
-		 $("#confirm_content").html("您确定要删除选中的消息记录吗");
-		 $('#my-confirm').modal({
-			relatedTarget: this,
-			onConfirm: function(options) {
-				var group_keys = $("input[name='pm_key[]']:checked");
-				//alert(group_keys.length);
-				var group_keys_val = "";
-				for (var i=0; i < group_keys.length; i++) {
-					group_key_val = group_keys[i].value;
-					group_keys_val = group_keys_val+","+group_key_val;
-				}
-				//alert(group_keys_val);
-				var query = new Object();
-				query.group_keys_val = group_keys_val;
-				query.post_type = "json";
-				var ajaxurl = '{wap_url a="index" r="mymsgdelbykey#index"}';
-				$.ajax({
-					url:ajaxurl,
-					data:query,
-					type:"post",
-					dataType:"json",
-					success:function(data){
-						//alert(data.group_keys_val);
-						location.reload();
-					}
-					,error:function(){
-						//alert("服务器提交错误");
-						$("#alert_content").html("服务器提交错误，请稍后重新操作");
-						$('#my-alert').modal({
-							relatedTarget: this,
-						});
-					}
-				});
-			},
-			onCancel: function() {
-				
-			}
-		  });
-	}
-}
-</script>
+	});
 
-{include file="./inc/footer.html"} 
+	function delete_msg(){
+		var cbos = $("input[name='pm_key[]']:checked");
+		if(cbos.length==0){
+			//alert("请选中您要删除的消息记录");
+			$("#alert_content").html("请选中您要删除的消息记录！");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
+			setTimeout(function(){
+				$('#my-alert').modal('close');
+			},2000);
+		}else{
+			 $("#confirm_content").html("您确定要删除选中的消息记录吗");
+			 $('#my-confirm').modal({
+				relatedTarget: this,
+				onConfirm: function(options) {
+					var group_keys = $("input[name='pm_key[]']:checked");
+					//alert(group_keys.length);
+					var group_keys_val = "";
+					for (var i=0; i < group_keys.length; i++) {
+						group_key_val = group_keys[i].value;
+						group_keys_val = group_keys_val+","+group_key_val;
+					}
+					//alert(group_keys_val);
+					var query = new Object();
+					query.group_keys_val = group_keys_val;
+					query.post_type = "json";
+					var ajaxurl = '{wap_url a="index" r="mymsgdelbykey#index"}';
+					$.ajax({
+						url:ajaxurl,
+						data:query,
+						type:"post",
+						dataType:"json",
+						success:function(data){
+							//alert(data.group_keys_val);
+							location.reload();
+						}
+						,error:function(){
+							//alert("服务器提交错误");
+							$("#alert_content").html("服务器提交错误，请稍后重新操作");
+							$('#my-alert').modal({
+								relatedTarget: this,
+							});
+						}
+					});
+				},
+				onCancel: function() {
+					
+				}
+			  });
+		}
+	}
+	</script>
+	
+</body>
+</html>	
+	

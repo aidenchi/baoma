@@ -1,4 +1,26 @@
-{include file="./inc/header.html"}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+    <!-- Mobile Devices Support @begin -->
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="false" name="twcClient" id="twcClient">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <!--允许全屏模式-->
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <!--指定sari的样式-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta content="telephone=no" name="format-detection" />
+    <!-- Mobile Devices Support @end -->
+	<title>{$data.page_title}</title>
+	{include file="./inc/common.html"}
+</head> 
+<body>
+	{include file="./inc/header.html"}
+	{include file="./inc/pop.html"}
 				<div class="wrap" id="wrap">
 				{if $data.exit eq 1}
 					<div class="blank8"></div>					
@@ -36,113 +58,116 @@
 				<div id="topicdel" style="display:none;margin-top:10px;margin-bottom:10px;text-align:center;">
 					<span id="topicdelmsg"></span>
 				</div>
-
-<script type="text/javascript">
-function set_topic_reply(){
-	$("#reply_id").val(0);
-	$("#reply_user_id").val(0);
-	$("#reply_user_name").val("");
-	$("textarea[name='content']").val("");	
-}
-
-function set_reply(id,user_id,user_name){
-		$("form[name='topic_reply_form']").find("input[name='reply_id']").val(id);
-		if(user_name!='')
-		$("textarea[name='content']").val("回复@"+user_name+"：");	
-		$("#reply_user_id").val(user_id);
-		$("#reply_user_name").val(user_name);
-}
+	{include file="./inc/footer.html"}	
 	
-function delete_topic(topic_id,one_topic_obj){
-	var query = new Object();
-	query.topic_id = topic_id;
-	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="topicdel#index"}';
-	//alert(query.topic_id);
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.status==1){ 
-				one_topic_obj.hide();
-				$("#topicdel").show();
-				$("#topicdelmsg").html(data.info);
-				//alert(data.info);
-			}else{
-				alert(data.info);
-			}
-		}
-		,error:function(){
-			alert("服务器提交错误");
-		}
-	});
-}
-
-function delete_topic_reply(topic_reply_id,one_reply_li_obj){
-	var query = new Object();
-	query.topic_reply_id = topic_reply_id;
-	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="topicreplydel#index"}';
-	//alert(query.topic_reply_id);	
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.status==1){ 	
-				one_reply_li_obj.hide();
-				var topic_reply_count = $("#topic_reply_count").html();
-				topic_reply_count = parseInt(topic_reply_count)-1;
-				$("#topic_reply_count").html(topic_reply_count);
-				alert(data.info);
-			}else{
-				alert(data.info);
-			}
-		}
-		,error:function(){
-			alert("服务器提交错误");
-		}
-	});
-}
-
-function  check(){	
-	var form = $("form[name='topic_reply_form']")			
-	var textarea = $(form).find("textarea");
-	if($.trim(textarea.val())==''){
-		alert("请输入内容");
-		return false;
+	<script type="text/javascript">
+	function set_topic_reply(){
+		$("#reply_id").val(0);
+		$("#reply_user_id").val(0);
+		$("#reply_user_name").val("");
+		$("textarea[name='content']").val("");	
 	}
-	var query = new Object();
-	query.content = textarea.val();
-	query.topic_id = $("#topic_id").val();
-	query.reply_id = $("#reply_id").val();
-	query.reply_user_id = $("#reply_user_id").val();
-	query.reply_user_name = $("#reply_user_name").val();
-	query.post_type = "json";
-	//alert(query.content+"--"+query.topic_id+"--"+query.post_type+"--"+query.reply_id+"--"+query.reply_user_id+"--"+query.reply_user_name);
-	var ajaxurl = form.attr("action");
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.status==1){ 	
-				alert(data.info);
-				location.href='{wap_url a="index" r="topicitem#index"  p="id=$data.topic_item.id"}';
-			}else{
-				alert(data.info);
-			}
-		}
-		,error:function(){
-			alert("服务器提交错误");
-		}
-	});	
-		return false;
+
+	function set_reply(id,user_id,user_name){
+			$("form[name='topic_reply_form']").find("input[name='reply_id']").val(id);
+			if(user_name!='')
+			$("textarea[name='content']").val("回复@"+user_name+"：");	
+			$("#reply_user_id").val(user_id);
+			$("#reply_user_name").val(user_name);
 	}
-</script>					
-{include file="./inc/footer.html"}				
+		
+	function delete_topic(topic_id,one_topic_obj){
+		var query = new Object();
+		query.topic_id = topic_id;
+		query.post_type = "json";
+		var ajaxurl = '{wap_url a="index" r="topicdel#index"}';
+		//alert(query.topic_id);
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status==1){ 
+					one_topic_obj.hide();
+					$("#topicdel").show();
+					$("#topicdelmsg").html(data.info);
+					//alert(data.info);
+				}else{
+					alert(data.info);
+				}
+			}
+			,error:function(){
+				alert("服务器提交错误");
+			}
+		});
+	}
+
+	function delete_topic_reply(topic_reply_id,one_reply_li_obj){
+		var query = new Object();
+		query.topic_reply_id = topic_reply_id;
+		query.post_type = "json";
+		var ajaxurl = '{wap_url a="index" r="topicreplydel#index"}';
+		//alert(query.topic_reply_id);	
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status==1){ 	
+					one_reply_li_obj.hide();
+					var topic_reply_count = $("#topic_reply_count").html();
+					topic_reply_count = parseInt(topic_reply_count)-1;
+					$("#topic_reply_count").html(topic_reply_count);
+					alert(data.info);
+				}else{
+					alert(data.info);
+				}
+			}
+			,error:function(){
+				alert("服务器提交错误");
+			}
+		});
+	}
+
+	function  check(){	
+		var form = $("form[name='topic_reply_form']")			
+		var textarea = $(form).find("textarea");
+		if($.trim(textarea.val())==''){
+			alert("请输入内容");
+			return false;
+		}
+		var query = new Object();
+		query.content = textarea.val();
+		query.topic_id = $("#topic_id").val();
+		query.reply_id = $("#reply_id").val();
+		query.reply_user_id = $("#reply_user_id").val();
+		query.reply_user_name = $("#reply_user_name").val();
+		query.post_type = "json";
+		//alert(query.content+"--"+query.topic_id+"--"+query.post_type+"--"+query.reply_id+"--"+query.reply_user_id+"--"+query.reply_user_name);
+		var ajaxurl = form.attr("action");
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status==1){ 	
+					alert(data.info);
+					location.href='{wap_url a="index" r="topicitem#index"  p="id=$data.topic_item.id"}';
+				}else{
+					alert(data.info);
+				}
+			}
+			,error:function(){
+				alert("服务器提交错误");
+			}
+		});	
+			return false;
+		}
+	</script>	
+				
+</body>
+</html>			
 			

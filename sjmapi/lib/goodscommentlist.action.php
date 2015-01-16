@@ -63,6 +63,7 @@ class goodscommentlist{
 		$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);
 		
 		$root['goods_id']=$goods_id;
+		$root['login_user_id'] = intval($user['id']);
 		$root['page_title']="商品点评列表";
 		
 		output($root);

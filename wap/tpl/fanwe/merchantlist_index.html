@@ -2,156 +2,181 @@
 {include file="./inc/merchantlist_key_item.html"}
 <?php die();?>
 {/if}
-{include file="./inc/header_common.html"} 
-<?php
-		$this->_var['parse_pagecss'][] = $this->_var['TMPL_REAL']."/css/merchantlist_index.css";	
-			
-?>
-<link rel="stylesheet" type="text/css" href='{function name="parse_css" v="$parse_pagecss"}' />
 
-<div id="J_key_item">
-{include file="./inc/merchantlist_key_item.html"} 
-</div>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+    <!-- Mobile Devices Support @begin -->
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="false" name="twcClient" id="twcClient">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <!--允许全屏模式-->
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <!--指定sari的样式-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta content="telephone=no" name="format-detection" />
+    <!-- Mobile Devices Support @end -->
+	<title>{$data.page_title}</title>
+	{include file="./inc/common.html"}
+</head> 
+<body>
+	{include file="./inc/pop.html"}
 
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
-<script type="text/javascript">
-//首次进入页面判断是否需要定位
-$(document).ready(function(){
-	if($("#hide_xpoint").val()>0 || $("#hide_quan_id").val()>0){//如果定位坐标有值或位置有值
-		//alert($("#hide_xpoint").val()+"yes--"+$("#hide_quan_id").val());
-	}else{//如果定位坐标没有值，也没有选择位置，则执行定位获取坐标读取我附近
-		//alert("no--"+$("#hide_quan_id").val());
-		get_nearby_store();
+	<div id="J_key_item">
+	{include file="./inc/merchantlist_key_item.html"} 
+	</div>
+	
+	{include file="./inc/footer.html"} 
+	
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+	<script type="text/javascript">
+	//首次进入页面判断是否需要定位
+	$(document).ready(function(){
+		if($("#hide_xpoint").val()>0 || $("#hide_quan_id").val()>0){//如果定位坐标有值或位置有值
+			//alert($("#hide_xpoint").val()+"yes--"+$("#hide_quan_id").val());
+		}else{//如果定位坐标没有值，也没有选择位置，则执行定位获取坐标读取我附近
+			//alert("no--"+$("#hide_quan_id").val());
+			get_nearby_store();
+		}
+	});
+
+	//定位获取
+	function get_nearby_store(){	
+		//alert("get_nearby_store");	
+		$(".more_search_pull_down").hide();	
+		if($("#hide_xpoint").val()>0 && $("#hide_ypoint").val()>0){
+			ajaxgetbyxypoint($("#hide_xpoint").val(),$("#hide_ypoint").val(),'all','default');	
+		}else{
+			//$("#loading").show();
+			$('#loading_content').html("正在定位……");
+			$('#my-loading').modal({
+				relatedTarget: this,
+			});
+			var geolocation = new BMap.Geolocation(); 
+			geolocation.getCurrentPosition(function (r) { 		
+				if (this.getStatus() == BMAP_STATUS_SUCCESS ) { 
+					$('#my-loading').modal('close');
+					//origin = r.point.lng + "," + r.point.lat; 			
+					//alert("我所在位置的坐标："+origin); 
+					var longitude=r.point.lng;
+					var latitude=r.point.lat;	
+				/*
+				//模拟
+				if(1==1){
+					var longitude=114.41776;
+					var latitude=30.483698;	
+				*/
+					$("#hide_xpoint").val(longitude);
+					$("#hide_ypoint").val(latitude);
+					//window.location.href=$("#nearby_part_href").val()+"&xpoint="+longitude+"&ypoint="+latitude;//定位成功，读取我所在位置附近
+					//$("#loading").hide();
+					ajaxgetbyxypoint(longitude,latitude,'all','default');	
+				}else{
+					//$("#loading").hide();
+					$('#my-loading').modal('close');
+					//alert("定位失败，请稍后刷新重试");
+					$("#alert_content").html("定位失败，请稍后刷新重试");
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+					setTimeout(function(){
+						$('#my-alert').modal('close');
+					},2000);
+					//window.location.href=$("#nearby_part_href").val()+"&quan_id=1";//定位失败，读取全部位置	
+					ajaxgetbyxypoint(0,0,'all','default');
+				}
+			});	
+		}
 	}
-});
 
-//定位获取
-function get_nearby_store(){	
-	//alert("get_nearby_store");	
-	$(".more_search_pull_down").hide();	
-	if($("#hide_xpoint").val()>0 && $("#hide_ypoint").val()>0){
-		ajaxgetbyxypoint($("#hide_xpoint").val(),$("#hide_ypoint").val(),'all','default');	
-	}else{
-		$("#loading").show();
-		var geolocation = new BMap.Geolocation(); 
-		geolocation.getCurrentPosition(function (r) { 		
-			if (this.getStatus() == BMAP_STATUS_SUCCESS ) { 
-				//origin = r.point.lng + "," + r.point.lat; 			
-				//alert("我所在位置的坐标："+origin); 
-				var longitude=r.point.lng;
-				var latitude=r.point.lat;	
-			/*
-			//模拟
-			if(1==1){
-				var longitude=114.41776;
-				var latitude=30.483698;	
-			*/
-				$("#hide_xpoint").val(longitude);
-				$("#hide_ypoint").val(latitude);
-				//window.location.href=$("#nearby_part_href").val()+"&xpoint="+longitude+"&ypoint="+latitude;//定位成功，读取我所在位置附近
-				//$("#loading").hide();
-				ajaxgetbyxypoint(longitude,latitude,'all','default');	
-			}else{
-				$("#loading").hide();
-				//alert("定位失败，请稍后刷新重试");
-				$("#alert_content").html("定位失败，请稍后刷新重试");
-				$('#my-alert').modal({
-					relatedTarget: this,
-				});
-				setTimeout(function(){
-					$('#my-alert').modal('close');
-				},2000);
-				//window.location.href=$("#nearby_part_href").val()+"&quan_id=1";//定位失败，读取全部位置	
-				ajaxgetbyxypoint(0,0,'all','default');
+	//ajaxu获取内容
+	function ajaxgetbyxypoint(longitude,latitude,distance,order_type){
+		var ajaxurl = '{wap_url a="index" r="merchantlist"}';
+		var query = new Object();
+		query.cate_id = $("#hide_cate_id").val();
+		query.age_id = $("#hide_age_id").val();
+		query.xpoint = longitude;
+		query.ypoint = latitude;
+		query.distance = distance;
+		query.order_type = order_type;
+		query.quan_id = 1;
+		query.is_ajax=1;
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"Post",
+			dataType:"text",
+			success:function(data){
+				//alert("yes");
+				$("#J_key_item").html(data);
+			}
+			,error:function(){
+				//alert("服务器提交错误");
 			}
 		});	
 	}
-}
 
-//ajaxu获取内容
-function ajaxgetbyxypoint(longitude,latitude,distance,order_type){
-	var ajaxurl = '{wap_url a="index" r="merchantlist"}';
-	var query = new Object();
-	query.cate_id = $("#hide_cate_id").val();
-	query.age_id = $("#hide_age_id").val();
-	query.xpoint = longitude;
-	query.ypoint = latitude;
-	query.distance = distance;
-	query.order_type = order_type;
-	query.quan_id = 1;
-	query.is_ajax=1;
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"Post",
-		dataType:"text",
-		success:function(data){
-			//alert("yes");
+	//根据店铺名查询
+	function keySearch(){
+	  if (event.keyCode==13)   //回车键的键值为13
+		 search_submit();  //调用登录按钮的登录事件
+	}
+
+	function search_submit(){			
+		var keyword=$("#keyword").val();
+		var ajaxurl = '{wap_url a="index" r="merchantlist"}';
+		var query = new Object();
+		query.keyword = keyword;
+		query.xpoint = $("#hide_xpoint").val();
+		query.ypoint = $("#hide_ypoint").val();
+		query.distance = "all";
+		query.order_type = "default";
+		query.quan_id = 1;
+		query.is_ajax=1;
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"Post",
+			dataType:"text",
+			success:function(data){
+			//alert(data);
 			$("#J_key_item").html(data);
-		}
-		,error:function(){
-			//alert("服务器提交错误");
-		}
-	});	
-}
-
-//根据店铺名查询
-function keySearch(){
-  if (event.keyCode==13)   //回车键的键值为13
-     search_submit();  //调用登录按钮的登录事件
-}
-
-function search_submit(){			
-	var keyword=$("#keyword").val();
-	var ajaxurl = '{wap_url a="index" r="merchantlist"}';
-	var query = new Object();
-	query.keyword = keyword;
-	query.xpoint = $("#hide_xpoint").val();
-	query.ypoint = $("#hide_ypoint").val();
-	query.distance = "all";
-	query.order_type = "default";
-	query.quan_id = 1;
-	query.is_ajax=1;
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"Post",
-		dataType:"text",
-		success:function(data){
-		//alert(data);
-		$("#J_key_item").html(data);
-		}
-		,error:function(){
-			//alert("服务器提交错误");
-			$("#alert_content").html("服务器提交错误，请稍后重新操作");
-			$('#my-alert').modal({
-				relatedTarget: this,
-			});
-		}
-	});	
-}
+			}
+			,error:function(){
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
+			}
+		});	
+	}
 
 
-//如果当前用户是登录状态，记录它的坐标
-function userxypoint(latitude,longitude){	 	
-	var query = new Object();
-	query.latitude = latitude;
-	query.longitude = longitude;
-	query.post_type = "json";
-	var ajaxurl = '{url a="index" r="userxypoint"}';
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){					
-		}
-		,error:function(){					
-		}
-	});		 		
-}
+	//如果当前用户是登录状态，记录它的坐标
+	function userxypoint(latitude,longitude){	 	
+		var query = new Object();
+		query.latitude = latitude;
+		query.longitude = longitude;
+		query.post_type = "json";
+		var ajaxurl = '{url a="index" r="userxypoint"}';
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){					
+			}
+			,error:function(){					
+			}
+		});		 		
+	}
 
-</script>
+	</script>
 
-<!------------------------------------------footer-------------------------------------------->	
-{include file="./inc/footer.html"} 
+</body>
+</html>

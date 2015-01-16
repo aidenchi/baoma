@@ -1,17 +1,28 @@
-{include file="./inc/header.html"}
-<?php
-		$this->_var['parse_pagecss'][] = $this->_var['TMPL_REAL']."/css/merchantitem_index.css";	
-?>
-<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$parse_pagecss"}" />
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+    <!-- Mobile Devices Support @begin -->
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="false" name="twcClient" id="twcClient">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <!--允许全屏模式-->
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <!--指定sari的样式-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta content="telephone=no" name="format-detection" />
+    <!-- Mobile Devices Support @end -->
+	<title>{$data.page_title}</title>
+	{include file="./inc/common.html"}
+</head> 
+<body>
+	{include file="./inc/header.html"}
+	{include file="./inc/pop.html"}
 
-
-<script>
-	var u=$(document).height();
-	 $(".cover_tx").height(u);
-	// alert(u);
-</script>
-
-<div class="wrap">
+			<div class="wrap">
 				<div class="content">
 					<div class="blank8"></div>
 					
@@ -34,7 +45,8 @@
 									 {$data.brief}
 						 	   </div>
 						 </div>			 
-					</div><!--list-view end-->				
+					</div>
+					<!-- list-view end-->				
 					
 					<div class="blank8"></div>
 					
@@ -45,58 +57,16 @@
 						 	   <div class="business_address">																 
 									<span>电话：{$data.tel}</span><br/>	
 									<span>地址：{$data.address}</span><br/>	
-									<style type="text/css">
-										#container{height:150px; width: 240px; border:#ccc solid 1px; }  
-									</style>
-									<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.2"></script> 
-									<script type="text/javascript">
-										function draw_map(xpoint,ypoint){
-											var map = new BMap.Map("container"); 
-											var opts = {type: BMAP_NAVIGATION_CONTROL_ZOOM }  
-											map.addControl(new BMap.NavigationControl());  
-											// map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  
-											// 创建地理编码服务实例  
-											var point = new BMap.Point(xpoint,ypoint);
-											
-											// 将结果显示在地图上，并调整地图视野  
-											map.centerAndZoom(point, 16);  
-											map.addOverlay(new BMap.Marker(point));
-										}
-										
-										$(document).ready(function(){
-											draw_map('{$data.xpoint}','{$data.ypoint}');											
-										});
-									</script>
-									<div id="container"></div>	
+									<div data-am-widget="map" class="am-map am-map-default" data-name="{$data.name}"
+										data-address="{$data.address}" data-longitude="{$data.xpoint}" data-latitude="{$data.ypoint}"
+										data-scaleControl="" data-zoomControl="true" data-setZoom="17" data-icon="http://amuituku.qiniudn.com/mapicon.png">
+										  <div id="bd-map"></div>
+									</div>	
 						 	   </div>
-							   <a href="tel:{$data.tel}" class="business_phone" style="display:block;">
-							   	     <i class="fa fa-phone"></i>
-							   </a>
+							   
 						 </div><!--business_info end-->							
 					</div><!--list-view end-->		
 					
-					<!------------------------------------其它门店--------------------------------->
-					<!--
-					<div class="blank8"></div>
-					{if $data.other_supplier_location}
-					<div class="blank8"></div>					
-					<div class="list-view">	
-						 <div class="list_title">其它门店</div>
-						 {foreach from=$data.other_supplier_location item=supplier_location}
-							<div class="business_info" onclick = "javascript:window.location.href='{wap_url a="index" r="merchantitem" p="id=$supplier_location.id"}'" >
-						 	   <div class="business_address">
-						 	   	     <h3>{$supplier_location.name}</h3>
-									 <span>{$supplier_location.address}</span>
-									 <span>{$supplier_location.tel}</span>
-						 	   </div>
-							   <a class="business_phone" href="tel:{$supplier_location.tel}" style="display: block;">
-							   	     <i class="fa fa-phone"></i>
-							   </a>
-							</div>
-						 {/foreach}
-					</div>	
-					{/if}	
-					-->
 					<div class="blank8"></div>
 					
 					<!------------------------------------该店铺的商品--------------------------------->										
@@ -146,13 +116,9 @@
 					<div class="list_title">总体评分</div>
 					<div class="overall_merit">
 						<div class="left">
-							 <div class="total">
-							 	{$data.buy_dp_avg}
-							 </div>
+							
 							 <div class="total_star">
-							 	<div class="tatal_num">
-							 		{$data.comment_count}
-							 	</div>
+							 	
 								<div class="five_star_orange">
 							   	    <i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i><i class="fa fa-star orange"></i>
 							   	    <div class="five_star_grey" style="width:{$data.buy_dp_width}%;left:2px;">
@@ -246,18 +212,7 @@
 				</div><!--list-view end-->	
 				
 				
-{include file="./inc/footer.html"} 
-
-<script>
-function login_ts(){
-	//alert("请先登录");
-	$("#alert_content").html("请先登录");
-	$('#my-alert').modal({
-		relatedTarget: this,
-	});
-	setTimeout(function(){
-		$('#my-alert').modal('close');
-	},2000);
-}
-
-</script>
+	{include file="./inc/footer.html"} 
+	
+</body>
+</html>

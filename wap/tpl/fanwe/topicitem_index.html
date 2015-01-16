@@ -1,15 +1,36 @@
-{include file="./inc/header_common.html"}
-{include file="./inc/bbs_header_topbar.html"}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+    <!-- Mobile Devices Support @begin -->
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="false" name="twcClient" id="twcClient">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <!--允许全屏模式-->
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <!--指定sari的样式-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta content="telephone=no" name="format-detection" />
+    <!-- Mobile Devices Support @end -->
+	<title>{$data.page_title}</title>
+	{include file="./inc/common.html"}
+</head> 
+<body>
+	{include file="./inc/bbs_header_topbar.html"}
+	{include file="./inc/pop.html"}
 			
 				<div class="wrap" id="wrap">
 				{if $data.exit eq 1}
 					<div class="blank8"></div>					
 					<div class="list-view">
-						<div style="padding:10px; line-height:20px; font-size:16px; border-bottom: 1px solid #f5f5f5; width:100%; color:#222;">
+						<div style="padding:10px; line-height:20px; font-size:16px; border-bottom: 1px solid #ddd; width:100%; color:#222;">
 							<span>[讨论]&nbsp;{$data.topic_item.forum_title}</span>
 						</div>
-						<div style="padding:10px;border-bottom: 1px solid #f5f5f5; display: -webkit-box; color:#adadad;">							
-							<div style="width:80px;text-align:center; ">
+						<div style="padding:10px;border-bottom: 1px solid #ddd; display: -webkit-box; color:#adadad; overflow:hidden;">							
+							<div style="width:80px;text-align:center; float:left; margin-right:12px;">
 								{if $data.topic_item.user_id eq $data.user_id}
 								<a href='{wap_url a="index" r="user_center#index"}'>
 								{else}
@@ -18,27 +39,33 @@
 						 	    <img style="border-radius:50%; border:1px solid #bbb;" src='{function name="get_user_avatar" uid=$data.topic_item.user_id type="small" }' width="80" height="80">
 								</a>
 							</div>
-							<div style="padding-left:12px;">
-								<span style="color:#555; font-weight:bold; display:block;">{$data.topic_item.user_name}</span>
-								<span style="padding:5px 0 5px 15px; display:block;">{function name="get_user_intro_byid" uid=$data.topic_item.user_id}</span>
-								<span style="color:#555; display:block;">等级：{function name="get_user_level_byid" uid=$data.topic_item.user_id}</span>
-							</div>
+							<div style="overflow:hidden;">
+    							<div>
+    								<span style="color:#555; font-weight:bold; display:block;">{$data.topic_item.user_name}</span>
+    								<span style="font-size:12px; color#888;">{function name="pass_date" time=$data.topic_item.create_time }</span>
+    								<span style="padding:5px 0 5px 15px; display:block;">{function name="get_user_intro_byid" uid=$data.topic_item.user_id}</span>
+    								<span style="color:#f90; display:block;"><span class="am-icon-bookmark" style="color:#999; margin-right:5px;"></span>{function name="get_user_level_byid" uid=$data.topic_item.user_id}</span>
+    							</div>
+    							<div style="color:#adadad;">
+    							{$data.topic_item.content}
+    						    </div>
+    						    <div class="topic_bottom">
+    						        <span class="dw-r-time">
+            							<span style="padding-right:10px;"><span class="am-icon-eye"></span>&nbsp;{$data.topic_item.hit_count}</span>
+            							<span style="cursor:pointer; padding-right:10px;" onclick="favorite_topic({$data.topic_item.id},{$data.topic_item.user_id})">
+            								{if $data.topic_item.is_fav eq 1}
+            								<font id="fav_text_{$data.topic_item.id}"><span id="fav_icon_{$data.topic_item.id}" class="am-icon-heart" style="color:#ff537b"></span>&nbsp;</font>&nbsp;<font id="fav_count_{$data.topic_item.id}">{$data.topic_item.fav_count}</font>
+            								{else}
+            								<font id="fav_text_{$data.topic_item.id}"><span id="fav_icon_{$data.topic_item.id}" class="am-icon-heart-o"></span>&nbsp;</font><font id="fav_count_{$data.topic_item.id}">{$data.topic_item.fav_count}</font>
+            								{/if}
+            							</span>
+            							<span style="padding-right:5px;"><span class="am-icon-comment-o"></span>&nbsp;<font id="topic_reply_count">{$data.topic_item.reply_count}</font></span>
+        							</span>
+        						</div>
+						    </div>
 						</div>
-						<div style="padding:10px;color:#adadad;">
-							{$data.topic_item.content}
-						</div>
-						<div class="topic_bottom" style="padding:0 10px 10px;color:#adadad;text-align:right;">
-							<span style="padding-right:5px;"><span class="am-icon-eye"></span>{$data.topic_item.hit_count}</span>
-							<span style="cursor:pointer; padding-right:5px;" onclick="favorite_topic({$data.topic_item.id},{$data.topic_item.user_id})">
-								{if $data.topic_item.is_fav eq 1}
-								<font id="fav_text_{$data.topic_item.id}"><span id="fav_icon_{$data.topic_item.id}" class="am-icon-heart-o" style="color:#f90"></span></font>&nbsp;<font id="fav_count_{$data.topic_item.id}">{$data.topic_item.fav_count}</font>
-								{else}
-								<font id="fav_text_{$data.topic_item.id}"><span id="fav_icon_{$data.topic_item.id}" class="am-icon-heart-o"></span></font>&nbsp;<font id="fav_count_{$data.topic_item.id}">{$data.topic_item.fav_count}</font>
-								{/if}
-							</span>
-							<span style="padding-right:5px;"><span class="am-icon-comment-o"></span><font id="topic_reply_count">{$data.topic_item.reply_count}</font></span>
-							<span style="padding-left:20px;">{function name="pass_date" time=$data.topic_item.create_time }</span>
-						</div>
+						
+						
 					</div><!--list-view end-->
 					
 					{if $data.topic_item.reply_count gt 0}
@@ -100,7 +127,7 @@
 							<div class="blank"></div>					
 						</div>
 						<div class="btn_login">
-							<input type="submit" name="Submit" class="mj-submit" value="回复" style="background: none;">
+							<input type="submit" name="Submit" class="mj-submit" value="回复">
 						</div>
 					</form>
 					</div>					
@@ -116,213 +143,219 @@
 				<div id="topicdel" style="display:none;margin-top:10px;margin-bottom:10px;text-align:center;">
 					<span id="topicdelmsg"></span>
 				</div>
+				
+	<div class="amz-toolbar" id="amz-toolbar">
+		<a href="#top" title="回到顶部" class="am-icon-btn am-icon-arrow-up am-active" id="amz-go-top"></a>
+	</div>	
 
-<script type="text/javascript">
-function favorite_topic(topic_id,author_user_id){
-	//alert(topic_id+"--"+author_user_id);
-	var fav_icon_id = "fav_icon_"+topic_id;
-	var text_id = "fav_text_"+topic_id;
-	var count_id = "fav_count_"+topic_id;
-	var query = new Object();
-	query.topic_id = topic_id;
-	query.author_user_id = author_user_id;
-	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="topicfavorite#index"}';
+	<script type="text/javascript">
+	function favorite_topic(topic_id,author_user_id){
+		//alert(topic_id+"--"+author_user_id);
+		var fav_icon_id = "fav_icon_"+topic_id;
+		var text_id = "fav_text_"+topic_id;
+		var count_id = "fav_count_"+topic_id;
+		var query = new Object();
+		query.topic_id = topic_id;
+		query.author_user_id = author_user_id;
+		query.post_type = "json";
+		var ajaxurl = '{wap_url a="index" r="topicfavorite#index"}';
 
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.user_login_status==0){
-				//alert(data.login_info);
-				$("#alert_content").html(data.login_info);
-				$('#my-alert').modal({
-					relatedTarget: this,
-				});
-			}else{
-				if(data.fav_status == 1){									
-					//document.getElementById(text_id).innerText = "点赞";	
-					document.getElementById(fav_icon_id).style.color = "";						
-					var fav_count = document.getElementById(count_id).innerText;
-					fav_count = parseInt(fav_count) - 1;
-					document.getElementById(count_id).innerText = fav_count;
-					//alert("取消点赞成功！");	
-					$("#alert_content").html("取消点赞成功！");
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.user_login_status==0){
+					//alert(data.login_info);
+					$("#alert_content").html(data.login_info);
 					$('#my-alert').modal({
 						relatedTarget: this,
 					});
-					setTimeout(function(){
-						$('#my-alert').modal('close');
-					},1000);
-				}
-				if(data.fav_status == 2){					
-					//document.getElementById(text_id).innerText = "已点赞";
-					document.getElementById(fav_icon_id).style.color = "#f90";					
-					var fav_count = document.getElementById(count_id).innerText;
-					fav_count = parseInt(fav_count) + 1;
-					document.getElementById(count_id).innerText = fav_count;
-					//alert("点赞成功！");
-					$("#alert_content").html("点赞成功！");
-					$('#my-alert').modal({
-						relatedTarget: this,
-					});
-					setTimeout(function(){
-						$('#my-alert').modal('close');
-					},1000);
-				}
-				if(data.fav_status == 3){
-					//alert("操作失败");
-					$("#alert_content").html("操作失败！");
-					$('#my-alert').modal({
-						relatedTarget: this,
-					});
-				}
-				if(data.fav_status == 4){
-					//alert("自己不能点赞自己的帖子");
-					$("#alert_content").html("自己不能点赞自己的帖子！");
-					$('#my-alert').modal({
-						relatedTarget: this,
-					});
-					setTimeout(function(){
-						$('#my-alert').modal('close');
-					},1000);
+				}else{
+					if(data.fav_status == 1){									
+						//document.getElementById(text_id).innerText = "点赞";
+						document.getElementById(fav_icon_id).className = "am-icon-heart-o";
+						document.getElementById(fav_icon_id).style.color = "";						
+						var fav_count = document.getElementById(count_id).innerText;
+						fav_count = parseInt(fav_count) - 1;
+						document.getElementById(count_id).innerText = fav_count;
+						//alert("取消点赞成功！");	
+						$("#alert_content").html("取消点赞成功！");
+						$('#my-alert').modal({
+							relatedTarget: this,
+						});
+						setTimeout(function(){
+							$('#my-alert').modal('close');
+						},1000);
+					}
+					if(data.fav_status == 2){					
+						//document.getElementById(text_id).innerText = "已点赞";
+						document.getElementById(fav_icon_id).className = "am-icon-heart";
+						document.getElementById(fav_icon_id).style.color = "#ff537b";					
+						var fav_count = document.getElementById(count_id).innerText;
+						fav_count = parseInt(fav_count) + 1;
+						document.getElementById(count_id).innerText = fav_count;
+						//alert("点赞成功！");
+						$("#alert_content").html("点赞成功！");
+						$('#my-alert').modal({
+							relatedTarget: this,
+						});
+						setTimeout(function(){
+							$('#my-alert').modal('close');
+						},1000);
+					}
+					if(data.fav_status == 3){
+						//alert("操作失败");
+						$("#alert_content").html("操作失败！");
+						$('#my-alert').modal({
+							relatedTarget: this,
+						});
+					}
+					if(data.fav_status == 4){
+						//alert("自己不能点赞自己的帖子");
+						$("#alert_content").html("自己不能点赞自己的帖子！");
+						$('#my-alert').modal({
+							relatedTarget: this,
+						});
+						setTimeout(function(){
+							$('#my-alert').modal('close');
+						},1000);
+					}
 				}
 			}
-		}
-		,error:function(){
-			//alert("服务器提交错误");
-			$("#alert_content").html("服务器提交错误，请稍后重新操作");
-			$('#my-alert').modal({
-				relatedTarget: this,
-			});
-		}
-	});
-}
-
-function set_topic_reply(){
-	$("#reply_id").val(0);
-	$("#reply_user_id").val(0);
-	$("#reply_user_name").val("");
-	$("textarea[name='content']").val("");	
-}
-
-function set_reply(id,user_id,user_name){
-		$("form[name='topic_reply_form']").find("input[name='reply_id']").val(id);
-		if(user_name!='')
-		$("textarea[name='content']").val("回复@"+user_name+"：");	
-		$("#reply_user_id").val(user_id);
-		$("#reply_user_name").val(user_name);
-}
-
-function delete_topic_reply_confirm(topic_reply_id,one_reply_li_obj){
-	 $("#confirm_content").html("您确定要删除这条回复吗");
-	 $('#my-confirm').modal({
-        relatedTarget: this,
-        onConfirm: function(options) {
-			delete_topic_reply(topic_reply_id,one_reply_li_obj);
-        },
-        onCancel: function() {
-			
-        }
-      });
-}
-
-function delete_topic_reply(topic_reply_id,one_reply_li_obj){
-	var query = new Object();
-	query.topic_reply_id = topic_reply_id;
-	query.post_type = "json";
-	var ajaxurl = '{wap_url a="index" r="topicreplydel#index"}';
-	//alert(query.topic_reply_id);	
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.status==1){ 	
-				one_reply_li_obj.hide();
-				var topic_reply_count = $("#topic_reply_count").html();
-				topic_reply_count = parseInt(topic_reply_count)-1;
-				$("#topic_reply_count").html(topic_reply_count);
-				/*
-				$("#alert_content").html("删除成功");
-				$('#my-alert').modal({
-					relatedTarget: this,
-				});
-				*/
-				location.reload();
-			}else{
-				//alert(data.info);
-				$("#alert_content").html(data.info);
+			,error:function(){
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
 				$('#my-alert').modal({
 					relatedTarget: this,
 				});
 			}
-		}
-		,error:function(){
-			//alert("服务器提交错误");
-			$("#alert_content").html("服务器提交错误，请稍后重新操作");
-			$('#my-alert').modal({
-				relatedTarget: this,
-			});
-		}
-	});
-}
-
-function  check(){	
-	var form = $("form[name='topic_reply_form']")			
-	var textarea = $(form).find("textarea");
-	if($.trim(textarea.val())==''){
-		//alert("请输入内容");
-		$("#alert_content").html("请输入回复内容");
-		$('#my-alert').modal({
-			relatedTarget: this,
 		});
-		setTimeout(function(){
-			$('#my-alert').modal('close');
-		},1000);
-		return false;
 	}
-	var query = new Object();
-	query.content = textarea.val();
-	query.topic_id = $("#topic_id").val();
-	query.reply_id = $("#reply_id").val();
-	query.reply_user_id = $("#reply_user_id").val();
-	query.reply_user_name = $("#reply_user_name").val();
-	query.post_type = "json";
-	//alert(query.content+"--"+query.topic_id+"--"+query.post_type+"--"+query.reply_id+"--"+query.reply_user_id+"--"+query.reply_user_name);
-	var ajaxurl = form.attr("action");
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.status==1){ 	
-				location.href='{wap_url a="index" r="topicitem#index"  p="id=$data.topic_item.id"}';		
-			}else{
-				//alert(data.info);
-				$("#alert_content").html(data.info);
+
+	function set_topic_reply(){
+		$("#reply_id").val(0);
+		$("#reply_user_id").val(0);
+		$("#reply_user_name").val("");
+		$("textarea[name='content']").val("");	
+	}
+
+	function set_reply(id,user_id,user_name){
+			$("form[name='topic_reply_form']").find("input[name='reply_id']").val(id);
+			if(user_name!='')
+			$("textarea[name='content']").val("回复@"+user_name+"：");	
+			$("#reply_user_id").val(user_id);
+			$("#reply_user_name").val(user_name);
+	}
+
+	function delete_topic_reply_confirm(topic_reply_id,one_reply_li_obj){
+		 $("#confirm_content").html("您确定要删除这条回复吗");
+		 $('#my-confirm').modal({
+			relatedTarget: this,
+			onConfirm: function(options) {
+				delete_topic_reply(topic_reply_id,one_reply_li_obj);
+			},
+			onCancel: function() {
+				
+			}
+		  });
+	}
+
+	function delete_topic_reply(topic_reply_id,one_reply_li_obj){
+		var query = new Object();
+		query.topic_reply_id = topic_reply_id;
+		query.post_type = "json";
+		var ajaxurl = '{wap_url a="index" r="topicreplydel#index"}';
+		//alert(query.topic_reply_id);	
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status==1){ 	
+					one_reply_li_obj.hide();
+					var topic_reply_count = $("#topic_reply_count").html();
+					topic_reply_count = parseInt(topic_reply_count)-1;
+					$("#topic_reply_count").html(topic_reply_count);
+					/*
+					$("#alert_content").html("删除成功");
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+					*/
+					location.reload();
+				}else{
+					//alert(data.info);
+					$("#alert_content").html(data.info);
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+				}
+			}
+			,error:function(){
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
 				$('#my-alert').modal({
 					relatedTarget: this,
 				});
 			}
-		}
-		,error:function(){
-			//alert("服务器提交错误");
-			$("#alert_content").html("服务器提交错误，请稍后重新操作");
+		});
+	}
+
+	function  check(){	
+		var form = $("form[name='topic_reply_form']")			
+		var textarea = $(form).find("textarea");
+		if($.trim(textarea.val())==''){
+			//alert("请输入内容");
+			$("#alert_content").html("请输入回复内容");
 			$('#my-alert').modal({
 				relatedTarget: this,
 			});
+			setTimeout(function(){
+				$('#my-alert').modal('close');
+			},1000);
+			return false;
 		}
-	});	
-		return false;
-	}
-</script>					
+		var query = new Object();
+		query.content = textarea.val();
+		query.topic_id = $("#topic_id").val();
+		query.reply_id = $("#reply_id").val();
+		query.reply_user_id = $("#reply_user_id").val();
+		query.reply_user_name = $("#reply_user_name").val();
+		query.post_type = "json";
+		//alert(query.content+"--"+query.topic_id+"--"+query.post_type+"--"+query.reply_id+"--"+query.reply_user_id+"--"+query.reply_user_name);
+		var ajaxurl = form.attr("action");
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status==1){ 	
+					location.href='{wap_url a="index" r="topicitem#index"  p="id=$data.topic_item.id"}';		
+				}else{
+					//alert(data.info);
+					$("#alert_content").html(data.info);
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+				}
+			}
+			,error:function(){
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
+				$('#my-alert').modal({
+					relatedTarget: this,
+				});
+			}
+		});	
+			return false;
+		}
+	</script>					
 
-<div class="amz-toolbar" id="amz-toolbar">
-<a href="#top" title="回到顶部" class="am-icon-btn am-icon-arrow-up am-active" id="amz-go-top"></a>
-</div>		
+</body>
+</html>	
+		
 			

@@ -1,91 +1,118 @@
-{include file="./inc/header.html"}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+    <!-- Mobile Devices Support @begin -->
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="false" name="twcClient" id="twcClient">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <!--允许全屏模式-->
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <!--指定sari的样式-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta content="telephone=no" name="format-detection" />
+    <!-- Mobile Devices Support @end -->
+	<title>{$data.page_title}</title>
+	{include file="./inc/common.html"}
+</head> 
+<body>
+	{include file="./inc/header.html"}
+	{include file="./inc/pop.html"}
 
+	<form class="am-form" style="padding:10px;" id="topic_add_form" action='{wap_url a="index" r="topicadd#index"}' autocomplete="off" method="post" onsubmit="return check(this)">
+		  <fieldset>	
+			<input type="hidden" id="type" name="type" value="share" />
+			<div class="am-form-group">
+			  <input type="text" class="" placeholder="请输入主题" id="forum_title" name="forum_title" value="">
+			</div>		
+			<div class="am-form-group">
+			  <textarea class="" rows="8" id="content" name="content" placeholder="请输入内容">{$data.my_intro}</textarea>
+			</div>
+			<div class="am-form-group">
+			  <select id="cate_name" name="cate_name">
+				{foreach from=$data.cate_list item=cate}
+					<option value="{$cate.id}">{$cate.name}</option>
+				{/foreach}
+			  </select>
+			  <span class="am-form-caret"></span>
+			</div>
+			<div class="am-form-group" style="text-align:center;">
+			<p>
+			   <button type="submit" class="am-btn am-btn-default am-btn-block">发帖</button>
+			</p>
+			<div>
+		  </fieldset>
+	</form>
 
-<form class="am-form" style="padding:10px;" id="topic_add_form" action='{wap_url a="index" r="topicadd#index"}' autocomplete="off" method="post" onsubmit="return check(this)">
-	  <fieldset>	
-		<input type="hidden" id="type" name="type" value="share" />
-		<div class="am-form-group">
-		  <input type="text" class="" placeholder="请输入主题" id="forum_title" name="forum_title" value="">
-		</div>		
-		<div class="am-form-group">
-		  <textarea class="" rows="5" id="content" name="content" placeholder="请输入内容">{$data.my_intro}</textarea>
-		</div>
-		<div class="am-form-group">
-		  <select id="cate_name" name="cate_name">
-			{foreach from=$data.cate_list item=cate}
-				<option value="{$cate.id}">{$cate.name}</option>
-			{/foreach}
-		  </select>
-		  <span class="am-form-caret"></span>
-		</div>
-		<div class="am-form-group" style="text-align:center;">
-		<p><button type="submit" class="am-btn am-btn-default">发帖</button></p>
-		<div>
-	  </fieldset>
-</form>
-
+	{include file="./inc/footer.html"} 
 			
-<script type="text/javascript">
-function  check(){	
-	var form = $("#topic_add_form");	
-	var forum_title = $("#forum_title").val();
-	var textarea = $(form).find("textarea");
-	if($.trim(forum_title)==''){
-		$("#alert_content").html("请输入主题");
-		$('#my-alert').modal({
-			relatedTarget: this,
-		});
-		setTimeout(function(){
-			$('#my-alert').modal('close');
-		},1000);
-		return false;
-	}
-	if($.trim(textarea.val())==''){
-		//alert("请输入内容");
-		$("#alert_content").html("请输入内容");
-		$('#my-alert').modal({
-			relatedTarget: this,
-		});
-		setTimeout(function(){
-			$('#my-alert').modal('close');
-		},1000);
-		return false;
-	}
+	<script type="text/javascript">
+	function  check(){	
+		var form = $("#topic_add_form");	
+		var forum_title = $("#forum_title").val();
+		var textarea = $(form).find("textarea");
+		if($.trim(forum_title)==''){
+			$("#alert_content").html("请输入主题");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
+			setTimeout(function(){
+				$('#my-alert').modal('close');
+			},1000);
+			return false;
+		}
+		if($.trim(textarea.val())==''){
+			//alert("请输入内容");
+			$("#alert_content").html("请输入内容");
+			$('#my-alert').modal({
+				relatedTarget: this,
+			});
+			setTimeout(function(){
+				$('#my-alert').modal('close');
+			},1000);
+			return false;
+		}
 
-	var query = new Object();
-	query.forum_title = $("#forum_title").val();
-	query.content = textarea.val();
-	query.type = $("#type").val();
-	query.cate_id = $("#cate_name option:selected").val();
-	query.post_type = "json";
-	//alert(query.forum_title+"--"+query.content+"--"+query.type+"--"+query.post_type+"--"+query.cate_id);
-	var ajaxurl = form.attr("action");
-	$.ajax({
-		url:ajaxurl,
-		data:query,
-		type:"post",
-		dataType:"json",
-		success:function(data){
-			if(data.status==1){ 	
-				//alert(data.info);
-				window.location.href='{wap_url a="index" r="mytopiclist#index"}';
-			}else{
-				//alert(data.info);
-				$("#alert_content").html(data.info);
+		var query = new Object();
+		query.forum_title = $("#forum_title").val();
+		query.content = textarea.val();
+		query.type = $("#type").val();
+		query.cate_id = $("#cate_name option:selected").val();
+		query.post_type = "json";
+		//alert(query.forum_title+"--"+query.content+"--"+query.type+"--"+query.post_type+"--"+query.cate_id);
+		var ajaxurl = form.attr("action");
+		$.ajax({
+			url:ajaxurl,
+			data:query,
+			type:"post",
+			dataType:"json",
+			success:function(data){
+				if(data.status==1){ 	
+					//alert(data.info);
+					window.location.href='{wap_url a="index" r="mytopiclist#index"}';
+				}else{
+					//alert(data.info);
+					$("#alert_content").html(data.info);
+					$('#my-alert').modal({
+						relatedTarget: this,
+					});
+				}
+			}
+			,error:function(){
+				//alert("服务器提交错误");
+				$("#alert_content").html("服务器提交错误，请稍后重新操作");
 				$('#my-alert').modal({
 					relatedTarget: this,
 				});
 			}
+		});	
+			return false;
 		}
-		,error:function(){
-			//alert("服务器提交错误");
-			$("#alert_content").html("服务器提交错误，请稍后重新操作");
-			$('#my-alert').modal({
-				relatedTarget: this,
-			});
-		}
-	});	
-		return false;
-	}
-</script>					
-{include file="./inc/footer.html"} 
+	</script>					
+	
+
+</body>
+</html>	

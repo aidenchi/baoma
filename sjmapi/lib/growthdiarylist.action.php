@@ -33,7 +33,7 @@ class growthdiarylist
 			$page_total = ceil($total/$page_size);
 			
 			$growth_diary_list = $GLOBALS['db']->getAll("select * from ".DB_PREFIX."growth_diary".$condition." order by create_time desc".$limit_sql);
-			foreach($growth_diary_list as $k=>$v){
+			foreach($growth_diary_list as $k=>$v){				
 				if(msubstr(preg_replace("/<[^>]+>/i","",$growth_diary_list[$k]['content']),0,40)!=preg_replace("/<[^>]+>/i","",$growth_diary_list[$k]['content'])){
 					$growth_diary_list[$k]['short_content'] = msubstr(preg_replace("/<[^>]+>/i","",$growth_diary_list[$k]['content']),0,40);
 				}else{
@@ -71,6 +71,7 @@ class growthdiarylist
 				$reply_count = $GLOBALS['db']->getOne($reply_sql_count);
 				$growth_diary_list[$k]['reply_count'] = intval($reply_count);
 			}
+			$root['expression_replace_array'] = $expression_replace_array;
 			$root['total'] = $total;
 			$root['page'] = array("page"=>$page,"page_total"=>$page_total,"page_size"=>$page_size);
 			$root['growth_diary_list'] = $growth_diary_list;
@@ -92,4 +93,5 @@ class growthdiarylist
 		output($root);
 	}
 }
+
 ?>

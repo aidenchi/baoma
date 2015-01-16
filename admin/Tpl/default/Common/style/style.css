@@ -17,10 +17,10 @@ a:hover{ color:#ff9600;}
 
 /* 公共样式 */
 .button{
-background:none repeat scroll 0 0 #4e6a81;
-border-color:#dddddd #000000 #000000 #dddddd;
+background:#4c9ed9;
+border-color:#4c9ed9;
 border-style:solid;
-border-width:2px;
+border-width:1px;
 color:#FFFFFF;
 cursor:pointer;
 letter-spacing:0.1em;
@@ -29,12 +29,14 @@ padding:3px 15px;
 width:auto;
 cursor:pointer;
 text-decoration:none;
+border-radius:4px;
 }
+.button:hover{background:#1f7ab9;}
 
 .tip_span{ color:#ff9600;;}
 .currentbtn{
-background:none repeat scroll 0 0 #4e6a81;
-border-color:#000000 #dddddd #dddddd #000000;
+background:#4e6a81;
+border-color:#4e6a81;
 border-style:solid;
 border-width: 2px 2px 2px 2px;
 color:#FFFFFF;
@@ -46,6 +48,7 @@ width:auto;
 cursor:pointer;
 text-decoration:none;
 }
+.currentbtn:hover{ border-color:#1f7ab9;}
 
 .change_password{ width:450px;}
 .textbox{ padding:4px; color:#666;}
@@ -67,8 +70,8 @@ text-decoration:none;
 .message_row{ font-size:12px; color:#f30; font-weight:bold; padding:10px 0px; }
 
 .main{ padding:10px; }
-.main_title{ border:#ccc solid 1px; background:#8ba9c0; color:#fff; padding:5px 15px; font-size:14px; font-weight:bolder;}
-.search_row{ border:#ccc solid 1px; background:#8ba9c0; color:#fff; padding:5px 15px; font-size:14px; font-weight:bolder;}
+.main_title{ border:#ccc solid 1px; background:#555; color:#fff; padding:5px 15px; font-size:14px; font-weight:bolder;}
+.search_row{ border:#ccc solid 1px; background:#add07c; color:#fff; padding:5px 15px; font-size:14px; font-weight:bolder;}
 
 /* 数据表 */
 .dataTable{ width:100%; border-top:#ccc solid 1px; border-left:#ccc solid 1px; background:#fff;}

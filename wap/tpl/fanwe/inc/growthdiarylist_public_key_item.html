@@ -12,13 +12,13 @@
 										{else}
 											<a href='javascript:void(0);' onclick="login_ts()">
 										{/if}
-										<img style="border-radius:35px;" src='{function name="get_user_avatar" uid=$growth_diary.user_id type="small" }'>
+										<img style="border-radius:70px;border: 2px solid #fff;" src='{function name="get_user_avatar" uid=$growth_diary.user_id type="small" }'>
 										</a>
 										<br/>
 										{$growth_diary.user_name}
 									</td>								
-									<td class="td_line">	
-										<table cellspacing="0" cellpadding="0" border="0" width="100%">		
+									<td class="td_line" style="padding:10px;">	
+										<table cellspacing="0" cellpadding="0" border="0">		
 											<tr>								
 												<td>
 													<!--文字内容-->
@@ -29,6 +29,7 @@
 													{/if}
 													{$growth_diary.short_content}	
 													</a>
+													<p><span style="color:#a79384">{function name="pass_date" time=$growth_diary.create_time }</span></p>
 													<!--图片内容-->
 													{if $growth_diary.has_pic}
 													<ul data-am-widget="gallery" class="am-gallery am-avg-sm-2 am-avg-md-3 am-avg-lg-4 am-gallery-imgbordered" data-am-gallery="{ pureview: true }">
@@ -47,7 +48,7 @@
 														{foreach from="$growth_diary.video_list" item="video_item"}
 														  <li style="float:left;padding-right:10px;padding-bottom:5px;">
 															<div>
-																<video height="100" src="{$video_item.video_path}" preload="Metadata" controls="controls" >
+																<video width="110" src="{$video_item.video_path}" preload="Metadata" >
 																您的浏览器不支持 video 标签。
 																</video >
 															</div>
@@ -58,13 +59,13 @@
 												</td>
 											</tr>	
 											<tr>								
-												<td style="padding-top:10px;">
-													<span style="padding-right:3px;"><span class="am-icon-eye"></span>{$growth_diary.hit_count}</span>
-													<span style="padding-right:3px; cursor:pointer;" onclick="favorite_growth_diary({$growth_diary.id},{$growth_diary.user_id})">
+												<td style="padding-top:10px;color:#8C5225">
+													<span style="padding-right:10px;"><span class="am-icon-eye"></span>&nbsp;{$growth_diary.hit_count}</span>
+													<span style="padding-right:10px; cursor:pointer;" onclick="favorite_growth_diary({$growth_diary.id},{$growth_diary.user_id})">
 														{if $growth_diary.is_fav eq 1}
-														<font id="fav_text_{$growth_diary.id}"><span id="fav_icon_{$growth_diary.id}" class="am-icon-heart-o" style="color:#f90"></span></font><font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>
+														<span id="fav_icon_{$growth_diary.id}" class="am-icon-heart" style="color:#ff537b"></span>&nbsp;<font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>
 														{else}
-														<font id="fav_text_{$growth_diary.id}"><span id="fav_icon_{$growth_diary.id}" class="am-icon-heart-o"></font><font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>
+														<span id="fav_icon_{$growth_diary.id}" class="am-icon-heart-o"></span>&nbsp;<font id="fav_count_{$growth_diary.id}">{$growth_diary.fav_count}</font>
 														{/if}
 													</span>
 													{if $data.login_user_id gt 0}
@@ -72,9 +73,8 @@
 													{else}
 													<a href='javascript:void(0);' onclick="login_ts()">
 													{/if}
-															<span style="padding-right:10px;"><span class="am-icon-comment-o"></span>{$growth_diary.reply_count}</span>
-													</a>
-													<span>{function name="pass_date" time=$growth_diary.create_time }</span>			
+													<span style="padding-right:10px;"><span class="am-icon-comment-o"></span>&nbsp;{$growth_diary.reply_count}</span>
+													</a>																
 												</td>
 											</tr>				
 										</table>									
@@ -85,7 +85,7 @@
 						</table>
 						<!--正在加载-->
 						<div id="loading" style="display:none;text-align:center;padding:10px 0;">
-							<img id="loading_img" src="./images/loading.gif" /><br/><span id="loading_text">正在加载…</span>
+							<span class="am-icon-spinner am-icon-spin"></span><span id="loading_text">正在加载…</span>
 						</div>
 						
 						

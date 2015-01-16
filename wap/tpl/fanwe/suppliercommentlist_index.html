@@ -1,12 +1,28 @@
-{include file="./inc/header.html"}
-<?php
-		$this->_var['parse_pagecss'][] = $this->_var['TMPL_REAL']."/css/activity_list.css";	
-		$this->_var['parse_pagecss'][] = $this->_var['TMPL_REAL']."/css/comment_list.css";
-			
-?>
-<link rel="stylesheet" type="text/css" href="{function name="parse_css" v="$parse_pagecss"}" />
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />	
+    <!-- Mobile Devices Support @begin -->
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="false" name="twcClient" id="twcClient">
+    <meta content="no-cache,must-revalidate" http-equiv="Cache-Control">
+    <meta content="no-cache" http-equiv="pragma">
+    <meta content="0" http-equiv="expires">
+    <!--允许全屏模式-->
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <!--指定sari的样式-->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta content="telephone=no" name="format-detection" />
+    <!-- Mobile Devices Support @end -->
+	<title>{$data.page_title}</title>
+	{include file="./inc/common.html"}
+</head> 
+<body>
+	{include file="./inc/header.html"}
+	{include file="./inc/pop.html"}
 
-<div class="wrap">
+			<div class="wrap">
 				<div class="content">
 					<div class="blank8"></div>
 					
@@ -102,10 +118,16 @@
 					</div>
 				
 					<div class="i_say">
-						<input type="submit" class="plank" value="我要点评" onclick="javascrtpt:window.location.href='{wap_url a="index" r="suppliercommentwrite#index" p="id=$data.merchant_id"}'" style="background:none;"/> 
-					</div>
-					
+						{if $data.login_user_id gt 0}
+							<input type="submit" class="plank" value="我要点评" onclick="javascrtpt:window.location.href='{wap_url a="index" r="suppliercommentwrite#index" p="id=$data.merchant_id"}'" style="background:none;"/> 
+						{else}
+							<input type="submit" class="plank" value="我要点评" onclick="login_ts()" style="background:none;"/> 
+						{/if}
+					</div>	
 			
-	</div>
-	</div>
-{include file="./inc/footer.html"}	
+				</div>
+			</div>
+	{include file="./inc/footer.html"}	
+
+</body>
+</html>	

@@ -1,6 +1,13 @@
 {// 引入标签库 }
 <tagLib name="html" />
 <include file="Public:header" />
+<php>
+	function getViewReply($id,$vo)
+	{
+		$str .= "<a href='".u("GrowthDiaryReply/index",array("growth_diary_id"=>$vo['id']))."'>查看回复</a>&nbsp;";
+		return $str;
+	}
+</php>
 <div class="main">
 <div class="main_title">成长日记列表</div>
 <div class="blank5"></div>
@@ -24,8 +31,8 @@
 	checkbox="true" 
 	action="true" 
 	datasource="list" 
-	show="id:{%ID}|50px,content|msubstr:内容,user_name:用户,location:位置,create_time|to_date:记录时间" 
-	actionlist="edit:{%EDIT}, foreverdel:{%FOREVERDEL}" /> 
+	show="id:{%ID}|50px,user_name:用户,location:位置,create_time|to_date:记录时间,hit_count:浏览量,reply_count:回复量" 
+	actionlist="id|getViewReply=$growthdiary,edit:{%VIEW}, foreverdel:{%FOREVERDEL}" /> 
 
 <div class="blank5"></div>
 <div class="page">{$page}</div>

@@ -1,11 +1,4 @@
 <?php
-// +----------------------------------------------------------------------
-// | Fanwe 方维o2o商业系统
-// +----------------------------------------------------------------------
-// | Copyright (c) 2011 http://www.fanwe.com All rights reserved.
-// +----------------------------------------------------------------------
-// | Author: 云淡风轻(88522820@qq.com)
-// +-----------------------------------------
 
 class DealDpAction extends CommonAction
 {
@@ -100,6 +93,17 @@ class DealDpAction extends CommonAction
 			$this->error(L("UPDATE_FAILED"),0,$log_info.L("UPDATE_FAILED"));
 		}
 	}	
+	
+	public function toogle_status()
+	{
+		$id = intval($_REQUEST['id']);
+		$ajax = intval($_REQUEST['ajax']);
+		$info = M("Message")->where("id=".$id)->getField("name");
+		$c_is_effect = M("Message")->where("id=".$id)->getField("is_effect");  //当前状态
+		$n_is_effect = $c_is_effect == 0 ? 1 : 0; //需设置的状态
+		M("Message")->where("id=".$id)->setField("is_effect",$n_is_effect);	
+		$this->ajaxReturn($n_is_effect,l("TOOGLE_STATUS_".$n_is_effect),1)	;	
+	}
 	
 
 }	
